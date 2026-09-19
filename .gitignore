@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# IntelliJ
+.idea/
+*.iml
+
+# Java / Maven
+**/target/
+*.log
+
+# Next.js / Node
+**/node_modules/
+**/.next/
+**/out/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Uploaded product images
+**/uploads/
