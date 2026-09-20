@@ -1,0 +1,39 @@
+services:
+  inventory-postgres:
+    image: postgres:17
+    container_name: ecommerce-inventory-postgres
+    environment:
+      POSTGRES_DB: inventory_db
+      POSTGRES_USER: ${INVENTORY_DB_USERNAME:-inventory}
+      POSTGRES_PASSWORD: ${INVENTORY_DB_PASSWORD:-inventory}
+    ports:
+      - "5433:5432"
+    volumes:
+      - inventory_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  inventory-service:
+    build: .
+    container_name: ecommerce-inventory-service
+    environment:
+      INVENTORY_DB_URL: jdbc:postgresql://inventory-postgres:5432/inventory_db
+      INVENTORY_DB_USERNAME: ${INVENTORY_DB_USERNAME:-inventory}
+      INVENTORY_DB_PASSWORD: ${INVENTORY_DB_PASSWORD:-inventory}
+      CATALOG_SERVICE_URL: ${CATALOG_SERVICE_URL:-http://host.docker.internal:8081}
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://host.docker.internal:8085}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://host.docker.internal:8085/.well-known/jwks.json}
+      CATALOG_SERVICE_TOKEN: ${CATALOG_SERVICE_TOKEN:-}
+      SERVER_PORT: 8082
+    ports:
+      - "8082:8082"
+    depends_on:
+      inventory-postgres:
+        condition: service_healthy
+
+volumes:
+  inventory_postgres_data:

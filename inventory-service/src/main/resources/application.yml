@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: inventory-service
+  datasource:
+    url: ${INVENTORY_DB_URL:jdbc:postgresql://localhost:5433/inventory_db}
+    username: ${INVENTORY_DB_USERNAME:inventory}
+    password: ${INVENTORY_DB_PASSWORD:inventory}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+server:
+  port: ${SERVER_PORT:8082}
+app:
+  security:
+    enabled: ${APP_SECURITY_ENABLED:true}
+
+auth:
+  issuer: ${AUTH_ISSUER:http://localhost:8085}
+  audience: ${AUTH_AUDIENCE:ecommerce-api}
+  jwk-set-uri: ${AUTH_JWK_SET_URI:http://localhost:8085/.well-known/jwks.json}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+inventory:
+  catalog:
+    base-url: ${CATALOG_SERVICE_URL:http://localhost:8081}
+    service-token: ${CATALOG_SERVICE_TOKEN:}
+    connect-timeout-ms: ${CATALOG_CONNECT_TIMEOUT_MS:2000}
+    read-timeout-ms: ${CATALOG_READ_TIMEOUT_MS:3000}
+  expiration:
+    fixed-delay-ms: ${INVENTORY_EXPIRATION_FIXED_DELAY_MS:60000}

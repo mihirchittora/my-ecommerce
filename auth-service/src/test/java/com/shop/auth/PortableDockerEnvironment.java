@@ -1,0 +1,21 @@
+package com.shop.auth;
+
+import org.testcontainers.utility.TestcontainersConfiguration;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+
+final class PortableDockerEnvironment {
+    private PortableDockerEnvironment() { }
+    static void configure() {
+        TestcontainersConfiguration configuration = TestcontainersConfiguration.getInstance();
+        if (hasText(System.getenv("DOCKER_HOST")) || hasText(System.getProperty("docker.host"))
+                || hasText(configuration.getUserProperty("docker.host", null))) return;
+        Path home = Path.of(System.getProperty("user.home"));
+        List.of(home.resolve(".colima/default/docker.sock"), home.resolve(".docker/run/docker.sock"))
+                .stream().filter(Files::exists).findFirst()
+                .ifPresent(socket -> configuration.getUserProperties().setProperty("docker.host", "unix://" + socket));
+    }
+    private static boolean hasText(String value) { return value != null && !value.isBlank(); }
+}

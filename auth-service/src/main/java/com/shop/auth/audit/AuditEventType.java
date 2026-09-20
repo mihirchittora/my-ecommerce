@@ -1,0 +1,15 @@
+package com.shop.auth.audit;
+
+public enum AuditEventType {
+    USER_REGISTERED,
+    LOGIN_SUCCESS,
+    LOGIN_FAILED,
+    LOGOUT,
+    PASSWORD_CHANGED,
+    ROLE_ASSIGNED,
+    ROLE_REMOVED,
+    ACCOUNT_LOCKED,
+    ACCOUNT_DISABLED,
+    TOKEN_REFRESH,
+    TOKEN_REUSE_DETECTED
+}
