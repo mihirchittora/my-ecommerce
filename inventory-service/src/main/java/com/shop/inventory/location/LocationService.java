@@ -4,6 +4,7 @@ import com.shop.inventory.adjustment.AdjustmentRepository;
 import com.shop.inventory.common.ConflictException;
 import com.shop.inventory.common.NotFoundException;
 import com.shop.inventory.item.InventoryItemRepository;
+import com.shop.inventory.item.InventoryItem;
 import com.shop.inventory.movement.MovementRepository;
 import com.shop.inventory.reservation.ReservationRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -95,6 +96,15 @@ public class LocationService {
     public InventoryLocation find(UUID id) {
         return locations.findById(id)
                 .orElseThrow(() -> new NotFoundException("Inventory location not found: " + id));
+    }
+
+    public InventoryLocation findLocationForReservation(String sku, long quantity) {
+        return items.findBySkuOrderByLocation_Code(sku).stream()
+                .filter(item -> item.getLocation().getStatus() == LocationStatus.ACTIVE)
+                .filter(item -> item.available() >= quantity)
+                .map(InventoryItem::getLocation)
+                .findFirst()
+                .orElseThrow(() -> new ConflictException("Insufficient available inventory"));
     }
 
     private String normalizeCode(String code) {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowDownToLine, BarChart3, ChevronRight, ClipboardList, Cuboid, Gauge, LayoutDashboard, MapPin, Menu, Package, RefreshCcw, Shapes, Sparkles, Truck, UserRound, Users, Warehouse } from "lucide-react";
+import { ArrowDownToLine, BarChart3, ChevronRight, ClipboardList, Cuboid, Gauge, LayoutDashboard, MapPin, Menu, Package, RefreshCcw, Shapes, ShoppingCart, Sparkles, Truck, UserRound, Users, Warehouse } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -12,10 +12,11 @@ import { useAuth } from "@/components/auth-provider";
 import type { Permission } from "@/lib/permissions";
 
 const navGroups = [
-  { label: "Workspace", items: [{ href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, permissions: ["CATALOG_READ", "INVENTORY_READ"] as Permission[] }] },
+  { label: "Workspace", items: [{ href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, permissions: ["CATALOG_READ", "INVENTORY_READ", "ORDER_READ", "CART_READ"] as Permission[] }] },
   { label: "Catalog", items: [{ href: "/products", label: "Products", icon: Package, permissions: ["PRODUCT_READ"] as Permission[] }, { href: "/categories", label: "Categories", icon: Shapes, permissions: ["CATEGORY_READ"] as Permission[] }] },
   { label: "Inventory", items: [{ href: "/inventory", label: "Overview", icon: Gauge, permissions: ["INVENTORY_READ"] as Permission[] }, { href: "/inventory/receive", label: "Receive inventory", icon: ArrowDownToLine, permissions: ["INVENTORY_RECEIVE"] as Permission[] }, { href: "/inventory/locations", label: "Locations", icon: MapPin, permissions: ["INVENTORY_READ"] as Permission[] }, { href: "/inventory/stock", label: "Stock", icon: Warehouse, permissions: ["INVENTORY_READ"] as Permission[] }, { href: "/inventory/units", label: "Units", icon: Cuboid, permissions: ["INVENTORY_UNIT_READ"] as Permission[] }, { href: "/inventory/reservations", label: "Reservations", icon: ClipboardList, permissions: ["INVENTORY_READ"] as Permission[] }, { href: "/inventory/adjustments", label: "Adjustments", icon: RefreshCcw, permissions: ["INVENTORY_READ"] as Permission[] }, { href: "/inventory/transfers", label: "Transfers", icon: Truck, permissions: ["INVENTORY_TRANSFER"] as Permission[] }, { href: "/inventory/reconciliation", label: "Reconciliation", icon: ClipboardList, permissions: ["INVENTORY_RECONCILE"] as Permission[] }] },
-  { label: "Other", items: [{ href: "/orders", label: "Orders", icon: ClipboardList, permissions: ["ORDER_READ"] as Permission[], placeholder: true }, { href: "/customers", label: "Customers", icon: Users, permissions: ["CUSTOMER_READ"] as Permission[], placeholder: true }] },
+  { label: "Commerce", items: [{ href: "/orders", label: "Orders", icon: ClipboardList, permissions: ["ORDER_READ"] as Permission[] }, { href: "/carts", label: "Carts", icon: ShoppingCart, permissions: ["CART_READ"] as Permission[] }] },
+  { label: "Other", items: [{ href: "/customers", label: "Customers", icon: Users, permissions: ["CUSTOMER_READ"] as Permission[], placeholder: true }] },
 ];
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
@@ -32,8 +33,8 @@ function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNavigate?
 function Breadcrumbs() {
   const pathname = usePathname();
   const segments = pathname.split("/").filter(Boolean);
-  const labels: Record<string, string> = { dashboard: "Dashboard", categories: "Categories", products: "Products", new: "New product", inventory: "Inventory", locations: "Locations", stock: "Stock", units: "Units", reservations: "Reservations", adjustments: "Adjustments", transfers: "Transfers", reconciliation: "Reconciliation", receive: "Receive inventory", orders: "Orders", customers: "Customers" };
-  return <div className="flex items-center gap-2 text-xs font-medium text-slate-400"><Link href="/" className="hover:text-slate-700">Workspace</Link>{segments.map((segment, index) => <React.Fragment key={`${segment}-${index}`}><ChevronRight className="h-3.5 w-3.5" /><span className={index === segments.length - 1 ? "text-slate-700" : ""}>{labels[segment] ?? (segment.length > 8 ? "Product details" : segment)}</span></React.Fragment>)}</div>;
+  const labels: Record<string, string> = { dashboard: "Dashboard", categories: "Categories", products: "Products", new: "New product", inventory: "Inventory", locations: "Locations", stock: "Stock", units: "Units", reservations: "Reservations", adjustments: "Adjustments", transfers: "Transfers", reconciliation: "Reconciliation", receive: "Receive inventory", orders: "Orders", carts: "Carts", customers: "Customers" };
+  return <div className="flex items-center gap-2 text-xs font-medium text-slate-400"><Link href="/" className="hover:text-slate-700">Workspace</Link>{segments.map((segment, index) => <React.Fragment key={`${segment}-${index}`}><ChevronRight className="h-3.5 w-3.5" /><span className={index === segments.length - 1 ? "text-slate-700" : ""}>{labels[segment] ?? (segments[index - 1] === "orders" ? "Order details" : segments[index - 1] === "carts" ? "Cart details" : segment.length > 8 ? "Product details" : segment)}</span></React.Fragment>)}</div>;
 }
 
 export function AppShell({ children }: { children: React.ReactNode }) {

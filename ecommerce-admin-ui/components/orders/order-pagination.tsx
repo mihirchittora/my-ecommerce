@@ -1,0 +1,8 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
+import type { PageResponse } from "@/lib/types";
+
+export function OrderPagination<T>({ page, pageSize, onPageChange, onPageSizeChange }: { page: PageResponse<T>; pageSize: number; onPageChange: (page: number) => void; onPageSizeChange: (size: number) => void }) {
+  return <div className="flex flex-col gap-3 border-t border-slate-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"><div className="flex flex-wrap items-center gap-3 text-xs text-slate-500"><span>Showing <strong className="text-slate-700">{page.numberOfElements === 0 ? 0 : page.number * page.size + 1}–{page.number * page.size + page.numberOfElements}</strong> of <strong className="text-slate-700">{page.totalElements}</strong></span><label className="flex items-center gap-2">Rows<Select value={String(pageSize)} aria-label="Rows per page" onChange={(event) => onPageSizeChange(Number(event.target.value))}><option value="20">20</option><option value="50">50</option><option value="100">100</option></Select></label></div><div className="flex items-center gap-2"><Button variant="outline" size="sm" onClick={() => onPageChange(page.number - 1)} disabled={page.first}><ChevronLeft className="h-4 w-4" />Previous</Button><span className="px-2 text-xs font-medium text-slate-500">Page {page.number + 1} of {Math.max(page.totalPages, 1)}</span><Button variant="outline" size="sm" onClick={() => onPageChange(page.number + 1)} disabled={page.last}>Next<ChevronRight className="h-4 w-4" /></Button></div></div>;
+}

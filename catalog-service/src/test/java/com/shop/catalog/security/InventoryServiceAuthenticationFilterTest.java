@@ -18,7 +18,8 @@ class InventoryServiceAuthenticationFilterTest {
 
     @Test
     void validServiceSecretCreatesOnlyServiceAuthority() throws Exception {
-        InventoryServiceAuthenticationFilter filter = new InventoryServiceAuthenticationFilter("shared-secret");
+        InventoryServiceAuthenticationFilter filter =
+                new InventoryServiceAuthenticationFilter("shared-secret", "order-secret");
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/internal/catalog/skus/SKU-1");
         request.addHeader(InventoryServiceAuthenticationFilter.SERVICE_TOKEN_HEADER, "shared-secret");
 
@@ -31,7 +32,8 @@ class InventoryServiceAuthenticationFilterTest {
 
     @Test
     void invalidSecretDoesNotAuthenticateInternalRequest() throws Exception {
-        InventoryServiceAuthenticationFilter filter = new InventoryServiceAuthenticationFilter("shared-secret");
+        InventoryServiceAuthenticationFilter filter =
+                new InventoryServiceAuthenticationFilter("shared-secret", "order-secret");
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/internal/catalog/skus/SKU-1");
         request.addHeader(InventoryServiceAuthenticationFilter.SERVICE_TOKEN_HEADER, "wrong-secret");
 

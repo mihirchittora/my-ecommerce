@@ -10,7 +10,8 @@ export type Permission =
   | "INVENTORY_LOCATION_MANAGE" | "INVENTORY_UNIT_READ"
   | "USER_READ" | "USER_CREATE" | "USER_UPDATE" | "USER_ROLE_ASSIGN"
   | "ROLE_READ" | "PERMISSION_READ" | "ROLE_PERMISSION_UPDATE"
-  | "ORDER_READ" | "CUSTOMER_READ";
+  | "ORDER_READ" | "ORDER_CREATE" | "ORDER_UPDATE" | "ORDER_CANCEL"
+  | "CUSTOMER_READ" | "CART_READ";
 
 export function hasPermission(user: AuthUser | null | undefined, permission: Permission) {
   return Boolean(user?.permissions.includes(permission));
@@ -29,13 +30,20 @@ export function isInternalUser(user: AuthUser | null | undefined) {
   return user.roles.some((role) => role !== "CUSTOMER") && user.permissions.some((permission) =>
     permission.startsWith("CATALOG_") || permission.startsWith("PRODUCT_") || permission.startsWith("CATEGORY_") ||
     permission.startsWith("INVENTORY_") || permission.startsWith("USER_") || permission.startsWith("ROLE_") ||
-    permission.startsWith("PERMISSION_"));
+    permission.startsWith("PERMISSION_") || permission.startsWith("ORDER_") || permission.startsWith("CART_"));
+}
+
+export function defaultRouteForUser(user: AuthUser | null | undefined) {
+  if (hasAnyPermission(user, ["CATALOG_READ", "INVENTORY_READ", "ORDER_READ", "CART_READ"])) return "/dashboard";
+  if (hasPermission(user, "CART_READ")) return "/carts";
+  if (hasPermission(user, "ORDER_READ")) return "/orders";
+  return "/dashboard";
 }
 
 export type RouteAccess = { allOf?: Permission[]; anyOf?: Permission[] };
 
 export function routeAccess(pathname: string): RouteAccess {
-  if (pathname === "/" || pathname === "/dashboard") return { anyOf: ["CATALOG_READ", "INVENTORY_READ"] };
+  if (pathname === "/" || pathname === "/dashboard") return { anyOf: ["CATALOG_READ", "INVENTORY_READ", "ORDER_READ", "CART_READ"] };
   if (pathname === "/products/new") return { allOf: ["PRODUCT_CREATE"] };
   if (pathname === "/products" || pathname.startsWith("/products/")) return { allOf: ["PRODUCT_READ"] };
   if (pathname === "/categories") return { allOf: ["CATEGORY_READ"] };
@@ -48,7 +56,8 @@ export function routeAccess(pathname: string): RouteAccess {
   if (pathname === "/inventory/adjustments") return { allOf: ["INVENTORY_READ"] };
   if (pathname === "/inventory/transfers") return { allOf: ["INVENTORY_TRANSFER"] };
   if (pathname === "/inventory/reconciliation") return { allOf: ["INVENTORY_RECONCILE"] };
-  if (pathname === "/orders") return { allOf: ["ORDER_READ"] };
+  if (pathname === "/orders" || pathname.startsWith("/orders/")) return { allOf: ["ORDER_READ"] };
+  if (pathname === "/carts" || pathname.startsWith("/carts/")) return { allOf: ["CART_READ"] };
   if (pathname === "/customers") return { allOf: ["CUSTOMER_READ"] };
   return {};
 }

@@ -48,7 +48,7 @@ public final class InventoryDtos {
     }
 
     public record ReservationRequest(
-            @NotNull UUID locationId,
+            UUID locationId,
             @NotNull @Min(1) Long quantity,
             @NotBlank @Size(max = 200) String referenceId,
             @Future Instant expiresAt) {

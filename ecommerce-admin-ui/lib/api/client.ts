@@ -21,8 +21,13 @@ export class ApiError extends Error {
 function getFallbackMessage(status: number, path: string, service: ServiceName) {
   if (status === 400) return "Please correct the highlighted fields.";
   if (service === "auth" && status === 404) return "Authentication service resource not found.";
-  if (status === 404) return service === "catalog" ? (path.includes("products") ? "Product not found." : "Category not found.") : "Inventory resource not found.";
-  if (status === 409) return "This change conflicts with existing catalog data.";
+  if (status === 404) {
+    if (service === "catalog") return path.includes("products") ? "Product not found." : "Category not found.";
+    if (service === "inventory") return "Inventory resource not found.";
+    if (service === "order") return "Order not found.";
+    if (service === "cart") return "Cart not found.";
+  }
+  if (status === 409) return service === "order" ? "Order cannot be changed in its current state." : service === "cart" ? "Cart cannot be read in its current state." : "This change conflicts with existing catalog data.";
   if (status >= 500) return "Something went wrong. Please try again.";
   return "Unable to complete the request.";
 }
@@ -59,7 +64,7 @@ export async function requestForService<T>(service: ServiceName, path: string, o
     try {
       response = await fetch(`${getApiBaseUrl(service)}${path}`, { ...options, headers });
     } catch {
-      const label = service === "auth" ? "Authentication" : service === "catalog" ? "Catalog" : "Inventory";
+      const label = service === "auth" ? "Authentication" : service === "catalog" ? "Catalog" : service === "inventory" ? "Inventory" : service === "order" ? "Order" : "Cart";
       throw new ApiError(0, `${label} service is unavailable. Check that it is running.`, [], {}, service);
     }
 
@@ -110,6 +115,8 @@ export function createApiClient(service: ServiceName) {
 export const catalogClient = createApiClient("catalog");
 export const inventoryClient = createApiClient("inventory");
 export const authClient = createApiClient("auth");
+export const orderClient = createApiClient("order");
+export const cartClient = createApiClient("cart");
 
 // Backwards-compatible catalog request helper for the existing catalog modules.
 export function request<T>(path: string, options: RequestInit = {}) {

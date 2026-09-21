@@ -160,18 +160,18 @@ DELETE product                       PRODUCT_DELETE
 POST/PUT/DELETE category              CATEGORY_CREATE/UPDATE/DELETE
 POST product image                    PRODUCT_IMAGE_UPLOAD
 DELETE product image                 PRODUCT_IMAGE_DELETE
-GET /internal/catalog/skus/{sku}     SERVICE_INVENTORY (service secret header)
+GET /internal/catalog/skus/{sku}     SERVICE_INVENTORY/SERVICE_ORDER/SERVICE_CART (service secret header)
 ```
 
 Catalog never receives or stores the Auth private key. It uses Spring Security's
 resource-server JWKS caching. Set `APP_SECURITY_ENABLED=false` only for isolated
 legacy domain tests; the production default is `true`.
 
-The internal SKU lookup is not authorized with the human `INVENTORY_READ`
-permission. Inventory sends the configured `CATALOG_SERVICE_TOKEN` as the
-`X-Inventory-Service-Token` header; Catalog validates the matching
-`INVENTORY_SERVICE_TOKEN` secret and grants only the `SERVICE_INVENTORY` service
-authority for this endpoint. User/admin authentication remains JWT + permissions.
+The internal SKU lookup is not authorized with a human permission. Inventory,
+Order, and Cart each send a dedicated service secret in their own header;
+Catalog validates the matching `INVENTORY_SERVICE_TOKEN`, `ORDER_SERVICE_TOKEN`,
+or `CART_SERVICE_TOKEN` and grants only the corresponding service authority.
+User/admin authentication remains JWT + permissions.
 
 ## Core APIs
 

@@ -62,13 +62,15 @@ public class ReservationService {
     public InventoryDtos.ReservationResponse reserve(String rawSku, InventoryDtos.ReservationRequest request) {
         String sku = normalizeSku(rawSku);
         catalog.requireActive(sku);
-        InventoryLocation location = activeLocation(request.locationId());
         String referenceId = normalizeReference(request.referenceId());
         InventoryReservation existing = reservations.findByReferenceId(referenceId).orElse(null);
         if (existing != null) {
-            assertSameReservation(existing, sku, location, request.quantity());
+            assertSameReservation(existing, sku, request.quantity());
             return response(existing);
         }
+        InventoryLocation location = request.locationId() == null
+                ? locations.findLocationForReservation(sku, request.quantity())
+                : activeLocation(request.locationId());
 
         InventoryItem item = items.findForUpdate(sku, location.getId())
                 .orElseThrow(() -> new ConflictException("Insufficient available inventory"));
@@ -197,9 +199,8 @@ public class ReservationService {
         return InventoryDtos.ReservationResponse.from(reservation, units);
     }
 
-    private void assertSameReservation(InventoryReservation existing, String sku, InventoryLocation location, long quantity) {
+    private void assertSameReservation(InventoryReservation existing, String sku, long quantity) {
         if (!existing.getSku().equals(sku)
-                || !existing.getLocation().getId().equals(location.getId())
                 || existing.getQuantity() != quantity) {
             throw new ConflictException("referenceId was already used for a different reservation");
         }

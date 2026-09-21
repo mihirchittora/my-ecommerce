@@ -25,12 +25,12 @@ export const queryKeys = {
   reconciliation: ["inventory", "reconciliation"] as const,
 };
 
-export function useCategoryTree() {
-  return useQuery({ queryKey: queryKeys.categoryTree, queryFn: fetchCategoryTree });
+export function useCategoryTree(enabled = true) {
+  return useQuery({ queryKey: queryKeys.categoryTree, queryFn: fetchCategoryTree, enabled });
 }
 
-export function useProductList(params: ProductListParams) {
-  return useQuery({ queryKey: [...queryKeys.products, params], queryFn: () => productApi.list(params), placeholderData: (previous) => previous });
+export function useProductList(params: ProductListParams, enabled = true) {
+  return useQuery({ queryKey: [...queryKeys.products, params], queryFn: () => productApi.list(params), enabled, placeholderData: (previous) => previous });
 }
 
 export function useProduct(id: string) {
@@ -95,8 +95,8 @@ export function useInventorySummary(sku: string) {
   return useQuery({ queryKey: [...queryKeys.inventorySummary, sku], queryFn: () => inventoryApi.summary(sku), enabled: Boolean(sku) });
 }
 
-export function useInventoryDashboardSummary() {
-  return useQuery({ queryKey: queryKeys.inventoryDashboardSummary, queryFn: inventoryApi.dashboardSummary });
+export function useInventoryDashboardSummary(enabled = true) {
+  return useQuery({ queryKey: queryKeys.inventoryDashboardSummary, queryFn: inventoryApi.dashboardSummary, enabled });
 }
 
 export function useInventoryStock(params: Parameters<typeof inventoryApi.stock>[0]) {

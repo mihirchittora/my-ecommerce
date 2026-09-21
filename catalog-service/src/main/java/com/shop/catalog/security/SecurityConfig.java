@@ -58,7 +58,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/categories/*").hasAuthority("CATEGORY_DELETE")
                 .requestMatchers(HttpMethod.POST, "/api/v1/products/*/images").hasAuthority("PRODUCT_IMAGE_UPLOAD")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/products/*/images/*").hasAuthority("PRODUCT_IMAGE_DELETE")
-                .requestMatchers("/internal/catalog/skus/**").hasAuthority("SERVICE_INVENTORY")
+                .requestMatchers("/internal/catalog/skus/**").hasAnyAuthority("SERVICE_INVENTORY", "SERVICE_ORDER", "SERVICE_CART")
                 .anyRequest().authenticated());
         http.oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(new JwtAuthorityConverter()))
                 .authenticationEntryPoint(authenticationEntryPoint())

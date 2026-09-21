@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { AppShell } from "@/components/app-shell";
 import { useAuth } from "@/components/auth-provider";
-import { hasAllPermissions, hasAnyPermission, isInternalUser, routeAccess } from "@/lib/permissions";
+import { defaultRouteForUser, hasAllPermissions, hasAnyPermission, isInternalUser, routeAccess } from "@/lib/permissions";
 
 function LoadingScreen() {
   return <main className="flex min-h-screen items-center justify-center bg-background p-6"><div className="rounded-2xl border border-slate-200 bg-white px-6 py-5 text-sm text-slate-500 shadow-sm">Checking your workspace access…</div></main>;
@@ -22,9 +22,9 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
   const { user, status } = useAuth();
 
   useEffect(() => {
-    if (pathname === "/login" && status === "authenticated") router.replace("/dashboard");
+    if (pathname === "/login" && status === "authenticated") router.replace(defaultRouteForUser(user));
     if (pathname !== "/login" && status === "unauthenticated") router.replace(`/login?next=${encodeURIComponent(pathname)}`);
-  }, [pathname, router, status]);
+  }, [pathname, router, status, user]);
 
   if (pathname === "/login") return <>{children}</>;
   if (status === "loading" || status === "unauthenticated") return <LoadingScreen />;

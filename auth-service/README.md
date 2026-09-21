@@ -70,7 +70,8 @@ table and are assigned roles through protected admin APIs or the development boo
 
 ## Roles
 
-The initial migration seeds the roles currently needed by Catalog and Inventory:
+The initial migrations seed the roles currently needed by Catalog, Inventory, and
+read-only Cart support:
 
 - `CUSTOMER`
 - `CATALOG_ADMIN`
@@ -85,8 +86,8 @@ seed data today.
 
 Catalog permissions include `CATALOG_READ`, product and category CRUD, and product
 image upload/delete. Inventory permissions include read, receive, adjust, transfer,
-reserve, confirm, release, reconcile, location management, and unit read. The auth
-administration permissions are `USER_READ`, `USER_CREATE`, `USER_UPDATE`,
+reserve, confirm, release, reconcile, location management, and unit read. Cart
+support uses `CART_READ`. The auth administration permissions are `USER_READ`, `USER_CREATE`, `USER_UPDATE`,
 `USER_ROLE_ASSIGN`, `ROLE_READ`, `PERMISSION_READ`, and
 `ROLE_PERMISSION_UPDATE`.
 
@@ -104,10 +105,12 @@ the access token contains the union of permissions from those roles.
 
 ## Permission Catalog
 
-The authoritative seed is `src/main/resources/db/migration/V2__seed_roles_and_permissions.sql`.
-The active services use `PRODUCT_*`, `CATEGORY_*`, `PRODUCT_IMAGE_*`, and
-`INVENTORY_*` permissions plus the security-administration permissions above. The
-migration also reserves `ORDER_READ`, `ORDER_CREATE`, `ORDER_UPDATE`,
+The authoritative seed starts at `src/main/resources/db/migration/V2__seed_roles_and_permissions.sql`;
+`V4__add_cart_read_permission.sql` adds the Cart support permission to existing
+Auth databases. The active services use `PRODUCT_*`, `CATEGORY_*`,
+`PRODUCT_IMAGE_*`, `INVENTORY_*`, and `CART_READ` permissions plus the
+security-administration permissions above. The migration also reserves
+`ORDER_READ`, `ORDER_CREATE`, `ORDER_UPDATE`,
 `ORDER_CANCEL`, `CUSTOMER_READ`, and `CUSTOMER_UPDATE` as future-domain metadata;
 they are not wired to an active service or included in the current SUPER_ADMIN
 mapping until those domains exist.
@@ -264,8 +267,9 @@ enforce relationship uniqueness.
 
 ## Flyway Migrations
 
-`V1__init_auth.sql` creates the schema and `V2__seed_roles_and_permissions.sql`
-adds deterministic roles, permissions, and mappings with `ON CONFLICT DO NOTHING`.
+`V1__init_auth.sql` creates the schema, `V2__seed_roles_and_permissions.sql`
+adds deterministic roles and mappings, and later migrations add domain permissions
+such as `CART_READ` with `ON CONFLICT DO NOTHING`.
 Hibernate is set to `ddl-auto=validate`; applied migrations are never rewritten.
 
 ## Audit Events

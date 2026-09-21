@@ -1,0 +1,41 @@
+services:
+  order-db:
+    image: postgres:17
+    container_name: ecommerce-order-db
+    environment:
+      POSTGRES_DB: order_db
+      POSTGRES_USER: order
+      POSTGRES_PASSWORD: order
+    ports:
+      - "5435:5432"
+    volumes:
+      - order-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U order -d order_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  order-service:
+    build: .
+    container_name: ecommerce-order-service
+    ports:
+      - "8083:8083"
+    environment:
+      ORDER_SERVER_PORT: 8083
+      ORDER_DB_URL: jdbc:postgresql://order-db:5432/order_db
+      ORDER_DB_USERNAME: order
+      ORDER_DB_PASSWORD: order
+      CATALOG_SERVICE_URL: ${CATALOG_SERVICE_URL:-http://host.docker.internal:8081}
+      INVENTORY_SERVICE_URL: ${INVENTORY_SERVICE_URL:-http://host.docker.internal:8082}
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8085}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://host.docker.internal:8085/.well-known/jwks.json}
+      CATALOG_SERVICE_TOKEN: ${CATALOG_SERVICE_TOKEN:-dev-order-to-catalog}
+      INVENTORY_SERVICE_TOKEN: ${INVENTORY_SERVICE_TOKEN:-dev-order-to-inventory}
+    depends_on:
+      order-db:
+        condition: service_healthy
+
+volumes:
+  order-db-data:

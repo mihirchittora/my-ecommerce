@@ -98,13 +98,13 @@ For a local development run, start Catalog with:
 
 ```bash
 cd ../catalog-service
-INVENTORY_SERVICE_TOKEN=dev-inventory-token mvn spring-boot:run
+INVENTORY_SERVICE_TOKEN=dev-inventory-to-catalog mvn spring-boot:run
 ```
 
 Then start Inventory in this directory with:
 
 ```bash
-CATALOG_SERVICE_TOKEN=dev-inventory-token \
+CATALOG_SERVICE_TOKEN=dev-inventory-to-catalog \
 CATALOG_SERVICE_URL=http://localhost:8081 \
 mvn spring-boot:run
 ```
@@ -167,7 +167,7 @@ the last unit.
 | `INVENTORY_DB_USERNAME` | `inventory` | Local DB user |
 | `INVENTORY_DB_PASSWORD` | `inventory` | Local-only development password |
 | `CATALOG_SERVICE_URL` | `http://localhost:8081` | Catalog base URL |
-| `CATALOG_SERVICE_TOKEN` | empty | Shared secret sent as `X-Inventory-Service-Token` for the protected internal SKU lookup |
+| `CATALOG_SERVICE_TOKEN` | `dev-inventory-to-catalog` | Shared secret sent as `X-Inventory-Service-Token` for the protected internal SKU lookup |
 | `SERVER_PORT` | `8082` | Inventory HTTP port |
 | `INVENTORY_EXPIRATION_FIXED_DELAY_MS` | `60000` | Reservation expiry poll interval |
 | `AUTH_ISSUER` | `http://localhost:8085` | Auth JWT issuer |

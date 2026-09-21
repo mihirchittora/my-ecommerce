@@ -20,6 +20,8 @@ server:
 app:
   security:
     enabled: ${APP_SECURITY_ENABLED:true}
+  service-auth:
+    order-token: ${ORDER_SERVICE_TOKEN:}
 
 auth:
   issuer: ${AUTH_ISSUER:http://localhost:8085}

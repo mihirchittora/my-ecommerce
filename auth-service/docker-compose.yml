@@ -1,7 +1,7 @@
 services:
   auth-db:
     image: postgres:17
-    container_name: ecommerce-auth-postgres
+    container_name: ecommerce-auth-db
     environment:
       POSTGRES_DB: ${AUTH_DB_NAME:-auth_db}
       POSTGRES_USER: ${AUTH_DB_USERNAME:-postgres}

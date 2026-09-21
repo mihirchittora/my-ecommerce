@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17
-    container_name: ecommerce-postgres
+    container_name: ecommerce-catalog-db
     environment:
       POSTGRES_DB: ecommerce
       POSTGRES_USER: ecommerce
@@ -18,16 +18,18 @@ services:
 
   app:
     build: .
-    container_name: catalog-service
+    container_name: ecommerce-catalog-service
     environment:
       DB_URL: jdbc:postgresql://postgres:5432/ecommerce
       DB_USERNAME: ecommerce
       DB_PASSWORD: ecommerce
       PORT: 8081
-      AUTH_ISSUER: ${AUTH_ISSUER:-http://host.docker.internal:8085}
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8085}
       AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
       AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://host.docker.internal:8085/.well-known/jwks.json}
-      INVENTORY_SERVICE_TOKEN: ${INVENTORY_SERVICE_TOKEN:-}
+      INVENTORY_SERVICE_TOKEN: ${INVENTORY_SERVICE_TOKEN:-dev-inventory-to-catalog}
+      ORDER_SERVICE_TOKEN: ${ORDER_SERVICE_TOKEN:-dev-order-to-catalog}
+      CART_SERVICE_TOKEN: ${CART_SERVICE_TOKEN:-dev-cart-to-catalog}
     ports:
       - "8081:8081"
     volumes:

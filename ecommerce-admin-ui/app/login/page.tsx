@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ApiError } from "@/lib/api/client";
+import { defaultRouteForUser } from "@/lib/permissions";
 
 const schema = z.object({ email: z.string().trim().email("Enter a valid email address."), password: z.string().min(1, "Password is required.") });
 type Values = z.infer<typeof schema>;
@@ -26,9 +27,9 @@ function LoginContent() {
   const submit = async (values: Values) => {
     setServerError(null);
     try {
-      await login(values.email, values.password);
+      const user = await login(values.email, values.password);
       const next = searchParams.get("next");
-      router.replace(next?.startsWith("/") ? next : "/dashboard");
+      router.replace(next?.startsWith("/") ? next : defaultRouteForUser(user));
     } catch (error) {
       setServerError(error instanceof ApiError ? error.message : error instanceof Error ? error.message : "Unable to sign in. Please try again.");
     }

@@ -50,3 +50,5 @@ app:
     max-size-bytes: ${IMAGE_MAX_SIZE_BYTES:5242880}
   service-auth:
     inventory-token: ${INVENTORY_SERVICE_TOKEN:}
+    order-token: ${ORDER_SERVICE_TOKEN:}
+    cart-token: ${CART_SERVICE_TOKEN:}

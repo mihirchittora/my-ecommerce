@@ -1,0 +1,68 @@
+import Link from "next/link";
+import { AlertTriangle, Boxes, Clock3, ExternalLink, PackageSearch, UserRound } from "lucide-react";
+import { EmptyState } from "@/components/feedback-states";
+import { CartStatusBadge } from "@/components/carts/cart-status-badge";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { CartDetail, CartItem } from "@/lib/api/cart/types";
+import type { CartInventoryQuery } from "@/lib/api/cart/queries";
+import type { OrderStatus } from "@/lib/api/order/types";
+import { formatCurrency, formatDate, titleCase } from "@/lib/utils";
+
+function Info({ label, value, mono, children }: { label: string; value?: string; mono?: boolean; children?: React.ReactNode }) {
+  return <div><p className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-400">{label}</p>{children ?? <p className={`mt-2 text-sm font-semibold text-slate-800 ${mono ? "font-mono break-all" : ""}`}>{value ?? "—"}</p>}</div>;
+}
+
+export function CartOverview({ cart, canReadOrders, orderStatus, orderStatusUnavailable }: { cart: CartDetail; canReadOrders: boolean; orderStatus?: OrderStatus; orderStatusUnavailable?: boolean }) {
+  return <div className="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]"><Card><CardHeader><CardTitle>Cart overview</CardTitle><p className="mt-1 text-sm text-muted-foreground">This is a customer-owned SKU selection, not an order or an inventory reservation.</p></CardHeader><CardContent className="grid gap-5 sm:grid-cols-2"><Info label="Cart ID" value={cart.id} mono /><Info label="Status"><CartStatusBadge status={cart.status} /></Info><Info label="Customer"><span className="block text-sm font-semibold text-slate-800">Customer reference</span><span className="mt-1 block break-all font-mono text-xs text-slate-400">{cart.customerId}</span></Info><Info label="Currency" value={cart.currency} /><Info label="Created" value={formatDate(cart.createdAt)} /><Info label="Updated" value={formatDate(cart.updatedAt)} /><Info label="Expires" value={formatDate(cart.expiresAt)} /><Info label="Checkout / Order"><div className="mt-2 space-y-2">{cart.convertedOrderId && canReadOrders ? <Link href={`/orders/${cart.convertedOrderId}`} className="inline-flex items-center gap-1 font-mono text-sm font-semibold text-primary hover:underline">{cart.convertedOrderNumber ?? cart.convertedOrderId}<ExternalLink className="h-3.5 w-3.5" /></Link> : cart.convertedOrderNumber ? <p className="font-mono text-sm font-semibold text-slate-800">{cart.convertedOrderNumber}</p> : <span className="block text-sm font-semibold text-slate-800">No order reference</span>}{orderStatus ? <div><p className="text-xs text-slate-500">Order status</p><Badge variant="muted" className="mt-1">{titleCase(orderStatus)}</Badge></div> : orderStatusUnavailable && <p className="text-xs text-slate-500">Order status temporarily unavailable.</p>}</div></Info></CardContent></Card><CartTotals cart={cart} /></div>;
+}
+
+function CartTotals({ cart }: { cart: CartDetail }) {
+  const subtotal = cart.items.reduce((total, item) => total + (item.pricing?.subtotalEstimate ?? 0), 0);
+  const hasMissingPrice = cart.items.some((item) => !item.pricing);
+  return <Card><CardHeader><CardTitle>Cart summary</CardTitle><p className="mt-1 text-sm text-muted-foreground">Uses current Catalog prices and can change before checkout.</p></CardHeader><CardContent className="space-y-4"><div className="flex items-center justify-between gap-4 text-sm"><span className="text-slate-500">Items</span><span className="font-semibold text-slate-700">{cart.itemCount}</span></div><div className="flex items-center justify-between gap-4 text-sm"><span className="text-slate-500">Quantity</span><span className="font-semibold text-slate-700">{cart.totalQuantity}</span></div><div className="border-t border-slate-200 pt-4"><div className="flex items-center justify-between gap-4"><span className="font-semibold text-slate-900">Current estimated subtotal</span><span className="text-xl font-bold text-slate-950">{hasMissingPrice ? "—" : formatCurrency(subtotal, cart.currency)}</span></div><p className="mt-2 text-xs leading-5 text-slate-500">Order Service remains authoritative for historical pricing and final checkout totals.</p></div></CardContent></Card>;
+}
+
+function ProductCell({ item, canReadProducts }: { item: CartItem; canReadProducts: boolean }) {
+  if (!item.product) return <div><p className="font-semibold text-slate-700">Catalog information temporarily unavailable.</p><p className="mt-1 text-xs text-slate-500">Product name, variant, and current price were not returned.</p></div>;
+  return <div><p className="font-semibold text-slate-800">{item.product.name ?? "Product name unavailable"}</p><p className="mt-1 text-sm text-slate-500">{item.product.variant ?? "Variant information unavailable"}</p>{item.product.productId && canReadProducts && <Link href={`/products/${item.product.productId}`} className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">Product <ExternalLink className="h-3 w-3" /></Link>}</div>;
+}
+
+export function CartItems({ cart, canReadProducts, canReadInventory }: { cart: CartDetail; canReadProducts: boolean; canReadInventory: boolean }) {
+  if (cart.items.length === 0) return <EmptyState title="This cart has no items" message="No SKU and quantity lines are currently stored in this cart." />;
+  return <Card><CardHeader><div className="flex items-center gap-2"><PackageSearch className="h-5 w-5 text-primary" /><div><CardTitle>Cart items</CardTitle><p className="mt-1 text-sm text-muted-foreground">Cart items store SKU and quantity. Prices below are current Catalog estimates.</p></div></div></CardHeader><CardContent className="p-0"><div className="overflow-x-auto"><table className="w-full min-w-[940px] text-left"><caption className="sr-only">Cart items</caption><thead><tr className="border-y border-slate-100 text-xs font-semibold uppercase tracking-[0.1em] text-slate-400"><th className="px-5 py-3">Product</th><th className="px-3 py-3">SKU</th><th className="px-3 py-3 text-right">Quantity</th><th className="px-3 py-3 text-right">Current price</th><th className="px-3 py-3 text-right">Current subtotal</th><th className="px-3 py-3">Catalog state</th></tr></thead><tbody>{cart.items.map((item) => <tr className="table-row" key={item.id}><td className="px-5 py-4"><ProductCell item={item} canReadProducts={canReadProducts} /></td><td className="px-3 py-4">{canReadInventory ? <><Link href={`/inventory/stock/${encodeURIComponent(item.sku)}`} className="font-mono text-sm font-semibold text-primary hover:underline">{item.sku}</Link><Link href={`/inventory/units?sku=${encodeURIComponent(item.sku)}`} className="mt-1 flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-primary"><ExternalLink className="h-3 w-3" />View inventory</Link></> : <span className="font-mono text-sm font-semibold text-slate-700">{item.sku}</span>}</td><td className="px-3 py-4 text-right text-sm font-semibold text-slate-700">{item.quantity}</td><td className="px-3 py-4 text-right text-sm font-semibold text-slate-800">{item.pricing ? <>{formatCurrency(item.pricing.unitPrice, item.pricing.currency)}<span className="mt-1 block text-[10px] font-normal uppercase tracking-[0.08em] text-slate-400">Current price</span></> : "—"}</td><td className="px-3 py-4 text-right text-sm font-semibold text-slate-800">{item.pricing ? formatCurrency(item.pricing.subtotalEstimate, item.pricing.currency) : "—"}</td><td className="px-3 py-4">{item.unavailable ? <Badge variant="warning">Unavailable</Badge> : <Badge variant="success">Catalog current</Badge>}{item.availability?.message && <p className="mt-2 max-w-[14rem] text-xs leading-5 text-slate-500">{item.availability.message}</p>}</td></tr>)}</tbody></table></div><div className="border-t border-slate-100 px-5 py-3 text-xs text-slate-500">Cart quantity is requested quantity only. It does not reserve stock. Order Service owns checkout-time pricing and Inventory reservation.</div></CardContent></Card>;
+}
+
+function availabilityText(item: CartItem, query: CartInventoryQuery | undefined) {
+  if (!query || query.query.isPending) return { label: "Checking…", variant: "muted" as const, detail: "Loading current Inventory availability." };
+  if (query.query.isError || !query.query.data) return { label: "Unavailable", variant: "warning" as const, detail: "Inventory availability is temporarily unavailable." };
+  const available = query.query.data.totalAvailable;
+  if (available >= item.quantity) return { label: "Available", variant: "success" as const, detail: `${available} currently available` };
+  if (available > 0) return { label: `Only ${available} available`, variant: "warning" as const, detail: `${available} currently available` };
+  return { label: "Out of stock", variant: "danger" as const, detail: "0 currently available" };
+}
+
+export function CartInventoryPanel({ cart, queries, canReadInventory, onRetry }: { cart: CartDetail; queries: CartInventoryQuery[]; canReadInventory: boolean; onRetry: () => void }) {
+  const hasError = queries.some(({ query }) => query.isError);
+  return <Card><CardHeader><div className="flex items-center gap-2"><Boxes className="h-5 w-5 text-primary" /><div><CardTitle>Inventory availability</CardTitle><p className="mt-1 text-sm text-muted-foreground">Availability is a separate Inventory read; this Cart has no reservation.</p></div></div></CardHeader><CardContent className="space-y-4">{!canReadInventory && <div role="status" className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">Inventory availability is not available for this operator because `INVENTORY_READ` is not present.</div>}{canReadInventory && hasError && <div role="alert" className="flex flex-col gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 sm:flex-row sm:items-center sm:justify-between"><div className="flex items-start gap-2"><AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" /><span>Inventory availability is temporarily unavailable. Cart data remains available.</span></div><button type="button" className="font-semibold underline underline-offset-4" onClick={onRetry}>Retry</button></div>}{cart.items.length === 0 ? <p className="text-sm text-slate-500">No SKU lines to compare with Inventory.</p> : cart.items.map((item) => { const query = queries.find((entry) => entry.sku === item.sku); const availability = canReadInventory ? availabilityText(item, query) : { label: "Unavailable", variant: "muted" as const, detail: "Inventory access is not available." }; return <div className="rounded-2xl border border-slate-100 p-4" key={item.id}><div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><div><Link href={`/inventory/stock/${encodeURIComponent(item.sku)}`} className="font-mono text-sm font-semibold text-primary hover:underline">{item.sku}</Link><p className="mt-1 text-sm text-slate-600">Requested: <strong>{item.quantity}</strong></p></div><Badge variant={availability.variant}>{availability.label}</Badge></div><div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500"><span>Currently available: {canReadInventory && query?.query.data ? query.query.data.totalAvailable : "—"}</span><span>{availability.detail}</span></div><p className="mt-3 border-t border-slate-100 pt-3 text-xs leading-5 text-slate-500">Requested quantity and available quantity are separate. No inventory reservation was created by this Cart.</p></div>; })}</CardContent></Card>;
+}
+
+export function CartWarnings({ cart }: { cart: CartDetail }) {
+  if (cart.enrichmentAvailable && cart.warnings.length === 0) return null;
+  return <Card><CardHeader><div className="flex items-center gap-2"><AlertTriangle className="h-5 w-5 text-amber-600" /><CardTitle>Catalog enrichment</CardTitle></div></CardHeader><CardContent><p className="text-sm text-amber-800">Catalog information temporarily unavailable for one or more items. SKU and quantity remain visible from Cart Service.</p>{cart.warnings.length > 0 && <ul className="mt-3 list-disc space-y-1 pl-5 text-xs text-slate-500">{cart.warnings.map((warning) => <li key={warning}>{warning}</li>)}</ul>}</CardContent></Card>;
+}
+
+export function CartLifecycleNote({ status }: { status: CartDetail["status"] }) {
+  const messages: Record<CartDetail["status"], string> = {
+    ACTIVE: "This cart is active. Admin inspection does not reserve inventory or start checkout.",
+    CHECKOUT_IN_PROGRESS: "Checkout is in progress. Payment state is not exposed by the Cart API.",
+    CONVERTED: "Converted carts are read-only here. Open the related Order for historical pricing and order state.",
+    ABANDONED: "This cart is abandoned. Abandonment does not mean that inventory was reserved.",
+    EXPIRED: "This cart is expired. Cart expiration and Inventory reservation expiration are separate concepts.",
+  };
+  return <Card><CardContent className="flex items-start gap-3 p-5"><Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-primary" /><div><p className="text-sm font-semibold text-slate-800">{titleCase(status)}</p><p className="mt-1 text-sm leading-6 text-slate-600">{messages[status]}</p></div></CardContent></Card>;
+}
+
+export function CustomerAccessNote() {
+  return <div className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600"><UserRound className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" /><span>Customer name and email are not returned by the current Cart API, so this view shows only the customer reference.</span></div>;
+}
