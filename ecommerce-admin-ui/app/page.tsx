@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ArrowRight, Boxes, ClipboardList, Cuboid, Layers3, Package, Plus, Shapes, Sparkles } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
 import { CheckoutDashboardSection } from "@/components/dashboard/checkout-dashboard-section";
+import { AccessDashboardSection } from "@/components/dashboard/access-dashboard-section";
+import { CustomerDashboardSection } from "@/components/dashboard/customer-dashboard-section";
 import { OrderDashboardSection } from "@/components/dashboard/order-dashboard-section";
 import { ErrorState } from "@/components/feedback-states";
 import { PageIntro } from "@/components/page-intro";
@@ -71,6 +73,8 @@ export default function DashboardPage() {
 
       <OrderDashboardSection />
       <CheckoutDashboardSection />
+      <AccessDashboardSection />
+      <CustomerDashboardSection />
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
         <Card>

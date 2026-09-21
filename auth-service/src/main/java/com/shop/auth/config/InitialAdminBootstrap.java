@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Component
 public class InitialAdminBootstrap implements ApplicationRunner {
@@ -34,8 +35,13 @@ public class InitialAdminBootstrap implements ApplicationRunner {
         String password = properties.getBootstrap().getAdminPassword();
         if (email == null || email.isBlank() || password == null || password.isBlank()) return;
         String normalized = email.trim().toLowerCase(java.util.Locale.ROOT);
-        if (users.existsByEmailIgnoreCase(normalized)) return;
-        Role superAdmin = roles.findByName("SUPER_ADMIN").orElseThrow();
+        List<Role> applicationRoles = roles.findAllByOrderByNameAsc();
+        AppUser existing = users.findByEmailIgnoreCase(normalized).orElse(null);
+        if (existing != null) {
+            existing.getRoles().addAll(applicationRoles);
+            users.save(existing);
+            return;
+        }
         AppUser admin = new AppUser();
         admin.setEmail(normalized);
         admin.setPasswordHash(encoder.encode(password));
@@ -43,8 +49,7 @@ public class InitialAdminBootstrap implements ApplicationRunner {
         admin.setLastName("Administrator");
         admin.setStatus(UserStatus.ACTIVE);
         admin.setEmailVerified(true);
-        admin.setRoles(new HashSet<>());
-        admin.getRoles().add(superAdmin);
+        admin.setRoles(new HashSet<>(applicationRoles));
         admin.prepareForPersist();
         users.save(admin);
     }

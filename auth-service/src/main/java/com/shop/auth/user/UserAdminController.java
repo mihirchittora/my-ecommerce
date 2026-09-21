@@ -42,8 +42,9 @@ public class UserAdminController {
     @PreAuthorize("hasAuthority('USER_READ')")
     @Operation(summary = "List users")
     public Page<UserAdminDtos.Response> list(@RequestParam(defaultValue = "0") int page,
-                                             @RequestParam(defaultValue = "20") int size) {
-        return service.list(PageRequest.of(page, Math.min(size, 100), Sort.by("email").ascending()));
+                                             @RequestParam(defaultValue = "20") int size,
+                                             @RequestParam(defaultValue = "ALL") String scope) {
+        return service.list(PageRequest.of(page, Math.min(size, 100), Sort.by("email").ascending()), scope);
     }
 
     @GetMapping("/{id}")

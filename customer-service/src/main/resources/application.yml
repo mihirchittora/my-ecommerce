@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: customer-service
+  datasource:
+    url: ${CUSTOMER_DB_URL:jdbc:postgresql://localhost:5437/customer_db}
+    username: ${CUSTOMER_DB_USERNAME:customer}
+    password: ${CUSTOMER_DB_PASSWORD:customer}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+
+server:
+  port: ${CUSTOMER_SERVER_PORT:8086}
+
+app:
+  auth:
+    issuer: ${AUTH_ISSUER:http://localhost:8085}
+    audience: ${AUTH_AUDIENCE:ecommerce-api}
+    jwk-set-uri: ${AUTH_JWK_SET_URI:http://localhost:8085/.well-known/jwks.json}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha

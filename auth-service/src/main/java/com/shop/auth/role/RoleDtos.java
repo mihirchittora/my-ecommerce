@@ -2,6 +2,9 @@ package com.shop.auth.role;
 
 import com.shop.auth.permission.Permission;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,5 +21,10 @@ public final class RoleDtos {
                     role.getPermissions().stream().sorted(java.util.Comparator.comparing(Permission::getCode)).map(PermissionResponse::from).toList());
         }
     }
+    public record CreateRequest(
+            @NotBlank @Size(max = 80)
+            @Pattern(regexp = "^[A-Za-z][A-Za-z0-9_]*$", message = "name must contain only letters, numbers, and underscores")
+            String name,
+            @Size(max = 500) String description) { }
     public record UpdatePermissionsRequest(List<UUID> permissionIds) { }
 }

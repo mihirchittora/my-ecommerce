@@ -1,6 +1,6 @@
-# Ecommerce Admin UI
+# Admin UI
 
-Production-oriented Next.js admin workspace for catalog, inventory, and order operations in the `my-ecommerce` repository.
+Production-oriented Next.js admin workspace for catalog, inventory, order, cart, customer-boundary, and Auth access operations in the `my-ecommerce` repository.
 
 The UI is deliberately split by backend responsibility:
 
@@ -8,10 +8,11 @@ The UI is deliberately split by backend responsibility:
 - Inventory screens consume the separate `inventory-service` adapter.
 - Order screens consume the separate `order-service` and preserve its historical commercial snapshots.
 - Cart screens consume the read-only staff surface of `cart-service` and keep customer Cart quantity separate from Inventory availability and Order history.
+- User Management screens consume Auth's administrative user, role, and permission contracts plus Customer Service's protected customer administration contract. Customer profile identity remains separate from Auth user identity.
 - The browser only talks to the Next.js same-origin rewrites; page components never call `fetch` directly.
 - No production Catalog, Inventory, or Order responses are mocked. If a dependent service is unavailable or an endpoint is not implemented, the UI shows an explicit unavailable state.
 
-## Run locally
+## Local Development
 
 ```bash
 cd ecommerce-admin-ui
@@ -29,13 +30,14 @@ NEXT_PUBLIC_CATALOG_API_URL=http://localhost:8081
 NEXT_PUBLIC_INVENTORY_API_URL=http://localhost:8082
 NEXT_PUBLIC_ORDER_API_URL=http://localhost:8083
 NEXT_PUBLIC_CART_API_URL=http://localhost:8084
+NEXT_PUBLIC_CUSTOMER_API_URL=http://localhost:8086
 ```
 
 Copy `.env.example` to `.env.local` when setting up a fresh checkout. `.env.local` is ignored by Git.
 
 The Catalog, Inventory, Order, and Cart services are configured for ports 8081, 8082, 8083, and 8084 respectively. Override the public environment variables for another local topology.
 
-## Authentication and authorization
+## Authentication
 
 This application is restricted to internal users. Open `/login` and sign in with an Auth Service account assigned a catalog, inventory or security-administration role. Customer accounts are rejected even when their credentials are valid.
 
@@ -46,7 +48,13 @@ The UI communicates with Auth Service through the same-origin `/backend/auth` re
 - `GET /api/v1/auth/me`
 - `POST /api/v1/auth/logout`
 
-Access and refresh tokens are kept for the current browser tab. Catalog, Inventory, Order, and Cart requests receive the access token automatically; a `401` triggers one refresh attempt and retries the original request. Route access and navigation are filtered from the permission codes returned by `/me`, while the backend services remain the authoritative authorization boundary. Orders require `ORDER_READ`; customer Cart inspection requires `CART_READ`.
+## Session / Token Handling
+
+Access and refresh tokens are kept for the current browser tab using `sessionStorage` plus an in-memory copy. Refresh tokens are never placed in URLs or logged. Catalog, Inventory, Order, Cart, Customer, and Auth requests receive the access token automatically; a `401` triggers one refresh attempt and retries the original request. A failed refresh clears the session and sends the user through the normal login redirect. There is no infinite refresh loop.
+
+## Authorization
+
+Route access and navigation are filtered from the permission codes returned by `/api/v1/auth/me`, while each backend remains the authoritative authorization boundary. A `403` stays an authorization error and is rendered as a permission message; it does not redirect to login. Orders require `ORDER_READ`, Cart inspection requires `CART_READ`, Customers require `CUSTOMER_READ`, and Users/Roles/Permissions use `USER_*`, `ROLE_*`, and `PERMISSION_*` permissions.
 
 ## Application routes
 
@@ -85,9 +93,48 @@ Access and refresh tokens are kept for the current browser tab. Catalog, Invento
 
 Cart navigation and routes require `CART_READ`. The current Cart API does not return customer name/email, so the UI shows the customer reference only. The UI intentionally has no add, remove, update, clear, checkout, reserve, confirm, or transfer actions for Cart support users.
 
-Customers remains a navigation placeholder because no customer-management API is in the current admin scope.
+### User Management
 
-## API layer
+- `/customers` — `CUSTOMER_READ`-protected customer profile list with server-side search and status filtering.
+- `/customers/[id]` — customer profile, status actions, and read-only shipping/billing address display; profile mutations require `CUSTOMER_UPDATE`.
+- `/users` — Auth-paginated Service users list. It excludes users whose only role is `CUSTOMER`.
+- `/users/new` — Auth-supported user creation with first name, last name, email, password, and searchable initial role selection.
+- `/users/[id]` — Supported profile editing, explicit status actions, role assignment/removal, effective permissions, service access summary, and security-field omissions.
+- `/roles` and `/roles/[id]` — Auth role catalog, role creation, role permission membership, and permission replacement when `ROLE_PERMISSION_UPDATE` plus `PERMISSION_READ` are present.
+- `/roles/new` — Creates an empty Auth role when `ROLE_CREATE` is present.
+- `/permissions` — Read-only permission catalog grouped by actual Auth permission domains.
+
+Auth does not expose server-side service-user search/status/role filters, created/last-login timestamps, role user counts, audit event reads, or protected last-super-admin safeguards. The UI does not calculate or invent those values. Customer Service exposes separate owner-derived self-service endpoints and `CUSTOMER_READ`/`CUSTOMER_UPDATE` admin endpoints; the UI never substitutes an Auth user for a Customer profile.
+
+## Roles
+
+Roles are loaded from Auth and include the role name, description, and permission definitions. Assigning/removing roles uses the Auth role IDs returned by the role selector; operators never type raw IDs. Auth keeps `SUPER_ADMIN` attached to every seeded application role and permission; the UI blocks ordinary administrators from changing that protected role. Last-super-admin and last-viable-admin status safeguards remain a backend requirement.
+
+## Permissions
+
+Permissions are seeded Auth metadata. The permission page is read-only because Auth exposes no permission create/edit endpoints. Role permission changes replace the complete role permission set through Auth's supported `PUT /api/v1/roles/{id}/permissions` contract.
+
+## Service Access
+
+The user detail view derives service access from effective permissions: roles → permissions → domain mapping. It does not persist a second service-access model in the browser. Catalog, Inventory, Orders, Cart, Customer, and Users & Access expand to show the actual returned permission codes.
+
+## Dashboard
+
+The dashboard keeps existing Catalog, Inventory, Order, and Cart service sections permission-gated. It adds an Auth section using the efficient paginated user total and role definition count. Active/locked/privileged counts, customer metrics, last-login metrics, and audit metrics remain unavailable because the current services do not expose efficient summary endpoints.
+
+## Cross-Domain Navigation
+
+Order and Cart routes continue to link only through references returned by their owning APIs. The current customer and order contracts do not provide a safe customer admin lookup, so the UI does not turn customer UUIDs into fabricated customer links. Auth user IDs are shown only as secondary technical metadata on User detail.
+
+## Permissions and State-Based Actions
+
+Actions are gated by both current permission and target state. User profile editing/status actions require `USER_UPDATE`; role assignment/removal requires `USER_ROLE_ASSIGN`; role permission editing requires `ROLE_PERMISSION_UPDATE` and `PERMISSION_READ`. The backend remains authoritative for every mutation and may reject the action with `403` or `409`.
+
+## Security
+
+Auth owns identity, passwords, roles, permissions, access tokens, refresh tokens, and account status. Customer Service owns customer profiles and addresses. The UI never renders passwords, password hashes, JWTs, refresh tokens, private keys, or security internals, and it does not log PII or credentials. Browser-side permission checks only improve navigation and feedback; service-side authorization remains mandatory.
+
+## API Integration
 
 The central service-aware client is in `lib/api/client.ts`. It provides typed JSON requests, multipart-safe headers, response parsing, status mapping, field-error extraction and service-specific unavailable messages.
 
@@ -112,6 +159,17 @@ Cart module:
 - `lib/api/cart/types.ts` — actual Cart statuses, paginated list DTOs, current Catalog enrichment, and converted Order references
 - `lib/api/cart/carts.ts` — typed staff list/detail calls to `cart-service`
 - `lib/api/cart/queries.ts` — TanStack Query hooks for Cart data and isolated per-SKU Inventory availability reads
+
+Auth administration modules:
+
+- `lib/api/auth-admin/types.ts` — actual Auth user, role, permission, and `ACTIVE|INACTIVE|LOCKED|PENDING` contracts
+- `lib/api/auth-admin/admin.ts` — typed Auth user, role, and permission calls
+- `lib/api/auth-admin/queries.ts` — TanStack Query hooks and mutation invalidation
+
+Customer module:
+
+- `lib/api/customer/types.ts` — current Customer profile/address DTOs and `ACTIVE|INACTIVE|BLOCKED` values
+- `lib/api/customer/customers.ts` — typed self-service and protected admin customer calls
 
 Shared domain contracts live in `lib/types.ts`. Query caching, invalidation and mutation handling live in `lib/queries.ts`.
 
@@ -154,6 +212,17 @@ The frontend uses these read-only Cart administration endpoints:
 
 - `GET /api/v1/carts?search=&status=&sku=&page=&size=&sort=` for staff Cart summaries
 - `GET /api/v1/carts/{cartId}` for a staff Cart detail
+
+The frontend uses these Auth administration endpoints:
+
+- `GET /api/v1/users?page=&size=`
+- `GET|PUT /api/v1/users/{id}`
+- `POST /api/v1/users`
+- `PATCH /api/v1/users/{id}/status`
+- `POST|DELETE /api/v1/users/{id}/roles/{roleId}`
+- `GET /api/v1/roles`
+- `GET /api/v1/permissions`
+- `PUT /api/v1/roles/{id}/permissions`
 
 The Cart list supports an exact Cart UUID or customer-reference fragment through `search`; customer email is not a supported backend filter. Cart status values are the actual Cart enum: `ACTIVE`, `CHECKOUT_IN_PROGRESS`, `CONVERTED`, `ABANDONED`, and `EXPIRED`. The Cart response owns SKU/quantity and current Catalog display estimates. Inventory is queried separately from `GET /api/v1/inventory/{sku}` and is never treated as a Cart reservation.
 
@@ -217,9 +286,10 @@ The backend exposes `CART_READ` for this staff surface. Frontend checks improve 
 - Order filters use native accessible controls, server-side pagination, URL state, responsive table/card layouts, skeleton loading states, and service-isolated error states.
 - No Payment or Shipping UI is included; `PENDING_PAYMENT` is shown only as an Order status because those services do not exist in this repository.
 
-## Verification
+## Testing
 
 ```bash
+npm test
 npm run typecheck
 npm run lint
 npm run build
@@ -232,7 +302,7 @@ Verified in this workspace:
 - `npm run build` passes using the Webpack builder. Next 16's Turbopack builder hit an environment-level worker process-binding panic during CSS processing, so the build script explicitly uses Webpack for reproducible local verification.
 - The production build includes `/orders` as a static route and `/orders/[id]` as a dynamic route.
 
-There is no frontend `test` script or test runner in the existing package, so `npm test` is not configured. TypeScript, ESLint, and the production build are the available automated checks until a test framework is introduced.
+The lightweight frontend test script uses Node's built-in test runner against the pure effective-permission and service-access derivation model. Component and browser integration tests still require a DOM test runner; no such framework was present in the existing package.
 
 ## Backend startup
 

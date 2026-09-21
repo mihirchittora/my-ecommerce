@@ -9,6 +9,7 @@ my-ecommerce/
 ├── inventory-service/     # locations, units, reservations, movements
 ├── order-service/         # historical orders, snapshots, idempotency, orchestration
 ├── cart-service/          # customer-owned mutable SKU carts
+├── customer-service/      # customer profiles and current addresses
 └── ecommerce-admin-ui/    # Next.js operations UI
 ```
 
@@ -21,12 +22,14 @@ my-ecommerce/
 | Inventory service | `ecommerce-inventory-service` | 8082 |
 | Order service | `ecommerce-order-service` | 8083 |
 | Cart service | `ecommerce-cart-service` | 8084 |
+| Customer service | `ecommerce-customer-service` | 8086 |
 | Next.js UI | — | 3000 |
 | Auth PostgreSQL | `ecommerce-auth-db` | 5434 |
 | Catalog PostgreSQL | `ecommerce-catalog-db` | 5432 |
 | Inventory PostgreSQL | `ecommerce-inventory-db` | 5433 |
 | Order PostgreSQL | `ecommerce-order-db` | 5435 |
 | Cart PostgreSQL | `ecommerce-cart-db` | 5436 |
+| Customer PostgreSQL | `ecommerce-customer-db` | 5437 |
 
 Authentication is owned only by `auth-service`. It issues short-lived RS256 access
 tokens and rotates opaque, hashed refresh tokens. Catalog and Inventory validate
@@ -45,6 +48,15 @@ its own database, enriches reads from Catalog, and delegates checkout to Order.
 Adding to Cart never reserves Inventory; Order coordinates reservation during
 checkout. See [cart-service/README.md](cart-service/README.md) for its API,
 lifecycle, integration contracts, and verification guide.
+
+Customer is a separate customer-facing service. It owns the current customer
+profile and address book in its own `customer_db`; Auth remains the source of
+truth for identity and credentials. Customer identifies the profile from JWT
+`sub`, never stores passwords or tokens, and never reads another service's
+database. It lazily creates an idempotent profile on the first
+`/api/v1/customers/me` call because Auth currently has no profile callback. See
+[customer-service/README.md](customer-service/README.md) and
+[docs/api-contracts.md](docs/api-contracts.md) for its contract.
 
 The internal admin UI exposes read-only Cart support at `/carts` and
 `/carts/{id}` when the operator has `CART_READ`. Cart quantities, current
@@ -160,6 +172,16 @@ CART_CATALOG_SERVICE_TOKEN=dev-cart-to-catalog \
 docker-compose up -d --build
 ```
 
+### Start Customer
+
+```bash
+cd /Users/mihirchittora/Desktop/my-ecommerce/customer-service
+AUTH_ISSUER=http://localhost:8085 \
+AUTH_AUDIENCE=ecommerce-api \
+AUTH_JWK_SET_URI=http://host.docker.internal:8085/.well-known/jwks.json \
+docker-compose up -d --build
+```
+
 ### Start the admin UI
 
 ```bash
@@ -181,6 +203,7 @@ curl -fsS http://localhost:8081/actuator/health
 curl -fsS http://localhost:8082/actuator/health
 curl -fsS http://localhost:8083/actuator/health
 curl -fsS http://localhost:8084/actuator/health
+curl -fsS http://localhost:8086/actuator/health
 ```
 
 Stop a service without deleting its database volume:
@@ -191,6 +214,7 @@ Stop a service without deleting its database volume:
 (cd inventory-service && docker-compose down)
 (cd order-service && docker-compose down)
 (cd cart-service && docker-compose down)
+(cd customer-service && docker-compose down)
 ```
 
 Use `docker-compose down -v` only when you intentionally want to delete that
@@ -220,7 +244,7 @@ Auth also has application defaults for `AUTH_ACCESS_TOKEN_TTL` (`PT15M`),
 `AUTH_LOCK_DURATION` (`PT15M`). They do not need to be set for the local Docker
 workflow.
 
-#### Catalog, Inventory, and Order connectivity
+#### Catalog, Inventory, Order, and Customer connectivity
 
 | Variable | Local value | Relevance |
 | --- | --- | --- |
@@ -229,6 +253,7 @@ workflow.
 | `AUTH_JWK_SET_URI` | `http://host.docker.internal:8085/.well-known/jwks.json` | Container-to-host URL used to fetch Auth's public signing keys. |
 | `CATALOG_SERVICE_URL` | `http://host.docker.internal:8081` | Inventory/Order URL for Catalog from inside Docker. |
 | `INVENTORY_SERVICE_URL` | `http://host.docker.internal:8082` | Order URL for Inventory from inside Docker. |
+| `CUSTOMER_DB_URL` | `jdbc:postgresql://customer-db:5432/customer_db` | Dedicated Customer database URL inside Compose. |
 
 `AUTH_ISSUER` and `AUTH_JWK_SET_URI` intentionally use different hostnames:
 the issuer must match the JWT value (`localhost`), while the JWK request must be
@@ -261,6 +286,7 @@ exported:
 | Catalog | `jdbc:postgresql://postgres:5432/ecommerce` | `ecommerce` | 8081 | 8081 |
 | Inventory | `jdbc:postgresql://inventory-postgres:5432/inventory_db` | `inventory_db` | 8082 | 8082 |
 | Order | `jdbc:postgresql://order-db:5432/order_db` | `order_db` | 8083 | 8083 |
+| Customer | `jdbc:postgresql://customer-db:5432/customer_db` | `customer_db` | 8086 | 8086 |
 
 Do not replace these container-side database hostnames with `localhost`:
 `localhost` inside a container means that same container, not the database
@@ -276,10 +302,18 @@ Copy `ecommerce-admin-ui/.env.example` to `.env.local`:
 | `NEXT_PUBLIC_CATALOG_API_URL` | `http://localhost:8081` | Catalog products, categories, variants, and images. |
 | `NEXT_PUBLIC_INVENTORY_API_URL` | `http://localhost:8082` | Inventory stock, units, locations, and reservations. |
 | `NEXT_PUBLIC_ORDER_API_URL` | `http://localhost:8083` | Order list, detail, history, and cancellation APIs. |
+| `NEXT_PUBLIC_CART_API_URL` | `http://localhost:8084` | Read-only Cart support list and detail APIs. |
+| `NEXT_PUBLIC_CUSTOMER_API_URL` | `http://localhost:8086` | Customer Service base URL for customer self-service and User Management administration. |
 
 The `NEXT_PUBLIC_` prefix is required by Next.js because these URLs are used by
 browser code. Do not use Docker-only hostnames such as `host.docker.internal` in
 the UI environment.
+
+The Admin UI has a shared permission-gated User Management section with separate
+Customers, Service users, Roles, and Permissions screens. Customers use
+Customer Service's `CUSTOMER_READ`/`CUSTOMER_UPDATE` admin contracts for profile,
+status, and shipping/billing address operations. Service users and roles use
+Auth's administrative contracts; customer signup remains public Auth behavior.
 
 ## Service ownership and connected admin flow
 

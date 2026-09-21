@@ -44,13 +44,19 @@ public class UserAdminService {
         user.setEmailVerified(true);
         user.setRoles(new HashSet<>());
         if (request.roleIds() != null) request.roleIds().forEach(id -> user.getRoles().add(role(id)));
+        SuperAdminRolePolicy.ensureAllApplicationRoles(user.getRoles(), roles.findAll());
         if (user.getRoles().isEmpty()) user.getRoles().add(roleByName("CUSTOMER"));
         user.prepareForPersist();
         return toResponse(users.save(user));
     }
 
     @Transactional(readOnly = true)
-    public Page<UserAdminDtos.Response> list(Pageable pageable) { return users.findAll(pageable).map(this::toResponse); }
+    public Page<UserAdminDtos.Response> list(Pageable pageable, String scope) {
+        Page<AppUser> page = "SERVICE".equalsIgnoreCase(scope)
+                ? users.findDistinctByRoles_NameNot("CUSTOMER", pageable)
+                : users.findAll(pageable);
+        return page.map(this::toResponse);
+    }
 
     @Transactional(readOnly = true)
     public UserAdminDtos.Response get(UUID id) { return toResponse(users.findById(id).orElseThrow(() -> new NotFoundException("User not found: " + id))); }
@@ -83,6 +89,7 @@ public class UserAdminService {
         AppUser user = user(userId);
         Role role = role(roleId);
         user.getRoles().add(role);
+        SuperAdminRolePolicy.ensureAllApplicationRoles(user.getRoles(), roles.findAll());
         audit.record(AuditEventType.ROLE_ASSIGNED, userId, "role=" + role.getName());
         user.prepareForPersist();
         return toResponse(user);
@@ -92,6 +99,7 @@ public class UserAdminService {
     public UserAdminDtos.Response removeRole(UUID userId, UUID roleId) {
         AppUser user = user(userId);
         Role role = role(roleId);
+        SuperAdminRolePolicy.assertCanRemove(user.getRoles(), role);
         user.getRoles().removeIf(item -> item.getId().equals(role.getId()));
         audit.record(AuditEventType.ROLE_REMOVED, userId, "role=" + role.getName());
         user.prepareForPersist();

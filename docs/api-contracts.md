@@ -1,5 +1,232 @@
 # API contracts
 
+## Auth Service — admin contracts
+
+Base URL: `http://localhost:8085`. Auth owns user identity, passwords, roles,
+permissions, JWTs, refresh tokens, and account status. Every endpoint below
+requires a valid Auth bearer JWT and the listed server-side permission.
+
+### `GET /api/v1/users?page=0&size=20&scope=SERVICE`
+
+- Auth/permission: `USER_READ`.
+- Request: zero-based `page`; `size` is capped at 100 by Auth. `scope=SERVICE`
+  returns users with at least one non-`CUSTOMER` role and is used by the Admin
+  UI's Service users screen. The default `scope=ALL` preserves the full user
+  list. Auth sorts by email ascending and accepts no search, status, or role
+  query filter.
+- Response: Spring `Page<UserResponse>` containing `id`, `email`, `firstName`,
+  `lastName`, `status` (`ACTIVE`, `INACTIVE`, `LOCKED`, `PENDING`),
+  `emailVerified`, and role names.
+- Errors: `401` unauthenticated; `403` missing permission; `500` generic service
+  failure.
+
+### `POST /api/v1/users`
+
+- Auth/permission: `USER_CREATE`.
+- Request: `{email,password,firstName,lastName,roleIds}`. Password is 12–128
+  characters. `roleIds` contains Auth role UUIDs; an empty list receives Auth's
+  seeded default role.
+- Response: `201 UserResponse`; password/hash/token fields are never returned.
+- Errors: `400` validation; `409` duplicate email; `401`/`403`; `500`.
+
+### `GET /api/v1/users/{id}` and `PUT /api/v1/users/{id}`
+
+- Auth/permission: `USER_READ` for GET; `USER_UPDATE` for PUT.
+- Request: PUT accepts only `{firstName,lastName}`. Email changes and password
+  changes are not part of this admin contract.
+- Response: `200 UserResponse`.
+- Errors: `400`, `401`, `403`, `404`, `500`.
+
+### `PATCH /api/v1/users/{id}/status`
+
+- Auth/permission: `USER_UPDATE`.
+- Request: `{status}` using the actual Auth enum: `ACTIVE`, `INACTIVE`,
+  `LOCKED`, or `PENDING`.
+- Response: `200 UserResponse`.
+- Errors: `400`, `401`, `403`, `404`, `409` for unsupported status, `500`.
+- Note: Auth currently exposes no last-super-admin/last-viable-admin safeguard.
+  The UI blocks ordinary administrators from SUPER_ADMIN assignment/removal. Auth
+  does enforce that users carrying SUPER_ADMIN retain every seeded application
+  role; last-super-admin and last-viable-admin status enforcement remains a
+  backend requirement.
+
+### `POST|DELETE /api/v1/users/{id}/roles/{roleId}`
+
+- Auth/permission: `USER_ROLE_ASSIGN`.
+- Request: role UUID returned by `GET /api/v1/roles`; no raw role text is
+  accepted by the UI.
+- Response: `200 UserResponse` with updated role names.
+- Errors: `401`, `403`, `404`, `500`.
+- Invariant: assigning `SUPER_ADMIN` also assigns every currently seeded
+  application role. Removing another role while `SUPER_ADMIN` remains assigned
+  returns `409`.
+
+### `GET /api/v1/roles`
+
+- Auth/permission: `ROLE_READ`.
+- Response: `200 RoleResponse[]`, each with `id`, `name`, `description`, and
+  `permissions[]` containing permission `id`, `code`, and `description`.
+- Role-to-user counts and assigned-user lookup are not returned.
+
+### `POST /api/v1/roles`
+
+- Auth/permission: `ROLE_CREATE`.
+- Request: `{name,description}`. Names may contain letters, numbers, and
+  underscores and are normalized to uppercase. New roles start with no
+  permissions; update them through the permission endpoint below.
+- Response: `201 RoleResponse`.
+- Errors: `400` validation, `401`, `403`, `409` duplicate role name, `500`.
+
+### `GET /api/v1/permissions`
+
+- Auth/permission: `PERMISSION_READ`.
+- Response: `200 PermissionResponse[]`, each with `id`, `code`, and
+  `description`. Permissions are static seeded metadata; no create/edit API is
+  exposed.
+
+### `PUT /api/v1/roles/{id}/permissions`
+
+- Auth/permission: `ROLE_PERMISSION_UPDATE`.
+- Request: `{permissionIds: UUID[]}`. The submitted list replaces the role's
+  complete permission set.
+- Response: `200 RoleResponse`.
+- Errors: `401`, `403`, `404` for the role or a permission ID, `409` when trying
+  to edit the system-managed `SUPER_ADMIN` role, `500`.
+
+Auth admin gaps intentionally not simulated by the UI: server-side user search,
+status/role filters, created and last-login timestamps, audit-event reads, role
+user counts, and protected last-super-admin/last-viable-admin mutations.
+
+## Customer Service
+
+Base URL: `http://localhost:8086`. Customer Service owns current profiles and
+addresses in private `customer_db` (host port `5437`). Auth remains the source
+of truth for identity and security. Every endpoint below requires an Auth JWT
+with a valid signature, issuer, audience, expiration, and UUID `sub`; identity
+is never taken from client-supplied `customerId` or `authUserId`. Admin
+endpoints use the `CUSTOMER_READ` and `CUSTOMER_UPDATE` permissions from the
+Auth JWT.
+
+### `GET /api/v1/customers/me`
+
+- Auth/permission: Bearer JWT; authenticated active customer.
+- Request: no path, query, or body.
+- Response: `200 CustomerResponse` (`id`, `authUserId`, `firstName`, `lastName`, `email`, `phone`, `status`, `createdAt`, `updatedAt`).
+- Validation: JWT `sub` must be a UUID. First access lazily creates an `ACTIVE` profile.
+- Errors: `401` missing/invalid JWT; `403` `INACTIVE`/`BLOCKED`; `500` unexpected.
+- Side effects: one idempotent profile insert on first access.
+- Example: `curl -H 'Authorization: Bearer <jwt>' http://localhost:8086/api/v1/customers/me`
+
+### `PATCH /api/v1/customers/me`
+
+- Auth/permission: Bearer JWT; authenticated active customer.
+- Request: optional JSON fields `firstName` (max 80), `lastName` (max 80), and `phone` (max 30). Omitted fields remain unchanged.
+- Response: `200 CustomerResponse`.
+- Validation: supplied names cannot be blank; phone is normalized to `+` plus 7–15 digits. Unknown fields fail with `400`, preventing changes to `id`, `authUserId`, `status`, `email`, roles, or permissions.
+- Errors: `400` validation/unknown field; `401` unauthenticated; `403` inactive/blocked; `500` unexpected.
+- Side effects: only mutable profile fields update. Email changes belong to a future verified Auth flow.
+- Example request: `{"firstName":"Mihir","lastName":"Chittora","phone":"+91 98765-43210"}`
+
+### `GET /api/v1/customers/me/addresses`
+
+- Auth/permission: Bearer JWT; authenticated active customer.
+- Request: no body/query.
+- Response: `200 AddressResponse[]`, defaults first, then newest `createdAt`.
+- Validation: owner is derived only from JWT `sub`.
+- Errors: `401`, `403`, or `500` as above.
+- Side effects: may create the empty lazy profile.
+- Example: `curl -H 'Authorization: Bearer <jwt>' http://localhost:8086/api/v1/customers/me/addresses`
+
+### `POST /api/v1/customers/me/addresses`
+
+- Auth/permission: Bearer JWT; authenticated active customer.
+- Request: `AddressRequest`: required `addressType` (`SHIPPING`/`BILLING`), `recipientName`, `phone`, `line1`, `city`, `state`, `postalCode`, and ISO alpha-2 `country`; optional `line2`, `landmark`, `isDefault`. No customer ID is accepted.
+- Response: `201 AddressResponse`.
+- Validation: bounded field lengths; phone normalization; country uses ISO 3166-1 alpha-2; postal code is country-neutral and accepts `302001`.
+- Errors: `400` validation; `401`; `403`; `409` conflict; `500` unexpected.
+- Side effects: first address of a type is default; `isDefault=true` replaces the same-type default under a customer-row lock and database constraint.
+- Example request:
+
+```json
+{"addressType":"SHIPPING","recipientName":"Mihir Chittora","phone":"+919876543210","line1":"123 Example Street","line2":"Apartment 4B","city":"Udaipur","state":"Rajasthan","postalCode":"313001","country":"IN","landmark":"Near the market","isDefault":true}
+```
+
+### `GET /api/v1/customers/me/addresses/{id}`
+
+- Auth/permission: Bearer JWT; authenticated active customer.
+- Request: UUID path ID; no body.
+- Response: `200 AddressResponse`.
+- Validation: address must belong to JWT subject's customer.
+- Errors: `401`; `403`; `404` for missing/not-owned; `500`.
+- Side effects: none.
+- Example: `curl -H 'Authorization: Bearer <jwt>' http://localhost:8086/api/v1/customers/me/addresses/ADDR_UUID`
+
+### `PUT /api/v1/customers/me/addresses/{id}`
+
+- Auth/permission: Bearer JWT; authenticated active customer.
+- Request: UUID path ID plus complete `AddressRequest`; no customer ID.
+- Response: `200 AddressResponse`.
+- Validation: same as create. A default stays default unless another address is explicitly selected with `isDefault=true`; a type change maintains defaults for both types.
+- Errors: `400`; `401`; `403`; `404`; `409`; `500`.
+- Side effects: replaces validated fields transactionally and maintains the one-default-per-type invariant.
+- Example request: same schema as `POST`, addressed to the path UUID.
+
+### `DELETE /api/v1/customers/me/addresses/{id}`
+
+- Auth/permission: Bearer JWT; authenticated active customer.
+- Request: UUID path ID; no body.
+- Response: `204 No Content`.
+- Validation: address must belong to JWT subject's customer.
+- Errors: `401`; `403`; `404`; `500`.
+- Side effects: deletes the address; if it was default, promotes the newest remaining same-type address, or leaves no default when none remains.
+- Example: `curl -X DELETE -H 'Authorization: Bearer <jwt>' http://localhost:8086/api/v1/customers/me/addresses/ADDR_UUID`
+
+### `POST /api/v1/customers/me/addresses/{id}/default`
+
+- Auth/permission: Bearer JWT; authenticated active customer.
+- Request: UUID path ID; no body.
+- Response: `200 AddressResponse` with `isDefault=true`.
+- Validation: address must belong to JWT subject's customer.
+- Errors: `401`; `403`; `404`; `409`; `500`.
+- Side effects: atomically unsets the prior default of this address type and sets the target. Pessimistic customer locking plus a PostgreSQL partial unique index prevents concurrent duplicates.
+- Example: `curl -X POST -H 'Authorization: Bearer <jwt>' http://localhost:8086/api/v1/customers/me/addresses/ADDR_UUID/default`
+
+Customer errors use `{timestamp,status,code,message,path,fieldErrors}`. `400`
+is validation/invalid JSON, `401` unauthenticated, `403` inactive/unauthorized,
+`404` missing/not-owned, `409` conflict, `503` reserved for future unavailable
+dependencies, and `500` is generic without stack traces.
+
+### `GET /api/v1/customers?page=0&size=20&search=&status=`
+
+- Auth/permission: `CUSTOMER_READ`.
+- Request: server-side zero-based pagination, optional name/email/Auth-ID
+  fragment `search`, and optional `status` (`ACTIVE`, `INACTIVE`, `BLOCKED`).
+- Response: Spring `Page<CustomerResponse>`, newest profiles first.
+
+### `GET /api/v1/customers/{id}` and `GET /api/v1/customers/{id}/addresses`
+
+- Auth/permission: `CUSTOMER_READ`.
+- Response: customer profile or the current shipping/billing
+  `AddressResponse[]`, respectively.
+- Errors: `401`, `403`, `404`, `500`.
+
+### `PATCH /api/v1/customers/{id}` and `PATCH /api/v1/customers/{id}/status`
+
+- Auth/permission: `CUSTOMER_UPDATE`.
+- Request: profile update accepts optional `firstName`, `lastName`, and `phone`;
+  status update accepts `ACTIVE`, `INACTIVE`, or `BLOCKED`.
+- Response: `200 CustomerResponse`.
+- Email, Auth identity, passwords, roles, and permissions remain Auth-owned and
+  cannot be changed through Customer Service.
+
+The Admin UI uses these APIs for a separate Customers screen under User
+Management. Customer registration remains the public Auth registration flow.
+
+Customer returns current mutable addresses only. During checkout, Order must
+copy the selected address into an Order-owned shipping snapshot; later address
+edits/deletes must not mutate historical orders. Customer Service never accesses
+Order or Auth databases.
+
 This document records the service contracts consumed by the admin UI. Spring pagination uses zero-based `page`, `size`, and one string `sort=property,direction`.
 
 ## Cart Service

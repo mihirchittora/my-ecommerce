@@ -1,0 +1,37 @@
+services:
+  customer-db:
+    image: postgres:17
+    container_name: ecommerce-customer-db
+    environment:
+      POSTGRES_DB: ${CUSTOMER_DB_NAME:-customer_db}
+      POSTGRES_USER: ${CUSTOMER_DB_USERNAME:-customer}
+      POSTGRES_PASSWORD: ${CUSTOMER_DB_PASSWORD:-customer}
+    ports:
+      - "5437:5432"
+    volumes:
+      - customer-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  customer-service:
+    build: .
+    container_name: ecommerce-customer-service
+    ports:
+      - "8086:8086"
+    environment:
+      CUSTOMER_SERVER_PORT: 8086
+      CUSTOMER_DB_URL: jdbc:postgresql://customer-db:5432/${CUSTOMER_DB_NAME:-customer_db}
+      CUSTOMER_DB_USERNAME: ${CUSTOMER_DB_USERNAME:-customer}
+      CUSTOMER_DB_PASSWORD: ${CUSTOMER_DB_PASSWORD:-customer}
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8085}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://host.docker.internal:8085/.well-known/jwks.json}
+    depends_on:
+      customer-db:
+        condition: service_healthy
+
+volumes:
+  customer-db-data:

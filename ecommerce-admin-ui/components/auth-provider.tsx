@@ -26,10 +26,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let active = true;
+    const handleSessionExpired = () => {
+      if (!active) return;
+      clearAuthSession();
+      setUser(null);
+      setStatus("unauthenticated");
+    };
+    window.addEventListener("auth:session-expired", handleSessionExpired);
     const session = getAuthSession();
     if (!session) {
       setStatus("unauthenticated");
-      return () => { active = false; };
+      return () => { active = false; window.removeEventListener("auth:session-expired", handleSessionExpired); };
     }
     authApi.me().then((nextUser) => {
       if (!active) return;
@@ -46,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null);
       setStatus("unauthenticated");
     });
-    return () => { active = false; };
+    return () => { active = false; window.removeEventListener("auth:session-expired", handleSessionExpired); };
   }, []);
 
   const value = useMemo<AuthContextValue>(() => ({

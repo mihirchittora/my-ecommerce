@@ -26,6 +26,7 @@ function getFallbackMessage(status: number, path: string, service: ServiceName) 
     if (service === "inventory") return "Inventory resource not found.";
     if (service === "order") return "Order not found.";
     if (service === "cart") return "Cart not found.";
+    if (service === "customer") return "Customer resource not found.";
   }
   if (status === 409) return service === "order" ? "Order cannot be changed in its current state." : service === "cart" ? "Cart cannot be read in its current state." : "This change conflicts with existing catalog data.";
   if (status >= 500) return "Something went wrong. Please try again.";
@@ -64,7 +65,7 @@ export async function requestForService<T>(service: ServiceName, path: string, o
     try {
       response = await fetch(`${getApiBaseUrl(service)}${path}`, { ...options, headers });
     } catch {
-      const label = service === "auth" ? "Authentication" : service === "catalog" ? "Catalog" : service === "inventory" ? "Inventory" : service === "order" ? "Order" : "Cart";
+      const label = service === "auth" ? "Authentication" : service === "catalog" ? "Catalog" : service === "inventory" ? "Inventory" : service === "order" ? "Order" : service === "cart" ? "Cart" : "Customer";
       throw new ApiError(0, `${label} service is unavailable. Check that it is running.`, [], {}, service);
     }
 
@@ -78,11 +79,13 @@ export async function requestForService<T>(service: ServiceName, path: string, o
       });
       if (!refreshResponse.ok) {
         clearAuthSession();
+        if (typeof window !== "undefined") window.dispatchEvent(new Event("auth:session-expired"));
         break;
       }
       saveAuthSession(await refreshResponse.json());
     } catch {
       clearAuthSession();
+      if (typeof window !== "undefined") window.dispatchEvent(new Event("auth:session-expired"));
       break;
     }
   } while (refreshed && response?.status === 401);
@@ -117,6 +120,7 @@ export const inventoryClient = createApiClient("inventory");
 export const authClient = createApiClient("auth");
 export const orderClient = createApiClient("order");
 export const cartClient = createApiClient("cart");
+export const customerClient = createApiClient("customer");
 
 // Backwards-compatible catalog request helper for the existing catalog modules.
 export function request<T>(path: string, options: RequestInit = {}) {

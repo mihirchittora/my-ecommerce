@@ -9,9 +9,9 @@ export type Permission =
   | "INVENTORY_RESERVE" | "INVENTORY_CONFIRM" | "INVENTORY_RELEASE" | "INVENTORY_RECONCILE"
   | "INVENTORY_LOCATION_MANAGE" | "INVENTORY_UNIT_READ"
   | "USER_READ" | "USER_CREATE" | "USER_UPDATE" | "USER_ROLE_ASSIGN"
-  | "ROLE_READ" | "PERMISSION_READ" | "ROLE_PERMISSION_UPDATE"
+  | "ROLE_READ" | "ROLE_CREATE" | "PERMISSION_READ" | "ROLE_PERMISSION_UPDATE"
   | "ORDER_READ" | "ORDER_CREATE" | "ORDER_UPDATE" | "ORDER_CANCEL"
-  | "CUSTOMER_READ" | "CART_READ";
+  | "CUSTOMER_READ" | "CUSTOMER_UPDATE" | "CART_READ";
 
 export function hasPermission(user: AuthUser | null | undefined, permission: Permission) {
   return Boolean(user?.permissions.includes(permission));
@@ -30,11 +30,18 @@ export function isInternalUser(user: AuthUser | null | undefined) {
   return user.roles.some((role) => role !== "CUSTOMER") && user.permissions.some((permission) =>
     permission.startsWith("CATALOG_") || permission.startsWith("PRODUCT_") || permission.startsWith("CATEGORY_") ||
     permission.startsWith("INVENTORY_") || permission.startsWith("USER_") || permission.startsWith("ROLE_") ||
-    permission.startsWith("PERMISSION_") || permission.startsWith("ORDER_") || permission.startsWith("CART_"));
+    permission.startsWith("PERMISSION_") || permission.startsWith("ORDER_") || permission.startsWith("CART_") ||
+    permission.startsWith("CUSTOMER_"));
 }
 
 export function defaultRouteForUser(user: AuthUser | null | undefined) {
   if (hasAnyPermission(user, ["CATALOG_READ", "INVENTORY_READ", "ORDER_READ", "CART_READ"])) return "/dashboard";
+  if (hasPermission(user, "CUSTOMER_READ")) return "/customers";
+  if (hasPermission(user, "USER_READ")) return "/users";
+  if (hasPermission(user, "USER_CREATE")) return "/users/new";
+  if (hasPermission(user, "ROLE_READ")) return "/roles";
+  if (hasPermission(user, "ROLE_CREATE")) return "/roles/new";
+  if (hasPermission(user, "PERMISSION_READ")) return "/permissions";
   if (hasPermission(user, "CART_READ")) return "/carts";
   if (hasPermission(user, "ORDER_READ")) return "/orders";
   return "/dashboard";
@@ -58,6 +65,11 @@ export function routeAccess(pathname: string): RouteAccess {
   if (pathname === "/inventory/reconciliation") return { allOf: ["INVENTORY_RECONCILE"] };
   if (pathname === "/orders" || pathname.startsWith("/orders/")) return { allOf: ["ORDER_READ"] };
   if (pathname === "/carts" || pathname.startsWith("/carts/")) return { allOf: ["CART_READ"] };
-  if (pathname === "/customers") return { allOf: ["CUSTOMER_READ"] };
+  if (pathname === "/customers" || pathname.startsWith("/customers/")) return { allOf: ["CUSTOMER_READ"] };
+  if (pathname === "/users/new") return { allOf: ["USER_CREATE"] };
+  if (pathname === "/users" || pathname.startsWith("/users/")) return { allOf: ["USER_READ"] };
+  if (pathname === "/roles/new") return { allOf: ["ROLE_CREATE"] };
+  if (pathname === "/roles" || pathname.startsWith("/roles/")) return { allOf: ["ROLE_READ"] };
+  if (pathname === "/permissions") return { allOf: ["PERMISSION_READ"] };
   return {};
 }

@@ -8,7 +8,7 @@ import type { PageResponse } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 
 function CustomerReference({ customerId }: { customerId: string }) {
-  return <div title={customerId}><span className="block text-sm font-medium text-slate-700">Customer reference</span><span className="mt-1 block max-w-[13rem] truncate font-mono text-xs text-slate-400">{customerId}</span></div>;
+  return <div title={customerId}><span className="block text-sm font-medium text-slate-700">Customer ID</span><span className="mt-1 block max-w-[13rem] truncate font-mono text-xs text-slate-400">{customerId}</span></div>;
 }
 
 function ViewLink({ id }: { id: string }) {

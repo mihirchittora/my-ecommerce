@@ -67,6 +67,9 @@ both values are configurable.
 Public registration always creates a `CUSTOMER` and ignores role-like fields because
 the public request does not contain them. Staff and admin users use the same `users`
 table and are assigned roles through protected admin APIs or the development bootstrap.
+The configured bootstrap administrator receives every currently seeded application
+role, and assigning `SUPER_ADMIN` through the protected admin API applies the same
+role invariant.
 
 ## Roles
 
@@ -95,13 +98,16 @@ support uses `CART_READ`. The auth administration permissions are `USER_READ`, `
 
 `role_permissions` is a unique many-to-many join table. The migration seeds the
 default mappings once with conflict-safe inserts. `SUPER_ADMIN` receives all
-currently seeded permissions. Role editing, when used, replaces a role's permission
-set through a protected API.
+currently seeded permissions, including domain permissions added by later
+migrations. Role editing, when used, replaces a role's permission set through a
+protected API.
 
 ## User-Role Model
 
 `user_roles` is a unique many-to-many join table. A user can have several roles and
-the access token contains the union of permissions from those roles.
+the access token contains the union of permissions from those roles. `SUPER_ADMIN`
+is kept attached to every currently seeded application role; removing another role
+from a super-admin is rejected while `SUPER_ADMIN` remains assigned.
 
 ## Permission Catalog
 
@@ -112,8 +118,11 @@ Auth databases. The active services use `PRODUCT_*`, `CATEGORY_*`,
 security-administration permissions above. The migration also reserves
 `ORDER_READ`, `ORDER_CREATE`, `ORDER_UPDATE`,
 `ORDER_CANCEL`, `CUSTOMER_READ`, and `CUSTOMER_UPDATE` as future-domain metadata;
-they are not wired to an active service or included in the current SUPER_ADMIN
-mapping until those domains exist.
+they may be unused by a particular downstream service, but they are included in
+the system-managed SUPER_ADMIN permission set.
+`V5__grant_all_roles_to_super_admin_users.sql` backfills every seeded application
+role onto existing users that already carry `SUPER_ADMIN`; `V6__grant_all_permissions_to_super_admin.sql`
+backfills every seeded permission, including Customer and Order capabilities.
 
 ## Registration Flow
 
@@ -269,7 +278,7 @@ enforce relationship uniqueness.
 
 `V1__init_auth.sql` creates the schema, `V2__seed_roles_and_permissions.sql`
 adds deterministic roles and mappings, and later migrations add domain permissions
-such as `CART_READ` with `ON CONFLICT DO NOTHING`.
+and the super-admin role/permission invariants with `ON CONFLICT DO NOTHING`.
 Hibernate is set to `ddl-auto=validate`; applied migrations are never rewritten.
 
 ## Audit Events
@@ -302,7 +311,7 @@ Security administration:
 
 ```text
 POST   /api/v1/users
-GET    /api/v1/users
+GET    /api/v1/users?scope=ALL|SERVICE
 GET    /api/v1/users/{id}
 PUT    /api/v1/users/{id}
 PATCH  /api/v1/users/{id}/status
@@ -310,6 +319,7 @@ POST   /api/v1/users/{id}/roles          {"roleId":"..."}
 POST   /api/v1/users/{id}/roles/{roleId} (compatibility form)
 DELETE /api/v1/users/{id}/roles/{roleId}
 GET    /api/v1/roles
+POST   /api/v1/roles
 GET    /api/v1/permissions
 PUT    /api/v1/roles/{id}/permissions
 ```
