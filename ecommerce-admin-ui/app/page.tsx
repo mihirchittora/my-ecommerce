@@ -22,6 +22,7 @@ export default function DashboardPage() {
   const canReadCategories = hasPermission(user, "CATEGORY_READ");
   const canReadProducts = hasPermission(user, "PRODUCT_READ");
   const canReadInventory = hasPermission(user, "INVENTORY_READ");
+  const canReadPayments = hasPermission(user, "PAYMENT_READ");
   const canCreateProducts = hasPermission(user, "PRODUCT_CREATE");
 
   const categories = useCategoryTree(canReadCategories);
@@ -90,7 +91,8 @@ export default function DashboardPage() {
             {canReadCategories && <QuickAction href="/categories" icon={Shapes} title="Organize categories" description="Build a clear hierarchy for browsing." />}
             {hasPermission(user, "INVENTORY_RECEIVE") && <QuickAction href="/inventory/receive" icon={Cuboid} title="Receive inventory" description="Add physical units to a location." />}
             {canReadInventory && <QuickAction href="/inventory/reservations" icon={ClipboardList} title="Review reservations" description="Create, confirm or release reserved units." />}
-            {!canCreateProducts && !canReadCategories && !hasPermission(user, "INVENTORY_RECEIVE") && !canReadInventory && <p className="text-sm text-slate-500">Use the commerce panels above to monitor order and checkout activity.</p>}
+            {canReadPayments && <QuickAction href="/payments" icon={ClipboardList} title="Review payments" description="Inspect provider attempts and refund state." />}
+            {!canCreateProducts && !canReadCategories && !hasPermission(user, "INVENTORY_RECEIVE") && !canReadInventory && !canReadPayments && <p className="text-sm text-slate-500">Use the commerce panels above to monitor order and checkout activity.</p>}
           </CardContent>
         </Card>
 

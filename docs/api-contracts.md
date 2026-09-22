@@ -336,6 +336,96 @@ Returns `CartResponse` with the Cart summary fields above plus `version`, `enric
 
 The current Cart contract does not return customer name/email or lifecycle history events, so the admin UI shows only `customerId` and does not fabricate a timeline or customer route.
 
+## Payment Service
+
+Payment Service is the orchestration boundary for external gateway integrations.
+It owns payment state, attempts, provider references, verified webhooks, and
+refunds. It does not process cards or read Order, Customer, Inventory, or Auth
+databases. The browser uses the internal operations surface below; all paths are
+under `/api` at the service base URL `http://localhost:8087`.
+
+### `GET /api/v1/admin/payments`
+
+- Authentication: bearer JWT issued by Auth Service.
+- Permission: `PAYMENT_READ`.
+- Query: `search`, `status`, `provider`, `currency`, `orderId`, `customerId`,
+  `createdFrom`, `createdTo`, `page`, `size`, and `sort`.
+- Search: exact payment/order/customer UUIDs when a UUID is entered, and
+  case-insensitive fragments of `providerPaymentId` or `providerOrderId`.
+- Pagination: zero-based `page`, `size` maximum 100, and one Spring sort string
+  such as `createdAt,desc`. Supported sortable fields are `createdAt`,
+  `updatedAt`, `amount`, `status`, `provider`, and `refundedAmount`.
+- Response: Spring `Page<AdminPaymentResponse>` with `content`,
+  `totalElements`, `totalPages`, `number`, `size`, `numberOfElements`, `first`,
+  `last`, and `empty`.
+- Response fields: payment/order/customer UUIDs, amount, currency, actual
+  `PaymentStatus`, configured provider, safe provider payment/order references,
+  refund total, lifecycle timestamps, all attempts, and all refunds.
+- Security: `checkoutUrl` and `checkoutToken` are intentionally omitted from
+  this operations DTO. Card numbers, CVV/PINs, gateway secrets, webhook secrets,
+  and authorization headers are never returned.
+- Errors: `400` for invalid enum/UUID/date/pagination values, `401` for missing
+  or invalid JWT, `403` without `PAYMENT_READ`, and `503` when an upstream
+  dependency is unavailable (the list itself has no enrichment call).
+- Side effects: none.
+
+### `GET /api/v1/admin/payments/{paymentId}`
+
+- Authentication: bearer JWT.
+- Permission: `PAYMENT_READ`.
+- Request: path `paymentId` UUID; no request body or special headers.
+- Response: `AdminPaymentResponse` with the same safe fields as the list,
+  including attempts and refunds.
+- Errors: `401`, `403`, `404`, or `400` for a malformed UUID.
+- Side effects: none.
+
+### `POST /api/v1/admin/payments/{paymentId}/refunds`
+
+- Authentication: bearer JWT.
+- Permission: `PAYMENT_REFUND`.
+- Headers: required `Idempotency-Key`, at most 200 characters.
+- Request: optional JSON `{ "amount": 100.00, "reason": "Customer request" }`.
+  Omit `amount` for a full refund. `amount` must be at least `0.01` and have
+  no more than two decimal places; `reason` is optional and max 500 characters.
+- Response: updated `AdminPaymentResponse`.
+- Validation: the payment must be `CAPTURED` or `PARTIALLY_REFUNDED`, and the
+  amount must be greater than zero and no greater than amount minus
+  `refundedAmount`. The configured gateway decides provider success/failure.
+- Errors: `400` validation or missing idempotency key, `401`, `403` without
+  `PAYMENT_REFUND`, `404`, `409` for invalid state/amount/idempotency conflict,
+  and `5xx`/gateway error when the provider cannot process the request.
+- Side effects: creates a Refund record, transitions through `REFUND_PENDING`,
+  updates `refundedAmount` and final payment status on success, and sends the
+  existing best-effort payment-state notification to Order Service when enabled.
+
+### `POST /api/v1/admin/payments/{paymentId}/retry`
+
+- Authentication: bearer JWT.
+- Permission: `PAYMENT_RETRY`.
+- Headers: required `Idempotency-Key`, at most 200 characters.
+- Request: no body.
+- Response: updated `AdminPaymentResponse` with a new `PaymentAttempt`.
+- Validation: only `FAILED` payments can be retried.
+- Errors: `400`, `401`, `403` without `PAYMENT_RETRY`, `404`, `409` for a
+  non-failed payment or invalid idempotency use, and gateway errors when a new
+  checkout attempt cannot be created.
+- Side effects: appends a new attempt, transitions to `PENDING`, invokes the
+  configured gateway, and preserves the previous failed attempt.
+
+### Customer-owned payment endpoints
+
+The existing customer endpoints remain separate and are not used for Admin UI
+cross-customer operations: `POST /api/v1/payments`, `GET
+/api/v1/payments/{paymentId}`, `GET /api/v1/payments/order/{orderId}`, `POST
+/api/v1/payments/{paymentId}/retry`, and `POST /api/v1/payments/{paymentId}/refund`
+or `/refunds`. They scope payment access to the JWT customer subject. Webhooks
+remain `POST /api/v1/payments/webhooks/{provider}` and require the configured
+provider signature rather than a user JWT.
+
+The current Payment API does not expose a transition-history timeline, a human
+readable order-number/customer-name search, or a dashboard summary endpoint.
+Those values are not reconstructed in the browser.
+
 ## Authorization
 
 `CART_READ` is seeded by Auth Service migration `V4__add_cart_read_permission.sql` and granted to `SUPER_ADMIN`. The Cart staff endpoints enforce the permission server-side. The UI uses the same permission for navigation and route gating, but those checks are only a UX layer.

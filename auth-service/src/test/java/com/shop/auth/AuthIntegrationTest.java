@@ -2,6 +2,8 @@ package com.shop.auth;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shop.auth.role.Role;
+import com.shop.auth.role.RoleRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +19,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -43,6 +46,14 @@ class AuthIntegrationTest {
 
     @Autowired MockMvc mvc;
     @Autowired ObjectMapper objectMapper;
+    @Autowired RoleRepository roles;
+
+    @Test
+    void superAdminRoleIncludesAllImplementedPaymentPermissions() {
+        Role superAdmin = roles.findByName("SUPER_ADMIN").orElseThrow();
+        assertThat(superAdmin.getPermissions()).extracting(permission -> permission.getCode())
+                .contains("PAYMENT_READ", "PAYMENT_REFUND", "PAYMENT_RETRY");
+    }
 
     @Test
     void registersNormalizesEmailLogsInAndReadsMe() throws Exception {

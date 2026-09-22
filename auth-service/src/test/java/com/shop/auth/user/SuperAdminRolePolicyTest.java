@@ -17,12 +17,13 @@ class SuperAdminRolePolicyTest {
         Role customer = role("CUSTOMER");
         Role catalog = role("CATALOG_ADMIN");
         Role inventory = role("INVENTORY_ADMIN");
+        Role payment = role("PAYMENT_ADMIN");
         Set<Role> assigned = new HashSet<>(Set.of(superAdmin));
 
-        SuperAdminRolePolicy.ensureAllApplicationRoles(assigned, List.of(customer, catalog, inventory, superAdmin));
+        SuperAdminRolePolicy.ensureAllApplicationRoles(assigned, List.of(customer, catalog, inventory, payment, superAdmin));
 
         assertThat(assigned).extracting(Role::getName)
-                .containsExactlyInAnyOrder("CUSTOMER", "CATALOG_ADMIN", "INVENTORY_ADMIN", "SUPER_ADMIN");
+                .containsExactlyInAnyOrder("CUSTOMER", "CATALOG_ADMIN", "INVENTORY_ADMIN", "PAYMENT_ADMIN", "SUPER_ADMIN");
     }
 
     @Test

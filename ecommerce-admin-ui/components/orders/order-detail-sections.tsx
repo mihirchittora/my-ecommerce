@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AlertTriangle, Boxes, Clock3, ExternalLink, History, PackageSearch } from "lucide-react";
 import { EmptyState } from "@/components/feedback-states";
+import { CustomerReference } from "@/components/customers/customer-reference";
 import { OrderStatusBadge } from "@/components/orders/order-status-badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +18,7 @@ function snapshotVariant(snapshot: OrderItem["variantSnapshot"]) {
 }
 
 export function OrderSummary({ order }: { order: OrderDetail }) {
-  return <div className="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]"><Card><CardHeader><CardTitle>Order overview</CardTitle><p className="mt-1 text-sm text-muted-foreground">The Order service is authoritative for this commercial record.</p></CardHeader><CardContent className="grid gap-5 sm:grid-cols-2"><Info label="Order number" value={order.orderNumber} mono /><Info label="Status"><OrderStatusBadge status={order.status} /></Info><Info label="Customer"><span className="block text-sm font-semibold text-slate-800">Customer reference</span><span className="mt-1 block break-all font-mono text-xs text-slate-400">{order.customerId}</span></Info><Info label="Currency" value={order.currency} /><Info label="Created" value={formatDate(order.createdAt)} /><Info label="Updated" value={formatDate(order.updatedAt)} /></CardContent></Card><OrderTotals order={order} /></div>;
+  return <div className="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]"><Card><CardHeader><CardTitle>Order overview</CardTitle><p className="mt-1 text-sm text-muted-foreground">The Order service is authoritative for this commercial record.</p></CardHeader><CardContent className="grid gap-5 sm:grid-cols-2"><Info label="Order number" value={order.orderNumber} mono /><Info label="Status"><OrderStatusBadge status={order.status} /></Info><Info label="Customer"><CustomerReference customerId={order.customerId} /></Info><Info label="Currency" value={order.currency} /><Info label="Created" value={formatDate(order.createdAt)} /><Info label="Updated" value={formatDate(order.updatedAt)} /></CardContent></Card><OrderTotals order={order} /></div>;
 }
 
 function Info({ label, value, mono, children }: { label: string; value?: string; mono?: boolean; children?: React.ReactNode }) {

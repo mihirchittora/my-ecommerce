@@ -90,9 +90,10 @@ seed data today.
 Catalog permissions include `CATALOG_READ`, product and category CRUD, and product
 image upload/delete. Inventory permissions include read, receive, adjust, transfer,
 reserve, confirm, release, reconcile, location management, and unit read. Cart
-support uses `CART_READ`. The auth administration permissions are `USER_READ`, `USER_CREATE`, `USER_UPDATE`,
-`USER_ROLE_ASSIGN`, `ROLE_READ`, `PERMISSION_READ`, and
-`ROLE_PERMISSION_UPDATE`.
+support uses `CART_READ`. Payment operations use `PAYMENT_READ`,
+`PAYMENT_REFUND`, and `PAYMENT_RETRY`. The auth administration permissions are
+`USER_READ`, `USER_CREATE`, `USER_UPDATE`, `USER_ROLE_ASSIGN`, `ROLE_READ`,
+`PERMISSION_READ`, and `ROLE_PERMISSION_UPDATE`.
 
 ## Role-Permission Model
 
@@ -123,6 +124,9 @@ the system-managed SUPER_ADMIN permission set.
 `V5__grant_all_roles_to_super_admin_users.sql` backfills every seeded application
 role onto existing users that already carry `SUPER_ADMIN`; `V6__grant_all_permissions_to_super_admin.sql`
 backfills every seeded permission, including Customer and Order capabilities.
+`V8__add_payment_permissions_and_roles.sql` adds the payment permission catalog,
+the `PAYMENT_ADMIN`, `PAYMENT_OPERATIONS`, and `PAYMENT_READONLY` roles, and
+backfills payment access for existing `SUPER_ADMIN` users.
 
 ## Registration Flow
 
@@ -401,6 +405,23 @@ and Inventory keep their domain integration tests; live smoke checks cover their
 real resource-server filters and 401/403 behavior.
 their legacy domain fixtures use a test-only `app.security.enabled=false` property
 because those tests are intentionally focused on persistence/business behavior.
+
+## Payment operations permissions
+
+Migration `V8__add_payment_permissions_and_roles.sql` seeds the payment
+operations capability used by Payment Service and the Admin UI:
+
+| Permission | Meaning |
+| --- | --- |
+| `PAYMENT_READ` | View payment state, attempts, refunds, and safe provider references. |
+| `PAYMENT_REFUND` | Issue full or partial refunds through the configured gateway. |
+| `PAYMENT_RETRY` | Start a new provider attempt for a failed payment. |
+
+The seeded roles are `PAYMENT_ADMIN` (all three permissions),
+`PAYMENT_OPERATIONS` (read, refund, and retry), and `PAYMENT_READONLY` (read
+only). `SUPER_ADMIN` is system-managed and receives all three permissions. The
+Payment Service independently enforces these authorities on its internal admin
+endpoints; frontend visibility is not the security boundary.
 
 ## Security Testing
 

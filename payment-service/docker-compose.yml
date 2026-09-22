@@ -1,0 +1,43 @@
+services:
+  payment-db:
+    image: postgres:17
+    container_name: ecommerce-payment-db
+    environment:
+      POSTGRES_DB: payment_db
+      POSTGRES_USER: payment
+      POSTGRES_PASSWORD: payment
+    ports:
+      - "5438:5432"
+    volumes:
+      - payment-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U payment -d payment_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  payment-service:
+    build: .
+    container_name: ecommerce-payment-service
+    ports:
+      - "8087:8087"
+    environment:
+      PAYMENT_SERVER_PORT: 8087
+      PAYMENT_DB_URL: jdbc:postgresql://payment-db:5432/payment_db
+      PAYMENT_DB_USERNAME: payment
+      PAYMENT_DB_PASSWORD: payment
+      ORDER_SERVICE_URL: ${ORDER_SERVICE_URL:-http://host.docker.internal:8083}
+      ORDER_SERVICE_TOKEN: ${ORDER_SERVICE_TOKEN:-}
+      ORDER_PAYMENT_UPDATE_PATH: ${ORDER_PAYMENT_UPDATE_PATH:-}
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8085}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://host.docker.internal:8085/.well-known/jwks.json}
+      PAYMENT_DEFAULT_PROVIDER: ${PAYMENT_DEFAULT_PROVIDER:-SANDBOX}
+      PAYMENT_SANDBOX_WEBHOOK_SECRET: ${PAYMENT_SANDBOX_WEBHOOK_SECRET:-dev-sandbox-webhook-secret}
+      PAYMENT_SUPPORTED_CURRENCIES: ${PAYMENT_SUPPORTED_CURRENCIES:-INR,USD,EUR}
+    depends_on:
+      payment-db:
+        condition: service_healthy
+
+volumes:
+  payment-db-data:

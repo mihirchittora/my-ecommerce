@@ -21,6 +21,7 @@ function permissionDomain(code: string) {
   if (code.startsWith("ORDER_")) return "Orders";
   if (code.startsWith("CART_")) return "Cart";
   if (code.startsWith("CUSTOMER_")) return "Customer";
+  if (code.startsWith("PAYMENT_")) return "Payments";
   if (code.startsWith("USER_") || code.startsWith("ROLE_") || code.startsWith("PERMISSION_")) return "Users & Access";
   return "Other";
 }

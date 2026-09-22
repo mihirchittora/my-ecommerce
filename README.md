@@ -10,6 +10,7 @@ my-ecommerce/
 ├── order-service/         # historical orders, snapshots, idempotency, orchestration
 ├── cart-service/          # customer-owned mutable SKU carts
 ├── customer-service/      # customer profiles and current addresses
+├── payment-service/       # payment orchestration, gateway references, attempts, refunds
 └── ecommerce-admin-ui/    # Next.js operations UI
 ```
 
@@ -23,6 +24,7 @@ my-ecommerce/
 | Order service | `ecommerce-order-service` | 8083 |
 | Cart service | `ecommerce-cart-service` | 8084 |
 | Customer service | `ecommerce-customer-service` | 8086 |
+| Payment service | `ecommerce-payment-service` | 8087 |
 | Next.js UI | — | 3000 |
 | Auth PostgreSQL | `ecommerce-auth-db` | 5434 |
 | Catalog PostgreSQL | `ecommerce-catalog-db` | 5432 |
@@ -57,6 +59,14 @@ database. It lazily creates an idempotent profile on the first
 `/api/v1/customers/me` call because Auth currently has no profile callback. See
 [customer-service/README.md](customer-service/README.md) and
 [docs/api-contracts.md](docs/api-contracts.md) for its contract.
+
+Payment is a gateway-agnostic orchestration service. External gateways process the
+payment; Payment Service owns payment state, provider references, attempts, verified
+webhooks, and refunds. It never stores card numbers, CVV/PINs, gateway secrets, or
+reads another service's database. Its internal operations endpoints require
+`PAYMENT_READ`, `PAYMENT_REFUND`, or `PAYMENT_RETRY` as appropriate. See
+[payment-service/README.md](payment-service/README.md) and
+[docs/api-contracts.md](docs/api-contracts.md).
 
 The internal admin UI exposes read-only Cart support at `/carts` and
 `/carts/{id}` when the operator has `CART_READ`. Cart quantities, current
@@ -182,6 +192,17 @@ AUTH_JWK_SET_URI=http://host.docker.internal:8085/.well-known/jwks.json \
 docker-compose up -d --build
 ```
 
+### Start Payment
+
+```bash
+cd /Users/mihirchittora/Desktop/my-ecommerce/payment-service
+AUTH_ISSUER=http://localhost:8085 \
+AUTH_AUDIENCE=ecommerce-api \
+AUTH_JWK_SET_URI=http://host.docker.internal:8085/.well-known/jwks.json \
+ORDER_SERVICE_URL=http://host.docker.internal:8083 \
+docker-compose up -d --build
+```
+
 ### Start the admin UI
 
 ```bash
@@ -204,6 +225,7 @@ curl -fsS http://localhost:8082/actuator/health
 curl -fsS http://localhost:8083/actuator/health
 curl -fsS http://localhost:8084/actuator/health
 curl -fsS http://localhost:8086/actuator/health
+curl -fsS http://localhost:8087/actuator/health
 ```
 
 Stop a service without deleting its database volume:
@@ -215,6 +237,7 @@ Stop a service without deleting its database volume:
 (cd order-service && docker-compose down)
 (cd cart-service && docker-compose down)
 (cd customer-service && docker-compose down)
+(cd payment-service && docker-compose down)
 ```
 
 Use `docker-compose down -v` only when you intentionally want to delete that
@@ -244,7 +267,7 @@ Auth also has application defaults for `AUTH_ACCESS_TOKEN_TTL` (`PT15M`),
 `AUTH_LOCK_DURATION` (`PT15M`). They do not need to be set for the local Docker
 workflow.
 
-#### Catalog, Inventory, Order, and Customer connectivity
+#### Catalog, Inventory, Order, Customer, and Payment connectivity
 
 | Variable | Local value | Relevance |
 | --- | --- | --- |
@@ -287,6 +310,7 @@ exported:
 | Inventory | `jdbc:postgresql://inventory-postgres:5432/inventory_db` | `inventory_db` | 8082 | 8082 |
 | Order | `jdbc:postgresql://order-db:5432/order_db` | `order_db` | 8083 | 8083 |
 | Customer | `jdbc:postgresql://customer-db:5432/customer_db` | `customer_db` | 8086 | 8086 |
+| Payment | `jdbc:postgresql://payment-db:5432/payment_db` | `payment_db` | 8087 | 8087 |
 
 Do not replace these container-side database hostnames with `localhost`:
 `localhost` inside a container means that same container, not the database
@@ -304,6 +328,7 @@ Copy `ecommerce-admin-ui/.env.example` to `.env.local`:
 | `NEXT_PUBLIC_ORDER_API_URL` | `http://localhost:8083` | Order list, detail, history, and cancellation APIs. |
 | `NEXT_PUBLIC_CART_API_URL` | `http://localhost:8084` | Read-only Cart support list and detail APIs. |
 | `NEXT_PUBLIC_CUSTOMER_API_URL` | `http://localhost:8086` | Customer Service base URL for customer self-service and User Management administration. |
+| `NEXT_PUBLIC_PAYMENT_API_URL` | `http://localhost:8087` | Payment Service operations list, detail, attempts, and refund APIs. |
 
 The `NEXT_PUBLIC_` prefix is required by Next.js because these URLs are used by
 browser code. Do not use Docker-only hostnames such as `host.docker.internal` in
@@ -320,14 +345,14 @@ Auth's administrative contracts; customer signup remains public Auth behavior.
 ```text
                          ecommerce-admin-ui :3000
                                   |
-             +--------------------+--------------------+
-             |                    |                    |
-             v                    v                    v
-       Catalog :8081        Inventory :8082        Order :8083
-       current products     physical stock         historical orders
-       variants and SKUs    units and reservations snapshots and history
-             \                    |                    /
-              \                   |                   /
+             +--------------------+--------------------+--------------------+
+             |                    |                    |                    |
+             v                    v                    v                    v
+       Catalog :8081        Inventory :8082        Order :8083        Payment :8087
+       current products     physical stock         historical orders       payment state,
+       variants and SKUs    units and reservations snapshots and history   attempts, refunds
+             \                    |                    /                    /
+              \                   |                   /                    /
                          Auth :8085
                   identity and permissions
 ```
@@ -338,9 +363,11 @@ The operational navigation connects the domains without changing ownership:
 Product → Variant → SKU → Inventory → Reservation → Order
 Order → Order Item → SKU → Product snapshot
 Order → Reservation → Inventory Units
+Payment → Order reference → Order Service
+Payment → Customer reference → Customer Service
 ```
 
-Catalog owns current product, variant, SKU, image, and price data. Inventory owns locations, aggregate stock, physical units, reservations, and movements. Order owns the commercial transaction, historical snapshots, totals, status, history, and remote reservation references. Auth owns users, JWTs, roles, permissions, and refresh sessions. The admin UI composes these APIs and keeps Order purchase-time values separate from current Catalog values.
+Catalog owns current product, variant, SKU, image, and price data. Inventory owns locations, aggregate stock, physical units, reservations, and movements. Order owns the commercial transaction, historical snapshots, totals, status, history, and remote reservation references. Payment owns gateway orchestration state, attempts, provider references, webhooks, and refunds; external gateways perform the actual processing. Customer owns customer profiles and addresses. Auth owns users, JWTs, roles, permissions, and refresh sessions. The admin UI composes these APIs and keeps each service's data authoritative.
 
 Order is a separate deployable service with its own database. It references the
 Catalog/Inventory SKU over HTTP, never imports their entities, and never shares
@@ -377,3 +404,7 @@ authenticated `GET /api/v1/inventory/summary` endpoint, which calculates total,
 available, reserved, damaged, and active-location counts from physical
 `InventoryUnit` records. Catalog status and Inventory status are separate; a
 healthy Catalog does not prove that Inventory is available.
+
+Payment metrics are intentionally not calculated in the browser. Payment Service
+currently exposes operational list/detail data but no efficient summary endpoint;
+add one before introducing dashboard totals for payment states.

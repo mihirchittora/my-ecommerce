@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import { ErrorState, LoadingCard } from "@/components/feedback-states";
 import { OrderActions } from "@/components/orders/order-actions";
+import { OrderPaymentPanel } from "@/components/orders/order-payment-panel";
 import { OrderHistoryTimeline, OrderInventoryPanel, OrderItems, OrderSummary } from "@/components/orders/order-detail-sections";
 import { OrderStatusBadge } from "@/components/orders/order-status-badge";
 import { Button } from "@/components/ui/button";
@@ -40,5 +41,5 @@ export default function OrderDetailPage() {
   }
 
   const itemCount = order.data.items.reduce((total, item) => total + item.quantity, 0);
-  return <><div className="mb-5"><Button asChild variant="ghost" size="sm"><Link href="/orders"><ArrowLeft className="h-4 w-4" />Back to orders</Link></Button></div><div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Order detail</p><div className="flex flex-wrap items-center gap-3"><h1 className="font-mono text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{order.data.orderNumber}</h1><OrderStatusBadge status={order.data.status} /></div><p className="mt-2 text-sm text-slate-500">{itemCount} item{itemCount === 1 ? "" : "s"} · Created {formatDate(order.data.createdAt)}</p></div><OrderActions order={order.data} /></div><div className="space-y-6"><OrderSummary order={order.data} /><OrderItems items={order.data.items} /><OrderInventoryPanel states={reservationStates} onRetry={retryInventory} /><OrderHistoryTimeline entries={order.data.history} /></div></>;
+  return <><div className="mb-5"><Button asChild variant="ghost" size="sm"><Link href="/orders"><ArrowLeft className="h-4 w-4" />Back to orders</Link></Button></div><div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Order detail</p><div className="flex flex-wrap items-center gap-3"><h1 className="font-mono text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{order.data.orderNumber}</h1><OrderStatusBadge status={order.data.status} /></div><p className="mt-2 text-sm text-slate-500">{itemCount} item{itemCount === 1 ? "" : "s"} · Created {formatDate(order.data.createdAt)}</p></div><OrderActions order={order.data} /></div><div className="space-y-6"><OrderSummary order={order.data} /><OrderPaymentPanel order={order.data} /><OrderItems items={order.data.items} /><OrderInventoryPanel states={reservationStates} onRetry={retryInventory} /><OrderHistoryTimeline entries={order.data.history} /></div></>;
 }

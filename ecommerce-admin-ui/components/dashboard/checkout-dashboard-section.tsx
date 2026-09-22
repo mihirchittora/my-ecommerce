@@ -5,6 +5,7 @@ import { CheckCircle2, CircleDashed, Clock3, ShoppingCart, Timer } from "lucide-
 import { ErrorState, LoadingCard } from "@/components/feedback-states";
 import { useAuth } from "@/components/auth-provider";
 import { DashboardMetricCard } from "@/components/dashboard/dashboard-metric-card";
+import { CustomerReference } from "@/components/customers/customer-reference";
 import { CartStatusBadge } from "@/components/carts/cart-status-badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCartList } from "@/lib/api/cart/queries";
@@ -58,7 +59,7 @@ export function CheckoutDashboardSection() {
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[820px] text-left">
                     <thead><tr className="border-y border-slate-100 text-xs font-semibold uppercase tracking-[0.1em] text-slate-400"><th className="px-5 py-3">Cart</th><th className="px-3 py-3">Customer</th><th className="px-3 py-3">Status</th><th className="px-3 py-3 text-right">Items</th><th className="px-3 py-3 text-right">Quantity</th><th className="px-3 py-3">Updated</th><th className="px-3 py-3">Order</th></tr></thead>
-                    <tbody>{recent.data.content.map((cart) => <tr className="table-row" key={cart.id}><td className="px-5 py-4"><Link href={`/carts/${cart.id}`} className="font-mono text-sm font-semibold text-primary hover:underline">{cart.id.slice(0, 8)}…</Link></td><td className="px-3 py-4 font-mono text-xs text-slate-500">{cart.customerId}</td><td className="px-3 py-4"><CartStatusBadge status={cart.status} /></td><td className="px-3 py-4 text-right text-sm text-slate-700">{cart.itemCount}</td><td className="px-3 py-4 text-right text-sm text-slate-700">{cart.totalQuantity}</td><td className="px-3 py-4 text-sm text-slate-600">{formatDate(cart.updatedAt)}</td><td className="px-3 py-4">{cart.convertedOrderId ? <Link href={`/orders/${cart.convertedOrderId}`} className="font-mono text-xs font-semibold text-primary hover:underline">{cart.convertedOrderNumber ?? "View order"}</Link> : <span className="text-sm text-slate-400">—</span>}</td></tr>)}</tbody>
+                    <tbody>{recent.data.content.map((cart) => <tr className="table-row" key={cart.id}><td className="px-5 py-4"><Link href={`/carts/${cart.id}`} className="font-mono text-sm font-semibold text-primary hover:underline">{cart.id.slice(0, 8)}…</Link></td><td className="px-3 py-4"><CustomerReference customerId={cart.customerId} /></td><td className="px-3 py-4"><CartStatusBadge status={cart.status} /></td><td className="px-3 py-4 text-right text-sm text-slate-700">{cart.itemCount}</td><td className="px-3 py-4 text-right text-sm text-slate-700">{cart.totalQuantity}</td><td className="px-3 py-4 text-sm text-slate-600">{formatDate(cart.updatedAt)}</td><td className="px-3 py-4">{cart.convertedOrderId ? <Link href={`/orders/${cart.convertedOrderId}`} className="font-mono text-xs font-semibold text-primary hover:underline">{cart.convertedOrderNumber ?? "View order"}</Link> : <span className="text-sm text-slate-400">—</span>}</td></tr>)}</tbody>
                   </table>
                 </div>
               ) : <p className="p-5 text-sm text-slate-500">No carts have been recorded yet.</p>}

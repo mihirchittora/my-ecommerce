@@ -14,8 +14,8 @@ export function useOrderList(params: OrderListParams, enabled = true) {
   return useQuery<OrderPage>({ queryKey: [...orderQueryKeys.orders, params], queryFn: () => orderApi.list(params), enabled, placeholderData: (previous) => previous });
 }
 
-export function useOrder(id: string) {
-  return useQuery<OrderDetail>({ queryKey: orderQueryKeys.order(id), queryFn: () => orderApi.get(id), enabled: Boolean(id) });
+export function useOrder(id: string, enabled = true) {
+  return useQuery<OrderDetail>({ queryKey: orderQueryKeys.order(id), queryFn: () => orderApi.get(id), enabled: Boolean(id) && enabled });
 }
 
 export function useCancelOrder() {
