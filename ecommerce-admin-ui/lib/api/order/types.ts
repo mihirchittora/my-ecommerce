@@ -16,6 +16,7 @@ export const ORDER_STATUSES = [
 ] as const;
 
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
+export type PaymentMethod = "ONLINE" | "CASH_ON_DELIVERY";
 export type OrderSort = "createdAt,desc" | "createdAt,asc" | "updatedAt,desc" | "updatedAt,asc" | "orderNumber,asc" | "orderNumber,desc" | "totalAmount,desc" | "totalAmount,asc" | "status,asc" | "status,desc";
 
 export interface OrderListParams {
@@ -34,6 +35,7 @@ export interface OrderSummary {
   orderNumber: string;
   customerId: string;
   status: OrderStatus;
+  paymentMethod: PaymentMethod;
   currency: string;
   totalAmount: number;
   createdAt: string;
@@ -80,6 +82,7 @@ export interface OrderDetail {
   orderNumber: string;
   customerId: string;
   status: OrderStatus;
+  paymentMethod: PaymentMethod;
   currency: string;
   subtotal: number;
   discountAmount: number;

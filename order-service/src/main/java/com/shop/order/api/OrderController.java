@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @RestController
@@ -41,8 +42,8 @@ public class OrderController {
     }
 
     @Operation(summary = "Create an order and prepare Inventory reservations",
-            description = "Prices, snapshots, totals, and reservation references are calculated by Order Service. "
-                    + "Idempotency-Key is required.")
+            description = "Prices, product snapshots, totals, and the immutable shipping-address snapshot are calculated or stored by Order Service. "
+                    + "Inventory reservation references are coordinated by Order. Idempotency-Key is required.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Order created or original idempotent order returned"),
             @ApiResponse(responseCode = "400", description = "Validation or unsupported currency"),
@@ -57,6 +58,16 @@ public class OrderController {
             @Valid @RequestBody OrderDtos.CreateOrderRequest request,
             Authentication authentication) {
         return service.create(request, idempotencyKey, authentication);
+    }
+
+    @Operation(summary = "List payment methods eligible for the current checkout estimate")
+    @GetMapping("/payment-methods")
+    public OrderDtos.PaymentMethodOptionsResponse paymentMethods(
+            @RequestParam String currency,
+            @RequestParam BigDecimal amount,
+            @RequestParam String country,
+            Authentication authentication) {
+        return service.paymentMethods(currency, amount, country, authentication);
     }
 
     @Operation(summary = "List the authenticated customer's orders")

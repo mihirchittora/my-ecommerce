@@ -1,0 +1,5 @@
+package com.shop.shipping.shipment;
+
+public enum ShipmentStatus {
+    CREATED, READY, PACKED, SHIPPED, IN_TRANSIT, OUT_FOR_DELIVERY, DELIVERED, DELIVERY_FAILED, RETURNED, CANCELLED, FAILED
+}

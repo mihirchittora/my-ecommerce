@@ -12,6 +12,8 @@ public interface MovementRepository extends JpaRepository<InventoryUnitMovement,
 
     List<InventoryUnitMovement> findByReferenceTypeAndReferenceId(String referenceType, String referenceId);
 
+    java.util.Optional<InventoryUnitMovement> findTopByInventoryUnit_IdOrderByCreatedAtDesc(UUID inventoryUnitId);
+
     @EntityGraph(attributePaths = {"inventoryUnit", "fromLocation", "toLocation"})
     List<InventoryUnitMovement> findByReferenceTypeOrderByCreatedAtDesc(String referenceType);
 

@@ -112,9 +112,9 @@ Auth JWT.
 - Auth/permission: Bearer JWT; authenticated active customer.
 - Request: no path, query, or body.
 - Response: `200 CustomerResponse` (`id`, `authUserId`, `firstName`, `lastName`, `email`, `phone`, `status`, `createdAt`, `updatedAt`).
-- Validation: JWT `sub` must be a UUID. First access lazily creates an `ACTIVE` profile.
+- Validation: JWT `sub` must be a UUID. First access lazily creates an `ACTIVE` profile. Auth-signed `email`, `firstName`, and `lastName` claims are used to synchronize the display copy; email is refreshed and names only fill missing profile fields.
 - Errors: `401` missing/invalid JWT; `403` `INACTIVE`/`BLOCKED`; `500` unexpected.
-- Side effects: one idempotent profile insert on first access.
+- Side effects: one idempotent profile insert on first access and identity-copy synchronization on each authenticated read.
 - Example: `curl -H 'Authorization: Bearer <jwt>' http://localhost:8086/api/v1/customers/me`
 
 ### `PATCH /api/v1/customers/me`
@@ -209,6 +209,15 @@ dependencies, and `500` is generic without stack traces.
 - Response: customer profile or the current shipping/billing
   `AddressResponse[]`, respectively.
 - Errors: `401`, `403`, `404`, `500`.
+
+### `GET /api/v1/customers/by-auth-user/{authUserId}`
+
+- Auth/permission: `CUSTOMER_READ`.
+- Request: the Auth user UUID stored by Order, Cart, Payment, and Shipping as
+  their `customerId` reference.
+- Response: `200 CustomerResponse`, including the Customer profile UUID in
+  `id` and the matched Auth UUID in `authUserId`.
+- Errors: `401`, `403`, `404` when no profile exists for the Auth user, `500`.
 
 ### `PATCH /api/v1/customers/{id}` and `PATCH /api/v1/customers/{id}/status`
 
@@ -336,6 +345,63 @@ Returns `CartResponse` with the Cart summary fields above plus `version`, `enric
 
 The current Cart contract does not return customer name/email or lifecycle history events, so the admin UI shows only `customerId` and does not fabricate a timeline or customer route.
 
+## Order Service — checkout and Shipping integration
+
+Base URL: `http://localhost:8083`. Order owns the commercial order, pricing
+snapshots, Inventory reservation references, lifecycle, and the immutable
+shipping-address snapshot.
+
+### `POST /api/v1/orders`
+
+- Authentication: customer Auth JWT; `customerId` is derived from JWT `sub`.
+- Header: required `Idempotency-Key`, maximum 200 characters.
+- Request: `{currency,items,preferredLocationId,shippingAddress}`. Each item has
+  `sku` and positive `quantity`. `shippingAddress` is required and contains
+  `sourceAddressId` (optional traceability), `recipientName`, `phone`, `line1`,
+  optional `line2`, `city`, `state`, `postalCode`, ISO alpha-2 `country`, and
+  optional `landmark`.
+- Response: `200 OrderResponse` with the resolved price/product snapshots,
+  totals, order status/history, and the same address values under
+  `shippingAddress`. The address is copied into Order's
+  `order_shipping_addresses` table at checkout; later Customer address changes
+  cannot mutate it.
+- Errors: `400` validation, `401` unauthenticated, `409` idempotency or state
+  conflict/insufficient inventory, `503` Catalog or Inventory dependency
+  failure.
+
+### Payment confirmation and automatic fulfillment
+
+Payment Service calls `POST /internal/orders/{orderId}/payment-events` with
+`X-Payment-Service-Token` and a server-generated event containing
+`paymentId`, `customerId`, `paymentStatus`, and optional amount/currency/provider
+references. A captured payment is verified against the Order and moves it from
+`PENDING_PAYMENT` through `PAID` to `CONFIRMED`. The same capture event is
+idempotent.
+
+After confirmation, Order inserts one unique `fulfillment_outbox` record per
+Order. A retrying worker calls Shipping's internal fulfillment creation API;
+Shipping then creates or returns the fulfillment for that Order. This keeps
+payment confirmation independent of Shipping availability while ensuring the
+fulfillment is eventually created.
+
+### Protected Shipping contract
+
+Shipping uses the configured `X-Shipping-Service-Token`, accepted only as
+`SERVICE_SHIPPING` authority:
+
+- `GET /internal/orders/{orderId}` returns the Order's complete address
+  snapshot, item snapshots, reservation IDs, and authorized InventoryUnit IDs.
+- `POST /internal/orders/{orderId}/shipping-events` accepts only
+  `{shipmentNumber,status}` where `status` is `FULFILLING`, `SHIPPED`, or
+  `DELIVERED`; the transition is idempotent and recorded in Order history.
+
+Shipping exposes `GET /api/v1/fulfillments/order/{orderId}` for operators with
+`SHIPPING_READ`, allowing the Admin UI to show the fulfillment and shipment
+relationship directly from an Order detail page.
+
+Cart forwards the checkout `shippingAddress` and bearer token to Order; it does
+not persist a second address snapshot or reserve Inventory itself.
+
 ## Payment Service
 
 Payment Service is the orchestration boundary for external gateway integrations.
@@ -422,10 +488,164 @@ or `/refunds`. They scope payment access to the JWT customer subject. Webhooks
 remain `POST /api/v1/payments/webhooks/{provider}` and require the configured
 provider signature rather than a user JWT.
 
+The provider boundary is `PaymentGateway`: the current implementation is
+`SANDBOX`, while provider-specific API calls, authentication, response mapping,
+webhook verification/parsing, provider references, and refunds belong in
+adapters. A real provider requires an adapter, provider/configuration wiring,
+runtime secrets, and adapter tests; Order and payment domain code do not import
+provider SDKs. Webhook events are atomically claimed by provider/event ID,
+deduplicated, and stored as a payload hash rather than a raw body.
+
 The current Payment API does not expose a transition-history timeline, a human
 readable order-number/customer-name search, or a dashboard summary endpoint.
 Those values are not reconstructed in the browser.
 
+## Shipping & Fulfillment Service
+
+Base URL: `http://localhost:8088`. Shipping owns fulfillment, shipment,
+shipment-item, carrier-reference, tracking-event, and append-only history data
+in its private `shipping_db`. It never opens Order, Inventory, Payment, Catalog,
+Customer, or Auth databases. Shipping does not own Order status or
+`InventoryUnit.status`.
+
+### Customer and staff shipment APIs
+
+All APIs below use an Auth-issued bearer JWT. Customer identity is derived from
+JWT `sub`; a request cannot supply another `customerId`. Staff endpoints use the
+listed permission claim, not only a role name. A customer requesting another
+customer's shipment receives a non-disclosing `404`.
+
+| Method | Path | Permission | Purpose |
+| --- | --- | --- | --- |
+| `GET` | `/api/v1/shipments/my?page=0&size=20&sort=createdAt,desc` | Authenticated customer | Own shipment summaries |
+| `GET` | `/api/v1/shipments/{id}` | Authenticated owner or `SHIPPING_READ` | Shipment detail; operational IDs are staff-only |
+| `GET` | `/api/v1/shipments/{id}/tracking` | Authenticated owner or `SHIPPING_READ` + `SHIPPING_TRACK` for staff | Customer-safe tracking and events |
+| `GET` | `/api/v1/shipments` | `SHIPPING_READ` | Staff shipment page |
+| `GET` | `/api/v1/fulfillments/{id}` | Authenticated owner or `SHIPPING_READ` | Fulfillment, items, history, and shipments |
+| `GET` | `/api/v1/fulfillments` | `SHIPPING_READ` | Staff fulfillment page |
+| `POST` | `/api/v1/shipments` | `SHIPPING_CREATE` | Validate and create an idempotent carrier shipment |
+| `POST` | `/api/v1/shipments/{id}/cancel` | `SHIPPING_CANCEL` | Cancel before a non-cancellable carrier state |
+| `POST` | `/api/v1/shipments/{id}/order-notification/retry` | `SHIPPING_MANAGE` | Retry a persisted Order notification without recreating a carrier shipment |
+
+Shipment creation requires `Idempotency-Key` and a body such as:
+
+```json
+{
+  "fulfillmentId": "00000000-0000-0000-0000-000000000001",
+  "carrier": "EASYPOST",
+  "serviceLevel": "Ground",
+  "shippingCost": 0.00,
+  "currency": "INR",
+  "lines": [
+    {
+      "orderItemId": "00000000-0000-0000-0000-000000000002",
+      "quantity": 2,
+      "inventoryUnitIds": [
+        "00000000-0000-0000-0000-000000000101",
+        "00000000-0000-0000-0000-000000000102"
+      ]
+    }
+  ]
+}
+```
+
+`lines` may be omitted to request every remaining fulfillment item. For an
+itemized line, `quantity` must equal the number of supplied authorized unit IDs;
+Shipping checks that each ID belongs to the Order's reservation and is returned
+by Inventory. It never chooses a replacement unit. The response contains
+`shipmentNumber` (`SHP-YYYY-MM-DD-000001`), status, carrier, tracking number,
+provider references, package count, item snapshots, and history. Customer
+responses omit `inventoryUnitId`, provider shipment IDs, and label references.
+For `EASYPOST`, `serviceLevel` must match the provider-returned rate `service`
+or rate ID; `Ground` is only an example and the available services depend on
+the configured EasyPost account and origin/destination.
+
+The current staff shipment and fulfillment list endpoints do not expose search
+or status/carrier/date filter parameters. The Admin UI therefore sends only
+the supported pagination and sort fields; it does not download all records to
+filter them in the browser.
+
+### Internal integration APIs
+
+These endpoints are not public. They require the configured
+`X-Order-Service-Token` and are accepted only with `SERVICE_ORDER` authority.
+
+| Method | Path | Caller | Purpose |
+| --- | --- | --- | --- |
+| `POST` | `/internal/fulfillments` | Order workflow | Read an eligible Order over HTTP and create its local fulfillment |
+| `POST` | `/internal/shipments` | Order workflow | Run the same idempotent shipment workflow for an authenticated internal command |
+
+The `POST` body is `{ "orderId": "..." }`. Shipping calls Order's protected
+`GET /internal/orders/{orderId}` contract, accepts only `CONFIRMED` or
+`FULFILLING`, and copies only operational snapshots and cross-service IDs.
+The internal shipment command uses the same request body and required
+`Idempotency-Key` as the public shipment create operation; it is not exposed to
+browsers.
+
+### Carrier webhook
+
+`POST /api/v1/shipping/webhooks/{carrier}` is unauthenticated at the JWT layer
+but authenticated by the carrier signature. The SANDBOX adapter expects
+`X-Sandbox-Signature`, while EasyPost expects the documented
+`X-Hmac-Signature-V2`, `x-timestamp`, and `x-path` headers. EasyPost's signature
+covers the exact timestamp, method, path, and raw request body.
+The body must identify `providerEventId` and `providerShipmentId` or
+`trackingNumber`, and may include `eventType`, `description`, `location`, and
+`occurredAt`.
+
+The handler verifies the signature, normalizes the event, resolves the shipment,
+records `(carrier, providerEventId)` exactly once, applies the state machine,
+appends a tracking event and shipment history, and acknowledges duplicate
+events without repeating the transition or Order notification. Unknown events,
+bad signatures, malformed payloads, wrong shipment references, and out-of-order
+events do not change shipment state.
+
+Normalized events are `SHIPMENT_CREATED`, `LABEL_CREATED`, `PICKED_UP`,
+`IN_TRANSIT`, `OUT_FOR_DELIVERY`, `DELIVERED`, `DELIVERY_FAILED`, and `RETURNED`.
+
+### Error and pagination contract
+
+Errors are `{timestamp,status,code,message,path,fieldErrors}`. `400` is invalid
+input, `401` missing/invalid authentication or webhook signature, `403` missing
+permission, `404` missing/not-owned, `409` state/idempotency/unit conflict,
+`502` carrier or service dependency failure, and `500` unexpected. A shipment
+attempt with an expired/unusable Inventory reservation or an Order without an
+immutable address snapshot is a `409` conflict, not a gateway outage. Spring pages
+use zero-based `page`, `size` up to 100, and one sort string such as
+`sort=createdAt,desc`; the API does not produce a JSON-array sort parameter.
+
+### Order and Inventory boundaries
+
+Order remains authoritative for `CONFIRMED`, `FULFILLING`, `SHIPPED`, and
+`DELIVERED`; Shipping sends milestone notifications through the protected Order
+HTTP contract. Inventory remains authoritative for reservations and physical
+unit status. Shipping reads the reservation and exact unit references through
+`GET /api/v1/inventory/reservations/{id}` with its separate
+`X-Shipping-Service-Token`. Shipping then calls Inventory's protected
+`POST /api/v1/inventory/reservations/{reservationId}/shipping-transition` with
+`ALLOCATE`, `IN_TRANSIT`, or `RELEASE` and the exact reserved unit IDs. Inventory
+locks and mutates its own units and records the movement; Shipping never writes
+Inventory state.
+
 ## Authorization
 
 `CART_READ` is seeded by Auth Service migration `V4__add_cart_read_permission.sql` and granted to `SUPER_ADMIN`. The Cart staff endpoints enforce the permission server-side. The UI uses the same permission for navigation and route gating, but those checks are only a UX layer.
+
+## Public Storefront Additions
+
+The customer storefront uses three narrowly scoped read contracts in addition
+to the existing catalog and inventory APIs:
+
+- `GET /api/v1/products/slug/{slug}` returns the same public product response
+  as the UUID product lookup, using the product's public slug.
+- `GET /api/v1/categories/slug/{slug}` returns the same public category
+  response as the UUID category lookup, using the category's public slug.
+- `GET /api/v1/inventory/availability/{sku}` returns `{sku, available,
+  message}`. It exposes only thresholded customer messaging (`In stock` or
+  `Out of stock`); quantities, locations, reservations, serials, IMEIs, and
+  inventory-unit identifiers remain operational data.
+
+The storefront is served on port `3001` and keeps browser calls same-origin
+through its `/backend/{service}` Next rewrites. Service origins are configured
+with the `NEXT_PUBLIC_*_API_URL` variables in
+`ecommerce-storefront/.env.example`.

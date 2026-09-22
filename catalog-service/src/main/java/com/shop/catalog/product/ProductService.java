@@ -12,17 +12,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.Normalizer;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.regex.Pattern;
 
 @Service
@@ -66,33 +72,54 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
+    public ProductDtos.Response getBySlug(String slug) {
+        if (slug == null || slug.isBlank()) {
+            throw new NotFoundException("Product not found");
+        }
+        return ProductDtos.Response.from(products.findBySlug(slug.trim().toLowerCase(Locale.ROOT))
+                .orElseThrow(() -> new NotFoundException("Product not found: " + slug)));
+    }
+
+    @Transactional(readOnly = true)
     public Page<ProductDtos.Response> list(UUID categoryId, String search, int page, int size, String sortExpression) {
-        return list(categoryId, search, null, page, size, sortExpression);
+        return list(categoryId, search, null, null, null, List.of(), List.of(), page, size, sortExpression);
     }
 
     @Transactional(readOnly = true)
     public Page<ProductDtos.Response> list(UUID categoryId, String search, ProductStatus status,
+                                           BigDecimal priceMin, BigDecimal priceMax,
+                                           List<String> brands, List<String> attributes,
                                            int page, int size, String sortExpression) {
         Pageable pageable = PageRequest.of(page, size, parseSort(sortExpression));
-        Page<Product> resultPage;
-        if (categoryId != null && search != null && !search.isBlank()) {
-            resultPage = status == null
-                    ? products.findByCategory_IdAndNameContainingIgnoreCase(categoryId, search.trim(), pageable)
-                    : products.findByCategory_IdAndStatusAndNameContainingIgnoreCase(categoryId, status, search.trim(), pageable);
-        } else if (categoryId != null) {
-            resultPage = status == null
-                    ? products.findByCategory_Id(categoryId, pageable)
-                    : products.findByCategory_IdAndStatus(categoryId, status, pageable);
-        } else if (search != null && !search.isBlank()) {
-            resultPage = status == null
-                    ? products.findByNameContainingIgnoreCase(search.trim(), pageable)
-                    : products.findByStatusAndNameContainingIgnoreCase(status, search.trim(), pageable);
-        } else if (status != null) {
-            resultPage = products.findByStatus(status, pageable);
-        } else {
-            resultPage = products.findAll(pageable);
-        }
-        return resultPage.map(ProductDtos.Response::from);
+        return products.findAll(specification(categoryId, search, status, priceMin, priceMax, brands, attributes), pageable)
+                .map(ProductDtos.Response::from);
+    }
+
+    @Transactional(readOnly = true)
+    public ProductDtos.FacetsResponse facets(UUID categoryId, String search, ProductStatus status) {
+        List<Product> catalog = products.findAll(specification(categoryId, search, status, null, null, List.of(), List.of()));
+        Set<String> brands = catalog.stream()
+                .map(Product::getBrand)
+                .filter(brand -> brand != null && !brand.isBlank())
+                .collect(Collectors.toCollection(java.util.TreeSet::new));
+        Map<String, Set<String>> attributes = new java.util.TreeMap<>();
+        List<BigDecimal> prices = new ArrayList<>();
+        catalog.stream()
+                .flatMap(product -> product.getVariants().stream())
+                .filter(variant -> variant.getStatus() == com.shop.catalog.variant.VariantStatus.ACTIVE)
+                .forEach(variant -> {
+                    if (variant.getPrice() != null) prices.add(variant.getPrice());
+                    if (variant.getAttributes() != null) {
+                        variant.getAttributes().forEach((key, value) -> attributes
+                                .computeIfAbsent(key, ignored -> new java.util.TreeSet<>()).add(value));
+                    }
+                });
+        Map<String, List<String>> orderedAttributes = attributes.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> List.copyOf(entry.getValue()),
+                        (left, right) -> left, LinkedHashMap::new));
+        BigDecimal min = prices.stream().min(Comparator.naturalOrder()).orElse(null);
+        BigDecimal max = prices.stream().max(Comparator.naturalOrder()).orElse(null);
+        return new ProductDtos.FacetsResponse(new ProductDtos.PriceFacet(min, max), List.copyOf(brands), orderedAttributes);
     }
 
     public ProductDtos.Response update(UUID id, ProductDtos.UpdateRequest request) {
@@ -196,6 +223,42 @@ public class ProductService {
             throw new com.shop.catalog.common.BadRequestException("Invalid sort property: " + property);
         }
         return Sort.by(direction, property);
+    }
+
+    private Specification<Product> specification(UUID categoryId, String search, ProductStatus status,
+                                                 BigDecimal priceMin, BigDecimal priceMax,
+                                                 List<String> brands, List<String> attributes) {
+        return (root, query, criteriaBuilder) -> {
+            List<jakarta.persistence.criteria.Predicate> predicates = new ArrayList<>();
+            if (categoryId != null) predicates.add(criteriaBuilder.equal(root.get("category").get("id"), categoryId));
+            if (search != null && !search.isBlank()) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + search.trim().toLowerCase(Locale.ROOT) + "%"));
+            }
+            if (status != null) predicates.add(criteriaBuilder.equal(root.get("status"), status));
+            if (brands != null && !brands.isEmpty()) {
+                predicates.add(criteriaBuilder.lower(root.get("brand")).in(brands.stream()
+                        .filter(brand -> brand != null && !brand.isBlank())
+                        .map(brand -> brand.toLowerCase(Locale.ROOT)).toList()));
+            }
+            if ((priceMin != null && priceMin.signum() >= 0) || (priceMax != null && priceMax.signum() >= 0) || (attributes != null && !attributes.isEmpty())) {
+                var variant = root.join("variants");
+                query.distinct(true);
+                predicates.add(criteriaBuilder.equal(variant.get("status"), VariantStatus.ACTIVE));
+                if (priceMin != null && priceMin.signum() >= 0) predicates.add(criteriaBuilder.greaterThanOrEqualTo(variant.get("price"), priceMin));
+                if (priceMax != null && priceMax.signum() >= 0) predicates.add(criteriaBuilder.lessThanOrEqualTo(variant.get("price"), priceMax));
+                for (String attribute : attributes == null ? List.<String>of() : attributes) {
+                    int separator = attribute == null ? -1 : attribute.indexOf(':');
+                    if (separator <= 0 || separator == attribute.length() - 1) continue;
+                    String key = attribute.substring(0, separator).trim();
+                    String value = attribute.substring(separator + 1).trim();
+                    if (key.isBlank() || value.isBlank()) continue;
+                    var jsonValue = criteriaBuilder.function("jsonb_extract_path_text", String.class,
+                            variant.get("attributes"), criteriaBuilder.literal(key));
+                    predicates.add(criteriaBuilder.equal(jsonValue, value));
+                }
+            }
+            return criteriaBuilder.and(predicates.toArray(jakarta.persistence.criteria.Predicate[]::new));
+        };
     }
 
     private String normalizeSku(String sku) {

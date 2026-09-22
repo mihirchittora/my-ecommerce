@@ -27,8 +27,8 @@ services:
       PAYMENT_DB_USERNAME: payment
       PAYMENT_DB_PASSWORD: payment
       ORDER_SERVICE_URL: ${ORDER_SERVICE_URL:-http://host.docker.internal:8083}
-      ORDER_SERVICE_TOKEN: ${ORDER_SERVICE_TOKEN:-}
-      ORDER_PAYMENT_UPDATE_PATH: ${ORDER_PAYMENT_UPDATE_PATH:-}
+      ORDER_SERVICE_TOKEN: ${ORDER_SERVICE_TOKEN:-dev-payment-to-order}
+      ORDER_PAYMENT_UPDATE_PATH: ${ORDER_PAYMENT_UPDATE_PATH:-/internal/orders/{orderId}/payment-events}
       AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8085}
       AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
       AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://host.docker.internal:8085/.well-known/jwks.json}

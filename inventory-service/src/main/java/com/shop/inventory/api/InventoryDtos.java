@@ -54,6 +54,18 @@ public final class InventoryDtos {
             @Future Instant expiresAt) {
     }
 
+    public enum ShippingTransition {
+        ALLOCATE,
+        IN_TRANSIT,
+        RELEASE
+    }
+
+    public record ShippingTransitionRequest(
+            @NotNull ShippingTransition transition,
+            @NotBlank @Size(max = 200) String shippingReference,
+            @NotEmpty @Size(max = 10000) List<@NotNull UUID> unitIds) {
+    }
+
     public record TransferRequest(
             @NotBlank @Size(max = 80) String sku,
             @NotNull UUID fromLocationId,
@@ -144,6 +156,10 @@ public final class InventoryDtos {
             long totalReserved,
             long totalAvailable,
             List<LocationSummary> locations) {
+    }
+
+    /** Customer-safe availability; operational quantities and locations stay private. */
+    public record AvailabilityResponse(String sku, boolean available, String message) {
     }
 
     public record DashboardSummaryResponse(

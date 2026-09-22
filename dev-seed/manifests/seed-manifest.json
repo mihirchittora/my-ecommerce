@@ -1,0 +1,24 @@
+{
+  "seedVersion": "1.0.0",
+  "status": "not-run",
+  "datasetType": "DEVELOPMENT_DEMO_ONLY",
+  "source": {
+    "name": "Blue Tokai reference catalog",
+    "url": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+    "note": "Synthetic local data; not Blue Tokai data. Run seed.sh to replace this template with API-returned IDs and counts."
+  },
+  "counts": {
+    "products": 25,
+    "categories": 8,
+    "variants": 75,
+    "skus": 75,
+    "images": 25,
+    "locations": 3,
+    "plannedInventoryUnits": 300,
+    "customers": 8,
+    "orders": 5,
+    "payments": 5,
+    "fulfillments": 3,
+    "shipments": 3
+  }
+}

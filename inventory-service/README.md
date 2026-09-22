@@ -251,6 +251,13 @@ quantity and reserved quantity. Release, cancellation, and expiration return
 reserved units to `AVAILABLE`. The scheduled expiry job only releases
 reservations whose `expiresAt` has passed.
 
+Shipping allocation is Inventory-owned. The protected
+`POST /api/v1/inventory/reservations/{reservationId}/shipping-transition`
+endpoint accepts `ALLOCATE`, `IN_TRANSIT`, or `RELEASE` plus the exact reserved
+unit IDs and a stable Shipping reference. Inventory locks the reservation and
+units, writes `SHIPPING` movement history, and returns the authoritative
+reservation/unit statuses. Shipping never writes Inventory data directly.
+
 ## API examples
 
 Create a location:
@@ -308,6 +315,15 @@ curl -sS -X POST http://localhost:8082/api/v1/inventory/<SKU>/reservations \
 
 curl -sS -X POST http://localhost:8082/api/v1/inventory/reservations/<reservation-id>/confirm
 curl -sS -X POST http://localhost:8082/api/v1/inventory/reservations/<reservation-id>/release
+```
+
+Shipping transitions use its dedicated service credential:
+
+```bash
+curl -sS -X POST http://localhost:8082/api/v1/inventory/reservations/<reservation-id>/shipping-transition \
+  -H 'X-Shipping-Service-Token: <shipping-to-inventory-secret>' \
+  -H 'Content-Type: application/json' \
+  -d '{"transition":"ALLOCATE","shippingReference":"SHP-2026-09-22-000001","unitIds":["<unit-id>"]}'
 ```
 
 List reservations with optional SKU, location, and status filters:

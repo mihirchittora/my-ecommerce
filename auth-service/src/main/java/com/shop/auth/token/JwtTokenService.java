@@ -36,6 +36,9 @@ public class JwtTokenService {
                 .issuedAt(now)
                 .expiresAt(now.plus(properties.getAccessTokenTtl()))
                 .id(UUID.randomUUID().toString())
+                .claim("email", user.getEmail())
+                .claim("firstName", user.getFirstName())
+                .claim("lastName", user.getLastName())
                 .claim("roles", roles)
                 .claim("permissions", permissions)
                 .build();

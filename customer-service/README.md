@@ -70,7 +70,7 @@ or non-UUID subject is rejected as unauthenticated. Address lookups use
 | `authUserId` | UUID | Yes | Immutable Auth identity from JWT `sub`; unique and never client-settable. |
 | `firstName` | String, max 80 | No on lazy creation | Customer display profile. Mutable only through the profile PATCH endpoint; trim whitespace. |
 | `lastName` | String, max 80 | No on lazy creation | Customer display profile. Mutable only through the profile PATCH endpoint; trim whitespace. |
-| `email` | String, max 320 | No | Auth is the source of truth. This service does not accept email changes and currently leaves a lazily created copy empty until a future protected sync flow exists. |
+| `email` | String, max 320 | No | Auth is the source of truth. Customer Service mirrors the signed Auth claim on authenticated profile reads; it does not accept email changes. |
 | `phone` | Normalized String, max 16 | No | Customer contact data. Stored as `+` plus 7–15 digits; mutable through profile PATCH. |
 | `status` | `ACTIVE`, `INACTIVE`, `BLOCKED` | Yes | Customer business lifecycle, default `ACTIVE`; not Auth account status and not client-settable. |
 | `createdAt` | Instant | Yes | Database/application creation timestamp; immutable and read-only. |
@@ -78,11 +78,11 @@ or non-UUID subject is rejected as unauthenticated. Address lookups use
 
 The first authenticated `/api/v1/customers/me` call lazily creates a profile
 with the JWT subject and `ACTIVE` status. Auth registration remains independent
-and available even if Customer Service is temporarily unavailable. The client
-can then populate the profile name/phone using the documented PATCH endpoint.
-This deterministic lazy-creation choice is the current Auth → Customer
-profile-creation flow; there is no anonymous or browser-accessible internal
-creation endpoint.
+and available even if Customer Service is temporarily unavailable. Auth access
+tokens carry signed email and name claims; Customer Service mirrors email and
+backfills missing profile names from those claims when the profile is read.
+Customer-edited names and phone remain locally editable. There is no anonymous
+or browser-accessible internal creation endpoint.
 
 ## Customer Status
 
@@ -165,7 +165,8 @@ not access the Auth database.
 ### `GET /api/v1/customers/me`
 
 Auth: Bearer JWT. No path/query parameters or body. Creates an empty active
-profile on first access, then returns `CustomerResponse`. Returns `401` for
+profile on first access, synchronizes the Auth email and backfills missing
+names from signed claims, then returns `CustomerResponse`. Returns `401` for
 missing/invalid identity and `403` for `INACTIVE`/`BLOCKED`.
 
 ### `PATCH /api/v1/customers/me`
@@ -214,6 +215,7 @@ Example `AddressRequest`:
 | --- | --- | --- | --- |
 | `GET` | `/api/v1/customers?page=0&size=20&search=&status=` | `CUSTOMER_READ` | Server-paginated profile list with name/email/Auth-ID search and status filtering |
 | `GET` | `/api/v1/customers/{id}` | `CUSTOMER_READ` | Read one customer profile |
+| `GET` | `/api/v1/customers/by-auth-user/{authUserId}` | `CUSTOMER_READ` | Resolve a profile from an Order/Cart/Payment/Shipping Auth user reference |
 | `GET` | `/api/v1/customers/{id}/addresses` | `CUSTOMER_READ` | Read current shipping and billing addresses |
 | `PATCH` | `/api/v1/customers/{id}` | `CUSTOMER_UPDATE` | Update first name, last name, and phone |
 | `PATCH` | `/api/v1/customers/{id}/status` | `CUSTOMER_UPDATE` | Set `ACTIVE`, `INACTIVE`, or `BLOCKED` |
@@ -250,9 +252,9 @@ sequenceDiagram
 ```
 
 Registration does not duplicate profile creation or call a private endpoint.
-The unique `auth_user_id` constraint makes retries idempotent. A future
-explicit Auth → Customer call must use a dedicated service credential and can
-populate the Auth email/name copy without changing the public contract.
+The unique `auth_user_id` constraint makes retries idempotent. The signed JWT
+identity claims provide the trusted Auth → Customer display-copy sync without
+giving Customer Service access to the Auth database.
 
 ## Service-to-Service Authentication
 
@@ -264,10 +266,9 @@ internal profile-creation flow; it is not used by the browser and no anonymous
 ## Email Ownership
 
 Auth remains the source of truth for identity email. Customer `email` is an
-optional display/cache field and is not writable through Customer Service. No
-hidden synchronization is attempted. A future Auth email verification flow
-should propagate a trusted copy explicitly; until then, clients should use
-Auth for authoritative email changes.
+optional display/cache field and is not writable through Customer Service; it
+is refreshed from the signed Auth claim on `/me` reads. Auth owns any future
+verified email-change flow.
 
 ## Cart Integration
 
@@ -470,8 +471,8 @@ policies appropriate to the deployment.
 
 ## Future Improvements
 
-- Explicit Auth → Customer profile synchronization using dedicated service authentication.
-- A verified Auth-owned email-change flow followed by trusted cache propagation.
+- A verified Auth-owned email-change flow; refreshed JWT claims propagate the
+  new email to Customer Service on the next `/me` read.
 - Least-privilege, paginated admin search after Auth permissions are extended deliberately.
 - Customer preferences/consent as separate, purpose-specific models.
 - Retention and privacy deletion workflows that preserve Order history.

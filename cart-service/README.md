@@ -15,7 +15,7 @@ The Cart is temporary, mutable intent. It is not an order, invoice, payment reco
 - Enrich reads with current Catalog product, variant, price, and currency data when Catalog is available.
 - Preserve the persisted cart when Catalog is unavailable.
 - Preflight active Catalog SKUs before delegating checkout.
-- Pass SKU/quantity and the same `Idempotency-Key` to Order Service.
+- Pass SKU/quantity, the explicit `paymentMethod`, and the same `Idempotency-Key` to Order Service.
 - Mark the Cart `CONVERTED` only after Order Service returns success.
 - Expire active carts without touching Inventory.
 - Expose REST, OpenAPI, health, Flyway migrations, Docker, and tests.
@@ -247,11 +247,23 @@ Cart calls the existing `POST /api/v1/orders` contract with:
   "items": [
     {"sku": "IP17-BLK-256", "quantity": 2}
   ],
-  "preferredLocationId": null
+  "preferredLocationId": null,
+  "shippingAddress": {
+    "sourceAddressId": "00000000-0000-0000-0000-000000000001",
+    "recipientName": "Mihir Chittora",
+    "phone": "+919999999999",
+    "line1": "1 Main Street",
+    "line2": null,
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "postalCode": "560001",
+    "country": "IN",
+    "landmark": null
+  }
 }
 ```
 
-The request does not contain customer ID, unit price, subtotal, total, product data, or physical unit IDs. Cart sends the same `Idempotency-Key` to Order. The current Order API requires the authenticated customer JWT and derives `customerId` from its `sub`, so Cart forwards the already-present bearer token only on this delegated checkout request; it never stores or logs the token.
+The request does not contain customer ID, unit price, subtotal, total, product data, or physical unit IDs. `shippingAddress` is copied into Order's immutable checkout snapshot; `sourceAddressId` is traceability only. Cart sends the same `Idempotency-Key` to Order. The current Order API requires the authenticated customer JWT and derives `customerId` from its `sub`, so Cart forwards the already-present bearer token only on this delegated checkout request; it never stores or logs the token.
 
 Order remains authoritative for Catalog price snapshots, totals, order number, Inventory reservation, and Order status.
 

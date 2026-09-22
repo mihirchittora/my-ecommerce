@@ -48,6 +48,13 @@ public class CustomerAdminController {
     @Operation(summary = "Get a customer")
     public CustomerDtos.CustomerResponse get(@PathVariable UUID id) { return customers.get(id); }
 
+    @GetMapping("/by-auth-user/{authUserId}")
+    @PreAuthorize("hasAuthority('CUSTOMER_READ')")
+    @Operation(summary = "Get a customer by Auth user ID")
+    public CustomerDtos.CustomerResponse getByAuthUser(@PathVariable UUID authUserId) {
+        return customers.getByAuthUserId(authUserId);
+    }
+
     @GetMapping("/{id}/addresses")
     @PreAuthorize("hasAuthority('CUSTOMER_READ')")
     @Operation(summary = "List a customer's addresses")

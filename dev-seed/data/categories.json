@@ -1,0 +1,50 @@
+[
+  {
+    "key": "coffee",
+    "name": "Coffee",
+    "slug": "coffee",
+    "parentKey": null
+  },
+  {
+    "key": "single-estate",
+    "name": "Single Estate",
+    "slug": "single-estate",
+    "parentKey": "coffee"
+  },
+  {
+    "key": "blends",
+    "name": "Blends",
+    "slug": "blends",
+    "parentKey": "coffee"
+  },
+  {
+    "key": "sampler-packs",
+    "name": "Sampler Packs",
+    "slug": "sampler-packs",
+    "parentKey": "coffee"
+  },
+  {
+    "key": "light-roast",
+    "name": "Light Roast",
+    "slug": "light-roast",
+    "parentKey": "coffee"
+  },
+  {
+    "key": "medium-roast",
+    "name": "Medium Roast",
+    "slug": "medium-roast",
+    "parentKey": "coffee"
+  },
+  {
+    "key": "medium-dark-roast",
+    "name": "Medium Dark Roast",
+    "slug": "medium-dark-roast",
+    "parentKey": "coffee"
+  },
+  {
+    "key": "dark-roast",
+    "name": "Dark Roast",
+    "slug": "dark-roast",
+    "parentKey": "coffee"
+  }
+]

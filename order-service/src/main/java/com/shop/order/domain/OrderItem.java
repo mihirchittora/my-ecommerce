@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -72,6 +73,7 @@ public class OrderItem {
     private Instant createdAt;
 
     @OneToMany(mappedBy = "orderItem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("unitCode asc")
     private List<OrderItemInventoryUnit> inventoryUnitReferences = new ArrayList<>();
 
     public void addInventoryUnitReference(OrderItemInventoryUnit reference) {

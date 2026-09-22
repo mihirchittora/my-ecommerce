@@ -5,6 +5,7 @@ import com.shop.customer.common.ForbiddenException;
 import com.shop.customer.common.PhoneNormalizer;
 import com.shop.customer.common.UnauthorizedException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class CustomerService {
     public Customer getOrCreateActive(Authentication authentication) {
         UUID authUserId = subject(authentication);
         Customer customer = customers.findByAuthUserIdForUpdate(authUserId).orElseGet(() -> create(authUserId));
+        synchronizeIdentity(customer, authentication);
         ensureActive(customer);
         return customer;
     }
@@ -59,6 +61,37 @@ public class CustomerService {
         if (customer.getStatus() != CustomerStatus.ACTIVE) {
             throw new ForbiddenException("Customer profile is not active");
         }
+    }
+
+    /**
+     * Auth owns identity data. Customer keeps a local display copy so customer
+     * and admin screens can read it without making a second Auth request.
+     * Names are only backfilled when the profile is empty so customer-owned
+     * profile edits are not overwritten by an older access token.
+     */
+    private void synchronizeIdentity(Customer customer, Authentication authentication) {
+        if (!(authentication instanceof JwtAuthenticationToken jwt)) return;
+        String email = claim(jwt, "email");
+        String firstName = claim(jwt, "firstName");
+        String lastName = claim(jwt, "lastName");
+        if (!email.isBlank() && !email.equalsIgnoreCase(nullToBlank(customer.getEmail()))) {
+            customer.setEmail(email);
+        }
+        if (isBlank(customer.getFirstName()) && !firstName.isBlank()) customer.setFirstName(firstName);
+        if (isBlank(customer.getLastName()) && !lastName.isBlank()) customer.setLastName(lastName);
+    }
+
+    private String claim(JwtAuthenticationToken jwt, String name) {
+        String value = jwt.getToken().getClaimAsString(name);
+        return value == null ? "" : value.trim();
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.isBlank();
+    }
+
+    private String nullToBlank(String value) {
+        return value == null ? "" : value.trim();
     }
 
     private UUID subject(Authentication authentication) {

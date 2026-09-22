@@ -5,6 +5,7 @@ export const PAYMENT_STATUSES = [
   "PENDING",
   "AUTHORIZED",
   "CAPTURED",
+  "PENDING_COLLECTION",
   "FAILED",
   "CANCELLED",
   "REFUND_PENDING",
@@ -15,6 +16,8 @@ export const PAYMENT_STATUSES = [
 export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];
 export const PAYMENT_PROVIDERS = ["SANDBOX"] as const;
 export type PaymentProvider = (typeof PAYMENT_PROVIDERS)[number];
+export const PAYMENT_METHODS = ["ONLINE", "CASH_ON_DELIVERY"] as const;
+export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 export const REFUND_STATUSES = ["PENDING", "SUCCEEDED", "FAILED"] as const;
 export type RefundStatus = (typeof REFUND_STATUSES)[number];
 export const PAYMENT_ATTEMPT_STATUSES = ["CREATED", "PENDING", "AUTHORIZED", "CAPTURED", "FAILED", "CANCELLED"] as const;
@@ -41,6 +44,7 @@ export interface PaymentListParams {
   search?: string;
   status?: PaymentStatus;
   provider?: PaymentProvider;
+  paymentMethod?: PaymentMethod;
   currency?: string;
   orderId?: string;
   customerId?: string;
@@ -86,7 +90,8 @@ export interface Payment {
   amount: number;
   currency: string;
   status: PaymentStatus;
-  provider: PaymentProvider;
+  paymentMethod: PaymentMethod;
+  provider: PaymentProvider | null;
   providerPaymentId: string | null;
   providerOrderId: string | null;
   refundedAmount: number;

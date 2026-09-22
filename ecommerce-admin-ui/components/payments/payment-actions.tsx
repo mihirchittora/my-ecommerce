@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { RotateCcw, Undo2 } from "lucide-react";
+import { Banknote, RotateCcw, Undo2 } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/components/auth-provider";
 import { Button } from "@/components/ui/button";
@@ -9,8 +9,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useRefundPayment, useRetryPayment } from "@/lib/api/payment/queries";
-import { canRefundPayment, canRetryPayment } from "@/lib/api/payment/action-rules";
+import { useCollectCodPayment, useRefundPayment, useRetryPayment } from "@/lib/api/payment/queries";
+import { canCollectCod, canRefundPayment, canRetryPayment } from "@/lib/api/payment/action-rules";
 import type { Payment } from "@/lib/api/payment/types";
 import { ApiError } from "@/lib/api/client";
 import { formatCurrency } from "@/lib/utils";
@@ -29,7 +29,20 @@ function actionError(error: unknown, operation: "refund" | "retry") {
 export function PaymentActions({ payment }: { payment: Payment }) {
   const { user } = useAuth();
   const permissions = user?.permissions ?? [];
-  return <div className="flex flex-wrap items-center gap-2">{canRefundPayment(payment.status, permissions) && <RefundDialog payment={payment} />} {canRetryPayment(payment.status, permissions) && <RetryPaymentButton payment={payment} />}</div>;
+  return <div className="flex flex-wrap items-center gap-2">{canCollectCod(payment, permissions) && <CollectCodButton payment={payment} />} {canRefundPayment(payment.status, permissions) && <RefundDialog payment={payment} />} {canRetryPayment(payment.status, permissions) && <RetryPaymentButton payment={payment} />}</div>;
+}
+
+function CollectCodButton({ payment }: { payment: Payment }) {
+  const collect = useCollectCodPayment();
+  const { toast } = useToast();
+  const execute = () => {
+    if (!window.confirm(`Confirm that ${payment.amount.toFixed(2)} ${payment.currency} was collected for this delivered order?`)) return;
+    collect.mutate({ paymentId: payment.id }, {
+      onSuccess: () => toast({ title: "COD collected", description: "The payment is now marked paid and the order can complete." }),
+      onError: (error) => toast({ title: "COD collection failed", description: error instanceof ApiError ? error.message : "The payment could not be collected.", variant: "destructive" }),
+    });
+  };
+  return <Button variant="outline" size="sm" className="text-emerald-700 hover:text-emerald-800" onClick={execute} disabled={collect.isPending}><Banknote className="h-4 w-4" />{collect.isPending ? "Collecting…" : "Collect COD"}</Button>;
 }
 
 function RetryPaymentButton({ payment }: { payment: Payment }) {

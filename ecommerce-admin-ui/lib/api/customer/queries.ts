@@ -5,6 +5,7 @@ import type { CustomerStatus } from "@/lib/api/customer/types";
 export const customerQueryKeys = {
   list: (params: { page: number; size: number; search?: string; status?: CustomerStatus }) => ["customer-admin", "customers", params] as const,
   detail: (id: string) => ["customer-admin", "customers", id] as const,
+  byAuthUser: (authUserId: string) => ["customer-admin", "customers-by-auth-user", authUserId] as const,
   addresses: (id: string) => ["customer-admin", "customers", id, "addresses"] as const,
 };
 
@@ -14,6 +15,10 @@ export function useCustomers(params: { page: number; size: number; search?: stri
 
 export function useCustomer(id: string, enabled = true) {
   return useQuery({ queryKey: customerQueryKeys.detail(id), queryFn: () => customerAdminApi.get(id), enabled: Boolean(id) && enabled });
+}
+
+export function useCustomerByAuthUserId(authUserId: string, enabled = true) {
+  return useQuery({ queryKey: customerQueryKeys.byAuthUser(authUserId), queryFn: () => customerAdminApi.getByAuthUserId(authUserId), enabled: Boolean(authUserId) && enabled });
 }
 
 export function useCustomerAddresses(id: string, enabled = true) {

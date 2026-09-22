@@ -12,6 +12,7 @@ public final class PaymentStateMachine {
             PaymentStatus.PENDING, EnumSet.of(PaymentStatus.AUTHORIZED, PaymentStatus.CAPTURED,
                     PaymentStatus.FAILED, PaymentStatus.CANCELLED),
             PaymentStatus.AUTHORIZED, EnumSet.of(PaymentStatus.CAPTURED, PaymentStatus.FAILED, PaymentStatus.CANCELLED),
+            PaymentStatus.PENDING_COLLECTION, EnumSet.of(PaymentStatus.CAPTURED, PaymentStatus.CANCELLED),
             PaymentStatus.CAPTURED, EnumSet.of(PaymentStatus.REFUND_PENDING, PaymentStatus.PARTIALLY_REFUNDED,
                     PaymentStatus.REFUNDED),
             PaymentStatus.FAILED, EnumSet.of(PaymentStatus.PENDING),

@@ -29,6 +29,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
@@ -37,6 +38,9 @@ import static org.mockito.Mockito.verify;
 @Testcontainers(disabledWithoutDocker = true)
 @SpringBootTest
 class OrderIntegrationTest {
+    private static final OrderDtos.ShippingAddressRequest SHIPPING_ADDRESS =
+            new OrderDtos.ShippingAddressRequest(null, "Mihir Chittora", "+919999999999", "1 Main Street",
+                    null, "Bengaluru", "Karnataka", "560001", "IN", null);
     static {
         PortableDockerEnvironment.configure();
     }
@@ -76,18 +80,23 @@ class OrderIntegrationTest {
         CatalogSku changedPrice = new CatalogSku("IP17-BLK-256", productId, variantId, "iPhone 17 Pro", "Black / 256GB",
                 Map.of("color", "Black", "storage", "256GB"), new BigDecimal("149900.00"), "INR", true);
         when(catalog.getSellableSku("IP17-BLK-256")).thenReturn(originalPrice, changedPrice);
-        when(inventory.reserve(eq("IP17-BLK-256"), any(), eq(2L), any(), any())).thenAnswer(invocation ->
-                new InventoryReservation(reservationId, "IP17-BLK-256", null, 2,
+        when(inventory.reserve(eq("IP17-BLK-256"), any(), anyLong(), any(), any())).thenAnswer(invocation ->
+                new InventoryReservation(reservationId, "IP17-BLK-256", null, invocation.getArgument(2),
                         invocation.getArgument(3), "ACTIVE", Instant.now().plusSeconds(900),
-                        List.of(new InventoryReservation.ReservedUnit(unitId, "U001", "RESERVED"),
-                                new InventoryReservation.ReservedUnit(UUID.randomUUID(), "U002", "RESERVED"))));
+                        invocation.<Long>getArgument(2) == 2
+                                ? List.of(new InventoryReservation.ReservedUnit(unitId, "U001", "RESERVED"),
+                                new InventoryReservation.ReservedUnit(UUID.randomUUID(), "U002", "RESERVED"))
+                                : List.of(new InventoryReservation.ReservedUnit(unitId, "U001", "RESERVED"))));
 
         var authentication = new TestingAuthenticationToken("customer-1", null, "ROLE_CUSTOMER");
         var response = orders.create(new OrderDtos.CreateOrderRequest("INR",
-                List.of(new OrderDtos.CreateOrderItemRequest("IP17-BLK-256", 2)), null),
+                List.of(new OrderDtos.CreateOrderItemRequest("IP17-BLK-256", 2)), null, SHIPPING_ADDRESS),
                 "checkout-abc123", authentication);
 
         assertEquals("PENDING_PAYMENT", response.status().name());
+        assertEquals("Mihir Chittora", response.shippingAddress().recipientName());
+        assertEquals("1 Main Street", response.shippingAddress().line1());
+        assertEquals("IN", response.shippingAddress().country());
         assertEquals(new BigDecimal("129900.00"), response.items().getFirst().unitPrice());
         assertEquals(new BigDecimal("259800.00"), response.totalAmount());
         var staffAuthentication = new TestingAuthenticationToken("staff-1", null, "ORDER_READ");
@@ -97,18 +106,20 @@ class OrderIntegrationTest {
         assertEquals(1, orderRepository.findAll().size());
         assertEquals(reservationId, orderRepository.findDetailedById(response.id()).orElseThrow()
                 .getItems().getFirst().getReservationId());
+        assertEquals("1 Main Street", orderRepository.findDetailedById(response.id()).orElseThrow()
+                .getShippingAddress().getLine1());
 
         var retry = orders.create(new OrderDtos.CreateOrderRequest("INR",
-                List.of(new OrderDtos.CreateOrderItemRequest("IP17-BLK-256", 2)), null),
+                List.of(new OrderDtos.CreateOrderItemRequest("IP17-BLK-256", 2)), null, SHIPPING_ADDRESS),
                 "checkout-abc123", authentication);
         assertEquals(response.id(), retry.id());
         verify(inventory, times(1)).reserve(eq("IP17-BLK-256"), any(), eq(2L), any(), any());
         assertThrows(ConflictException.class, () -> orders.create(new OrderDtos.CreateOrderRequest("INR",
-                List.of(new OrderDtos.CreateOrderItemRequest("IP17-BLK-256", 1)), null),
+                List.of(new OrderDtos.CreateOrderItemRequest("IP17-BLK-256", 1)), null, SHIPPING_ADDRESS),
                 "checkout-abc123", authentication));
 
         var second = orders.create(new OrderDtos.CreateOrderRequest("INR",
-                List.of(new OrderDtos.CreateOrderItemRequest("IP17-BLK-256", 1)), null),
+                List.of(new OrderDtos.CreateOrderItemRequest("IP17-BLK-256", 1)), null, SHIPPING_ADDRESS),
                 "checkout-price-change", authentication);
         assertEquals(new BigDecimal("149900.00"), second.items().getFirst().unitPrice());
         assertEquals(new BigDecimal("129900.00"), orders.get(response.id(), authentication).items().getFirst().unitPrice());

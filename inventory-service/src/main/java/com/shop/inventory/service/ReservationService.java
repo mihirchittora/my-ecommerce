@@ -120,6 +120,8 @@ public class ReservationService {
         InventoryReservation reservation = lock(id);
         if (reservation.getStatus() == ReservationStatus.ACTIVE) {
             transitionReservedUnits(reservation, ReservationStatus.RELEASED, UnitStatus.AVAILABLE, false);
+        } else if (reservation.getStatus() == ReservationStatus.ALLOCATED) {
+            throw new ConflictException("Allocated reservation must be released through the Shipping transition API");
         } else if (reservation.getStatus() == ReservationStatus.CONFIRMED) {
             throw new ConflictException("Confirmed reservation cannot be released");
         }
@@ -129,7 +131,7 @@ public class ReservationService {
     @Transactional
     public InventoryDtos.ReservationResponse confirm(UUID id) {
         InventoryReservation reservation = lock(id);
-        if (reservation.getStatus() == ReservationStatus.ACTIVE) {
+        if (reservation.getStatus() == ReservationStatus.ACTIVE || reservation.getStatus() == ReservationStatus.ALLOCATED) {
             transitionReservedUnits(reservation, ReservationStatus.CONFIRMED, UnitStatus.SOLD, true);
         } else if (reservation.getStatus() != ReservationStatus.CONFIRMED) {
             throw new ConflictException("Only an ACTIVE reservation can be confirmed");
@@ -149,6 +151,47 @@ public class ReservationService {
     }
 
     @Transactional
+    public InventoryDtos.ReservationResponse shippingTransition(UUID id, InventoryDtos.ShippingTransitionRequest request) {
+        InventoryReservation reservation = lock(id);
+        String reference = normalizeReference(request.shippingReference());
+        List<ReservationUnit> links = reservationUnits.findByReservation_IdOrderByInventoryUnit_UnitCode(id);
+        Set<UUID> authorized = links.stream().map(link -> link.getInventoryUnit().getId()).collect(java.util.stream.Collectors.toSet());
+        Set<UUID> requested = new java.util.HashSet<>(request.unitIds());
+        if (requested.size() != request.unitIds().size() || !authorized.equals(requested)) {
+            throw new ConflictException("Shipping transition must contain the exact InventoryUnit set for the reservation");
+        }
+        if (request.transition() == InventoryDtos.ShippingTransition.RELEASE
+                && reservation.getStatus() == ReservationStatus.RELEASED) {
+            return response(reservation);
+        }
+        if (reservation.getStatus() != ReservationStatus.ACTIVE && reservation.getStatus() != ReservationStatus.ALLOCATED) {
+            throw new ConflictException("Reservation is not usable for Shipping: " + reservation.getStatus());
+        }
+        if (request.transition() == InventoryDtos.ShippingTransition.RELEASE) {
+            releaseAllocatedForShipping(reservation, links, reference);
+            return response(reservation);
+        }
+        UnitStatus target = request.transition() == InventoryDtos.ShippingTransition.ALLOCATE
+                ? UnitStatus.ALLOCATED : UnitStatus.IN_TRANSIT;
+        for (ReservationUnit link : links) {
+            InventoryUnit unit = units.findByIdForUpdate(link.getInventoryUnit().getId())
+                    .orElseThrow(() -> new NotFoundException("Inventory unit not found: " + link.getInventoryUnit().getId()));
+            InventoryUnitMovement latest = movements.findTopByInventoryUnit_IdOrderByCreatedAtDesc(unit.getId()).orElse(null);
+            if (unit.getStatus() == target && latest != null && "SHIPPING".equals(latest.getReferenceType())
+                    && reference.equals(latest.getReferenceId())) continue;
+            UnitStatus expected = target == UnitStatus.ALLOCATED ? UnitStatus.RESERVED : UnitStatus.ALLOCATED;
+            if (unit.getStatus() != expected) {
+                throw new ConflictException("Inventory unit " + unit.getUnitCode() + " cannot transition from " + unit.getStatus() + " to " + target);
+            }
+            recordMovement(unit, reservation.getLocation(), reservation.getLocation(), unit.getStatus(), target,
+                    "SHIPPING", reference, request.transition().name());
+            unit.setStatus(target);
+        }
+        reservation.setStatus(ReservationStatus.ALLOCATED);
+        return response(reservation);
+    }
+
+    @Transactional
     public void expireDueReservations() {
         Instant now = Instant.now();
         reservations.findTop100ByStatusAndExpiresAtBeforeOrderByExpiresAtAsc(ReservationStatus.ACTIVE, now)
@@ -161,6 +204,31 @@ public class ReservationService {
                 });
     }
 
+    private void releaseAllocatedForShipping(InventoryReservation reservation, List<ReservationUnit> links, String reference) {
+        if (reservation.getStatus() != ReservationStatus.ACTIVE && reservation.getStatus() != ReservationStatus.ALLOCATED) {
+            throw new ConflictException("Reservation cannot be released for Shipping in " + reservation.getStatus());
+        }
+        InventoryItem item = items.findForUpdate(reservation.getSku(), reservation.getLocation().getId())
+                .orElseThrow(() -> new NotFoundException("Inventory item not found for reservation"));
+        for (ReservationUnit link : links) {
+            InventoryUnit unit = units.findByIdForUpdate(link.getInventoryUnit().getId())
+                    .orElseThrow(() -> new NotFoundException("Inventory unit not found: " + link.getInventoryUnit().getId()));
+            if (unit.getStatus() == UnitStatus.IN_TRANSIT) {
+                throw new ConflictException("Inventory unit " + unit.getUnitCode() + " is already in transit");
+            }
+            if (unit.getStatus() == UnitStatus.AVAILABLE) continue;
+            if (unit.getStatus() != UnitStatus.RESERVED && unit.getStatus() != UnitStatus.ALLOCATED) {
+                throw new ConflictException("Inventory unit " + unit.getUnitCode() + " cannot be released from " + unit.getStatus());
+            }
+            UnitStatus from = unit.getStatus();
+            unit.setStatus(UnitStatus.AVAILABLE);
+            recordMovement(unit, reservation.getLocation(), reservation.getLocation(), from, UnitStatus.AVAILABLE,
+                    "SHIPPING", reference, "RELEASE");
+        }
+        item.setReservedQuantity(item.getReservedQuantity() - reservation.getQuantity());
+        reservation.setStatus(ReservationStatus.RELEASED);
+    }
+
     private void transitionReservedUnits(InventoryReservation reservation, ReservationStatus target,
                                          UnitStatus targetUnitStatus, boolean sold) {
         List<ReservationUnit> links = reservationUnits.findByReservation_IdOrderByInventoryUnit_UnitCode(reservation.getId());
@@ -170,7 +238,7 @@ public class ReservationService {
                 .orElseThrow(() -> new NotFoundException("Inventory item not found for reservation"));
         List<InventoryUnit> lockedUnits = units.findAllByIdInForUpdate(ids);
         for (InventoryUnit unit : lockedUnits) {
-            if (sold && unit.getStatus() != UnitStatus.RESERVED) {
+            if (sold && !Set.of(UnitStatus.RESERVED, UnitStatus.ALLOCATED, UnitStatus.IN_TRANSIT).contains(unit.getStatus())) {
                 throw new ConflictException("Reservation contains a unit that is no longer reserved");
             }
             if (!sold && reservation.getStatus() == ReservationStatus.ACTIVE

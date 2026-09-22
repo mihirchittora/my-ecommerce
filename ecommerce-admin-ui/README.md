@@ -1,6 +1,6 @@
 # Admin UI
 
-Production-oriented Next.js admin workspace for catalog, inventory, order, payment, cart, customer-boundary, and Auth access operations in the `my-ecommerce` repository.
+Production-oriented Next.js admin workspace for catalog, inventory, order, payment, cart, customer-boundary, shipping, fulfillment, and Auth access operations in the `my-ecommerce` repository.
 
 The UI is deliberately split by backend responsibility:
 
@@ -9,6 +9,7 @@ The UI is deliberately split by backend responsibility:
 - Order screens consume the separate `order-service` and preserve its historical commercial snapshots.
 - Cart screens consume the read-only staff surface of `cart-service` and keep customer Cart quantity separate from Inventory availability and Order history.
 - Payment screens consume the permission-protected operations surface of `payment-service` and keep provider orchestration separate from Order and Customer ownership.
+- Shipping screens consume the permission-protected operations surface of `shipping-service`, preserving Fulfillment, Shipment, Tracking, carrier references, and physical Inventory Unit traceability without taking ownership of Order or Inventory state.
 - User Management screens consume Auth's administrative user, role, and permission contracts plus Customer Service's protected customer administration contract. Customer profile identity remains separate from Auth user identity.
 - The browser only talks to the Next.js same-origin rewrites; page components never call `fetch` directly.
 - No production Catalog, Inventory, or Order responses are mocked. If a dependent service is unavailable or an endpoint is not implemented, the UI shows an explicit unavailable state.
@@ -33,11 +34,12 @@ NEXT_PUBLIC_ORDER_API_URL=http://localhost:8083
 NEXT_PUBLIC_CART_API_URL=http://localhost:8084
 NEXT_PUBLIC_CUSTOMER_API_URL=http://localhost:8086
 NEXT_PUBLIC_PAYMENT_API_URL=http://localhost:8087
+NEXT_PUBLIC_SHIPPING_API_URL=http://localhost:8088
 ```
 
 Copy `.env.example` to `.env.local` when setting up a fresh checkout. `.env.local` is ignored by Git.
 
-The Catalog, Inventory, Order, and Cart services are configured for ports 8081, 8082, 8083, and 8084 respectively. Override the public environment variables for another local topology.
+The Catalog, Inventory, Order, Cart, and Shipping services are configured for ports 8081, 8082, 8083, 8084, and 8088 respectively. Override the public environment variables for another local topology.
 
 ## Authentication
 
@@ -61,7 +63,7 @@ Access and refresh tokens are kept for the current browser tab using `sessionSto
 
 ## Authorization
 
-Route access and navigation are filtered from the permission codes returned by `/api/v1/auth/me`, while each backend remains the authoritative authorization boundary. A `403` stays an authorization error and is rendered as a permission message; it does not redirect to login. Orders require `ORDER_READ`, payments require `PAYMENT_READ`, refunds require `PAYMENT_REFUND`, retries require `PAYMENT_RETRY`, Cart inspection requires `CART_READ`, Customers require `CUSTOMER_READ`, and Users/Roles/Permissions use `USER_*`, `ROLE_*`, and `PERMISSION_*` permissions.
+Route access and navigation are filtered from the permission codes returned by `/api/v1/auth/me`, while each backend remains the authoritative authorization boundary. A `403` stays an authorization error and is rendered as a permission message; it does not redirect to login. Orders require `ORDER_READ`, payments require `PAYMENT_READ`, refunds require `PAYMENT_REFUND`, retries require `PAYMENT_RETRY`, Cart inspection requires `CART_READ`, Shipping and Fulfillment require `SHIPPING_READ`, shipment creation requires `SHIPPING_CREATE`, cancellation requires `SHIPPING_CANCEL`, tracking requires `SHIPPING_TRACK`, Customers require `CUSTOMER_READ`, and Users/Roles/Permissions use `USER_*`, `ROLE_*`, and `PERMISSION_*` permissions.
 
 ## Application routes
 
@@ -358,6 +360,109 @@ readable order-number/customer-name search, or a dashboard summary endpoint.
 The UI leaves those areas un-fabricated and documents the dependency instead of
 performing inefficient browser-side aggregation.
 
+## Shipping & Fulfillment Management
+
+### Shipment List
+
+`/shipments` is a `SHIPPING_READ`-protected, server-paginated operations table.
+It uses the Shipping Service's supported `page`, `size`, and single-string
+`sort` parameters with `createdAt,desc` as the default. The current backend
+does not expose search or list filters, so the UI does not perform browser-side
+filtering.
+
+### Shipment Detail
+
+`/shipments/[id]` shows the actual shipment number, state, Order and Fulfillment
+references, carrier/service level, tracking/provider references, package count,
+shipping cost, timestamps, item references, normalized tracking, and append-only
+history. Provider credentials, webhook secrets, and other sensitive settings are
+never rendered.
+
+### Fulfillment List and Detail
+
+`/fulfillments` and `/fulfillments/[id]` show the actual fulfillment state,
+Order/customer references, item snapshots, physical Inventory Unit references,
+shipment links, historical shipping-address snapshot, and history. Item and
+shipment totals are calculated only from arrays returned by Shipping Service.
+Allocated/shipped/remaining counters are not shown because the current DTO does
+not return those counters.
+
+### Tracking
+
+Tracking is loaded from `GET /api/v1/shipments/{id}/tracking` only when the
+operator has `SHIPPING_TRACK`. Events are displayed newest first with event,
+status, location, description, and occurrence time. The UI reads normalized
+Shipping state; it does not receive carrier webhooks directly.
+
+### Inventory Unit Traceability
+
+Itemized shipment rows link each returned `inventoryUnitId` to the existing
+`/inventory/units/[id]` route when the operator has Inventory read access.
+Shipping never edits Inventory Unit state. SKU links use the existing Inventory
+Stock route, and Order Item IDs remain references owned by Order Service.
+
+### Order and Customer Integration
+
+Order links are shown only when `ORDER_READ` is present, and Customer links only
+when `CUSTOMER_READ` is present. Order status is read from Order Service and is
+never changed by Shipping UI actions. Fulfillment detail displays the immutable
+historical shipping-address snapshot returned by Shipping; it never substitutes
+the customer's current address.
+
+### Shipping Actions
+
+Shipment cancellation uses the dedicated `POST /api/v1/shipments/{id}/cancel`
+operation and is shown in list and detail views only for `CREATED`, `READY`,
+`PACKED`, or `FAILED` shipments with `SHIPPING_CANCEL`. Shipment creation uses
+the real idempotent `POST /api/v1/shipments` contract and is offered from
+eligible fulfillment states with `SHIPPING_CREATE`; physical unit checkboxes
+preserve exact itemized references for split shipments. There is no arbitrary
+status editor, label download action, package editor, or fulfillment status
+editor because those APIs are not present.
+
+### Shipping Permissions, Roles, and Super User Access
+
+Auth migration `V9__add_shipping_permissions_and_roles.sql` seeds
+`SHIPPING_READ`, `SHIPPING_CREATE`, `SHIPPING_CANCEL`, `SHIPPING_TRACK`,
+`SHIPPING_LABEL_CREATE`, and `SHIPPING_MANAGE`, plus the supported
+`SHIPPING_ADMIN`, `SHIPPING_OPERATIONS`, and `SHIPPING_READONLY` roles. It grants
+the implemented Shipping permissions to `SUPER_ADMIN` and keeps Shipping
+permissions in Auth rather than frontend constants. Users & Access derives the
+Shipping service row and effective permission badges from Auth role metadata.
+
+### Service Access and Dashboard
+
+Shipping navigation and routes require actual Auth permissions. No Shipping
+dashboard cards are added because Shipping Service currently exposes no
+efficient summary endpoint; the UI does not download all shipments to calculate
+metrics.
+
+### API Integration and Security
+
+Shipping calls are centralized in `lib/api/shipping/` and use the shared
+TanStack Query/session-aware client. The browser uses
+`NEXT_PUBLIC_SHIPPING_API_URL` through the same-origin `/backend/shipping`
+rewrite. Backend authorization remains authoritative; 401/403/404/409/502/503
+responses are presented as sanitized operational messages. Label references are
+displayed only as safe returned values and are never logged or stored in local
+storage.
+
+### Testing
+
+Shipping permission, route gating, service-access mapping, and state-based
+action rules are covered in `test/shipping-management.test.mjs`. Run
+`npm run typecheck`, `npm run lint`, `npm test`, and `npm run build` from this
+directory. Shipping Service tests should be run with `mvn test` from the
+`shipping-service` directory when backend changes are included.
+
+### Current API gaps
+
+The Shipping API currently lacks staff list search/filter parameters, a carrier
+catalog endpoint, package detail endpoints, label retrieval/download endpoints,
+fulfillment transition endpoints, and efficient dashboard summary endpoints.
+The UI documents these gaps and renders only fields and actions returned by the
+current contracts.
+
 ## Inventory API gaps discovered
 
 The Inventory service exposes SKU-scoped detail endpoints and a paginated global aggregate stock summary. It does not currently expose physical-unit-without-SKU, transfer-history or global reconciliation-list endpoints. Adjustment and reservation history are available through paginated list endpoints above. The frontend therefore:
@@ -396,7 +501,7 @@ The backend exposes `CART_READ` for this staff surface. Frontend checks improve 
 - Backend errors are sanitized into useful messages. Examples include highlighted-field guidance for 400s, resource-not-found messages for 404s, conflict messages for 409s and a generic retry message for 500s.
 - Product images use multipart uploads for JPEG, PNG and WEBP with a 5 MB client-side limit; images are never converted to base64 for normal submission.
 - Order filters use native accessible controls, server-side pagination, URL state, responsive table/card layouts, skeleton loading states, and service-isolated error states.
-- No Payment or Shipping UI is included; `PENDING_PAYMENT` is shown only as an Order status because those services do not exist in this repository.
+- Payment list/detail and Shipping fulfillment/shipment list/detail screens are included. Order detail also loads the linked fulfillment when the operator has `SHIPPING_READ`; `PENDING_PAYMENT` remains a read-only Order status until Payment confirms the transaction.
 
 ## Testing
 

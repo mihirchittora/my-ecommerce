@@ -11,7 +11,7 @@ public final class OrderStateMachine {
     private static final Map<OrderStatus, Set<OrderStatus>> TRANSITIONS = Map.ofEntries(
             Map.entry(OrderStatus.DRAFT, EnumSet.of(OrderStatus.PENDING_RESERVATION, OrderStatus.CANCELLED)),
             Map.entry(OrderStatus.PENDING_RESERVATION, EnumSet.of(OrderStatus.RESERVED, OrderStatus.FAILED, OrderStatus.CANCELLED)),
-            Map.entry(OrderStatus.RESERVED, EnumSet.of(OrderStatus.PENDING_PAYMENT, OrderStatus.CANCELLED)),
+            Map.entry(OrderStatus.RESERVED, EnumSet.of(OrderStatus.PENDING_PAYMENT, OrderStatus.CONFIRMED, OrderStatus.CANCELLED)),
             Map.entry(OrderStatus.PENDING_PAYMENT, EnumSet.of(OrderStatus.PAID, OrderStatus.CANCELLED, OrderStatus.FAILED)),
             Map.entry(OrderStatus.PAID, EnumSet.of(OrderStatus.CONFIRMED)),
             Map.entry(OrderStatus.CONFIRMED, EnumSet.of(OrderStatus.FULFILLING)),

@@ -9,7 +9,7 @@ service for `my-ecommerce`. It runs on port `8085` and owns the `auth_db` databa
 
 - User registration, password hashing, login, account locking, and password changes.
 - Customer and staff roles, permissions, and role assignments.
-- RS256 JWT access-token signing and public JWKS publication.
+- RS256 JWT access-token signing and public JWKS publication. Access tokens include the Auth-owned email and display-name claims used by Customer Service for profile-copy synchronization.
 - Opaque refresh-token storage, rotation, replay detection, and logout revocation.
 - Authentication audit events and development-only initial-admin bootstrap.
 

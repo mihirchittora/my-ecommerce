@@ -1,0 +1,85 @@
+{
+  "seedVersion": "1.0.0",
+  "customers": [
+    {
+      "key": "customer01",
+      "email": "demo.customer01@example.test",
+      "firstName": "Demo",
+      "lastName": "Customer 01",
+      "phone": "+919000000001",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "postalCode": "400001"
+    },
+    {
+      "key": "customer02",
+      "email": "demo.customer02@example.test",
+      "firstName": "Demo",
+      "lastName": "Customer 02",
+      "phone": "+919000000002",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "postalCode": "110001"
+    },
+    {
+      "key": "customer03",
+      "email": "demo.customer03@example.test",
+      "firstName": "Demo",
+      "lastName": "Customer 03",
+      "phone": "+919000000003",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "postalCode": "560001"
+    },
+    {
+      "key": "customer04",
+      "email": "demo.customer04@example.test",
+      "firstName": "Demo",
+      "lastName": "Customer 04",
+      "phone": "+919000000004",
+      "city": "Pune",
+      "state": "Maharashtra",
+      "postalCode": "411001"
+    },
+    {
+      "key": "customer05",
+      "email": "demo.customer05@example.test",
+      "firstName": "Demo",
+      "lastName": "Customer 05",
+      "phone": "+919000000005",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "postalCode": "500001"
+    },
+    {
+      "key": "customer06",
+      "email": "demo.customer06@example.test",
+      "firstName": "Demo",
+      "lastName": "Customer 06",
+      "phone": "+919000000006",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "postalCode": "600001"
+    },
+    {
+      "key": "customer07",
+      "email": "demo.customer07@example.test",
+      "firstName": "Demo",
+      "lastName": "Customer 07",
+      "phone": "+919000000007",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "postalCode": "700001"
+    },
+    {
+      "key": "customer08",
+      "email": "demo.customer08@example.test",
+      "firstName": "Demo",
+      "lastName": "Customer 08",
+      "phone": "+919000000008",
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "postalCode": "302001"
+    }
+  ]
+}

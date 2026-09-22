@@ -1,6 +1,7 @@
 package com.shop.payment.order;
 
 import com.shop.payment.payment.Payment;
+import com.shop.payment.payment.PaymentMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -29,9 +30,9 @@ public class OrderPaymentNotifier {
         }
         PaymentStateChanged event = new PaymentStateChanged(payment.getId(), payment.getOrderId(),
                 payment.getCustomerId(), payment.getStatus().name(), payment.getAmount(), payment.getCurrency(),
-                payment.getProvider(), payment.getProviderPaymentId());
+                payment.getPaymentMethod(), payment.getProvider(), payment.getProviderPaymentId());
         try {
-            client.post().uri(updatePath)
+            client.post().uri(updatePath, payment.getOrderId())
                     .headers(headers -> {
                         if (serviceToken != null && !serviceToken.isBlank()) {
                             headers.set("X-Payment-Service-Token", serviceToken);
@@ -48,7 +49,7 @@ public class OrderPaymentNotifier {
     }
 
     public record PaymentStateChanged(UUID paymentId, UUID orderId, UUID customerId, String paymentStatus,
-                                      BigDecimal amount, String currency, Object provider,
+                                      BigDecimal amount, String currency, PaymentMethod paymentMethod, Object provider,
                                       String providerPaymentId) {
     }
 }

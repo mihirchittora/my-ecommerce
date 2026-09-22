@@ -1,6 +1,7 @@
 package com.shop.payment.payment;
 
 import com.shop.payment.gateway.GatewayProvider;
+import com.shop.payment.payment.PaymentMethod;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,6 +45,7 @@ public class PaymentAdminController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) PaymentStatus status,
             @RequestParam(required = false) GatewayProvider provider,
+            @RequestParam(required = false) PaymentMethod paymentMethod,
             @RequestParam(required = false) String currency,
             @RequestParam(required = false) UUID orderId,
             @RequestParam(required = false) UUID customerId,
@@ -52,7 +54,7 @@ public class PaymentAdminController {
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "20") @Min(1) @Max(100) int size,
             @RequestParam(defaultValue = "createdAt,desc") String sort) {
-        return service.list(search, status, provider, currency, orderId, customerId, createdFrom, createdTo,
+        return service.list(search, status, provider, paymentMethod, currency, orderId, customerId, createdFrom, createdTo,
                 page, size, sort);
     }
 
@@ -69,6 +71,13 @@ public class PaymentAdminController {
     public PaymentDtos.AdminPaymentResponse retry(@PathVariable UUID paymentId,
                                                    @RequestHeader("Idempotency-Key") String idempotencyKey) {
         return paymentApplication.retryAdmin(paymentId, idempotencyKey);
+    }
+
+    @PostMapping("/{paymentId}/collect")
+    @PreAuthorize("hasAuthority('PAYMENT_COLLECT')")
+    @Operation(summary = "Confirm cash collected for a delivered COD payment")
+    public PaymentDtos.AdminPaymentResponse collect(@PathVariable UUID paymentId) {
+        return paymentApplication.collectCod(paymentId);
     }
 
     @PostMapping("/{paymentId}/refunds")

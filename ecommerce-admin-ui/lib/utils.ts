@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export type ServiceName = "auth" | "catalog" | "inventory" | "order" | "cart" | "customer" | "payment";
+export type ServiceName = "auth" | "catalog" | "inventory" | "order" | "cart" | "customer" | "payment" | "shipping";
 
 const apiOrigins: Record<ServiceName, string> = {
   auth: process.env.NEXT_PUBLIC_AUTH_API_URL ?? "http://localhost:8085",
@@ -15,6 +15,7 @@ const apiOrigins: Record<ServiceName, string> = {
   cart: process.env.NEXT_PUBLIC_CART_API_URL ?? "http://localhost:8084",
   customer: process.env.NEXT_PUBLIC_CUSTOMER_API_URL ?? "http://localhost:8086",
   payment: process.env.NEXT_PUBLIC_PAYMENT_API_URL ?? "http://localhost:8087",
+  shipping: process.env.NEXT_PUBLIC_SHIPPING_API_URL ?? "http://localhost:8088",
 };
 
 export function getApiBaseUrl(service: ServiceName = "catalog") {
@@ -25,7 +26,8 @@ export function getApiBaseUrl(service: ServiceName = "catalog") {
   if (service === "order") return "/backend/order";
   if (service === "cart") return "/backend/cart";
   if (service === "customer") return "/backend/customer";
-  return "/backend/payment";
+  if (service === "payment") return "/backend/payment";
+  return "/backend/shipping";
 }
 
 export function getAssetUrl(url: string | null | undefined) {

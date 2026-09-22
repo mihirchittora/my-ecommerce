@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { paymentApi, newPaymentIdempotencyKey } from "@/lib/api/payment/payments";
-import type { PaymentListParams, RefundPayload } from "@/lib/api/payment/types";
+import type { Payment, PaymentListParams, RefundPayload } from "@/lib/api/payment/types";
 
 export const paymentQueryKeys = {
   list: (params: PaymentListParams) => ["payment-admin", "payments", params] as const,
@@ -31,6 +31,17 @@ export function useRetryPayment() {
   return useMutation({
     mutationFn: ({ paymentId }: { paymentId: string }) => paymentApi.retry(paymentId, newPaymentIdempotencyKey("retry")),
     onSuccess: (payment) => {
+      queryClient.setQueryData(paymentQueryKeys.detail(payment.id), payment);
+      void queryClient.invalidateQueries({ queryKey: ["payment-admin", "payments"] });
+    },
+  });
+}
+
+export function useCollectCodPayment() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ paymentId }: { paymentId: string }) => paymentApi.collect(paymentId),
+    onSuccess: (payment: Payment) => {
       queryClient.setQueryData(paymentQueryKeys.detail(payment.id), payment);
       void queryClient.invalidateQueries({ queryKey: ["payment-admin", "payments"] });
     },

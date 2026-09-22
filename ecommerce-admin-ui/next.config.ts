@@ -7,6 +7,7 @@ const orderApiUrl = process.env.NEXT_PUBLIC_ORDER_API_URL ?? "http://localhost:8
 const cartApiUrl = process.env.NEXT_PUBLIC_CART_API_URL ?? "http://localhost:8084";
 const customerApiUrl = process.env.NEXT_PUBLIC_CUSTOMER_API_URL ?? "http://localhost:8086";
 const paymentApiUrl = process.env.NEXT_PUBLIC_PAYMENT_API_URL ?? "http://localhost:8087";
+const shippingApiUrl = process.env.NEXT_PUBLIC_SHIPPING_API_URL ?? "http://localhost:8088";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -39,6 +40,10 @@ const nextConfig: NextConfig = {
       {
         source: "/backend/payment/:path*",
         destination: `${paymentApiUrl}/api/:path*`,
+      },
+      {
+        source: "/backend/shipping/:path*",
+        destination: `${shippingApiUrl}/api/:path*`,
       },
     ];
   },

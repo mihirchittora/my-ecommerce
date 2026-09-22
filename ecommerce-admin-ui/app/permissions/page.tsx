@@ -14,6 +14,7 @@ function domain(code: string) {
   if (code.startsWith("CART_")) return "Cart";
   if (code.startsWith("CUSTOMER_")) return "Customer";
   if (code.startsWith("PAYMENT_")) return "Payments";
+  if (code.startsWith("SHIPPING_")) return "Shipping";
   if (code.startsWith("USER_") || code.startsWith("ROLE_") || code.startsWith("PERMISSION_")) return "Users & Access";
   return "Other";
 }

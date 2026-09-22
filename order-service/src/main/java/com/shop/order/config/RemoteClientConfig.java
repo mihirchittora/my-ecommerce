@@ -2,6 +2,7 @@ package com.shop.order.config;
 
 import com.shop.order.client.CatalogClient;
 import com.shop.order.client.InventoryClient;
+import com.shop.order.client.ShippingClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,15 @@ public class RemoteClientConfig {
             @Value("${app.inventory.connect-timeout-ms:2000}") int connectTimeoutMs,
             @Value("${app.inventory.read-timeout-ms:3000}") int readTimeoutMs) {
         return new InventoryClient(restClient(baseUrl, connectTimeoutMs, readTimeoutMs), serviceToken);
+    }
+
+    @Bean
+    ShippingClient shippingClient(
+            @Value("${app.shipping.base-url:http://localhost:8088}") String baseUrl,
+            @Value("${app.shipping.service-token:}") String serviceToken,
+            @Value("${app.shipping.connect-timeout-ms:2000}") int connectTimeoutMs,
+            @Value("${app.shipping.read-timeout-ms:3000}") int readTimeoutMs) {
+        return new ShippingClient(restClient(baseUrl, connectTimeoutMs, readTimeoutMs), serviceToken);
     }
 
     private RestClient restClient(String baseUrl, int connectTimeoutMs, int readTimeoutMs) {

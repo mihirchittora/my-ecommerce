@@ -29,7 +29,7 @@ app:
   order:
     base-url: ${ORDER_SERVICE_URL:http://localhost:8083}
     service-token: ${ORDER_SERVICE_TOKEN:}
-    payment-update-path: ${ORDER_PAYMENT_UPDATE_PATH:}
+    payment-update-path: ${ORDER_PAYMENT_UPDATE_PATH:/internal/orders/{orderId}/payment-events}
     connect-timeout-ms: ${ORDER_CONNECT_TIMEOUT_MS:2000}
     read-timeout-ms: ${ORDER_READ_TIMEOUT_MS:3000}
   gateway:

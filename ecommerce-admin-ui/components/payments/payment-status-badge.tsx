@@ -7,6 +7,7 @@ const paymentVariants: Record<PaymentStatus, "default" | "success" | "warning" |
   PENDING: "warning",
   AUTHORIZED: "default",
   CAPTURED: "success",
+  PENDING_COLLECTION: "warning",
   FAILED: "danger",
   CANCELLED: "muted",
   REFUND_PENDING: "warning",

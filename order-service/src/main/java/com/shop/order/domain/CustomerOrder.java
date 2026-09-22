@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -54,6 +55,10 @@ public class CustomerOrder {
     @Column(nullable = false, length = 30)
     private OrderStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method", nullable = false, length = 30)
+    private PaymentMethod paymentMethod;
+
     @Column(nullable = false, length = 3)
     private String currency;
 
@@ -84,6 +89,10 @@ public class CustomerOrder {
     @Column(name = "completed_at")
     private Instant completedAt;
 
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true,
+            fetch = jakarta.persistence.FetchType.LAZY, optional = true)
+    private OrderShippingAddress shippingAddress;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("createdAt asc")
     private List<OrderItem> items = new ArrayList<>();
@@ -100,6 +109,23 @@ public class CustomerOrder {
     public void addHistory(OrderHistory event) {
         event.setOrder(this);
         history.add(event);
+    }
+
+    public void attachShippingAddress(OrderShippingAddress snapshot) {
+        setShippingAddress(snapshot);
+    }
+
+    /**
+     * Keep the Lombok-generated setter from replacing a checkout snapshot.
+     * The relationship is optional only for orders created before the snapshot
+     * migration; every new checkout is required to attach one.
+     */
+    public void setShippingAddress(OrderShippingAddress snapshot) {
+        if (shippingAddress != null && shippingAddress != snapshot) {
+            throw new IllegalStateException("An order can have only one immutable shipping address snapshot");
+        }
+        shippingAddress = snapshot;
+        if (snapshot != null && snapshot.getOrder() != this) snapshot.setOrder(this);
     }
 
     @PrePersist

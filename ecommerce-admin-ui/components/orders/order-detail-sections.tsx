@@ -1,10 +1,14 @@
 import Link from "next/link";
-import { AlertTriangle, Boxes, Clock3, ExternalLink, History, PackageSearch } from "lucide-react";
+import { AlertTriangle, Boxes, Clock3, ExternalLink, History, PackageCheck, PackageSearch } from "lucide-react";
 import { EmptyState } from "@/components/feedback-states";
 import { CustomerReference } from "@/components/customers/customer-reference";
 import { OrderStatusBadge } from "@/components/orders/order-status-badge";
+import { FulfillmentStatusBadge } from "@/components/shipping/status-badges";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/components/auth-provider";
+import { useFulfillmentByOrder } from "@/lib/api/shipping/queries";
+import { ApiError } from "@/lib/api/client";
 import type { OrderDetail, OrderHistoryEntry, OrderItem } from "@/lib/api/order/types";
 import type { InventoryReservation } from "@/lib/types";
 import { formatCurrency, formatDate, titleCase } from "@/lib/utils";
@@ -28,6 +32,20 @@ function Info({ label, value, mono, children }: { label: string; value?: string;
 export function OrderTotals({ order }: { order: OrderDetail }) {
   const rows = [["Subtotal", order.subtotal], ["Discount", order.discountAmount], ["Shipping", order.shippingAmount], ["Tax", order.taxAmount]] as const;
   return <Card><CardHeader><CardTitle>Financial summary</CardTitle><p className="mt-1 text-sm text-muted-foreground">Amounts are historical values from the Order service.</p></CardHeader><CardContent className="space-y-3">{rows.map(([label, value]) => <div className="flex items-center justify-between gap-4 text-sm" key={label}><span className="text-slate-500">{label}</span><span className="font-medium text-slate-700">{formatCurrency(value, order.currency)}</span></div>)}<div className="border-t border-slate-200 pt-3"><div className="flex items-center justify-between gap-4"><span className="font-semibold text-slate-900">Total</span><span className="text-xl font-bold text-slate-950">{formatCurrency(order.totalAmount, order.currency)}</span></div></div></CardContent></Card>;
+}
+
+export function OrderFulfillmentPanel({ orderId }: { orderId: string }) {
+  const { hasPermission } = useAuth();
+  const canReadShipping = hasPermission("SHIPPING_READ");
+  const fulfillment = useFulfillmentByOrder(orderId, canReadShipping);
+  if (!canReadShipping) return null;
+  if (fulfillment.isLoading) return <Card><CardHeader><CardTitle>Fulfillment</CardTitle></CardHeader><CardContent><div className="h-16 animate-pulse rounded-2xl bg-slate-100" /></CardContent></Card>;
+  if (fulfillment.isError && !(fulfillment.error instanceof ApiError && fulfillment.error.status === 404)) {
+    return <Card><CardHeader><div className="flex items-center gap-2"><PackageCheck className="h-5 w-5 text-primary" /><CardTitle>Fulfillment</CardTitle></div></CardHeader><CardContent><p className="text-sm text-slate-500">Shipping service is temporarily unavailable. The Order remains available.</p></CardContent></Card>;
+  }
+  if (!fulfillment.data) return <Card><CardHeader><div className="flex items-center gap-2"><PackageCheck className="h-5 w-5 text-primary" /><CardTitle>Fulfillment</CardTitle></div></CardHeader><CardContent><p className="text-sm text-slate-500">No fulfillment has been created for this Order yet. It will be created automatically after Order confirmation.</p></CardContent></Card>;
+  const value = fulfillment.data;
+  return <Card><CardHeader><div className="flex items-center gap-2"><PackageCheck className="h-5 w-5 text-primary" /><div><CardTitle>Fulfillment</CardTitle><p className="mt-1 text-sm text-muted-foreground">Shipping owns the operational fulfillment linked to this Order.</p></div></div></CardHeader><CardContent><div className="grid gap-4 sm:grid-cols-3"><div><p className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-400">Status</p><div className="mt-2"><FulfillmentStatusBadge status={value.status} /></div></div><div><p className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-400">Items</p><p className="mt-2 text-sm font-semibold text-slate-800">{value.items.reduce((total, item) => total + item.quantity, 0)}</p></div><div><p className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-400">Shipments</p><p className="mt-2 text-sm font-semibold text-slate-800">{value.shipments.length}</p></div></div><Link href={`/fulfillments/${value.id}`} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">Open fulfillment <ExternalLink className="h-4 w-4" /></Link></CardContent></Card>;
 }
 
 export function OrderItems({ items }: { items: OrderItem[] }) {

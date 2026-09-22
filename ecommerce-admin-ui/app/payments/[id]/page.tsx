@@ -10,7 +10,7 @@ import { PaymentActions } from "@/components/payments/payment-actions";
 import { PaymentStatusBadge } from "@/components/payments/payment-status-badge";
 import { Button } from "@/components/ui/button";
 import { ApiError } from "@/lib/api/client";
-import { useCustomer } from "@/lib/api/customer/queries";
+import { useCustomerByAuthUserId } from "@/lib/api/customer/queries";
 import { useOrder } from "@/lib/api/order/queries";
 import { usePayment } from "@/lib/api/payment/queries";
 import { formatDate } from "@/lib/utils";
@@ -38,7 +38,7 @@ export default function PaymentDetailPage() {
   const canReadOrder = hasPermission("ORDER_READ");
   const canReadCustomer = hasPermission("CUSTOMER_READ");
   const order = useOrder(payment.data?.orderId ?? "", canReadOrder && Boolean(payment.data));
-  const customer = useCustomer(payment.data?.customerId ?? "", canReadCustomer && Boolean(payment.data));
+  const customer = useCustomerByAuthUserId(payment.data?.customerId ?? "", canReadCustomer && Boolean(payment.data));
 
   if (payment.isLoading) return <LoadingCard rows={8} />;
   if (payment.isError || !payment.data) {
@@ -47,5 +47,5 @@ export default function PaymentDetailPage() {
   }
 
   const target = payment.data;
-  return <><div className="mb-5"><Button asChild variant="ghost" size="sm"><Link href="/payments"><ArrowLeft className="h-4 w-4" />Back to payments</Link></Button></div><div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Payment detail</p><div className="flex flex-wrap items-center gap-3"><h1 className="font-mono text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{target.id}</h1><PaymentStatusBadge status={target.status} /></div><p className="mt-2 text-sm text-slate-500">{target.provider} · Created {formatDate(target.createdAt)}</p></div><PaymentActions payment={target} /></div><div className="space-y-6"><PaymentOverview payment={target} order={order.data} />{canReadOrder ? <PaymentOrderPanel payment={target} order={order.data} errorMessage={order.isError ? dependencyMessage(order.error, "Order") : undefined} /> : <PaymentOrderPanel payment={target} errorMessage="Order details require ORDER_READ permission." />}{canReadCustomer ? <PaymentCustomerPanel payment={target} customer={customer.data} errorMessage={customer.isError ? dependencyMessage(customer.error, "Customer") : undefined} /> : <PaymentCustomerPanel payment={target} errorMessage="Customer details require CUSTOMER_READ permission." />}<PaymentGatewayPanel payment={target} /><PaymentAttempts attempts={target.attempts} /><PaymentRefunds refunds={target.refunds} /></div></>;
+  return <><div className="mb-5"><Button asChild variant="ghost" size="sm"><Link href="/payments"><ArrowLeft className="h-4 w-4" />Back to payments</Link></Button></div><div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">Payment detail</p><div className="flex flex-wrap items-center gap-3"><h1 className="font-mono text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{target.id}</h1><PaymentStatusBadge status={target.status} /></div><p className="mt-2 text-sm text-slate-500">{target.paymentMethod.replaceAll("_", " ")} · {target.provider ?? "No gateway"} · Created {formatDate(target.createdAt)}</p></div><PaymentActions payment={target} /></div><div className="space-y-6"><PaymentOverview payment={target} order={order.data} />{canReadOrder ? <PaymentOrderPanel payment={target} order={order.data} errorMessage={order.isError ? dependencyMessage(order.error, "Order") : undefined} /> : <PaymentOrderPanel payment={target} errorMessage="Order details require ORDER_READ permission." />}{canReadCustomer ? <PaymentCustomerPanel payment={target} customer={customer.data} errorMessage={customer.isError ? dependencyMessage(customer.error, "Customer") : undefined} /> : <PaymentCustomerPanel payment={target} errorMessage="Customer details require CUSTOMER_READ permission." />}<PaymentGatewayPanel payment={target} /><PaymentAttempts attempts={target.attempts} /><PaymentRefunds refunds={target.refunds} /></div></>;
 }

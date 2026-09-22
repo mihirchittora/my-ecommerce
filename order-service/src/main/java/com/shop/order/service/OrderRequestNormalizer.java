@@ -1,6 +1,7 @@
 package com.shop.order.service;
 
 import com.shop.order.api.OrderDtos;
+import com.shop.order.domain.PaymentMethod;
 import com.shop.order.exception.BadRequestException;
 
 import java.util.ArrayList;
@@ -38,13 +39,36 @@ public final class OrderRequestNormalizer {
         }
         List<NormalizedLine> lines = new ArrayList<>();
         merged.forEach((sku, quantity) -> lines.add(new NormalizedLine(sku, quantity)));
-        return new NormalizedRequest(currency, request.preferredLocationId(), lines);
+        if (request.shippingAddress() == null) {
+            throw new BadRequestException("shippingAddress is required at checkout");
+        }
+        OrderDtos.ShippingAddressRequest address = request.shippingAddress();
+        if (address.recipientName() == null || address.recipientName().isBlank()
+                || address.phone() == null || address.phone().isBlank()
+                || address.line1() == null || address.line1().isBlank()
+                || address.city() == null || address.city().isBlank()
+                || address.state() == null || address.state().isBlank()
+                || address.postalCode() == null || address.postalCode().isBlank()
+                || address.country() == null || !address.country().trim().matches("^[A-Za-z]{2}$")) {
+            throw new BadRequestException("shippingAddress is incomplete or invalid");
+        }
+        OrderDtos.ShippingAddressRequest normalizedAddress = new OrderDtos.ShippingAddressRequest(
+                address.sourceAddressId(), address.recipientName().trim(), address.phone().trim(), address.line1().trim(),
+                blankToNull(address.line2()), address.city().trim(), address.state().trim(), address.postalCode().trim(),
+                address.country().trim().toUpperCase(Locale.ROOT), blankToNull(address.landmark()));
+        PaymentMethod paymentMethod = request.paymentMethod() == null ? PaymentMethod.ONLINE : request.paymentMethod();
+        return new NormalizedRequest(currency, request.preferredLocationId(), normalizedAddress, lines, paymentMethod);
     }
 
     public record NormalizedRequest(String currency, java.util.UUID preferredLocationId,
-                                    List<NormalizedLine> lines) {
+                                    OrderDtos.ShippingAddressRequest shippingAddress,
+                                    List<NormalizedLine> lines, PaymentMethod paymentMethod) {
     }
 
     public record NormalizedLine(String sku, long quantity) {
+    }
+
+    private static String blankToNull(String value) {
+        return value == null || value.isBlank() ? null : value.trim();
     }
 }

@@ -1,0 +1,81 @@
+spring:
+  application:
+    name: shipping-service
+  datasource:
+    url: ${SHIPPING_DB_URL:jdbc:postgresql://localhost:5439/shipping_db}
+    username: ${SHIPPING_DB_USERNAME:shipping}
+    password: ${SHIPPING_DB_PASSWORD:shipping}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: ${SHIPPING_SERVER_PORT:8088}
+
+app:
+  security:
+    enabled: ${APP_SECURITY_ENABLED:true}
+  auth:
+    issuer: ${AUTH_ISSUER:http://localhost:8085}
+    audience: ${AUTH_AUDIENCE:ecommerce-api}
+    jwk-set-uri: ${AUTH_JWK_SET_URI:http://localhost:8085/.well-known/jwks.json}
+  service-auth:
+    order-token: ${ORDER_TO_SHIPPING_SERVICE_TOKEN:}
+  order:
+    base-url: ${ORDER_SERVICE_URL:http://localhost:8083}
+    service-token: ${SHIPPING_TO_ORDER_SERVICE_TOKEN:}
+    connect-timeout-ms: ${ORDER_CONNECT_TIMEOUT_MS:2000}
+    read-timeout-ms: ${ORDER_READ_TIMEOUT_MS:3000}
+  inventory:
+    base-url: ${INVENTORY_SERVICE_URL:http://localhost:8082}
+    service-token: ${SHIPPING_TO_INVENTORY_SERVICE_TOKEN:}
+    connect-timeout-ms: ${INVENTORY_CONNECT_TIMEOUT_MS:2000}
+    read-timeout-ms: ${INVENTORY_READ_TIMEOUT_MS:3000}
+  carrier:
+    provider: ${SHIPPING_PROVIDER:SANDBOX}
+    webhook-secret: ${SHIPPING_WEBHOOK_SECRET:dev-shipping-webhook-secret}
+    connect-timeout-ms: ${SHIPPING_CONNECT_TIMEOUT_MS:2000}
+    read-timeout-ms: ${SHIPPING_READ_TIMEOUT_MS:5000}
+    easypost:
+      api-base-url: ${EASYPOST_API_BASE_URL:https://api.easypost.com/v2}
+      api-key: ${EASYPOST_API_KEY:}
+      webhook-secret: ${EASYPOST_WEBHOOK_SECRET:}
+      webhook-timestamp-tolerance-minutes: ${EASYPOST_WEBHOOK_TIMESTAMP_TOLERANCE_MINUTES:1}
+      origin:
+        name: ${EASYPOST_ORIGIN_NAME:}
+        phone: ${EASYPOST_ORIGIN_PHONE:}
+        line1: ${EASYPOST_ORIGIN_LINE1:}
+        city: ${EASYPOST_ORIGIN_CITY:}
+        state: ${EASYPOST_ORIGIN_STATE:}
+        postal-code: ${EASYPOST_ORIGIN_POSTAL_CODE:}
+        country: ${EASYPOST_ORIGIN_COUNTRY:US}
+      parcel:
+        length: ${EASYPOST_DEFAULT_PARCEL_LENGTH:10}
+        width: ${EASYPOST_DEFAULT_PARCEL_WIDTH:10}
+        height: ${EASYPOST_DEFAULT_PARCEL_HEIGHT:10}
+        weight: ${EASYPOST_DEFAULT_PARCEL_WEIGHT:16}
+  timeout-ms: ${SHIPPING_TIMEOUT_MS:5000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha

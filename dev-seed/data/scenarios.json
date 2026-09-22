@@ -1,0 +1,93 @@
+{
+  "seedVersion": "1.0.0",
+  "scenarios": [
+    {
+      "key": "catalog-browsing",
+      "description": "Browse products, categories, filters, variants, and local images."
+    },
+    {
+      "key": "cart",
+      "customerKey": "customer03",
+      "items": [
+        {
+          "sku": "RAINLINE-HONEY-WB-250",
+          "quantity": 1
+        },
+        {
+          "sku": "ORCHARD-PEAK-GR-250",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "key": "checkout-success-delivered",
+      "customerKey": "customer01",
+      "orderReference": "DEMO-ORDER-001",
+      "items": [
+        {
+          "sku": "HIGHLAND-COCOA-WB-250",
+          "quantity": 1
+        },
+        {
+          "sku": "HIGHLAND-COCOA-GR-250",
+          "quantity": 1
+        }
+      ],
+      "payment": "CAPTURED",
+      "tracking": [
+        "IN_TRANSIT",
+        "OUT_FOR_DELIVERY",
+        "DELIVERED"
+      ],
+      "refund": true
+    },
+    {
+      "key": "payment-failure",
+      "customerKey": "customer02",
+      "orderReference": "DEMO-ORDER-002",
+      "sku": "EMBER-VALLEY-WB-250",
+      "quantity": 1,
+      "payment": "FAILED",
+      "tracking": []
+    },
+    {
+      "key": "shipment-in-transit",
+      "customerKey": "customer03",
+      "orderReference": "DEMO-ORDER-003",
+      "sku": "CEDAR-BLOOM-WB-250",
+      "quantity": 1,
+      "payment": "CAPTURED",
+      "tracking": [
+        "IN_TRANSIT"
+      ]
+    },
+    {
+      "key": "shipment-out-for-delivery",
+      "customerKey": "customer04",
+      "orderReference": "DEMO-ORDER-004",
+      "sku": "MONSOON-TRAIL-WB-250",
+      "quantity": 1,
+      "payment": "CAPTURED",
+      "tracking": [
+        "IN_TRANSIT",
+        "OUT_FOR_DELIVERY"
+      ]
+    },
+    {
+      "key": "pending-payment",
+      "customerKey": "customer05",
+      "orderReference": "DEMO-ORDER-005",
+      "sku": "SUNLIT-SPICE-WB-250",
+      "quantity": 1,
+      "payment": "PENDING",
+      "tracking": []
+    },
+    {
+      "key": "historical-price-change",
+      "sku": "HIGHLAND-COCOA-WB-250",
+      "before": 700,
+      "after": 799,
+      "description": "Highland Cocoa demonstrates a reference price of INR 700 and current demo price of INR 799; order snapshots are immutable."
+    }
+  ]
+}

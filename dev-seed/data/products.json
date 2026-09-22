@@ -1,0 +1,2289 @@
+{
+  "seedVersion": "1.0.0",
+  "datasetType": "DEVELOPMENT_DEMO_ONLY",
+  "source": {
+    "name": "Blue Tokai reference catalog",
+    "url": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+    "extractedAt": "2026-09-22T00:00:00Z"
+  },
+  "products": [
+    {
+      "key": "product-01",
+      "name": "Highland Cocoa",
+      "slug": "highland-cocoa",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium dark profile with cocoa, dried fruit, roasted almond.",
+      "metadata": {
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "FRENCH_PRESS",
+        "tastingNotes": "cocoa, dried fruit, roasted almond"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 799,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": {
+          "before": 700,
+          "after": 799
+        }
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Attikan Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "HIGHLAND-COCOA-WB-250",
+          "sku": "HIGHLAND-COCOA-WB-250",
+          "price": 799,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "FRENCH_PRESS"
+          }
+        },
+        {
+          "key": "HIGHLAND-COCOA-GR-250",
+          "sku": "HIGHLAND-COCOA-GR-250",
+          "price": 799,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "FRENCH_PRESS"
+          }
+        },
+        {
+          "key": "HIGHLAND-COCOA-WB-500",
+          "sku": "HIGHLAND-COCOA-WB-500",
+          "price": 1438,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "FRENCH_PRESS"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "highland-cocoa-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Highland Cocoa development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-02",
+      "name": "Ember Valley",
+      "slug": "ember-valley",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a dark profile with cocoa, toasted wood, bittersweet finish.",
+      "metadata": {
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "ESPRESSO",
+        "tastingNotes": "cocoa, toasted wood, bittersweet finish"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 650,
+        "sourceReferencePrice250g": 650,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Vienna Roast",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "EMBER-VALLEY-WB-250",
+          "sku": "EMBER-VALLEY-WB-250",
+          "price": 650,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "ESPRESSO"
+          }
+        },
+        {
+          "key": "EMBER-VALLEY-GR-250",
+          "sku": "EMBER-VALLEY-GR-250",
+          "price": 650,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "ESPRESSO"
+          }
+        },
+        {
+          "key": "EMBER-VALLEY-WB-500",
+          "sku": "EMBER-VALLEY-WB-500",
+          "price": 1170,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "ESPRESSO"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "ember-valley-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Ember Valley development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-03",
+      "name": "Rainline Honey",
+      "slug": "rainline-honey",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium profile with red fruit, honey, gentle citrus.",
+      "metadata": {
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRUITY_PUNCHY",
+        "equipment": "POUROVER",
+        "tastingNotes": "red fruit, honey, gentle citrus"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 800,
+        "sourceReferencePrice250g": 800,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Sampigehoney Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "RAINLINE-HONEY-WB-250",
+          "sku": "RAINLINE-HONEY-WB-250",
+          "price": 800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRUITY_PUNCHY",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "RAINLINE-HONEY-GR-250",
+          "sku": "RAINLINE-HONEY-GR-250",
+          "price": 800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRUITY_PUNCHY",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "RAINLINE-HONEY-WB-500",
+          "sku": "RAINLINE-HONEY-WB-500",
+          "price": 1440,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRUITY_PUNCHY",
+            "equipment": "POUROVER"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "rainline-honey-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Rainline Honey development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-04",
+      "name": "Orchard Peak",
+      "slug": "orchard-peak",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a light profile with pear, stone fruit, almond.",
+      "metadata": {
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "POUROVER",
+        "tastingNotes": "pear, stone fruit, almond"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 850,
+        "sourceReferencePrice250g": 850,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Salawara Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "ORCHARD-PEAK-WB-250",
+          "sku": "ORCHARD-PEAK-WB-250",
+          "price": 850,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "DELICATE_COMPLEX",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "ORCHARD-PEAK-GR-250",
+          "sku": "ORCHARD-PEAK-GR-250",
+          "price": 850,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "DELICATE_COMPLEX",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "ORCHARD-PEAK-WB-500",
+          "sku": "ORCHARD-PEAK-WB-500",
+          "price": 1530,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "DELICATE_COMPLEX",
+            "equipment": "POUROVER"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "orchard-peak-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Orchard Peak development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-05",
+      "name": "Cedar Bloom",
+      "slug": "cedar-bloom",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium profile with orange, malt, roasted hazelnut.",
+      "metadata": {
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "AEROPRESS",
+        "tastingNotes": "orange, malt, roasted hazelnut"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 800,
+        "sourceReferencePrice250g": 800,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Elkhill Estates",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "CEDAR-BLOOM-WB-250",
+          "sku": "CEDAR-BLOOM-WB-250",
+          "price": 800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "AEROPRESS"
+          }
+        },
+        {
+          "key": "CEDAR-BLOOM-GR-250",
+          "sku": "CEDAR-BLOOM-GR-250",
+          "price": 800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "AEROPRESS"
+          }
+        },
+        {
+          "key": "CEDAR-BLOOM-WB-500",
+          "sku": "CEDAR-BLOOM-WB-500",
+          "price": 1440,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "AEROPRESS"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "cedar-bloom-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Cedar Bloom development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-06",
+      "name": "Monsoon Trail",
+      "slug": "monsoon-trail",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium dark profile with cocoa nib, nutmeg, raisin.",
+      "metadata": {
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "SOUTH_INDIAN_FILTER",
+        "tastingNotes": "cocoa nib, nutmeg, raisin"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 700,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Monsoon Malabar AA",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "MONSOON-TRAIL-WB-250",
+          "sku": "MONSOON-TRAIL-WB-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "SOUTH_INDIAN_FILTER"
+          }
+        },
+        {
+          "key": "MONSOON-TRAIL-GR-250",
+          "sku": "MONSOON-TRAIL-GR-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "SOUTH_INDIAN_FILTER"
+          }
+        },
+        {
+          "key": "MONSOON-TRAIL-WB-500",
+          "sku": "MONSOON-TRAIL-WB-500",
+          "price": 1260,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "SOUTH_INDIAN_FILTER"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "monsoon-trail-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Monsoon Trail development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-07",
+      "name": "Sunlit Spice",
+      "slug": "sunlit-spice",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium profile with citrus peel, brown spice, tea.",
+      "metadata": {
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "MOKA_POT",
+        "tastingNotes": "citrus peel, brown spice, tea"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 800,
+        "sourceReferencePrice250g": 800,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "M.S. Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "SUNLIT-SPICE-WB-250",
+          "sku": "SUNLIT-SPICE-WB-250",
+          "price": 800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "MOKA_POT"
+          }
+        },
+        {
+          "key": "SUNLIT-SPICE-GR-250",
+          "sku": "SUNLIT-SPICE-GR-250",
+          "price": 800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "MOKA_POT"
+          }
+        },
+        {
+          "key": "SUNLIT-SPICE-WB-500",
+          "sku": "SUNLIT-SPICE-WB-500",
+          "price": 1440,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "MOKA_POT"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "sunlit-spice-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Sunlit Spice development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-08",
+      "name": "Nightjar Roast",
+      "slug": "nightjar-roast",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a dark profile with dark cocoa, prune, smoky sugar.",
+      "metadata": {
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "ESPRESSO",
+        "tastingNotes": "dark cocoa, prune, smoky sugar"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 750,
+        "sourceReferencePrice250g": 750,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Sandalwood Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "NIGHTJAR-ROAST-WB-250",
+          "sku": "NIGHTJAR-ROAST-WB-250",
+          "price": 750,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "ESPRESSO"
+          }
+        },
+        {
+          "key": "NIGHTJAR-ROAST-GR-250",
+          "sku": "NIGHTJAR-ROAST-GR-250",
+          "price": 750,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "ESPRESSO"
+          }
+        },
+        {
+          "key": "NIGHTJAR-ROAST-WB-500",
+          "sku": "NIGHTJAR-ROAST-WB-500",
+          "price": 1350,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "ESPRESSO"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "nightjar-roast-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Nightjar Roast development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-09",
+      "name": "Canyon Bloom",
+      "slug": "canyon-bloom",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium dark profile with grapefruit, clove, toffee.",
+      "metadata": {
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "FRENCH_PRESS",
+        "tastingNotes": "grapefruit, clove, toffee"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 700,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "St. Joseph Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "CANYON-BLOOM-WB-250",
+          "sku": "CANYON-BLOOM-WB-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "FRENCH_PRESS"
+          }
+        },
+        {
+          "key": "CANYON-BLOOM-GR-250",
+          "sku": "CANYON-BLOOM-GR-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "FRENCH_PRESS"
+          }
+        },
+        {
+          "key": "CANYON-BLOOM-WB-500",
+          "sku": "CANYON-BLOOM-WB-500",
+          "price": 1260,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "FRENCH_PRESS"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "canyon-bloom-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Canyon Bloom development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-10",
+      "name": "Stonefruit Drift",
+      "slug": "stonefruit-drift",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a light profile with stone fruit, jasmine, brown sugar.",
+      "metadata": {
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRUITY_PUNCHY",
+        "equipment": "POUROVER",
+        "tastingNotes": "stone fruit, jasmine, brown sugar"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 1000,
+        "sourceReferencePrice250g": 1000,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Terroir Culture",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "STONEFRUIT-DRIFT-WB-250",
+          "sku": "STONEFRUIT-DRIFT-WB-250",
+          "price": 1000,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRUITY_PUNCHY",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "STONEFRUIT-DRIFT-GR-250",
+          "sku": "STONEFRUIT-DRIFT-GR-250",
+          "price": 1000,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRUITY_PUNCHY",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "STONEFRUIT-DRIFT-WB-500",
+          "sku": "STONEFRUIT-DRIFT-WB-500",
+          "price": 1800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRUITY_PUNCHY",
+            "equipment": "POUROVER"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "stonefruit-drift-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Stonefruit Drift development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-11",
+      "name": "Lantern House",
+      "slug": "lantern-house",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium profile with molasses, walnut, dark chocolate.",
+      "metadata": {
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "AEROPRESS",
+        "tastingNotes": "molasses, walnut, dark chocolate"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 700,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Kolli Berri Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "LANTERN-HOUSE-WB-250",
+          "sku": "LANTERN-HOUSE-WB-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "AEROPRESS"
+          }
+        },
+        {
+          "key": "LANTERN-HOUSE-GR-250",
+          "sku": "LANTERN-HOUSE-GR-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "AEROPRESS"
+          }
+        },
+        {
+          "key": "LANTERN-HOUSE-WB-500",
+          "sku": "LANTERN-HOUSE-WB-500",
+          "price": 1260,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "AEROPRESS"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "lantern-house-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Lantern House development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-12",
+      "name": "Riverbend Dark",
+      "slug": "riverbend-dark",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a dark profile with dark chocolate, raisin, spice.",
+      "metadata": {
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "MOKA_POT",
+        "tastingNotes": "dark chocolate, raisin, spice"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 800,
+        "sourceReferencePrice250g": 800,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Unakki Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "RIVERBEND-DARK-WB-250",
+          "sku": "RIVERBEND-DARK-WB-250",
+          "price": 800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "MOKA_POT"
+          }
+        },
+        {
+          "key": "RIVERBEND-DARK-GR-250",
+          "sku": "RIVERBEND-DARK-GR-250",
+          "price": 800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "MOKA_POT"
+          }
+        },
+        {
+          "key": "RIVERBEND-DARK-WB-500",
+          "sku": "RIVERBEND-DARK-WB-500",
+          "price": 1440,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "MOKA_POT"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "riverbend-dark-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Riverbend Dark development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-13",
+      "name": "Golden Canopy",
+      "slug": "golden-canopy",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium profile with orange marmalade, dried date, tea.",
+      "metadata": {
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "POUROVER",
+        "tastingNotes": "orange marmalade, dried date, tea"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 800,
+        "sourceReferencePrice250g": 800,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "M.S. Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "GOLDEN-CANOPY-WB-250",
+          "sku": "GOLDEN-CANOPY-WB-250",
+          "price": 800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "GOLDEN-CANOPY-GR-250",
+          "sku": "GOLDEN-CANOPY-GR-250",
+          "price": 800,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "GOLDEN-CANOPY-WB-500",
+          "sku": "GOLDEN-CANOPY-WB-500",
+          "price": 1440,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "POUROVER"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "golden-canopy-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Golden Canopy development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-14",
+      "name": "Cloudline Estate",
+      "slug": "cloudline-estate",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a light profile with floral citrus, apple, honey.",
+      "metadata": {
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "INVERTED_AEROPRESS",
+        "tastingNotes": "floral citrus, apple, honey"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 700,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Krishnagiri Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "CLOUDLINE-ESTATE-WB-250",
+          "sku": "CLOUDLINE-ESTATE-WB-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "DELICATE_COMPLEX",
+            "equipment": "INVERTED_AEROPRESS"
+          }
+        },
+        {
+          "key": "CLOUDLINE-ESTATE-GR-250",
+          "sku": "CLOUDLINE-ESTATE-GR-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "DELICATE_COMPLEX",
+            "equipment": "INVERTED_AEROPRESS"
+          }
+        },
+        {
+          "key": "CLOUDLINE-ESTATE-WB-500",
+          "sku": "CLOUDLINE-ESTATE-WB-500",
+          "price": 1260,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "DELICATE_COMPLEX",
+            "equipment": "INVERTED_AEROPRESS"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "cloudline-estate-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Cloudline Estate development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-15",
+      "name": "Hearth Blend",
+      "slug": "hearth-blend",
+      "categoryKey": "blends",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium dark profile with cocoa, toasted grain, dried fruit.",
+      "metadata": {
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "FRENCH_PRESS",
+        "tastingNotes": "cocoa, toasted grain, dried fruit"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 700,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Dhak Blend",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "HEARTH-BLEND-WB-250",
+          "sku": "HEARTH-BLEND-WB-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "FRENCH_PRESS"
+          }
+        },
+        {
+          "key": "HEARTH-BLEND-GR-250",
+          "sku": "HEARTH-BLEND-GR-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "FRENCH_PRESS"
+          }
+        },
+        {
+          "key": "HEARTH-BLEND-WB-500",
+          "sku": "HEARTH-BLEND-WB-500",
+          "price": 1260,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "FRENCH_PRESS"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "hearth-blend-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Hearth Blend development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-16",
+      "name": "Porchlight Blend",
+      "slug": "porchlight-blend",
+      "categoryKey": "blends",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a dark profile with dark cocoa, fruit jam, caramel.",
+      "metadata": {
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "SOUTH_INDIAN_FILTER",
+        "tastingNotes": "dark cocoa, fruit jam, caramel"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 700,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Rich and Bold Trio Pack",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "PORCHLIGHT-BLEND-WB-250",
+          "sku": "PORCHLIGHT-BLEND-WB-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "SOUTH_INDIAN_FILTER"
+          }
+        },
+        {
+          "key": "PORCHLIGHT-BLEND-GR-250",
+          "sku": "PORCHLIGHT-BLEND-GR-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "SOUTH_INDIAN_FILTER"
+          }
+        },
+        {
+          "key": "PORCHLIGHT-BLEND-WB-500",
+          "sku": "PORCHLIGHT-BLEND-WB-500",
+          "price": 1260,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "SOUTH_INDIAN_FILTER"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "porchlight-blend-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Porchlight Blend development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-17",
+      "name": "Alpine Moss",
+      "slug": "alpine-moss",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a light profile with bergamot, cacao nib, soft fruit.",
+      "metadata": {
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "POUROVER",
+        "tastingNotes": "bergamot, cacao nib, soft fruit"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 850,
+        "sourceReferencePrice250g": 850,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Kalledevarapura Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "ALPINE-MOSS-WB-250",
+          "sku": "ALPINE-MOSS-WB-250",
+          "price": 850,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "DELICATE_COMPLEX",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "ALPINE-MOSS-GR-250",
+          "sku": "ALPINE-MOSS-GR-250",
+          "price": 850,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "DELICATE_COMPLEX",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "ALPINE-MOSS-WB-500",
+          "sku": "ALPINE-MOSS-WB-500",
+          "price": 1530,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "DELICATE_COMPLEX",
+            "equipment": "POUROVER"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "alpine-moss-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Alpine Moss development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-18",
+      "name": "Saffron Gate",
+      "slug": "saffron-gate",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium profile with citrus, malt, warm spice.",
+      "metadata": {
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "EXPERIMENTAL",
+        "equipment": "CHANNI",
+        "tastingNotes": "citrus, malt, warm spice"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 700,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Customised Sampler Pack",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "SAFFRON-GATE-WB-250",
+          "sku": "SAFFRON-GATE-WB-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "EXPERIMENTAL",
+            "equipment": "CHANNI"
+          }
+        },
+        {
+          "key": "SAFFRON-GATE-GR-250",
+          "sku": "SAFFRON-GATE-GR-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "EXPERIMENTAL",
+            "equipment": "CHANNI"
+          }
+        },
+        {
+          "key": "SAFFRON-GATE-WB-500",
+          "sku": "SAFFRON-GATE-WB-500",
+          "price": 1260,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "EXPERIMENTAL",
+            "equipment": "CHANNI"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "saffron-gate-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Saffron Gate development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-19",
+      "name": "Afterglow",
+      "slug": "afterglow",
+      "categoryKey": "blends",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium dark profile with cocoa, hazelnut, dried cherry.",
+      "metadata": {
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "ESPRESSO",
+        "tastingNotes": "cocoa, hazelnut, dried cherry"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 650,
+        "sourceReferencePrice250g": 650,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "French Roast",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "AFTERGLOW-WB-250",
+          "sku": "AFTERGLOW-WB-250",
+          "price": 650,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "ESPRESSO"
+          }
+        },
+        {
+          "key": "AFTERGLOW-GR-250",
+          "sku": "AFTERGLOW-GR-250",
+          "price": 650,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "ESPRESSO"
+          }
+        },
+        {
+          "key": "AFTERGLOW-WB-500",
+          "sku": "AFTERGLOW-WB-500",
+          "price": 1170,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "ESPRESSO"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "afterglow-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Afterglow development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-20",
+      "name": "Meadow Signal",
+      "slug": "meadow-signal",
+      "categoryKey": "single-estate",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a light profile with apple, raisin, cocoa nib.",
+      "metadata": {
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "COLD_BREW",
+        "tastingNotes": "apple, raisin, cocoa nib"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 750,
+        "sourceReferencePrice250g": 750,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Sampigehoney Estate",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "MEADOW-SIGNAL-WB-250",
+          "sku": "MEADOW-SIGNAL-WB-250",
+          "price": 750,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "COLD_BREW"
+          }
+        },
+        {
+          "key": "MEADOW-SIGNAL-GR-250",
+          "sku": "MEADOW-SIGNAL-GR-250",
+          "price": 750,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "COLD_BREW"
+          }
+        },
+        {
+          "key": "MEADOW-SIGNAL-WB-500",
+          "sku": "MEADOW-SIGNAL-WB-500",
+          "price": 1350,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "LIGHT",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "COLD_BREW"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "meadow-signal-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Meadow Signal development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-21",
+      "name": "Explorer Flight",
+      "slug": "explorer-flight",
+      "categoryKey": "sampler-packs",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium profile with a rotating set of bright and balanced cups.",
+      "metadata": {
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "EXPERIMENTAL",
+        "equipment": "AEROPRESS",
+        "tastingNotes": "a rotating set of bright and balanced cups"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 1170,
+        "sourceReferencePrice250g": 1170,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "5-in-1 Explorer Pack",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "EXPLORER-FLIGHT-WB-250",
+          "sku": "EXPLORER-FLIGHT-WB-250",
+          "price": 1170,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "EXPERIMENTAL",
+            "equipment": "AEROPRESS"
+          }
+        },
+        {
+          "key": "EXPLORER-FLIGHT-GR-250",
+          "sku": "EXPLORER-FLIGHT-GR-250",
+          "price": 1170,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "EXPERIMENTAL",
+            "equipment": "AEROPRESS"
+          }
+        },
+        {
+          "key": "EXPLORER-FLIGHT-WB-500",
+          "sku": "EXPLORER-FLIGHT-WB-500",
+          "price": 2106,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "EXPERIMENTAL",
+            "equipment": "AEROPRESS"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "explorer-flight-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Explorer Flight development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-22",
+      "name": "Bold Flight",
+      "slug": "bold-flight",
+      "categoryKey": "sampler-packs",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a dark profile with three dark profiles for side-by-side tasting.",
+      "metadata": {
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "MOKA_POT",
+        "tastingNotes": "three dark profiles for side-by-side tasting"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 700,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "The Rich and Bold Trio Pack",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "BOLD-FLIGHT-WB-250",
+          "sku": "BOLD-FLIGHT-WB-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "MOKA_POT"
+          }
+        },
+        {
+          "key": "BOLD-FLIGHT-GR-250",
+          "sku": "BOLD-FLIGHT-GR-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "MOKA_POT"
+          }
+        },
+        {
+          "key": "BOLD-FLIGHT-WB-500",
+          "sku": "BOLD-FLIGHT-WB-500",
+          "price": 1260,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "DARK",
+            "drinkingPreference": "WITH_MILK",
+            "flavourProfile": "BOLD_BITTER",
+            "equipment": "MOKA_POT"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "bold-flight-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Bold Flight development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-23",
+      "name": "Weather Notes Trio",
+      "slug": "weather-notes-trio",
+      "categoryKey": "sampler-packs",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium dark profile with three comforting profiles for rainy afternoons.",
+      "metadata": {
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "FRENCH_PRESS",
+        "tastingNotes": "three comforting profiles for rainy afternoons"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 650,
+        "sourceReferencePrice250g": 650,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "The Monsoon Trio",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "WEATHER-NOTES-TRIO-WB-250",
+          "sku": "WEATHER-NOTES-TRIO-WB-250",
+          "price": 650,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "FRENCH_PRESS"
+          }
+        },
+        {
+          "key": "WEATHER-NOTES-TRIO-GR-250",
+          "sku": "WEATHER-NOTES-TRIO-GR-250",
+          "price": 650,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "FRENCH_PRESS"
+          }
+        },
+        {
+          "key": "WEATHER-NOTES-TRIO-WB-500",
+          "sku": "WEATHER-NOTES-TRIO-WB-500",
+          "price": 1170,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "CHOCOLATEY_NUTTY",
+            "equipment": "FRENCH_PRESS"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "weather-notes-trio-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Weather Notes Trio development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-24",
+      "name": "Weekend Brew Set",
+      "slug": "weekend-brew-set",
+      "categoryKey": "sampler-packs",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium profile with small-batch samples for an unhurried weekend.",
+      "metadata": {
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "POUROVER",
+        "tastingNotes": "small-batch samples for an unhurried weekend"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 700,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Customised Sampler Pack",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "WEEKEND-BREW-SET-WB-250",
+          "sku": "WEEKEND-BREW-SET-WB-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "WEEKEND-BREW-SET-GR-250",
+          "sku": "WEEKEND-BREW-SET-GR-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "POUROVER"
+          }
+        },
+        {
+          "key": "WEEKEND-BREW-SET-WB-500",
+          "sku": "WEEKEND-BREW-SET-WB-500",
+          "price": 1260,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM",
+            "drinkingPreference": "WITHOUT_MILK",
+            "flavourProfile": "FRESH_FLAVOURFUL",
+            "equipment": "POUROVER"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "weekend-brew-set-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Weekend Brew Set development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    },
+    {
+      "key": "product-25",
+      "name": "Everyday Ground Set",
+      "slug": "everyday-ground-set",
+      "categoryKey": "sampler-packs",
+      "brand": "Hearthline Demo Roasters",
+      "status": "ACTIVE",
+      "description": "Original development catalog copy: a medium dark profile with three approachable grinds for everyday brewing.",
+      "metadata": {
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "SOUTH_INDIAN_FILTER",
+        "tastingNotes": "three approachable grinds for everyday brewing"
+      },
+      "pricing": {
+        "demoCurrentPrice250g": 700,
+        "sourceReferencePrice250g": 700,
+        "priceChangeDemo": null
+      },
+      "source": {
+        "sourceName": "Blue Tokai reference catalog",
+        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
+        "sourceProductUrl": null,
+        "sourceReferenceTitle": "Customised Sampler Pack",
+        "sourceExtractedAt": "2026-09-22T00:00:00Z",
+        "sourceImageUrl": null,
+        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+      },
+      "variants": [
+        {
+          "key": "EVERYDAY-GROUND-SET-WB-250",
+          "sku": "EVERYDAY-GROUND-SET-WB-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "SOUTH_INDIAN_FILTER"
+          }
+        },
+        {
+          "key": "EVERYDAY-GROUND-SET-GR-250",
+          "sku": "EVERYDAY-GROUND-SET-GR-250",
+          "price": 700,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "GROUND",
+            "packSize": "250G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "SOUTH_INDIAN_FILTER"
+          }
+        },
+        {
+          "key": "EVERYDAY-GROUND-SET-WB-500",
+          "sku": "EVERYDAY-GROUND-SET-WB-500",
+          "price": 1260,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "format": "WHOLE_BEAN",
+            "packSize": "500G",
+            "roastLevel": "MEDIUM_DARK",
+            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+            "flavourProfile": "BALANCED",
+            "equipment": "SOUTH_INDIAN_FILTER"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "everyday-ground-set-01.png",
+          "sourceUrl": null,
+          "sourceImageUrl": null,
+          "alt": "Everyday Ground Set development coffee bag",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+        }
+      ]
+    }
+  ]
+}

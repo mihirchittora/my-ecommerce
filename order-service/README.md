@@ -64,7 +64,7 @@ An order is not recalculated from Catalog after creation. Each item stores `sku`
 
 ## Pricing Snapshot
 
-The create request contains only `currency`, SKU, quantity, and optional preferred location. It does not contain authoritative prices or totals. Order Service looks up each SKU, verifies it is active, snapshots the response, and calculates:
+The create request contains `currency`, SKU, quantity, optional preferred location, shipping address, and the explicit `paymentMethod` enum (`ONLINE` or `CASH_ON_DELIVERY`). It does not contain authoritative prices or totals. Order Service looks up each SKU, verifies it is active, snapshots the response, and calculates:
 
 ```text
 line subtotal = unit price × quantity
@@ -117,6 +117,7 @@ The `orders` table contains:
 | `orderNumber` | Required unique human-facing ID such as `ORD-20260921-000001`; generated server-side and immutable. |
 | `customerId` | Required JWT subject; never accepted from public create input and immutable. |
 | `status` | Required `OrderStatus`; changed only through business actions/orchestration. |
+| `paymentMethod` | Required `PaymentMethod`: `ONLINE` or `CASH_ON_DELIVERY`; immutable for the order. |
 | `currency` | Required supported three-letter Catalog currency; normalized uppercase and immutable for the order. |
 | `subtotal` | Required sum of item subtotals; calculated server-side and immutable for the snapshot. |
 | `discountAmount` | Required calculated discount; `0.00` in v1. |
@@ -206,9 +207,10 @@ stateDiagram-v2
     PENDING_RESERVATION --> RESERVED: all reservations confirmed
     PENDING_RESERVATION --> FAILED: insufficient inventory
     PENDING_RESERVATION --> CANCELLED: cancel and release
-    RESERVED --> PENDING_PAYMENT: checkout preparation complete
+    RESERVED --> PENDING_PAYMENT: online checkout preparation complete
+    RESERVED --> CONFIRMED: COD selected; fulfillment eligible
     RESERVED --> CANCELLED: cancel and release
-    PENDING_PAYMENT --> PAID: future Payment Service
+    PENDING_PAYMENT --> PAID: Payment capture callback
     PENDING_PAYMENT --> CANCELLED: cancel and release
     PENDING_PAYMENT --> FAILED: payment failure workflow
     PAID --> CONFIRMED
@@ -232,8 +234,8 @@ The API does not expose arbitrary status mutation. Cancellation is intentionally
 8. Persist the order as `PENDING_RESERVATION` and append history.
 9. Request Inventory reservations. A missing preferred location means Inventory chooses the first active location with enough aggregate available stock; Order never selects units.
 10. Persist each reservation ID and returned physical-unit references locally.
-11. Transition to `RESERVED`, then `PENDING_PAYMENT`.
-12. Return the order. No payment is processed.
+11. Transition to `RESERVED`, then to `PENDING_PAYMENT` for online payment or `CONFIRMED` for COD.
+12. For COD, enqueue fulfillment immediately; no gateway call is made. For online, return the order for Payment Service checkout creation.
 
 ```mermaid
 sequenceDiagram
@@ -364,21 +366,22 @@ sequenceDiagram
     O-->>C: cancelled order
 ```
 
-### Future payment and shipping
+### Payment and shipping
 
 ```mermaid
 sequenceDiagram
-    participant P as Future Payment Service
+    participant P as Payment Service
     participant O as Order Service
-    participant F as Future Fulfillment Service
-    P->>O: payment success
+    participant F as Shipping/Fulfillment Service
+    P->>O: POST payment-events (CAPTURED)
     O->>O: PENDING_PAYMENT -> PAID -> CONFIRMED
-    O->>F: future fulfillment event/command
+    O->>O: enqueue unique fulfillment outbox row
+    O->>F: POST /internal/fulfillments (retrying worker)
     F->>O: FULFILLING -> SHIPPED -> DELIVERED
     O->>O: DELIVERED -> COMPLETED
 ```
 
-### Future payment
+### Payment failure boundary
 
 ```mermaid
 sequenceDiagram
@@ -386,11 +389,11 @@ sequenceDiagram
     participant O as Order
     P->>O: payment success
     O->>O: PENDING_PAYMENT -> PAID -> CONFIRMED
-    P-->>O: payment failure (future)
-    O->>O: release Inventory; CANCELLED or FAILED
+    P-->>O: payment failure event
+    O->>O: payment failure workflow releases Inventory
 ```
 
-### Future shipping
+### Shipping milestones
 
 ```mermaid
 sequenceDiagram
@@ -473,7 +476,7 @@ If Inventory succeeds but the local reference update fails, the next idempotent 
 
 ## Address Snapshot
 
-Shipping address snapshot persistence is deferred in v1. The service deliberately does not create mutable Customer/Address CRUD or reference another service's address table. The next enhancement is an `order_shipping_addresses` table containing `recipientName`, `phone`, `line1`, optional `line2`, `city`, `state`, `postalCode`, `country`, and `createdAt`, copied at order creation.
+At checkout, the caller supplies the selected Customer address values as `shippingAddress`. Order validates and copies them into the immutable `order_shipping_addresses` table. `sourceAddressId` is an optional traceability reference only; Order does not keep a foreign key to Customer and later Customer edits cannot change the historical destination.
 
 ## API Reference
 
@@ -562,7 +565,7 @@ Successful checkout preparation returns a response shaped like:
 }
 ```
 
-Customer responses omit reservation and physical-unit references. Staff responses with `ORDER_READ` include them where persisted. The create request remains limited to `currency`, `sku`, `quantity`, and an optional preferred location; product snapshots and prices are resolved from Catalog by Order.
+Customer responses omit reservation and physical-unit references. Staff responses with `ORDER_READ` include them where persisted. The create request contains `currency`, `sku`, `quantity`, an optional preferred location, and a required `shippingAddress`; product snapshots and prices are resolved from Catalog by Order.
 
 ## Database Schema
 
@@ -677,13 +680,20 @@ The key belongs to a different normalized payload, or an earlier request has cla
 
 That is expected. Order items are historical snapshots and are never recalculated from current Catalog.
 
-## Future Payment Integration
+## Payment and fulfillment integration
 
-Payment Service will move `PENDING_PAYMENT -> PAID -> CONFIRMED`. Payment failures must release Inventory through the same explicit orchestration/compensation model and transition to `FAILED` or `CANCELLED` according to the payment workflow. Order will never store card number, CVV, payment JWT, or refresh token.
+Payment Service calls `POST /internal/orders/{orderId}/payment-events` after a
+validated capture. Order verifies the customer, amount, and currency, then
+moves `PENDING_PAYMENT -> PAID -> CONFIRMED`. It records a unique
+`fulfillment_outbox` row and a scheduled worker calls Shipping's
+`POST /internal/fulfillments` contract. The outbox is idempotent by `orderId`
+and retries when Shipping is unavailable, so a temporary Shipping outage does
+not roll back the paid Order.
 
-## Future Shipping Integration
-
-Fulfillment/Shipping will own shipping workflows and drive `CONFIRMED -> FULFILLING -> SHIPPED -> DELIVERED -> COMPLETED`. `completedAt` is reserved for the final local transition.
+Shipping owns the operational fulfillment and drives
+`CONFIRMED -> FULFILLING -> SHIPPED -> DELIVERED -> COMPLETED` through its
+milestone callback. `completedAt` is reserved for the final local transition.
+Order never stores card number, CVV, payment JWT, or refresh token.
 
 ## Future Event-Driven Architecture
 

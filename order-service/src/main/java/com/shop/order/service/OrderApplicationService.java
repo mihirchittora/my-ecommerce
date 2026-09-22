@@ -10,10 +10,13 @@ import com.shop.order.domain.OrderEventType;
 import com.shop.order.domain.OrderHistory;
 import com.shop.order.domain.OrderIdempotency;
 import com.shop.order.domain.OrderRepository;
+import com.shop.order.domain.OrderShippingAddress;
 import com.shop.order.domain.OrderStatus;
+import com.shop.order.domain.PaymentMethod;
 import com.shop.order.exception.BadRequestException;
 import com.shop.order.exception.ConflictException;
 import com.shop.order.exception.InsufficientInventoryException;
+import com.shop.order.exception.MalformedDependencyResponseException;
 import com.shop.order.exception.NotFoundException;
 import com.shop.order.exception.OrderApiException;
 import com.shop.order.exception.RemoteDependencyException;
@@ -45,6 +48,8 @@ public class OrderApplicationService {
     private final OrderIdempotencyService idempotency;
     private final OrderWriteService writes;
     private final OrderReadService reads;
+    private final PaymentMethodEligibilityService paymentMethods;
+    private final FulfillmentOrchestrator fulfillmentOrchestrator;
     private final long reservationExpiryMinutes;
 
     public OrderApplicationService(CatalogClient catalog,
@@ -54,6 +59,8 @@ public class OrderApplicationService {
                                    OrderIdempotencyService idempotency,
                                    OrderWriteService writes,
                                    OrderReadService reads,
+                                   PaymentMethodEligibilityService paymentMethods,
+                                   FulfillmentOrchestrator fulfillmentOrchestrator,
                                    @Value("${app.reservation.expiry-minutes:15}") long reservationExpiryMinutes) {
         this.catalog = catalog;
         this.inventory = inventory;
@@ -62,6 +69,8 @@ public class OrderApplicationService {
         this.idempotency = idempotency;
         this.writes = writes;
         this.reads = reads;
+        this.paymentMethods = paymentMethods;
+        this.fulfillmentOrchestrator = fulfillmentOrchestrator;
         this.reservationExpiryMinutes = reservationExpiryMinutes;
     }
 
@@ -106,6 +115,8 @@ public class OrderApplicationService {
 
         CustomerOrder order = buildPendingOrder(customerId, key, requestHash, normalized, snapshots);
         try {
+            paymentMethods.requireEligible(order.getPaymentMethod(), order.getCurrency(), order.getTotalAmount(),
+                    order.getShippingAddress().getCountry());
             writes.createPending(order);
             idempotency.linkToOrder(claim, order.getId());
         } catch (RuntimeException ex) {
@@ -121,6 +132,12 @@ public class OrderApplicationService {
 
     public Page<OrderDtos.OrderSummaryResponse> listMy(int page, int size, String sort, Authentication authentication) {
         return reads.myOrders(subject(authentication), pageable(page, size, sort));
+    }
+
+    public OrderDtos.PaymentMethodOptionsResponse paymentMethods(String currency, BigDecimal amount, String country,
+                                                                 Authentication authentication) {
+        subject(authentication);
+        return paymentMethods.options(currency, amount, country);
     }
 
     public Page<OrderDtos.OrderSummaryResponse> list(OrderStatus status, String orderNumber, String customerId,
@@ -175,12 +192,18 @@ public class OrderApplicationService {
                 Instant expiresAt = Instant.now().plusSeconds(reservationExpiryMinutes * 60);
                 InventoryReservation reservation = inventory.reserve(item.getSku(), preferredLocationId,
                         item.getQuantity(), reference, expiresAt);
+                if (reservation == null) {
+                    throw new MalformedDependencyResponseException("Inventory", "reservation response is empty");
+                }
                 successful.add(new ItemReservation(item.getId(), reservation));
                 writes.attachReservation(orderId, item.getId(), reservation);
                 log.info("Inventory reservation succeeded orderId={} orderNumber={} sku={} reservationId={}",
                         orderId, order.getOrderNumber(), item.getSku(), reservation.reservationId());
             }
-            writes.markReservedAndPendingPayment(orderId, actorUserId);
+            writes.markReservedAndPendingPayment(orderId, actorUserId, order.getPaymentMethod());
+            if (order.getPaymentMethod() == PaymentMethod.CASH_ON_DELIVERY) {
+                fulfillmentOrchestrator.enqueue(orderId);
+            }
         } catch (InsufficientInventoryException ex) {
             boolean compensated = compensate(orderId, successful);
             if (compensated) writes.markFailed(orderId, ex.getMessage(), actorUserId);
@@ -228,7 +251,9 @@ public class OrderApplicationService {
         order.setIdempotencyKey(idempotencyKey);
         order.setIdempotencyPayloadHash(requestHash);
         order.setStatus(OrderStatus.PENDING_RESERVATION);
+        order.setPaymentMethod(request.paymentMethod());
         order.setCurrency(request.currency());
+        order.attachShippingAddress(OrderShippingAddress.from(request.shippingAddress()));
 
         for (OrderRequestNormalizer.NormalizedLine line : request.lines()) {
             CatalogSku snapshot = bySku.get(line.sku());

@@ -28,6 +28,7 @@ function getFallbackMessage(status: number, path: string, service: ServiceName) 
     if (service === "cart") return "Cart not found.";
     if (service === "customer") return "Customer resource not found.";
     if (service === "payment") return "Payment not found.";
+    if (service === "shipping") return path.includes("fulfillment") ? "Fulfillment not found." : "Shipment not found.";
   }
   if (status === 409) return service === "order" ? "Order cannot be changed in its current state." : service === "cart" ? "Cart cannot be read in its current state." : "This change conflicts with existing catalog data.";
     if (status >= 500) return "Something went wrong. Please try again.";
@@ -66,7 +67,7 @@ export async function requestForService<T>(service: ServiceName, path: string, o
     try {
       response = await fetch(`${getApiBaseUrl(service)}${path}`, { ...options, headers });
     } catch {
-      const label = service === "auth" ? "Authentication" : service === "catalog" ? "Catalog" : service === "inventory" ? "Inventory" : service === "order" ? "Order" : service === "cart" ? "Cart" : service === "customer" ? "Customer" : "Payment";
+      const label = service === "auth" ? "Authentication" : service === "catalog" ? "Catalog" : service === "inventory" ? "Inventory" : service === "order" ? "Order" : service === "cart" ? "Cart" : service === "customer" ? "Customer" : service === "payment" ? "Payment" : "Shipping";
       throw new ApiError(0, `${label} service is unavailable. Check that it is running.`, [], {}, service);
     }
 
@@ -123,6 +124,7 @@ export const orderClient = createApiClient("order");
 export const cartClient = createApiClient("cart");
 export const customerClient = createApiClient("customer");
 export const paymentClient = createApiClient("payment");
+export const shippingClient = createApiClient("shipping");
 
 // Backwards-compatible catalog request helper for the existing catalog modules.
 export function request<T>(path: string, options: RequestInit = {}) {

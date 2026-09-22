@@ -5,6 +5,7 @@ public enum PaymentStatus {
     PENDING,
     AUTHORIZED,
     CAPTURED,
+    PENDING_COLLECTION,
     FAILED,
     CANCELLED,
     REFUND_PENDING,

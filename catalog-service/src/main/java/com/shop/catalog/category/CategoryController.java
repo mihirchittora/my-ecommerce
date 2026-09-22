@@ -41,6 +41,12 @@ public class CategoryController {
         return service.get(id);
     }
 
+    @Operation(summary = "Get a category by public slug")
+    @GetMapping("/slug/{slug}")
+    public CategoryDtos.Response getBySlug(@PathVariable String slug) {
+        return service.getBySlug(slug);
+    }
+
     @Operation(summary = "List categories", description = "List root categories or children of a parent category")
     @GetMapping
     public List<CategoryDtos.Response> list(@RequestParam(required = false) UUID parentId) {

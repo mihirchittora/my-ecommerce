@@ -45,6 +45,15 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
+    public CategoryDtos.Response getBySlug(String slug) {
+        if (slug == null || slug.isBlank()) {
+            throw new NotFoundException("Category not found");
+        }
+        return CategoryDtos.Response.from(repository.findBySlug(slug.trim().toLowerCase(Locale.ROOT))
+                .orElseThrow(() -> new NotFoundException("Category not found: " + slug)));
+    }
+
+    @Transactional(readOnly = true)
     public List<CategoryDtos.Response> list(UUID parentId) {
         if (parentId != null) {
             find(parentId);

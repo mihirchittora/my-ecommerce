@@ -8,6 +8,7 @@ import com.shop.order.domain.OrderItem;
 import com.shop.order.domain.OrderItemInventoryUnit;
 import com.shop.order.domain.OrderRepository;
 import com.shop.order.domain.OrderStatus;
+import com.shop.order.domain.PaymentMethod;
 import com.shop.order.exception.ConflictException;
 import com.shop.order.exception.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -87,6 +88,11 @@ public class OrderWriteService {
 
     @Transactional
     public void markReservedAndPendingPayment(UUID orderId, String actorUserId) {
+        markReservedAndPendingPayment(orderId, actorUserId, PaymentMethod.ONLINE);
+    }
+
+    @Transactional
+    public void markReservedAndPendingPayment(UUID orderId, String actorUserId, PaymentMethod paymentMethod) {
         CustomerOrder order = load(orderId);
         if (order.getStatus() != OrderStatus.PENDING_RESERVATION) return;
         if (order.getItems().stream().anyMatch(item -> item.getReservationId() == null)) {
@@ -98,11 +104,19 @@ public class OrderWriteService {
         addHistory(order, from, OrderStatus.RESERVED, OrderEventType.RESERVATION_CONFIRMED,
                 order.getOrderNumber(), "Inventory reservations confirmed", actorUserId);
 
-        from = order.getStatus();
-        OrderStateMachine.requireTransition(from, OrderStatus.PENDING_PAYMENT);
-        order.setStatus(OrderStatus.PENDING_PAYMENT);
-        addHistory(order, from, OrderStatus.PENDING_PAYMENT, OrderEventType.ORDER_READY_FOR_PAYMENT,
-                order.getOrderNumber(), "Checkout is ready for a future payment service", actorUserId);
+        if (paymentMethod == PaymentMethod.CASH_ON_DELIVERY) {
+            from = order.getStatus();
+            OrderStateMachine.requireTransition(from, OrderStatus.CONFIRMED);
+            order.setStatus(OrderStatus.CONFIRMED);
+            addHistory(order, from, OrderStatus.CONFIRMED, OrderEventType.ORDER_CONFIRMED,
+                    order.getOrderNumber(), "Cash on delivery order confirmed for fulfillment", actorUserId);
+        } else {
+            from = order.getStatus();
+            OrderStateMachine.requireTransition(from, OrderStatus.PENDING_PAYMENT);
+            order.setStatus(OrderStatus.PENDING_PAYMENT);
+            addHistory(order, from, OrderStatus.PENDING_PAYMENT, OrderEventType.ORDER_READY_FOR_PAYMENT,
+                    order.getOrderNumber(), "Checkout is ready for a future payment service", actorUserId);
+        }
         orders.saveAndFlush(order);
     }
 

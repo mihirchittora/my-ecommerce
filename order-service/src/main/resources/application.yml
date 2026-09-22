@@ -36,8 +36,24 @@ app:
     service-token: ${INVENTORY_SERVICE_TOKEN:}
     connect-timeout-ms: ${INVENTORY_CONNECT_TIMEOUT_MS:2000}
     read-timeout-ms: ${INVENTORY_READ_TIMEOUT_MS:3000}
+  shipping:
+    base-url: ${SHIPPING_SERVICE_URL:http://localhost:8088}
+    service-token: ${ORDER_TO_SHIPPING_SERVICE_TOKEN:}
+    connect-timeout-ms: ${SHIPPING_CONNECT_TIMEOUT_MS:2000}
+    read-timeout-ms: ${SHIPPING_READ_TIMEOUT_MS:3000}
   reservation:
     expiry-minutes: ${ORDER_RESERVATION_EXPIRY_MINUTES:15}
+  cod:
+    enabled: ${ORDER_COD_ENABLED:true}
+    max-order-amount: ${ORDER_COD_MAX_ORDER_AMOUNT:50000}
+    countries: ${ORDER_COD_COUNTRIES:IN}
+    currencies: ${ORDER_COD_CURRENCIES:INR}
+  service-auth:
+    shipping-token: ${SHIPPING_TO_ORDER_SERVICE_TOKEN:}
+    payment-token: ${PAYMENT_TO_ORDER_SERVICE_TOKEN:}
+  fulfillment:
+    outbox-poll-ms: ${FULFILLMENT_OUTBOX_POLL_MS:5000}
+    outbox-batch-size: ${FULFILLMENT_OUTBOX_BATCH_SIZE:20}
 
 management:
   endpoints:

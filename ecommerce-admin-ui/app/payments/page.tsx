@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { PaymentFilters, isPaymentFilterProvider, isPaymentFilterStatus } from "@/components/payments/payment-filters";
+import { PaymentFilters, isPaymentFilterMethod, isPaymentFilterProvider, isPaymentFilterStatus } from "@/components/payments/payment-filters";
 import { PaymentTable } from "@/components/payments/payment-table";
 import { EmptyState, ErrorState, LoadingCard } from "@/components/feedback-states";
 import { PageIntro } from "@/components/page-intro";
@@ -31,6 +31,7 @@ function readSort(value: string | null): PaymentSort {
 function readFilters(searchParams: ReturnType<typeof useSearchParams>): PaymentListParams {
   const status = searchParams.get("status");
   const provider = searchParams.get("provider");
+  const paymentMethod = searchParams.get("paymentMethod");
   return {
     page: readPage(searchParams.get("page")),
     size: readSize(searchParams.get("size")),
@@ -38,6 +39,7 @@ function readFilters(searchParams: ReturnType<typeof useSearchParams>): PaymentL
     search: searchParams.get("search") || undefined,
     status: status && isPaymentFilterStatus(status) ? status : undefined,
     provider: provider && isPaymentFilterProvider(provider) ? provider : undefined,
+    paymentMethod: paymentMethod && isPaymentFilterMethod(paymentMethod) ? paymentMethod : undefined,
     currency: searchParams.get("currency") || undefined,
     createdFrom: searchParams.get("createdFrom") || undefined,
     createdTo: searchParams.get("createdTo") || undefined,
@@ -82,13 +84,14 @@ export default function PaymentsPage() {
     return () => window.clearTimeout(timer);
   }, [filters.search, searchValue, updateParams]);
 
-  const activeFilters = Boolean(filters.search || filters.status || filters.provider || filters.currency || filters.createdFrom || filters.createdTo);
-  const updateFilter = (key: "status" | "provider" | "currency" | "createdFrom" | "createdTo", value: string) => {
+  const activeFilters = Boolean(filters.search || filters.status || filters.provider || filters.paymentMethod || filters.currency || filters.createdFrom || filters.createdTo);
+  const updateFilter = (key: "status" | "provider" | "paymentMethod" | "currency" | "createdFrom" | "createdTo", value: string) => {
     if (key === "status") updateParams({ status: value && PAYMENT_STATUSES.includes(value as (typeof PAYMENT_STATUSES)[number]) ? value : undefined });
+    else if (key === "paymentMethod") updateParams({ paymentMethod: value || undefined });
     else updateParams({ [key]: value });
   };
 
-  return <><PageIntro eyebrow="Payment operations" title="Payments" description="Monitor payment state, gateway attempts, and refunds without crossing Order or Customer ownership boundaries." /><PaymentFilters values={filters} searchValue={searchValue} onSearchChange={setSearchValue} onChange={updateFilter} /><div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><p className="text-sm text-slate-500">{payments.data ? `${payments.data.totalElements} payment${payments.data.totalElements === 1 ? "" : "s"}` : "Loading payments…"}{activeFilters && <span className="ml-2 text-slate-400">· Filters applied</span>}</p><PaymentSortControl value={filters.sort} onChange={(sort) => updateParams({ sort })} /></div><div className="mt-4">{payments.isLoading ? <LoadingCard rows={7} /> : payments.isError ? <ErrorState title="Payments are unavailable" message={errorMessage(payments.error)} onRetry={() => void payments.refetch()} /> : payments.data?.content.length === 0 ? <EmptyState title="No payments found" message={activeFilters ? "No payments match these filters." : "No payments have been recorded yet."} action={activeFilters ? <Link href="/payments" className="text-sm font-semibold text-primary hover:underline">Clear filters</Link> : undefined} /> : payments.data && <PaymentTable page={payments.data} pageSize={filters.size} onPageChange={(page) => updateParams({ page })} onPageSizeChange={(size) => updateParams({ size, page: 0 })} />}</div></>;
+  return <><PageIntro eyebrow="Payment operations" title="Payments" description="Monitor online payments and cash-on-delivery collection without crossing Order or Customer ownership boundaries." /><PaymentFilters values={filters} searchValue={searchValue} onSearchChange={setSearchValue} onChange={updateFilter} /><div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><p className="text-sm text-slate-500">{payments.data ? `${payments.data.totalElements} payment${payments.data.totalElements === 1 ? "" : "s"}` : "Loading payments…"}{activeFilters && <span className="ml-2 text-slate-400">· Filters applied</span>}</p><PaymentSortControl value={filters.sort} onChange={(sort) => updateParams({ sort })} /></div><div className="mt-4">{payments.isLoading ? <LoadingCard rows={7} /> : payments.isError ? <ErrorState title="Payments are unavailable" message={errorMessage(payments.error)} onRetry={() => void payments.refetch()} /> : payments.data?.content.length === 0 ? <EmptyState title="No payments found" message={activeFilters ? "No payments match these filters." : "No payments have been recorded yet."} action={activeFilters ? <Link href="/payments" className="text-sm font-semibold text-primary hover:underline">Clear filters</Link> : undefined} /> : payments.data && <PaymentTable page={payments.data} pageSize={filters.size} onPageChange={(page) => updateParams({ page })} onPageSizeChange={(size) => updateParams({ size, page: 0 })} />}</div></>;
 }
 
 function PaymentSortControl({ value, onChange }: { value: PaymentSort; onChange: (value: PaymentSort) => void }) {

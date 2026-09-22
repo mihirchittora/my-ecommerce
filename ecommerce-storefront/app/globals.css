@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { --background: 36 33% 95%; --foreground: 163 31% 15%; }
+  * { @apply border-ink/10; }
+  html { scroll-behavior: smooth; }
+  body { @apply bg-sand text-ink antialiased; }
+  ::selection { @apply bg-coral/25 text-ink; }
+  a, button, input, textarea, select { @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-sand; }
+}
+
+@layer components {
+  .eyebrow { @apply text-xs font-bold uppercase tracking-[0.18em] text-moss; }
+  .page-shell { @apply mx-auto max-w-7xl px-5 lg:px-8; }
+  .section-space { @apply py-14 md:py-20; }
+  .field-label { @apply mb-2 block text-sm font-semibold text-ink; }
+  .prose-copy { @apply leading-7 text-ink/65; }
+}

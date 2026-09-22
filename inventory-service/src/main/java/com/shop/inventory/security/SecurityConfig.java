@@ -40,7 +40,8 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, ObjectProvider<JwtDecoder> decoderProvider,
-                                            OrderServiceAuthenticationFilter orderServiceAuthenticationFilter) throws Exception {
+                                            OrderServiceAuthenticationFilter orderServiceAuthenticationFilter,
+                                            ShippingServiceAuthenticationFilter shippingServiceAuthenticationFilter) throws Exception {
         http.csrf(csrf -> csrf.disable()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         if (!enabled) {
             http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
@@ -48,8 +49,11 @@ public class SecurityConfig {
         }
         http.addFilterBefore(orderServiceAuthenticationFilter,
                 org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter.class);
+        http.addFilterBefore(shippingServiceAuthenticationFilter,
+                org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter.class);
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/actuator/health", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/inventory/availability/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/inventory/transfers").hasAuthority("INVENTORY_TRANSFER")
                 .requestMatchers(HttpMethod.GET, "/api/v1/inventory", "/api/v1/inventory/*").hasAuthority("INVENTORY_READ")
                 .requestMatchers(HttpMethod.GET, "/api/v1/inventory/*/units", "/api/v1/inventory/units/*").hasAuthority("INVENTORY_UNIT_READ")
@@ -59,7 +63,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/v1/inventory/transfers").hasAuthority("INVENTORY_TRANSFER")
                 .requestMatchers(HttpMethod.POST, "/api/v1/inventory/*/reconcile").hasAuthority("INVENTORY_RECONCILE")
                 .requestMatchers(HttpMethod.POST, "/api/v1/inventory/*/reservations").hasAnyAuthority("INVENTORY_RESERVE", "SERVICE_ORDER")
-                .requestMatchers(HttpMethod.GET, "/api/v1/inventory/reservations/*").hasAuthority("INVENTORY_READ")
+                .requestMatchers(HttpMethod.GET, "/api/v1/inventory/reservations/*").hasAnyAuthority("INVENTORY_READ", "SERVICE_SHIPPING")
+                .requestMatchers(HttpMethod.POST, "/api/v1/inventory/reservations/*/shipping-transition").hasAuthority("SERVICE_SHIPPING")
                 .requestMatchers(HttpMethod.POST, "/api/v1/inventory/reservations/*/confirm").hasAuthority("INVENTORY_CONFIRM")
                 .requestMatchers(HttpMethod.POST, "/api/v1/inventory/reservations/*/release").hasAnyAuthority("INVENTORY_RELEASE", "SERVICE_ORDER")
                 .requestMatchers(HttpMethod.POST, "/api/v1/inventory/reservations/*/cancel").hasAuthority("INVENTORY_RELEASE")

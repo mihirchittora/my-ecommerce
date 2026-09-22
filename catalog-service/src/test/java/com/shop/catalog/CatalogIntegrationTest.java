@@ -149,6 +149,57 @@ class CatalogIntegrationTest {
     }
 
     @Test
+    void discoveryFiltersAndFacetsUseCatalogAttributes() throws Exception {
+        UUID category = createCategory("Discovery Filters", null);
+        mvc.perform(post("/api/v1/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "categoryId":"%s",
+                                  "name":"Light Roast",
+                                  "brand":"Hearthline",
+                                  "status":"ACTIVE",
+                                  "variants":[{"sku":"FILTER-LIGHT","price":499.00,"currency":"INR","attributes":{"roastLevel":"LIGHT","format":"WHOLE_BEAN"},"status":"ACTIVE"}],
+                                  "images":[]
+                                }
+                                """.formatted(category)))
+                .andExpect(status().isCreated());
+        mvc.perform(post("/api/v1/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "categoryId":"%s",
+                                  "name":"Dark Roast",
+                                  "brand":"Nightjar",
+                                  "status":"ACTIVE",
+                                  "variants":[{"sku":"FILTER-DARK","price":799.00,"currency":"INR","attributes":{"roastLevel":"DARK","format":"GROUND"},"status":"ACTIVE"}],
+                                  "images":[]
+                                }
+                                """.formatted(category)))
+                .andExpect(status().isCreated());
+
+        mvc.perform(get("/api/v1/products")
+                        .param("categoryId", category.toString())
+                        .param("status", "ACTIVE")
+                        .param("priceMin", "700")
+                        .param("brand", "Nightjar")
+                        .param("attribute", "roastLevel:DARK"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.content[0].name").value("Dark Roast"));
+
+        mvc.perform(get("/api/v1/products/facets")
+                        .param("categoryId", category.toString())
+                        .param("status", "ACTIVE"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.price.min").value(499.0))
+                .andExpect(jsonPath("$.price.max").value(799.0))
+                .andExpect(jsonPath("$.brands").isArray())
+                .andExpect(jsonPath("$.attributes.roastLevel").isArray())
+                .andExpect(jsonPath("$.attributes.roastLevel").value(org.hamcrest.Matchers.hasItems("LIGHT", "DARK")));
+    }
+
+    @Test
     void productExpiryDateIsOptionalAndPersisted() throws Exception {
         UUID category = createCategory("Expiry Products", null);
 

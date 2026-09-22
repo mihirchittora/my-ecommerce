@@ -18,7 +18,7 @@ public final class PaymentDtos {
     public record CreatePaymentRequest(
             @NotNull UUID orderId,
             @Size(max = 40) String preferredProvider,
-            @Size(max = 60) String paymentMethodType) {
+            PaymentMethod paymentMethod) {
     }
 
     public record RefundRequest(
@@ -33,6 +33,7 @@ public final class PaymentDtos {
             BigDecimal amount,
             String currency,
             PaymentStatus status,
+            PaymentMethod paymentMethod,
             String provider,
             String providerPaymentId,
             String providerOrderId,
@@ -60,6 +61,7 @@ public final class PaymentDtos {
             BigDecimal amount,
             String currency,
             PaymentStatus status,
+            PaymentMethod paymentMethod,
             String provider,
             String providerPaymentId,
             String providerOrderId,

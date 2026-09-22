@@ -1,0 +1,380 @@
+{
+  "seedVersion": "1.0.0",
+  "skus": [
+    {
+      "sku": "HIGHLAND-COCOA-WB-250",
+      "productKey": "product-01",
+      "variantKey": "HIGHLAND-COCOA-WB-250"
+    },
+    {
+      "sku": "HIGHLAND-COCOA-GR-250",
+      "productKey": "product-01",
+      "variantKey": "HIGHLAND-COCOA-GR-250"
+    },
+    {
+      "sku": "HIGHLAND-COCOA-WB-500",
+      "productKey": "product-01",
+      "variantKey": "HIGHLAND-COCOA-WB-500"
+    },
+    {
+      "sku": "EMBER-VALLEY-WB-250",
+      "productKey": "product-02",
+      "variantKey": "EMBER-VALLEY-WB-250"
+    },
+    {
+      "sku": "EMBER-VALLEY-GR-250",
+      "productKey": "product-02",
+      "variantKey": "EMBER-VALLEY-GR-250"
+    },
+    {
+      "sku": "EMBER-VALLEY-WB-500",
+      "productKey": "product-02",
+      "variantKey": "EMBER-VALLEY-WB-500"
+    },
+    {
+      "sku": "RAINLINE-HONEY-WB-250",
+      "productKey": "product-03",
+      "variantKey": "RAINLINE-HONEY-WB-250"
+    },
+    {
+      "sku": "RAINLINE-HONEY-GR-250",
+      "productKey": "product-03",
+      "variantKey": "RAINLINE-HONEY-GR-250"
+    },
+    {
+      "sku": "RAINLINE-HONEY-WB-500",
+      "productKey": "product-03",
+      "variantKey": "RAINLINE-HONEY-WB-500"
+    },
+    {
+      "sku": "ORCHARD-PEAK-WB-250",
+      "productKey": "product-04",
+      "variantKey": "ORCHARD-PEAK-WB-250"
+    },
+    {
+      "sku": "ORCHARD-PEAK-GR-250",
+      "productKey": "product-04",
+      "variantKey": "ORCHARD-PEAK-GR-250"
+    },
+    {
+      "sku": "ORCHARD-PEAK-WB-500",
+      "productKey": "product-04",
+      "variantKey": "ORCHARD-PEAK-WB-500"
+    },
+    {
+      "sku": "CEDAR-BLOOM-WB-250",
+      "productKey": "product-05",
+      "variantKey": "CEDAR-BLOOM-WB-250"
+    },
+    {
+      "sku": "CEDAR-BLOOM-GR-250",
+      "productKey": "product-05",
+      "variantKey": "CEDAR-BLOOM-GR-250"
+    },
+    {
+      "sku": "CEDAR-BLOOM-WB-500",
+      "productKey": "product-05",
+      "variantKey": "CEDAR-BLOOM-WB-500"
+    },
+    {
+      "sku": "MONSOON-TRAIL-WB-250",
+      "productKey": "product-06",
+      "variantKey": "MONSOON-TRAIL-WB-250"
+    },
+    {
+      "sku": "MONSOON-TRAIL-GR-250",
+      "productKey": "product-06",
+      "variantKey": "MONSOON-TRAIL-GR-250"
+    },
+    {
+      "sku": "MONSOON-TRAIL-WB-500",
+      "productKey": "product-06",
+      "variantKey": "MONSOON-TRAIL-WB-500"
+    },
+    {
+      "sku": "SUNLIT-SPICE-WB-250",
+      "productKey": "product-07",
+      "variantKey": "SUNLIT-SPICE-WB-250"
+    },
+    {
+      "sku": "SUNLIT-SPICE-GR-250",
+      "productKey": "product-07",
+      "variantKey": "SUNLIT-SPICE-GR-250"
+    },
+    {
+      "sku": "SUNLIT-SPICE-WB-500",
+      "productKey": "product-07",
+      "variantKey": "SUNLIT-SPICE-WB-500"
+    },
+    {
+      "sku": "NIGHTJAR-ROAST-WB-250",
+      "productKey": "product-08",
+      "variantKey": "NIGHTJAR-ROAST-WB-250"
+    },
+    {
+      "sku": "NIGHTJAR-ROAST-GR-250",
+      "productKey": "product-08",
+      "variantKey": "NIGHTJAR-ROAST-GR-250"
+    },
+    {
+      "sku": "NIGHTJAR-ROAST-WB-500",
+      "productKey": "product-08",
+      "variantKey": "NIGHTJAR-ROAST-WB-500"
+    },
+    {
+      "sku": "CANYON-BLOOM-WB-250",
+      "productKey": "product-09",
+      "variantKey": "CANYON-BLOOM-WB-250"
+    },
+    {
+      "sku": "CANYON-BLOOM-GR-250",
+      "productKey": "product-09",
+      "variantKey": "CANYON-BLOOM-GR-250"
+    },
+    {
+      "sku": "CANYON-BLOOM-WB-500",
+      "productKey": "product-09",
+      "variantKey": "CANYON-BLOOM-WB-500"
+    },
+    {
+      "sku": "STONEFRUIT-DRIFT-WB-250",
+      "productKey": "product-10",
+      "variantKey": "STONEFRUIT-DRIFT-WB-250"
+    },
+    {
+      "sku": "STONEFRUIT-DRIFT-GR-250",
+      "productKey": "product-10",
+      "variantKey": "STONEFRUIT-DRIFT-GR-250"
+    },
+    {
+      "sku": "STONEFRUIT-DRIFT-WB-500",
+      "productKey": "product-10",
+      "variantKey": "STONEFRUIT-DRIFT-WB-500"
+    },
+    {
+      "sku": "LANTERN-HOUSE-WB-250",
+      "productKey": "product-11",
+      "variantKey": "LANTERN-HOUSE-WB-250"
+    },
+    {
+      "sku": "LANTERN-HOUSE-GR-250",
+      "productKey": "product-11",
+      "variantKey": "LANTERN-HOUSE-GR-250"
+    },
+    {
+      "sku": "LANTERN-HOUSE-WB-500",
+      "productKey": "product-11",
+      "variantKey": "LANTERN-HOUSE-WB-500"
+    },
+    {
+      "sku": "RIVERBEND-DARK-WB-250",
+      "productKey": "product-12",
+      "variantKey": "RIVERBEND-DARK-WB-250"
+    },
+    {
+      "sku": "RIVERBEND-DARK-GR-250",
+      "productKey": "product-12",
+      "variantKey": "RIVERBEND-DARK-GR-250"
+    },
+    {
+      "sku": "RIVERBEND-DARK-WB-500",
+      "productKey": "product-12",
+      "variantKey": "RIVERBEND-DARK-WB-500"
+    },
+    {
+      "sku": "GOLDEN-CANOPY-WB-250",
+      "productKey": "product-13",
+      "variantKey": "GOLDEN-CANOPY-WB-250"
+    },
+    {
+      "sku": "GOLDEN-CANOPY-GR-250",
+      "productKey": "product-13",
+      "variantKey": "GOLDEN-CANOPY-GR-250"
+    },
+    {
+      "sku": "GOLDEN-CANOPY-WB-500",
+      "productKey": "product-13",
+      "variantKey": "GOLDEN-CANOPY-WB-500"
+    },
+    {
+      "sku": "CLOUDLINE-ESTATE-WB-250",
+      "productKey": "product-14",
+      "variantKey": "CLOUDLINE-ESTATE-WB-250"
+    },
+    {
+      "sku": "CLOUDLINE-ESTATE-GR-250",
+      "productKey": "product-14",
+      "variantKey": "CLOUDLINE-ESTATE-GR-250"
+    },
+    {
+      "sku": "CLOUDLINE-ESTATE-WB-500",
+      "productKey": "product-14",
+      "variantKey": "CLOUDLINE-ESTATE-WB-500"
+    },
+    {
+      "sku": "HEARTH-BLEND-WB-250",
+      "productKey": "product-15",
+      "variantKey": "HEARTH-BLEND-WB-250"
+    },
+    {
+      "sku": "HEARTH-BLEND-GR-250",
+      "productKey": "product-15",
+      "variantKey": "HEARTH-BLEND-GR-250"
+    },
+    {
+      "sku": "HEARTH-BLEND-WB-500",
+      "productKey": "product-15",
+      "variantKey": "HEARTH-BLEND-WB-500"
+    },
+    {
+      "sku": "PORCHLIGHT-BLEND-WB-250",
+      "productKey": "product-16",
+      "variantKey": "PORCHLIGHT-BLEND-WB-250"
+    },
+    {
+      "sku": "PORCHLIGHT-BLEND-GR-250",
+      "productKey": "product-16",
+      "variantKey": "PORCHLIGHT-BLEND-GR-250"
+    },
+    {
+      "sku": "PORCHLIGHT-BLEND-WB-500",
+      "productKey": "product-16",
+      "variantKey": "PORCHLIGHT-BLEND-WB-500"
+    },
+    {
+      "sku": "ALPINE-MOSS-WB-250",
+      "productKey": "product-17",
+      "variantKey": "ALPINE-MOSS-WB-250"
+    },
+    {
+      "sku": "ALPINE-MOSS-GR-250",
+      "productKey": "product-17",
+      "variantKey": "ALPINE-MOSS-GR-250"
+    },
+    {
+      "sku": "ALPINE-MOSS-WB-500",
+      "productKey": "product-17",
+      "variantKey": "ALPINE-MOSS-WB-500"
+    },
+    {
+      "sku": "SAFFRON-GATE-WB-250",
+      "productKey": "product-18",
+      "variantKey": "SAFFRON-GATE-WB-250"
+    },
+    {
+      "sku": "SAFFRON-GATE-GR-250",
+      "productKey": "product-18",
+      "variantKey": "SAFFRON-GATE-GR-250"
+    },
+    {
+      "sku": "SAFFRON-GATE-WB-500",
+      "productKey": "product-18",
+      "variantKey": "SAFFRON-GATE-WB-500"
+    },
+    {
+      "sku": "AFTERGLOW-WB-250",
+      "productKey": "product-19",
+      "variantKey": "AFTERGLOW-WB-250"
+    },
+    {
+      "sku": "AFTERGLOW-GR-250",
+      "productKey": "product-19",
+      "variantKey": "AFTERGLOW-GR-250"
+    },
+    {
+      "sku": "AFTERGLOW-WB-500",
+      "productKey": "product-19",
+      "variantKey": "AFTERGLOW-WB-500"
+    },
+    {
+      "sku": "MEADOW-SIGNAL-WB-250",
+      "productKey": "product-20",
+      "variantKey": "MEADOW-SIGNAL-WB-250"
+    },
+    {
+      "sku": "MEADOW-SIGNAL-GR-250",
+      "productKey": "product-20",
+      "variantKey": "MEADOW-SIGNAL-GR-250"
+    },
+    {
+      "sku": "MEADOW-SIGNAL-WB-500",
+      "productKey": "product-20",
+      "variantKey": "MEADOW-SIGNAL-WB-500"
+    },
+    {
+      "sku": "EXPLORER-FLIGHT-WB-250",
+      "productKey": "product-21",
+      "variantKey": "EXPLORER-FLIGHT-WB-250"
+    },
+    {
+      "sku": "EXPLORER-FLIGHT-GR-250",
+      "productKey": "product-21",
+      "variantKey": "EXPLORER-FLIGHT-GR-250"
+    },
+    {
+      "sku": "EXPLORER-FLIGHT-WB-500",
+      "productKey": "product-21",
+      "variantKey": "EXPLORER-FLIGHT-WB-500"
+    },
+    {
+      "sku": "BOLD-FLIGHT-WB-250",
+      "productKey": "product-22",
+      "variantKey": "BOLD-FLIGHT-WB-250"
+    },
+    {
+      "sku": "BOLD-FLIGHT-GR-250",
+      "productKey": "product-22",
+      "variantKey": "BOLD-FLIGHT-GR-250"
+    },
+    {
+      "sku": "BOLD-FLIGHT-WB-500",
+      "productKey": "product-22",
+      "variantKey": "BOLD-FLIGHT-WB-500"
+    },
+    {
+      "sku": "WEATHER-NOTES-TRIO-WB-250",
+      "productKey": "product-23",
+      "variantKey": "WEATHER-NOTES-TRIO-WB-250"
+    },
+    {
+      "sku": "WEATHER-NOTES-TRIO-GR-250",
+      "productKey": "product-23",
+      "variantKey": "WEATHER-NOTES-TRIO-GR-250"
+    },
+    {
+      "sku": "WEATHER-NOTES-TRIO-WB-500",
+      "productKey": "product-23",
+      "variantKey": "WEATHER-NOTES-TRIO-WB-500"
+    },
+    {
+      "sku": "WEEKEND-BREW-SET-WB-250",
+      "productKey": "product-24",
+      "variantKey": "WEEKEND-BREW-SET-WB-250"
+    },
+    {
+      "sku": "WEEKEND-BREW-SET-GR-250",
+      "productKey": "product-24",
+      "variantKey": "WEEKEND-BREW-SET-GR-250"
+    },
+    {
+      "sku": "WEEKEND-BREW-SET-WB-500",
+      "productKey": "product-24",
+      "variantKey": "WEEKEND-BREW-SET-WB-500"
+    },
+    {
+      "sku": "EVERYDAY-GROUND-SET-WB-250",
+      "productKey": "product-25",
+      "variantKey": "EVERYDAY-GROUND-SET-WB-250"
+    },
+    {
+      "sku": "EVERYDAY-GROUND-SET-GR-250",
+      "productKey": "product-25",
+      "variantKey": "EVERYDAY-GROUND-SET-GR-250"
+    },
+    {
+      "sku": "EVERYDAY-GROUND-SET-WB-500",
+      "productKey": "product-25",
+      "variantKey": "EVERYDAY-GROUND-SET-WB-500"
+    }
+  ]
+}

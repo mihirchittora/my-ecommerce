@@ -11,6 +11,7 @@ class PaymentStateMachineTest {
     void allowsTheDocumentedCaptureAndRefundLifecycle() {
         assertTrue(PaymentStateMachine.canTransition(PaymentStatus.CREATED, PaymentStatus.PENDING));
         assertTrue(PaymentStateMachine.canTransition(PaymentStatus.PENDING, PaymentStatus.CAPTURED));
+        assertTrue(PaymentStateMachine.canTransition(PaymentStatus.PENDING_COLLECTION, PaymentStatus.CAPTURED));
         assertTrue(PaymentStateMachine.canTransition(PaymentStatus.CAPTURED, PaymentStatus.REFUND_PENDING));
         assertTrue(PaymentStateMachine.canTransition(PaymentStatus.REFUND_PENDING, PaymentStatus.PARTIALLY_REFUNDED));
         assertTrue(PaymentStateMachine.canTransition(PaymentStatus.PARTIALLY_REFUNDED, PaymentStatus.REFUNDED));

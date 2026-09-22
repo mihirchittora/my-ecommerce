@@ -74,6 +74,10 @@ public class CartApplicationService {
                                               Authentication authentication) {
         String customerId = subject(authentication);
         String idempotencyKey = normalizeIdempotencyKey(rawIdempotencyKey);
+        if (request == null || request.shippingAddress() == null) {
+            throw new CartApiException(org.springframework.http.HttpStatus.BAD_REQUEST, "SHIPPING_ADDRESS_REQUIRED",
+                    "shippingAddress is required at checkout");
+        }
         CartWriteService.CheckoutStart start = writes.beginCheckout(customerId, idempotencyKey);
         if (start.alreadyConverted()) {
             Cart converted = start.convertedCart();
@@ -96,7 +100,14 @@ public class CartApplicationService {
             OrderClient.OrderResponse created = order.create(
                     new OrderClient.CreateOrderRequest(start.currency(),
                             start.lines().stream().map(line -> new OrderClient.CreateOrderItem(line.sku(), line.quantity())).toList(),
-                            request == null ? null : request.preferredLocationId()),
+                            request == null ? null : request.preferredLocationId(),
+                            request == null || request.shippingAddress() == null ? null : new OrderClient.ShippingAddressRequest(
+                                    request.shippingAddress().sourceAddressId(), request.shippingAddress().recipientName(),
+                                    request.shippingAddress().phone(), request.shippingAddress().line1(),
+                                    request.shippingAddress().line2(), request.shippingAddress().city(),
+                                    request.shippingAddress().state(), request.shippingAddress().postalCode(),
+                                    request.shippingAddress().country(), request.shippingAddress().landmark()),
+                            request.paymentMethod()),
                     idempotencyKey, bearerToken(authentication));
             Cart converted = writes.markConverted(start.cartId(), customerId, idempotencyKey, created);
             log.info("Cart checkout converted cartId={} customerId={} orderId={} orderNumber={}",

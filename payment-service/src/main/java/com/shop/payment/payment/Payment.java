@@ -51,8 +51,12 @@ public class Payment {
     private PaymentStatus status;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 40)
+    @Column(nullable = true, length = 40)
     private GatewayProvider provider;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method", nullable = false, length = 30)
+    private PaymentMethod paymentMethod;
 
     @Column(name = "provider_payment_id", length = 200)
     private String providerPaymentId;
@@ -133,6 +137,8 @@ public class Payment {
     public void setStatus(PaymentStatus status) { this.status = status; }
     public GatewayProvider getProvider() { return provider; }
     public void setProvider(GatewayProvider provider) { this.provider = provider; }
+    public PaymentMethod getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(PaymentMethod paymentMethod) { this.paymentMethod = paymentMethod; }
     public String getProviderPaymentId() { return providerPaymentId; }
     public void setProviderPaymentId(String providerPaymentId) { this.providerPaymentId = providerPaymentId; }
     public String getProviderOrderId() { return providerOrderId; }

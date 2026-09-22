@@ -12,7 +12,9 @@ class OrderRequestNormalizerTest {
     void mergesDuplicateSkusBeforeCatalogAndInventoryCalls() {
         var request = new OrderDtos.CreateOrderRequest("inr", List.of(
                 new OrderDtos.CreateOrderItemRequest("ip17-blk-256", 1),
-                new OrderDtos.CreateOrderItemRequest("IP17-BLK-256", 2)), null);
+                new OrderDtos.CreateOrderItemRequest("IP17-BLK-256", 2)), null,
+                new OrderDtos.ShippingAddressRequest(null, "Mihir Chittora", "+919999999999", "1 Main Street",
+                        null, "Bengaluru", "Karnataka", "560001", "IN", null));
 
         var normalized = OrderRequestNormalizer.normalize(request);
 

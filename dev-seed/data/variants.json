@@ -1,0 +1,1280 @@
+{
+  "seedVersion": "1.0.0",
+  "variants": [
+    {
+      "productKey": "product-01",
+      "productSlug": "highland-cocoa",
+      "key": "HIGHLAND-COCOA-WB-250",
+      "sku": "HIGHLAND-COCOA-WB-250",
+      "price": 799,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-01",
+      "productSlug": "highland-cocoa",
+      "key": "HIGHLAND-COCOA-GR-250",
+      "sku": "HIGHLAND-COCOA-GR-250",
+      "price": 799,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-01",
+      "productSlug": "highland-cocoa",
+      "key": "HIGHLAND-COCOA-WB-500",
+      "sku": "HIGHLAND-COCOA-WB-500",
+      "price": 1438,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-02",
+      "productSlug": "ember-valley",
+      "key": "EMBER-VALLEY-WB-250",
+      "sku": "EMBER-VALLEY-WB-250",
+      "price": 650,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "ESPRESSO"
+      }
+    },
+    {
+      "productKey": "product-02",
+      "productSlug": "ember-valley",
+      "key": "EMBER-VALLEY-GR-250",
+      "sku": "EMBER-VALLEY-GR-250",
+      "price": 650,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "ESPRESSO"
+      }
+    },
+    {
+      "productKey": "product-02",
+      "productSlug": "ember-valley",
+      "key": "EMBER-VALLEY-WB-500",
+      "sku": "EMBER-VALLEY-WB-500",
+      "price": 1170,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "ESPRESSO"
+      }
+    },
+    {
+      "productKey": "product-03",
+      "productSlug": "rainline-honey",
+      "key": "RAINLINE-HONEY-WB-250",
+      "sku": "RAINLINE-HONEY-WB-250",
+      "price": 800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRUITY_PUNCHY",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-03",
+      "productSlug": "rainline-honey",
+      "key": "RAINLINE-HONEY-GR-250",
+      "sku": "RAINLINE-HONEY-GR-250",
+      "price": 800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRUITY_PUNCHY",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-03",
+      "productSlug": "rainline-honey",
+      "key": "RAINLINE-HONEY-WB-500",
+      "sku": "RAINLINE-HONEY-WB-500",
+      "price": 1440,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRUITY_PUNCHY",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-04",
+      "productSlug": "orchard-peak",
+      "key": "ORCHARD-PEAK-WB-250",
+      "sku": "ORCHARD-PEAK-WB-250",
+      "price": 850,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-04",
+      "productSlug": "orchard-peak",
+      "key": "ORCHARD-PEAK-GR-250",
+      "sku": "ORCHARD-PEAK-GR-250",
+      "price": 850,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-04",
+      "productSlug": "orchard-peak",
+      "key": "ORCHARD-PEAK-WB-500",
+      "sku": "ORCHARD-PEAK-WB-500",
+      "price": 1530,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-05",
+      "productSlug": "cedar-bloom",
+      "key": "CEDAR-BLOOM-WB-250",
+      "sku": "CEDAR-BLOOM-WB-250",
+      "price": 800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-05",
+      "productSlug": "cedar-bloom",
+      "key": "CEDAR-BLOOM-GR-250",
+      "sku": "CEDAR-BLOOM-GR-250",
+      "price": 800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-05",
+      "productSlug": "cedar-bloom",
+      "key": "CEDAR-BLOOM-WB-500",
+      "sku": "CEDAR-BLOOM-WB-500",
+      "price": 1440,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-06",
+      "productSlug": "monsoon-trail",
+      "key": "MONSOON-TRAIL-WB-250",
+      "sku": "MONSOON-TRAIL-WB-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "SOUTH_INDIAN_FILTER"
+      }
+    },
+    {
+      "productKey": "product-06",
+      "productSlug": "monsoon-trail",
+      "key": "MONSOON-TRAIL-GR-250",
+      "sku": "MONSOON-TRAIL-GR-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "SOUTH_INDIAN_FILTER"
+      }
+    },
+    {
+      "productKey": "product-06",
+      "productSlug": "monsoon-trail",
+      "key": "MONSOON-TRAIL-WB-500",
+      "sku": "MONSOON-TRAIL-WB-500",
+      "price": 1260,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "SOUTH_INDIAN_FILTER"
+      }
+    },
+    {
+      "productKey": "product-07",
+      "productSlug": "sunlit-spice",
+      "key": "SUNLIT-SPICE-WB-250",
+      "sku": "SUNLIT-SPICE-WB-250",
+      "price": 800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "MOKA_POT"
+      }
+    },
+    {
+      "productKey": "product-07",
+      "productSlug": "sunlit-spice",
+      "key": "SUNLIT-SPICE-GR-250",
+      "sku": "SUNLIT-SPICE-GR-250",
+      "price": 800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "MOKA_POT"
+      }
+    },
+    {
+      "productKey": "product-07",
+      "productSlug": "sunlit-spice",
+      "key": "SUNLIT-SPICE-WB-500",
+      "sku": "SUNLIT-SPICE-WB-500",
+      "price": 1440,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "MOKA_POT"
+      }
+    },
+    {
+      "productKey": "product-08",
+      "productSlug": "nightjar-roast",
+      "key": "NIGHTJAR-ROAST-WB-250",
+      "sku": "NIGHTJAR-ROAST-WB-250",
+      "price": 750,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "ESPRESSO"
+      }
+    },
+    {
+      "productKey": "product-08",
+      "productSlug": "nightjar-roast",
+      "key": "NIGHTJAR-ROAST-GR-250",
+      "sku": "NIGHTJAR-ROAST-GR-250",
+      "price": 750,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "ESPRESSO"
+      }
+    },
+    {
+      "productKey": "product-08",
+      "productSlug": "nightjar-roast",
+      "key": "NIGHTJAR-ROAST-WB-500",
+      "sku": "NIGHTJAR-ROAST-WB-500",
+      "price": 1350,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "ESPRESSO"
+      }
+    },
+    {
+      "productKey": "product-09",
+      "productSlug": "canyon-bloom",
+      "key": "CANYON-BLOOM-WB-250",
+      "sku": "CANYON-BLOOM-WB-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-09",
+      "productSlug": "canyon-bloom",
+      "key": "CANYON-BLOOM-GR-250",
+      "sku": "CANYON-BLOOM-GR-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-09",
+      "productSlug": "canyon-bloom",
+      "key": "CANYON-BLOOM-WB-500",
+      "sku": "CANYON-BLOOM-WB-500",
+      "price": 1260,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-10",
+      "productSlug": "stonefruit-drift",
+      "key": "STONEFRUIT-DRIFT-WB-250",
+      "sku": "STONEFRUIT-DRIFT-WB-250",
+      "price": 1000,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRUITY_PUNCHY",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-10",
+      "productSlug": "stonefruit-drift",
+      "key": "STONEFRUIT-DRIFT-GR-250",
+      "sku": "STONEFRUIT-DRIFT-GR-250",
+      "price": 1000,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRUITY_PUNCHY",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-10",
+      "productSlug": "stonefruit-drift",
+      "key": "STONEFRUIT-DRIFT-WB-500",
+      "sku": "STONEFRUIT-DRIFT-WB-500",
+      "price": 1800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRUITY_PUNCHY",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-11",
+      "productSlug": "lantern-house",
+      "key": "LANTERN-HOUSE-WB-250",
+      "sku": "LANTERN-HOUSE-WB-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-11",
+      "productSlug": "lantern-house",
+      "key": "LANTERN-HOUSE-GR-250",
+      "sku": "LANTERN-HOUSE-GR-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-11",
+      "productSlug": "lantern-house",
+      "key": "LANTERN-HOUSE-WB-500",
+      "sku": "LANTERN-HOUSE-WB-500",
+      "price": 1260,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-12",
+      "productSlug": "riverbend-dark",
+      "key": "RIVERBEND-DARK-WB-250",
+      "sku": "RIVERBEND-DARK-WB-250",
+      "price": 800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "MOKA_POT"
+      }
+    },
+    {
+      "productKey": "product-12",
+      "productSlug": "riverbend-dark",
+      "key": "RIVERBEND-DARK-GR-250",
+      "sku": "RIVERBEND-DARK-GR-250",
+      "price": 800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "MOKA_POT"
+      }
+    },
+    {
+      "productKey": "product-12",
+      "productSlug": "riverbend-dark",
+      "key": "RIVERBEND-DARK-WB-500",
+      "sku": "RIVERBEND-DARK-WB-500",
+      "price": 1440,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "MOKA_POT"
+      }
+    },
+    {
+      "productKey": "product-13",
+      "productSlug": "golden-canopy",
+      "key": "GOLDEN-CANOPY-WB-250",
+      "sku": "GOLDEN-CANOPY-WB-250",
+      "price": 800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-13",
+      "productSlug": "golden-canopy",
+      "key": "GOLDEN-CANOPY-GR-250",
+      "sku": "GOLDEN-CANOPY-GR-250",
+      "price": 800,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-13",
+      "productSlug": "golden-canopy",
+      "key": "GOLDEN-CANOPY-WB-500",
+      "sku": "GOLDEN-CANOPY-WB-500",
+      "price": 1440,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-14",
+      "productSlug": "cloudline-estate",
+      "key": "CLOUDLINE-ESTATE-WB-250",
+      "sku": "CLOUDLINE-ESTATE-WB-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "INVERTED_AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-14",
+      "productSlug": "cloudline-estate",
+      "key": "CLOUDLINE-ESTATE-GR-250",
+      "sku": "CLOUDLINE-ESTATE-GR-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "INVERTED_AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-14",
+      "productSlug": "cloudline-estate",
+      "key": "CLOUDLINE-ESTATE-WB-500",
+      "sku": "CLOUDLINE-ESTATE-WB-500",
+      "price": 1260,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "INVERTED_AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-15",
+      "productSlug": "hearth-blend",
+      "key": "HEARTH-BLEND-WB-250",
+      "sku": "HEARTH-BLEND-WB-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-15",
+      "productSlug": "hearth-blend",
+      "key": "HEARTH-BLEND-GR-250",
+      "sku": "HEARTH-BLEND-GR-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-15",
+      "productSlug": "hearth-blend",
+      "key": "HEARTH-BLEND-WB-500",
+      "sku": "HEARTH-BLEND-WB-500",
+      "price": 1260,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-16",
+      "productSlug": "porchlight-blend",
+      "key": "PORCHLIGHT-BLEND-WB-250",
+      "sku": "PORCHLIGHT-BLEND-WB-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "SOUTH_INDIAN_FILTER"
+      }
+    },
+    {
+      "productKey": "product-16",
+      "productSlug": "porchlight-blend",
+      "key": "PORCHLIGHT-BLEND-GR-250",
+      "sku": "PORCHLIGHT-BLEND-GR-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "SOUTH_INDIAN_FILTER"
+      }
+    },
+    {
+      "productKey": "product-16",
+      "productSlug": "porchlight-blend",
+      "key": "PORCHLIGHT-BLEND-WB-500",
+      "sku": "PORCHLIGHT-BLEND-WB-500",
+      "price": 1260,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "SOUTH_INDIAN_FILTER"
+      }
+    },
+    {
+      "productKey": "product-17",
+      "productSlug": "alpine-moss",
+      "key": "ALPINE-MOSS-WB-250",
+      "sku": "ALPINE-MOSS-WB-250",
+      "price": 850,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-17",
+      "productSlug": "alpine-moss",
+      "key": "ALPINE-MOSS-GR-250",
+      "sku": "ALPINE-MOSS-GR-250",
+      "price": 850,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-17",
+      "productSlug": "alpine-moss",
+      "key": "ALPINE-MOSS-WB-500",
+      "sku": "ALPINE-MOSS-WB-500",
+      "price": 1530,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "DELICATE_COMPLEX",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-18",
+      "productSlug": "saffron-gate",
+      "key": "SAFFRON-GATE-WB-250",
+      "sku": "SAFFRON-GATE-WB-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "EXPERIMENTAL",
+        "equipment": "CHANNI"
+      }
+    },
+    {
+      "productKey": "product-18",
+      "productSlug": "saffron-gate",
+      "key": "SAFFRON-GATE-GR-250",
+      "sku": "SAFFRON-GATE-GR-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "EXPERIMENTAL",
+        "equipment": "CHANNI"
+      }
+    },
+    {
+      "productKey": "product-18",
+      "productSlug": "saffron-gate",
+      "key": "SAFFRON-GATE-WB-500",
+      "sku": "SAFFRON-GATE-WB-500",
+      "price": 1260,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "EXPERIMENTAL",
+        "equipment": "CHANNI"
+      }
+    },
+    {
+      "productKey": "product-19",
+      "productSlug": "afterglow",
+      "key": "AFTERGLOW-WB-250",
+      "sku": "AFTERGLOW-WB-250",
+      "price": 650,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "ESPRESSO"
+      }
+    },
+    {
+      "productKey": "product-19",
+      "productSlug": "afterglow",
+      "key": "AFTERGLOW-GR-250",
+      "sku": "AFTERGLOW-GR-250",
+      "price": 650,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "ESPRESSO"
+      }
+    },
+    {
+      "productKey": "product-19",
+      "productSlug": "afterglow",
+      "key": "AFTERGLOW-WB-500",
+      "sku": "AFTERGLOW-WB-500",
+      "price": 1170,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "ESPRESSO"
+      }
+    },
+    {
+      "productKey": "product-20",
+      "productSlug": "meadow-signal",
+      "key": "MEADOW-SIGNAL-WB-250",
+      "sku": "MEADOW-SIGNAL-WB-250",
+      "price": 750,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "COLD_BREW"
+      }
+    },
+    {
+      "productKey": "product-20",
+      "productSlug": "meadow-signal",
+      "key": "MEADOW-SIGNAL-GR-250",
+      "sku": "MEADOW-SIGNAL-GR-250",
+      "price": 750,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "COLD_BREW"
+      }
+    },
+    {
+      "productKey": "product-20",
+      "productSlug": "meadow-signal",
+      "key": "MEADOW-SIGNAL-WB-500",
+      "sku": "MEADOW-SIGNAL-WB-500",
+      "price": 1350,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "LIGHT",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "COLD_BREW"
+      }
+    },
+    {
+      "productKey": "product-21",
+      "productSlug": "explorer-flight",
+      "key": "EXPLORER-FLIGHT-WB-250",
+      "sku": "EXPLORER-FLIGHT-WB-250",
+      "price": 1170,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "EXPERIMENTAL",
+        "equipment": "AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-21",
+      "productSlug": "explorer-flight",
+      "key": "EXPLORER-FLIGHT-GR-250",
+      "sku": "EXPLORER-FLIGHT-GR-250",
+      "price": 1170,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "EXPERIMENTAL",
+        "equipment": "AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-21",
+      "productSlug": "explorer-flight",
+      "key": "EXPLORER-FLIGHT-WB-500",
+      "sku": "EXPLORER-FLIGHT-WB-500",
+      "price": 2106,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "EXPERIMENTAL",
+        "equipment": "AEROPRESS"
+      }
+    },
+    {
+      "productKey": "product-22",
+      "productSlug": "bold-flight",
+      "key": "BOLD-FLIGHT-WB-250",
+      "sku": "BOLD-FLIGHT-WB-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "MOKA_POT"
+      }
+    },
+    {
+      "productKey": "product-22",
+      "productSlug": "bold-flight",
+      "key": "BOLD-FLIGHT-GR-250",
+      "sku": "BOLD-FLIGHT-GR-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "MOKA_POT"
+      }
+    },
+    {
+      "productKey": "product-22",
+      "productSlug": "bold-flight",
+      "key": "BOLD-FLIGHT-WB-500",
+      "sku": "BOLD-FLIGHT-WB-500",
+      "price": 1260,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "DARK",
+        "drinkingPreference": "WITH_MILK",
+        "flavourProfile": "BOLD_BITTER",
+        "equipment": "MOKA_POT"
+      }
+    },
+    {
+      "productKey": "product-23",
+      "productSlug": "weather-notes-trio",
+      "key": "WEATHER-NOTES-TRIO-WB-250",
+      "sku": "WEATHER-NOTES-TRIO-WB-250",
+      "price": 650,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-23",
+      "productSlug": "weather-notes-trio",
+      "key": "WEATHER-NOTES-TRIO-GR-250",
+      "sku": "WEATHER-NOTES-TRIO-GR-250",
+      "price": 650,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-23",
+      "productSlug": "weather-notes-trio",
+      "key": "WEATHER-NOTES-TRIO-WB-500",
+      "sku": "WEATHER-NOTES-TRIO-WB-500",
+      "price": 1170,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "CHOCOLATEY_NUTTY",
+        "equipment": "FRENCH_PRESS"
+      }
+    },
+    {
+      "productKey": "product-24",
+      "productSlug": "weekend-brew-set",
+      "key": "WEEKEND-BREW-SET-WB-250",
+      "sku": "WEEKEND-BREW-SET-WB-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-24",
+      "productSlug": "weekend-brew-set",
+      "key": "WEEKEND-BREW-SET-GR-250",
+      "sku": "WEEKEND-BREW-SET-GR-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-24",
+      "productSlug": "weekend-brew-set",
+      "key": "WEEKEND-BREW-SET-WB-500",
+      "sku": "WEEKEND-BREW-SET-WB-500",
+      "price": 1260,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM",
+        "drinkingPreference": "WITHOUT_MILK",
+        "flavourProfile": "FRESH_FLAVOURFUL",
+        "equipment": "POUROVER"
+      }
+    },
+    {
+      "productKey": "product-25",
+      "productSlug": "everyday-ground-set",
+      "key": "EVERYDAY-GROUND-SET-WB-250",
+      "sku": "EVERYDAY-GROUND-SET-WB-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "SOUTH_INDIAN_FILTER"
+      }
+    },
+    {
+      "productKey": "product-25",
+      "productSlug": "everyday-ground-set",
+      "key": "EVERYDAY-GROUND-SET-GR-250",
+      "sku": "EVERYDAY-GROUND-SET-GR-250",
+      "price": 700,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "GROUND",
+        "packSize": "250G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "SOUTH_INDIAN_FILTER"
+      }
+    },
+    {
+      "productKey": "product-25",
+      "productSlug": "everyday-ground-set",
+      "key": "EVERYDAY-GROUND-SET-WB-500",
+      "sku": "EVERYDAY-GROUND-SET-WB-500",
+      "price": 1260,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "format": "WHOLE_BEAN",
+        "packSize": "500G",
+        "roastLevel": "MEDIUM_DARK",
+        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
+        "flavourProfile": "BALANCED",
+        "equipment": "SOUTH_INDIAN_FILTER"
+      }
+    }
+  ]
+}

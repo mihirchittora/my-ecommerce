@@ -11,6 +11,7 @@ my-ecommerce/
 ├── cart-service/          # customer-owned mutable SKU carts
 ├── customer-service/      # customer profiles and current addresses
 ├── payment-service/       # payment orchestration, gateway references, attempts, refunds
+├── shipping-service/      # fulfillment, shipments, carrier abstraction, tracking
 └── ecommerce-admin-ui/    # Next.js operations UI
 ```
 
@@ -25,6 +26,7 @@ my-ecommerce/
 | Cart service | `ecommerce-cart-service` | 8084 |
 | Customer service | `ecommerce-customer-service` | 8086 |
 | Payment service | `ecommerce-payment-service` | 8087 |
+| Shipping service | `shipping-service` | 8088 |
 | Next.js UI | — | 3000 |
 | Auth PostgreSQL | `ecommerce-auth-db` | 5434 |
 | Catalog PostgreSQL | `ecommerce-catalog-db` | 5432 |
@@ -32,6 +34,7 @@ my-ecommerce/
 | Order PostgreSQL | `ecommerce-order-db` | 5435 |
 | Cart PostgreSQL | `ecommerce-cart-db` | 5436 |
 | Customer PostgreSQL | `ecommerce-customer-db` | 5437 |
+| Shipping PostgreSQL | `shipping-db` | 5439 |
 
 Authentication is owned only by `auth-service`. It issues short-lived RS256 access
 tokens and rotates opaque, hashed refresh tokens. Catalog and Inventory validate
@@ -66,6 +69,17 @@ webhooks, and refunds. It never stores card numbers, CVV/PINs, gateway secrets, 
 reads another service's database. Its internal operations endpoints require
 `PAYMENT_READ`, `PAYMENT_REFUND`, or `PAYMENT_RETRY` as appropriate. See
 [payment-service/README.md](payment-service/README.md) and
+[docs/api-contracts.md](docs/api-contracts.md).
+
+Shipping is an independently deployable fulfillment and transportation service.
+It owns fulfillments, shipments, shipment items, tracking events, shipment
+history, carrier references, and carrier webhook processing in its private
+`shipping_db`. It references Order and Inventory identifiers over authenticated
+HTTP only: it never reads their databases, imports their JPA entities, or
+mutates InventoryUnit rows. The service validates the actual Order state
+(`CONFIRMED`/`FULFILLING`) and the exact reservation unit references returned by
+Inventory before calling its configured SANDBOX or EasyPost carrier. See
+[shipping-service/README.md](shipping-service/README.md) and
 [docs/api-contracts.md](docs/api-contracts.md).
 
 The internal admin UI exposes read-only Cart support at `/carts` and
@@ -121,7 +135,7 @@ AUTH_ISSUER=http://localhost:8085 \
 AUTH_AUDIENCE=ecommerce-api \
 ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001 \
 INITIAL_ADMIN_EMAIL=admin@example.com \
-INITIAL_ADMIN_PASSWORD='ChangeMe123!@#' \
+INITIAL_ADMIN_PASSWORD='Admin123!' \
 docker-compose up -d --build
 ```
 
@@ -226,6 +240,7 @@ curl -fsS http://localhost:8083/actuator/health
 curl -fsS http://localhost:8084/actuator/health
 curl -fsS http://localhost:8086/actuator/health
 curl -fsS http://localhost:8087/actuator/health
+curl -fsS http://localhost:8088/actuator/health
 ```
 
 Stop a service without deleting its database volume:
@@ -238,6 +253,7 @@ Stop a service without deleting its database volume:
 (cd cart-service && docker-compose down)
 (cd customer-service && docker-compose down)
 (cd payment-service && docker-compose down)
+(cd shipping-service && docker-compose down)
 ```
 
 Use `docker-compose down -v` only when you intentionally want to delete that
@@ -260,7 +276,7 @@ browser URLs, service credentials, and initial admin account clear.
 | `AUTH_AUDIENCE` | `ecommerce-api` | JWT audience required by backend APIs. |
 | `ALLOWED_ORIGINS` | `http://localhost:3000,http://localhost:3001` | Browser origins allowed by Auth CORS. |
 | `INITIAL_ADMIN_EMAIL` | `admin@example.com` | Email for the first local admin user. |
-| `INITIAL_ADMIN_PASSWORD` | `ChangeMe123!@#` | Password for that local admin user. |
+| `INITIAL_ADMIN_PASSWORD` | `Admin123!` | Password for that local admin user. |
 
 Auth also has application defaults for `AUTH_ACCESS_TOKEN_TTL` (`PT15M`),
 `AUTH_REFRESH_TOKEN_TTL` (`P30D`), `AUTH_MAX_FAILED_ATTEMPTS` (`5`), and
@@ -408,3 +424,26 @@ healthy Catalog does not prove that Inventory is available.
 Payment metrics are intentionally not calculated in the browser. Payment Service
 currently exposes operational list/detail data but no efficient summary endpoint;
 add one before introducing dashboard totals for payment states.
+
+### Start Shipping
+
+Shipping has its own PostgreSQL database and its own Compose file:
+
+```bash
+cd /Users/mihirchittora/Desktop/my-ecommerce/shipping-service
+docker-compose up -d --build
+```
+
+For local service-to-service authentication, set
+`ORDER_TO_SHIPPING_SERVICE_TOKEN` on Shipping and the same value as
+`SHIPPING_TO_ORDER_SERVICE_TOKEN` on Order. Set
+`SHIPPING_TO_INVENTORY_SERVICE_TOKEN` on Shipping and the same value on
+Inventory. These credentials are server-only and are never sent to the browser.
+
+## Development Demo Data
+
+The repository contains synthetic development/demo data derived from public
+catalog references. It is not production catalog data and does not represent
+the reference source's branding or assets. See [dev-seed/README.md](dev-seed/README.md)
+for the API-only, repeatable seeding system, source provenance, demo scenarios,
+reset safeguards, and validation commands.

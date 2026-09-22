@@ -38,7 +38,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                            ShippingServiceAuthenticationFilter shippingServiceAuthenticationFilter,
+                                            PaymentServiceAuthenticationFilter paymentServiceAuthenticationFilter) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
@@ -47,8 +49,14 @@ public class SecurityConfig {
             return http.build();
         }
 
+        http.addFilterBefore(shippingServiceAuthenticationFilter,
+                org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter.class);
+        http.addFilterBefore(paymentServiceAuthenticationFilter,
+                org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter.class);
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/actuator/health", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers("/internal/orders/*/payment-events", "/internal/orders/*/payment-validation").hasAuthority("SERVICE_PAYMENT")
+                .requestMatchers("/internal/orders/**").hasAuthority("SERVICE_SHIPPING")
                 .requestMatchers(HttpMethod.GET, "/api/v1/orders/my").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/v1/orders/*").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/v1/orders/*/cancel").authenticated()

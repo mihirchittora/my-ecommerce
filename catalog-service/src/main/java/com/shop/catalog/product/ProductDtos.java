@@ -145,4 +145,14 @@ public final class ProductDtos {
             );
         }
     }
+
+    public record FacetsResponse(
+            PriceFacet price,
+            List<String> brands,
+            Map<String, List<String>> attributes
+    ) {
+    }
+
+    public record PriceFacet(BigDecimal min, BigDecimal max) {
+    }
 }

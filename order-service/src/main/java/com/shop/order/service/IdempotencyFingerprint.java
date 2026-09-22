@@ -10,6 +10,8 @@ public final class IdempotencyFingerprint {
 
     public static String sha256(OrderRequestNormalizer.NormalizedRequest request) {
         String canonical = request.currency() + "|" + request.preferredLocationId() + "|"
+                + request.paymentMethod() + "|"
+                + request.shippingAddress() + "|"
                 + request.lines().stream().map(line -> line.sku() + ":" + line.quantity())
                 .reduce((left, right) -> left + ";" + right).orElse("");
         try {

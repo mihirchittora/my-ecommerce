@@ -29,6 +29,7 @@ services:
       AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://host.docker.internal:8085/.well-known/jwks.json}
       CATALOG_SERVICE_TOKEN: ${CATALOG_SERVICE_TOKEN:-dev-inventory-to-catalog}
       ORDER_SERVICE_TOKEN: ${ORDER_SERVICE_TOKEN:-dev-order-to-inventory}
+      SHIPPING_TO_INVENTORY_SERVICE_TOKEN: ${SHIPPING_TO_INVENTORY_SERVICE_TOKEN:-dev-shipping-to-inventory}
       # Keep the local JVM below the Docker/Colima memory budget when all services run together.
       JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:--Xms64m -Xmx256m}
       SERVER_PORT: 8082

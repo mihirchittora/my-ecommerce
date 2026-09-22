@@ -5,9 +5,12 @@ import com.shop.cart.domain.Cart;
 import com.shop.cart.domain.CartItem;
 import com.shop.cart.domain.CartStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
@@ -36,7 +39,29 @@ public final class CartDtos {
             @Schema(description = "Must match the cart currency. If omitted, the cart currency is used.", example = "INR")
             @Size(min = 3, max = 3) String currency,
             @Schema(description = "Optional preferred inventory location. Inventory allocation remains an Order concern.")
-            UUID preferredLocationId) {
+            UUID preferredLocationId,
+            @NotNull @Valid ShippingAddressRequest shippingAddress,
+            PaymentMethod paymentMethod) {
+        public CheckoutRequest(String currency, UUID preferredLocationId) {
+            this(currency, preferredLocationId, null, PaymentMethod.ONLINE);
+        }
+
+        public CheckoutRequest(String currency, UUID preferredLocationId, ShippingAddressRequest shippingAddress) {
+            this(currency, preferredLocationId, shippingAddress, PaymentMethod.ONLINE);
+        }
+    }
+
+    public record ShippingAddressRequest(
+            UUID sourceAddressId,
+            @NotBlank @Size(max = 120) String recipientName,
+            @NotBlank @Size(max = 30) @Pattern(regexp = "^[+0-9() .-]{7,30}$") String phone,
+            @NotBlank @Size(max = 200) String line1,
+            @Size(max = 200) String line2,
+            @NotBlank @Size(max = 120) String city,
+            @NotBlank @Size(max = 120) String state,
+            @NotBlank @Size(max = 20) @Pattern(regexp = "^[\\p{L}\\p{N}][\\p{L}\\p{N} .\\-]{1,19}$") String postalCode,
+            @NotBlank @Size(min = 2, max = 2) @Pattern(regexp = "^[A-Za-z]{2}$") String country,
+            @Size(max = 200) String landmark) {
     }
 
     public record CartResponse(

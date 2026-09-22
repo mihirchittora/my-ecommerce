@@ -30,11 +30,11 @@ public class PaymentAdminService {
 
     @Transactional(readOnly = true)
     public Page<PaymentDtos.AdminPaymentResponse> list(String search, PaymentStatus status,
-                                                       GatewayProvider provider, String currency,
+                                                       GatewayProvider provider, PaymentMethod paymentMethod, String currency,
                                                        UUID orderId, UUID customerId,
                                                        Instant createdFrom, Instant createdTo,
                                                        int page, int size, String sort) {
-        Specification<Payment> filter = filter(search, status, provider, currency, orderId, customerId,
+        Specification<Payment> filter = filter(search, status, provider, paymentMethod, currency, orderId, customerId,
                 createdFrom, createdTo);
         return payments.findAll(filter, pageable(page, size, sort)).map(paymentApplication::adminResponse);
     }
@@ -46,12 +46,13 @@ public class PaymentAdminService {
     }
 
     private Specification<Payment> filter(String search, PaymentStatus status, GatewayProvider provider,
-                                          String currency, UUID orderId, UUID customerId,
+                                          PaymentMethod paymentMethod, String currency, UUID orderId, UUID customerId,
                                           Instant createdFrom, Instant createdTo) {
         return (root, query, builder) -> {
             List<jakarta.persistence.criteria.Predicate> predicates = new ArrayList<>();
             if (status != null) predicates.add(builder.equal(root.get("status"), status));
             if (provider != null) predicates.add(builder.equal(root.get("provider"), provider));
+            if (paymentMethod != null) predicates.add(builder.equal(root.get("paymentMethod"), paymentMethod));
             if (currency != null && !currency.isBlank()) {
                 predicates.add(builder.equal(root.get("currency"), currency.trim().toUpperCase(Locale.ROOT)));
             }

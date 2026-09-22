@@ -72,25 +72,38 @@ public class PaymentApplicationService {
                                               Authentication authentication, String authorizationHeader) {
         UUID customerId = customerId(authentication);
         String key = normalizeIdempotencyKey(idempotencyKey);
+        PaymentMethod requestedPaymentMethod = request.paymentMethod() == null ? PaymentMethod.ONLINE : request.paymentMethod();
         Payment existing = payments.findByCustomerIdAndIdempotencyKey(customerId, key).orElse(null);
         if (existing != null) {
             if (!existing.getOrderId().equals(request.orderId())) {
                 throw new ConflictException("Idempotency-Key was already used for another order");
             }
+            if (existing.getPaymentMethod() != requestedPaymentMethod) {
+                throw new ConflictException("Idempotency-Key was already used with another payment method");
+            }
             return response(existing);
         }
 
         OrderSnapshot order = orderClient.getOrder(request.orderId(), authorizationHeader);
-        validateOrder(order, request.orderId(), customerId);
-        GatewayProvider provider = parseProvider(request.preferredProvider());
+        PaymentMethod paymentMethod = requestedPaymentMethod;
+        validateOrder(order, request.orderId(), customerId, paymentMethod);
         Payment payment = new Payment();
         payment.setOrderId(order.id());
         payment.setCustomerId(customerId);
         payment.setAmount(money(order.totalAmount()));
         payment.setCurrency(normalizeCurrency(order.currency()));
+        payment.setPaymentMethod(paymentMethod);
+        payment.setIdempotencyKey(key);
+        if (paymentMethod == PaymentMethod.CASH_ON_DELIVERY) {
+            payment.setStatus(PaymentStatus.PENDING_COLLECTION);
+            payment.setProvider(null);
+            payments.saveAndFlush(payment);
+            orderNotifier.notifyPaymentStateChanged(payment);
+            return response(payment);
+        }
+        GatewayProvider provider = parseProvider(request.preferredProvider());
         payment.setStatus(PaymentStatus.CREATED);
         payment.setProvider(provider);
-        payment.setIdempotencyKey(key);
         PaymentAttempt attempt = newAttempt(payment, 1, provider);
         attempt.setIdempotencyKey(key);
         payment.addAttempt(attempt);
@@ -99,7 +112,7 @@ public class PaymentApplicationService {
         PaymentGateway gateway = gateways.get(provider);
         try {
             CreatePaymentResult result = gateway.createPayment(new CreatePaymentRequest(payment.getId(), payment.getOrderId(),
-                    payment.getAmount(), payment.getCurrency(), request.paymentMethodType()));
+                    payment.getAmount(), payment.getCurrency(), "HOSTED_CHECKOUT"));
             applyCreateResult(payment, attempt, result);
             payments.saveAndFlush(payment);
             orderNotifier.notifyPaymentStateChanged(payment);
@@ -139,6 +152,36 @@ public class PaymentApplicationService {
     @Transactional(noRollbackFor = GatewayException.class)
     public PaymentDtos.AdminPaymentResponse retryAdmin(UUID paymentId, String idempotencyKey) {
         return adminResponse(retryPayment(paymentId, idempotencyKey, null));
+    }
+
+    @Transactional
+    public PaymentDtos.AdminPaymentResponse collectCod(UUID paymentId) {
+        Payment payment = payments.findById(paymentId)
+                .orElseThrow(() -> new NotFoundException("Payment not found: " + paymentId));
+        if (payment.getPaymentMethod() != PaymentMethod.CASH_ON_DELIVERY) {
+            throw new ConflictException("Only cash on delivery payments can be collected manually");
+        }
+        if (payment.getStatus() == PaymentStatus.CAPTURED) return adminResponse(payment);
+        if (payment.getStatus() != PaymentStatus.PENDING_COLLECTION) {
+            throw new ConflictException("COD payment cannot be collected in " + payment.getStatus());
+        }
+        OrderSnapshot order = orderClient.getPaymentValidation(payment.getOrderId());
+        if (!Set.of("DELIVERED", "COMPLETED").contains(order.status())) {
+            throw new ConflictException("COD can be collected only after the Order is delivered");
+        }
+        if (!PaymentMethod.CASH_ON_DELIVERY.name().equals(order.paymentMethod())) {
+            throw new ConflictException("Order payment method is not cash on delivery");
+        }
+        if (order.totalAmount() == null || money(order.totalAmount()).compareTo(payment.getAmount()) != 0
+                || order.currency() == null || !order.currency().equalsIgnoreCase(payment.getCurrency())) {
+            throw new ConflictException("COD payment does not match the Order total");
+        }
+        PaymentStateMachine.requireTransition(payment.getStatus(), PaymentStatus.CAPTURED);
+        payment.setStatus(PaymentStatus.CAPTURED);
+        payment.setCapturedAt(Instant.now());
+        payments.saveAndFlush(payment);
+        orderNotifier.notifyPaymentStateChanged(payment);
+        return adminResponse(payment);
     }
 
     private Payment retryPayment(UUID paymentId, String idempotencyKey, UUID ownerId) {
@@ -219,6 +262,12 @@ public class PaymentApplicationService {
         payments.saveAndFlush(existingPayment);
 
         try {
+            if (existingPayment.getPaymentMethod() == PaymentMethod.CASH_ON_DELIVERY) {
+                completeRefund(existingPayment, refund);
+                payments.saveAndFlush(existingPayment);
+                orderNotifier.notifyPaymentStateChanged(existingPayment);
+                return existingPayment;
+            }
             PaymentGateway gateway = gateways.get(existingPayment.getProvider());
             RefundResult result = gateway.refundPayment(new RefundPaymentRequest(existingPayment.getProviderPaymentId(),
                     refundAmount, existingPayment.getCurrency(), request.reason()));
@@ -295,7 +344,7 @@ public class PaymentApplicationService {
         List<PaymentDtos.RefundResponse> refundResponses = refunds.findAllByPaymentIdOrderByCreatedAtDesc(payment.getId()).stream()
                 .map(PaymentDtos.RefundResponse::from).toList();
         return new PaymentDtos.PaymentResponse(payment.getId(), payment.getOrderId(), payment.getCustomerId(),
-                payment.getAmount(), payment.getCurrency(), payment.getStatus(), payment.getProvider().name(),
+                payment.getAmount(), payment.getCurrency(), payment.getStatus(), payment.getPaymentMethod(), provider(payment),
                 payment.getProviderPaymentId(), payment.getProviderOrderId(), checkoutUrl(payment),
                 checkoutToken(payment), payment.getRefundedAmount(), payment.getCreatedAt(), payment.getUpdatedAt(),
                 payment.getAuthorizedAt(), payment.getCapturedAt(), payment.getFailedAt(), payment.getCancelledAt(),
@@ -308,7 +357,7 @@ public class PaymentApplicationService {
         List<PaymentDtos.RefundResponse> refundResponses = refunds.findAllByPaymentIdOrderByCreatedAtDesc(payment.getId()).stream()
                 .map(PaymentDtos.RefundResponse::from).toList();
         return new PaymentDtos.AdminPaymentResponse(payment.getId(), payment.getOrderId(), payment.getCustomerId(),
-                payment.getAmount(), payment.getCurrency(), payment.getStatus(), payment.getProvider().name(),
+                payment.getAmount(), payment.getCurrency(), payment.getStatus(), payment.getPaymentMethod(), provider(payment),
                 payment.getProviderPaymentId(), payment.getProviderOrderId(), payment.getRefundedAmount(),
                 payment.getCreatedAt(), payment.getUpdatedAt(), payment.getAuthorizedAt(), payment.getCapturedAt(),
                 payment.getFailedAt(), payment.getCancelledAt(), attemptResponses, refundResponses);
@@ -332,7 +381,7 @@ public class PaymentApplicationService {
         return attempt;
     }
 
-    private void validateOrder(OrderSnapshot order, UUID requestedOrderId, UUID customerId) {
+    private void validateOrder(OrderSnapshot order, UUID requestedOrderId, UUID customerId, PaymentMethod paymentMethod) {
         if (!requestedOrderId.equals(order.id())) throw new ConflictException("Order Service returned a different order");
         UUID orderCustomer;
         try {
@@ -341,8 +390,21 @@ public class PaymentApplicationService {
             throw new DependencyUnavailableException("Order Service returned an invalid customer reference", ex);
         }
         if (!customerId.equals(orderCustomer)) throw new NotFoundException("Order not found: " + requestedOrderId);
-        if (!"PENDING_PAYMENT".equals(order.status())) {
-            throw new ConflictException("Order is not ready for payment: " + order.status());
+        PaymentMethod orderMethod;
+        try {
+            orderMethod = PaymentMethod.valueOf(order.paymentMethod() == null ? "ONLINE" : order.paymentMethod());
+        } catch (IllegalArgumentException ex) {
+            throw new DependencyUnavailableException("Order Service returned an unsupported payment method", ex);
+        }
+        if (orderMethod != paymentMethod) {
+            throw new ConflictException("Payment method does not match the Order payment method");
+        }
+        if (paymentMethod == PaymentMethod.CASH_ON_DELIVERY) {
+            if (!Set.of("CONFIRMED", "FULFILLING", "SHIPPED", "DELIVERED").contains(order.status())) {
+                throw new ConflictException("COD Order is not ready for payment collection: " + order.status());
+            }
+        } else if (!"PENDING_PAYMENT".equals(order.status())) {
+            throw new ConflictException("Order is not ready for online payment: " + order.status());
         }
         normalizeCurrency(order.currency());
         if (order.totalAmount() == null || money(order.totalAmount()).signum() <= 0) {
@@ -408,6 +470,10 @@ public class PaymentApplicationService {
             case CANCELLED -> PaymentAttemptStatus.CANCELLED;
             default -> PaymentAttemptStatus.PENDING;
         };
+    }
+
+    private String provider(Payment payment) {
+        return payment.getProvider() == null ? null : payment.getProvider().name();
     }
 
     private boolean isTerminalAttempt(PaymentAttemptStatus status) {

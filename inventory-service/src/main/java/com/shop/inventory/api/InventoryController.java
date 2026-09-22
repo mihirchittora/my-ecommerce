@@ -45,6 +45,12 @@ public class InventoryController {
         return inventory.getInventory(sku, locationId);
     }
 
+    @Operation(summary = "Get customer-safe availability for a SKU")
+    @GetMapping("/availability/{sku}")
+    public InventoryDtos.AvailabilityResponse customerAvailability(@PathVariable String sku) {
+        return inventory.customerAvailability(sku);
+    }
+
     @Operation(summary = "Get global inventory dashboard totals")
     @GetMapping("/summary")
     public InventoryDtos.DashboardSummaryResponse dashboardSummary() {
@@ -182,5 +188,14 @@ public class InventoryController {
     @PostMapping("/reservations/{reservationId}/cancel")
     public InventoryDtos.ReservationResponse cancel(@PathVariable UUID reservationId) {
         return reservations.cancel(reservationId);
+    }
+
+    @Operation(summary = "Apply an Inventory-owned Shipping allocation transition",
+            description = "Shipping may request ALLOCATE, IN_TRANSIT, or RELEASE for the exact reserved unit set. Inventory validates and mutates unit state.")
+    @PostMapping("/reservations/{reservationId}/shipping-transition")
+    public InventoryDtos.ReservationResponse shippingTransition(
+            @PathVariable UUID reservationId,
+            @Valid @RequestBody InventoryDtos.ShippingTransitionRequest request) {
+        return reservations.shippingTransition(reservationId, request);
     }
 }

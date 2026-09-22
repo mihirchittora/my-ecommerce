@@ -62,7 +62,7 @@ CREATE TABLE inventory_reservations (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
     CONSTRAINT fk_inventory_reservations_location FOREIGN KEY (location_id) REFERENCES inventory_locations(id),
     CONSTRAINT ck_inventory_reservations_quantity CHECK (quantity > 0),
-    CONSTRAINT ck_inventory_reservations_status CHECK (status IN ('ACTIVE', 'CONFIRMED', 'RELEASED', 'EXPIRED', 'CANCELLED'))
+    CONSTRAINT ck_inventory_reservations_status CHECK (status IN ('ACTIVE', 'ALLOCATED', 'CONFIRMED', 'RELEASED', 'EXPIRED', 'CANCELLED'))
 );
 
 CREATE INDEX idx_inventory_reservations_expiry ON inventory_reservations(status, expires_at);

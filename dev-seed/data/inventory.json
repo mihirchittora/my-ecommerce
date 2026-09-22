@@ -1,0 +1,53 @@
+{
+  "locations": [
+    {
+      "key": "mumbai",
+      "code": "WH-MUM",
+      "name": "Mumbai Warehouse",
+      "status": "ACTIVE"
+    },
+    {
+      "key": "delhi",
+      "code": "WH-DEL",
+      "name": "Delhi Warehouse",
+      "status": "ACTIVE"
+    },
+    {
+      "key": "bengaluru",
+      "code": "WH-BLR",
+      "name": "Bengaluru Warehouse",
+      "status": "ACTIVE"
+    }
+  ],
+  "unitsPerSkuByLocation": {
+    "WH-MUM": 2,
+    "WH-DEL": 1,
+    "WH-BLR": 1
+  },
+  "receiptReferencePrefix": "DEMO-RECEIPT",
+  "reservationScenarios": [
+    {
+      "key": "reserved-cart-checkout",
+      "sku": "EVERYDAY-GROUND-SET-WB-250",
+      "locationCode": "WH-MUM",
+      "quantity": 2,
+      "referenceId": "DEMO-RESERVATION-001"
+    }
+  ],
+  "adjustmentScenarios": [
+    {
+      "key": "damaged-unit",
+      "sku": "HIGHLAND-COCOA-WB-250",
+      "locationCode": "WH-MUM",
+      "reason": "DAMAGE",
+      "referenceId": "DEMO-DAMAGE-001"
+    },
+    {
+      "key": "lost-unit",
+      "sku": "EMBER-VALLEY-GR-250",
+      "locationCode": "WH-DEL",
+      "reason": "LOSS",
+      "referenceId": "DEMO-LOSS-001"
+    }
+  ]
+}

@@ -87,7 +87,7 @@ public class CartController {
     }
 
     @Operation(summary = "Delegate checkout to Order Service",
-            description = "Order Service revalidates Catalog, snapshots current price, and coordinates Inventory reservation. The Idempotency-Key is passed through unchanged.")
+            description = "Order Service revalidates Catalog, snapshots current price and the supplied shipping address, and coordinates Inventory reservation. The Idempotency-Key is passed through unchanged.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Order created and cart converted"),
             @ApiResponse(responseCode = "400", description = "Invalid checkout request"),

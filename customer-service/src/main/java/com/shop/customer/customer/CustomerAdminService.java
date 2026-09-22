@@ -37,6 +37,12 @@ public class CustomerAdminService {
         return CustomerDtos.CustomerResponse.from(customer(id));
     }
 
+    @Transactional(readOnly = true)
+    public CustomerDtos.CustomerResponse getByAuthUserId(UUID authUserId) {
+        return CustomerDtos.CustomerResponse.from(customers.findByAuthUserId(authUserId)
+                .orElseThrow(() -> new NotFoundException("Customer not found for Auth user: " + authUserId)));
+    }
+
     @Transactional
     public CustomerDtos.CustomerResponse update(UUID id, CustomerDtos.AdminProfilePatchRequest request) {
         Customer customer = customer(id);

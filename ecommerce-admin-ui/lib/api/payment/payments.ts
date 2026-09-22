@@ -29,6 +29,7 @@ export const paymentApi = {
     search: params.search,
     status: params.status,
     provider: params.provider,
+    paymentMethod: params.paymentMethod,
     currency: params.currency,
     orderId: params.orderId,
     customerId: params.customerId,
@@ -44,6 +45,10 @@ export const paymentApi = {
   retry: (id: string, idempotencyKey: string) => paymentClient.request<Payment>(
     `/v1/admin/payments/${encodeURIComponent(id)}/retry`,
     { method: "POST", headers: { "Idempotency-Key": idempotencyKey } },
+  ),
+  collect: (id: string) => paymentClient.request<Payment>(
+    `/v1/admin/payments/${encodeURIComponent(id)}/collect`,
+    { method: "POST" },
   ),
 };
 

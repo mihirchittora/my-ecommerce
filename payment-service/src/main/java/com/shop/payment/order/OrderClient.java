@@ -49,6 +49,24 @@ public class OrderClient {
         }
     }
 
+    public OrderSnapshot getPaymentValidation(UUID orderId) {
+        try {
+            OrderSnapshot response = client.get().uri("/internal/orders/{orderId}/payment-validation", orderId)
+                    .headers(headers -> {
+                        if (serviceToken != null && !serviceToken.isBlank()) headers.set("X-Payment-Service-Token", serviceToken);
+                    }).retrieve().body(OrderSnapshot.class);
+            if (response == null || response.id() == null || !orderId.equals(response.id()) || response.status() == null) {
+                throw new DependencyUnavailableException("Order Service returned incomplete payment validation data", null);
+            }
+            return response;
+        } catch (RestClientResponseException ex) {
+            if (ex.getStatusCode().value() == 404) throw new NotFoundException("Order not found: " + orderId);
+            throw new DependencyUnavailableException("Order Service payment validation failed", ex);
+        } catch (RestClientException ex) {
+            throw new DependencyUnavailableException("Order Service payment validation failed", ex);
+        }
+    }
+
     private void addHeaders(HttpHeaders headers, String authorizationHeader) {
         if (authorizationHeader != null && !authorizationHeader.isBlank()) {
             headers.set(HttpHeaders.AUTHORIZATION, authorizationHeader);

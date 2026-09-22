@@ -118,6 +118,17 @@ public class InventoryOperationsService {
     }
 
     @Transactional(readOnly = true)
+    public InventoryDtos.AvailabilityResponse customerAvailability(String rawSku) {
+        String sku = normalizeSku(rawSku);
+        catalog.requireActive(sku);
+        long available = items.findBySkuOrderByLocation_Code(sku).stream()
+                .mapToLong(InventoryItem::available)
+                .sum();
+        return new InventoryDtos.AvailabilityResponse(sku, available > 0,
+                available > 0 ? "In stock" : "Out of stock");
+    }
+
+    @Transactional(readOnly = true)
     public InventoryDtos.DashboardSummaryResponse dashboardSummary() {
         return new InventoryDtos.DashboardSummaryResponse(
                 units.countByStatusNotIn(DISPOSED_STATUSES),

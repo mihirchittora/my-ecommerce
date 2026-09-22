@@ -54,19 +54,15 @@ public class WebhookApplicationService {
         GatewayWebhookEvent event = gateway.parseWebhookEvent(payload);
         WebhookEvent existing = events.findByProviderAndProviderEventId(provider, event.providerEventId()).orElse(null);
         if (existing != null) {
-            return new com.shop.payment.payment.PaymentDtos.WebhookResponse(event.providerEventId(),
-                    existing.getStatus().name(), true);
+            return duplicateResponse(event, existing, payload);
         }
 
-        WebhookEvent record = new WebhookEvent();
-        record.setProvider(provider);
-        record.setProviderEventId(event.providerEventId());
-        record.setEventType(event.eventType());
-        record.setProviderPaymentId(event.providerPaymentId());
-        record.setProviderOrderId(event.providerOrderId());
-        record.setPayloadHash(sha256(payload));
-        record.setStatus(WebhookEventStatus.RECEIVED);
-        events.saveAndFlush(record);
+        String payloadHash = sha256(payload);
+        int claimed = events.claim(java.util.UUID.randomUUID(), provider.name(), event.providerEventId(),
+                event.eventType(), event.providerPaymentId(), event.providerOrderId(), payloadHash);
+        WebhookEvent record = events.findByProviderAndProviderEventId(provider, event.providerEventId())
+                .orElseThrow(() -> new IllegalStateException("Webhook claim was not persisted"));
+        if (claimed == 0) return duplicateResponse(event, record, payload);
 
         Payment payment = findPayment(provider, event);
         if (payment == null) {
@@ -85,6 +81,16 @@ public class WebhookApplicationService {
         orderNotifier.notifyPaymentStateChanged(payment);
         return new com.shop.payment.payment.PaymentDtos.WebhookResponse(event.providerEventId(),
                 WebhookEventStatus.PROCESSED.name(), false);
+    }
+
+    private com.shop.payment.payment.PaymentDtos.WebhookResponse duplicateResponse(GatewayWebhookEvent event,
+                                                                                     WebhookEvent existing,
+                                                                                     String payload) {
+        if (!existing.getPayloadHash().equals(sha256(payload))) {
+            throw new ConflictException("Provider event ID was already received with a different payload");
+        }
+        return new com.shop.payment.payment.PaymentDtos.WebhookResponse(event.providerEventId(),
+                existing.getStatus().name(), true);
     }
 
     private Payment findPayment(GatewayProvider provider, GatewayWebhookEvent event) {
