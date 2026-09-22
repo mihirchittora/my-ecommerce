@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: ${SHIPPING_DB_USERNAME:-shipping}
       POSTGRES_PASSWORD: ${SHIPPING_DB_PASSWORD:-shipping}
     ports:
-      - "5439:5432"
+      - "${SHIPPING_DB_HOST_PORT:-5439}:5432"
     volumes:
       - shipping-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -19,6 +19,8 @@ services:
   shipping-service:
     build: .
     container_name: shipping-service
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       shipping-db:
         condition: service_healthy
@@ -49,7 +51,7 @@ services:
       EASYPOST_ORIGIN_POSTAL_CODE: ${EASYPOST_ORIGIN_POSTAL_CODE:-}
       EASYPOST_ORIGIN_COUNTRY: ${EASYPOST_ORIGIN_COUNTRY:-US}
     ports:
-      - "8088:8088"
+      - "${SHIPPING_HOST_PORT:-8088}:8088"
 
 volumes:
   shipping-db-data:

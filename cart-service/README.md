@@ -458,11 +458,9 @@ The current Order API authenticates customer order creation with the customer JW
 
 ## Docker
 
-Build the application before building the image:
+Build and start the service from this directory:
 
-```bash
-cd cart-service
-mvn clean package
+```text
 docker compose up --build
 ```
 
@@ -477,11 +475,14 @@ Inside Compose, the Cart JDBC URL uses `cart-db:5432`. The default service URLs 
 
 For host-based development, start PostgreSQL on port `5436`, then run:
 
-```bash
+```text
 cd cart-service
-set -a; source .env; set +a
 mvn spring-boot:run
 ```
+
+For host execution, configure values in `.env` or use the PowerShell/CMD
+environment syntax in the root README. The default `.env.example` values are
+already suitable for local PostgreSQL and the other host-run services.
 
 The default local URLs are:
 
@@ -527,16 +528,12 @@ mvn spring-boot:run
 
 The project uses Spring Boot 3.5.6, Java 21, Spring Data JPA, PostgreSQL, Flyway, Spring Security Resource Server, SpringDoc, JUnit 5, and Testcontainers PostgreSQL.
 
-## Colima
+## Docker runtimes and Testcontainers
 
-The Testcontainers test includes the same portable Docker-socket detection used by the other repository services. With Colima, start the VM before running the integration test:
-
-```bash
-colima start
-mvn test
-```
-
-If no Docker environment is available, unit/client tests still run and the PostgreSQL integration test is skipped using `@Testcontainers(disabledWithoutDocker = true)`.
+The integration test uses the Docker API. Docker Desktop, Linux Docker, and
+optional macOS Colima are supported without repository-specific environment
+assignments. An explicit `DOCKER_HOST` remains authoritative; the test-only
+fallback never constructs Unix socket paths on Windows.
 
 ## Testcontainers
 

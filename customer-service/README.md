@@ -361,12 +361,11 @@ does not expose a stack trace.
 
 ## Docker
 
-Build the JAR first because this service's Dockerfile copies `target/`:
+The multi-stage Dockerfile builds the JAR inside the image, so a local `target/`
+directory is not required:
 
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce/customer-service
-mvn -DskipTests package
-docker-compose up -d --build
+```text
+docker compose up -d --build
 ```
 
 The host exposes Customer Service at `http://localhost:8086` and PostgreSQL at
@@ -378,12 +377,11 @@ host-published Auth service while the JWT issuer remains `localhost:8085`.
 
 ## Local Development
 
-```bash
-cp .env.example .env
+```text
 mvn spring-boot:run
 ```
 
-Start PostgreSQL with `docker-compose up -d customer-db`, or point
+Start PostgreSQL with `docker compose up -d customer-db`, or point
 `CUSTOMER_DB_URL` at a local PostgreSQL instance. Swagger UI is at
 <http://localhost:8086/swagger-ui.html> and OpenAPI JSON is at
 <http://localhost:8086/v3/api-docs>.
@@ -411,15 +409,12 @@ mvn compile
 mvn test
 ```
 
-## Colima
+## Docker runtimes and Testcontainers
 
-Testcontainers detects `~/.colima/default/docker.sock` in the test helper when
-`DOCKER_HOST` is not already set. Start Colima before `mvn test`:
-
-```bash
-colima start
-docker info
-```
+Testcontainers uses Docker Desktop, Linux Docker, or optional macOS Colima
+through the Docker API. An explicit `DOCKER_HOST` remains authoritative. The
+test-only fallback detects optional Unix sockets only on Unix-like hosts and
+never constructs one on Windows.
 
 ## Testcontainers
 

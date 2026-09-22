@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: ${AUTH_DB_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${AUTH_DB_PASSWORD:-postgres}
     ports:
-      - "5434:5432"
+      - "${AUTH_DB_HOST_PORT:-5434}:5432"
     volumes:
       - auth_postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -30,7 +30,7 @@ services:
       INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL:-}
       INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD:-}
     ports:
-      - "8085:8085"
+      - "${AUTH_HOST_PORT:-8085}:8085"
     depends_on:
       auth-db:
         condition: service_healthy

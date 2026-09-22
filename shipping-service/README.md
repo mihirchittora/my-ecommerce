@@ -462,9 +462,9 @@ hex(HMAC-SHA256(secret, raw-request-body))
 
 ## Docker
 
-```bash
+```text
 cd shipping-service
-docker-compose up -d --build
+docker compose up -d --build
 curl -fsS http://localhost:8088/actuator/health
 ```
 
@@ -477,8 +477,14 @@ The repository includes an idempotent fixture linked to the existing local Order
 `ORD-20260922-000004`. It creates one `READY` fulfillment, one demo shipment,
 shipment history, and one tracking event for UI testing:
 
-```bash
+```text
 docker exec -i shipping-db psql -v ON_ERROR_STOP=1 -U shipping -d shipping_db < demo-seed.sql
+```
+
+Windows PowerShell equivalent:
+
+```powershell
+Get-Content demo-seed.sql | docker exec -i shipping-db psql -v ON_ERROR_STOP=1 -U shipping -d shipping_db
 ```
 
 This fixture is for UI/detail testing only; it does not change Order or Inventory
@@ -528,13 +534,13 @@ The project uses Java 21, Spring Boot 3.5.6, Flyway, PostgreSQL, SpringDoc,
 JUnit 5, and Testcontainers PostgreSQL 17, matching the repository's current
 service versions.
 
-## Colima
+## Docker runtimes and Testcontainers
 
-Testcontainers uses the Docker environment supplied by the active Docker
-context. Do not hardcode a developer's socket path in source or tests. If the
-local Java process cannot see the active Colima socket, export the active
-context's `DOCKER_HOST` for the Maven invocation or configure the local Docker
-runtime; do not disable the integration test.
+Testcontainers uses the Docker API supplied by Docker Desktop, Linux Docker, or
+optional macOS Colima. An explicit `DOCKER_HOST` remains authoritative. The
+test-only fallback detects optional Unix sockets only on Unix-like hosts and
+never constructs a Unix socket path on Windows. The integration test remains
+enabled and uses a real PostgreSQL container.
 
 ## Testcontainers
 

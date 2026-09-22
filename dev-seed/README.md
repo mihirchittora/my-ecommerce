@@ -178,29 +178,19 @@ and the historical-price snapshot case.
 
 ## Seed Commands
 
-Run from the repository root. Set `SEED_ENV` explicitly; there is no automatic
-seed on application startup.
+Run from the repository root. Copy the root `.env.example` to `.env` and set
+the development-only admin password. The Python entry point loads that file, so
+the normal workflow does not require exporting a long list of variables.
 
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce
-export SEED_ENV=development
-export SEED_ADMIN_EMAIL=admin@example.com
-export SEED_ADMIN_PASSWORD='Admin123!'
-export AUTH_SERVICE_URL=http://localhost:8085
-export CATALOG_SERVICE_URL=http://localhost:8081
-export INVENTORY_SERVICE_URL=http://localhost:8082
-export ORDER_SERVICE_URL=http://localhost:8083
-export CART_SERVICE_URL=http://localhost:8084
-export CUSTOMER_SERVICE_URL=http://localhost:8086
-export PAYMENT_SERVICE_URL=http://localhost:8087
-export SHIPPING_SERVICE_URL=http://localhost:8088
-export PAYMENT_TO_ORDER_SERVICE_TOKEN=dev-payment-to-order
-export ORDER_TO_SHIPPING_SERVICE_TOKEN=dev-order-to-shipping
-export PAYMENT_SANDBOX_WEBHOOK_SECRET=dev-sandbox-webhook-secret
-export SHIPPING_WEBHOOK_SECRET=dev-shipping-webhook-secret
-
-./dev-seed/seed.sh
+```text
+python3 dev-seed/scripts/seed.py  # macOS/Linux
+python dev-seed/scripts/seed.py   # Windows
+npm run seed
 ```
+
+On Windows, `py dev-seed/scripts/seed.py` is equivalent when the Python
+launcher is installed. The `dev-seed/seed.sh` wrapper remains an optional
+Unix convenience and is not required.
 
 Progress is printed as `[1/10]` through `[10/10]`. Tokens and passwords are
 never printed or persisted. The first run requires all backend services and
@@ -208,10 +198,10 @@ their dependencies to be healthy.
 
 Offline commands:
 
-```bash
-./dev-seed/seed.sh --validate-only
-./dev-seed/seed.sh --refresh-source
-./dev-seed/seed.sh --refresh-images
+```text
+python dev-seed/scripts/seed.py --validate-only
+python dev-seed/scripts/seed.py --refresh-source
+python dev-seed/scripts/seed.py --refresh-images
 ```
 
 `--refresh-source` writes a review artifact only. It does not import changes
@@ -226,16 +216,21 @@ shipments, and physical inventory units. It targets only the eight named
 Compose files in this repository and requires both an explicit `--reset` and
 `SEED_ENV=development`:
 
-```bash
-SEED_ENV=development ./dev-seed/seed.sh --reset
+```text
+python dev-seed/scripts/seed.py --reset
 ```
+
+The root `.env` must contain `SEED_ENV=development` for this command. PowerShell
+and CMD users do not need inline shell assignments.
 
 This stops those local Compose projects and removes their named development
 volumes. Never run it with production Compose files or production credentials.
 
 ## Environment Variables
 
-Required service URLs are listed in the command above. The following are also
+The seed-specific `SEED_*_SERVICE_URL` variables in the root `.env.example`
+keep host URLs separate from Compose container URLs. The legacy service URL
+names remain supported for direct invocation. The following values are also
 supported:
 
 | Variable | Purpose |

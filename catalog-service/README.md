@@ -12,7 +12,7 @@ A production-oriented Product Catalog module for an e-commerce application.
 - Flyway
 - SpringDoc OpenAPI / Swagger UI
 - JUnit 5 + MockMvc + Testcontainers 2.0.5 (BOM-managed)
-- Docker / Docker Compose, including Colima on macOS
+- Docker / Docker Compose on macOS, Windows, or Linux
 
 ## Features
 
@@ -30,42 +30,25 @@ A production-oriented Product Catalog module for an e-commerce application.
 
 ## Prerequisites
 
-- Java 21
-- Maven 3.9+
-- Docker Engine, Docker Desktop, or Colima
+Install Java 21, Maven 3.9+, and Docker Desktop, Docker Engine, or optional
+Colima. Start the selected Docker runtime before running the application or
+tests. The default workflow does not require a shell-specific Docker socket
+variable.
 
-On macOS with Colima, start the runtime before running the application or tests:
-
-```bash
-colima start --network-address
-docker context use colima
-docker info
-```
-
-The repository detects the default Colima socket automatically. No `DOCKER_HOST`,
-`TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE`, or `TESTCONTAINERS_HOST_OVERRIDE` exports
-are required for the normal local workflow.
-
-## Run locally on macOS
+## Run locally
 
 ### Start PostgreSQL
 
 The application expects PostgreSQL on `localhost:5432`:
 
-```bash
-docker-compose up -d postgres
-docker-compose ps
-```
-
-If your Docker installation provides the Compose v2 plugin, the equivalent command is:
-
-```bash
+```text
 docker compose up -d postgres
+docker compose ps
 ```
 
 ### Start the application
 
-```bash
+```text
 mvn spring-boot:run
 ```
 
@@ -78,11 +61,19 @@ Application URLs:
 
 Stop the PostgreSQL service when it is no longer needed:
 
-```bash
-docker-compose stop postgres
+```text
+docker compose stop postgres
 ```
 
 The Docker Compose volume is retained by this command.
+
+## Docker execution
+
+From this service directory, `docker compose up -d --build` starts PostgreSQL
+and Catalog together. The image builds the JAR inside Docker. The Compose file
+uses the database service name internally and a relative `uploads` bind mount;
+its cross-project Auth URL uses `host.docker.internal` with a Linux
+`host-gateway` mapping.
 
 ## Test locally
 
@@ -91,33 +82,14 @@ container. The Compose PostgreSQL service is not required for the test suite.
 
 With Colima or Docker Desktop running:
 
-```bash
+```text
 mvn clean test
 ```
 
-The test configuration is repository-owned and detects these local sockets without
-requiring shell setup:
-
-- Colima: `~/.colima/default/docker.sock`
-- Docker Desktop: `~/.docker/run/docker.sock`
-
-If your shell already contains stale Docker variables, run:
-
-```bash
-env -u DOCKER_HOST \
-  -u TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE \
-  -u TESTCONTAINERS_HOST_OVERRIDE \
-  mvn clean test
-```
-
-For explicit Colima configuration, use Testcontainers' documented variables:
-
-```bash
-export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
-export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
-export TESTCONTAINERS_HOST_OVERRIDE="$(colima ls -j | jq -r '.address')"
-mvn clean test
-```
+The test-only bootstrap honors an explicit `DOCKER_HOST`. When it is absent, it
+uses normal Testcontainers discovery on Docker Desktop and Linux Docker, and
+performs guarded optional Unix-socket detection for macOS runtimes. Windows
+never receives a fabricated Unix socket path.
 
 The integration suite covers product CRUD, pagination and filtering, validation,
 category hierarchy rules, SKU uniqueness, and image upload/download/deletion.

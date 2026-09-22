@@ -1,0 +1,18 @@
+{
+  "name": "my-ecommerce",
+  "private": true,
+  "scripts": {
+    "doctor": "node scripts/doctor.mjs",
+    "seed": "node scripts/run-python.mjs dev-seed/scripts/seed.py",
+    "seed:reset": "node scripts/run-python.mjs dev-seed/scripts/seed.py --reset",
+    "seed:validate": "node scripts/run-python.mjs dev-seed/scripts/seed.py --validate-only",
+    "seed:refresh-source": "node scripts/run-python.mjs dev-seed/scripts/seed.py --refresh-source",
+    "seed:refresh-images": "node scripts/run-python.mjs dev-seed/scripts/seed.py --refresh-images",
+    "dev:admin": "npm --prefix ecommerce-admin-ui run dev",
+    "dev:storefront": "npm --prefix ecommerce-storefront run dev",
+    "build:admin": "npm --prefix ecommerce-admin-ui run build",
+    "build:storefront": "npm --prefix ecommerce-storefront run build",
+    "test:admin": "npm --prefix ecommerce-admin-ui test",
+    "test:storefront": "npm --prefix ecommerce-storefront test"
+  }
+}

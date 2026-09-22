@@ -117,6 +117,24 @@ the operator has the corresponding permission.
 
 Copy `.env.example` for local development. `APP_SECURITY_ENABLED=false` is intended only for local work without Auth Service. The Docker Compose file creates the payment database and publishes `5438`; the application remains on `8087`.
 
+## Docker and local execution
+
+The multi-stage Dockerfile builds the service JAR inside the image:
+
+```text
+docker compose up -d --build
+```
+
+For host execution, start `payment-db` with `docker compose up -d payment-db`
+and run `mvn spring-boot:run`. A host process uses `localhost:5438`; the
+container uses the Compose database name `payment-db`. Calls to Order and Auth
+use host URLs for host execution and `host.docker.internal` in the independent
+Compose project. The Compose file supplies the Linux `host-gateway` mapping.
+
+Docker Desktop, Linux Docker, and optional macOS Colima are supported by
+Testcontainers through the Docker API. Integration tests are not disabled when
+Docker is unavailable.
+
 Build and test:
 
 ```bash

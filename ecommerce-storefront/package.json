@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test test/*.test.mjs",
-    "test:e2e": "STOREFRONT_E2E_BASE_URL=http://localhost:3001 node --test test/e2e.test.mjs"
+    "test:e2e": "node scripts/test-e2e.mjs"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.89.0",

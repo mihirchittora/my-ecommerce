@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: payment
       POSTGRES_PASSWORD: payment
     ports:
-      - "5438:5432"
+      - "${PAYMENT_DB_HOST_PORT:-5438}:5432"
     volumes:
       - payment-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -19,8 +19,10 @@ services:
   payment-service:
     build: .
     container_name: ecommerce-payment-service
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
-      - "8087:8087"
+      - "${PAYMENT_HOST_PORT:-8087}:8087"
     environment:
       PAYMENT_SERVER_PORT: 8087
       PAYMENT_DB_URL: jdbc:postgresql://payment-db:5432/payment_db

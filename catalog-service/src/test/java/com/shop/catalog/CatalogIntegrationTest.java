@@ -23,6 +23,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
@@ -49,6 +50,8 @@ class CatalogIntegrationTest {
         PortableDockerEnvironment.configure();
     }
 
+    private static final Path UPLOAD_ROOT = createUploadRoot();
+
     @Container
     static final PostgreSQLContainer POSTGRES = new PostgreSQLContainer("postgres:17")
             .withDatabaseName("ecommerce")
@@ -60,7 +63,7 @@ class CatalogIntegrationTest {
         registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
-        registry.add("app.images.storage-dir", () -> "/tmp/catalog-service-test-uploads");
+        registry.add("app.images.storage-dir", UPLOAD_ROOT::toString);
         registry.add("app.security.enabled", () -> "false");
     }
 
@@ -71,7 +74,7 @@ class CatalogIntegrationTest {
 
     @BeforeEach
     void cleanUploads() throws Exception {
-        Path root = Path.of("/tmp/catalog-service-test-uploads");
+        Path root = UPLOAD_ROOT;
         if (Files.exists(root)) {
             try (var paths = Files.walk(root)) {
                 paths.sorted(java.util.Comparator.reverseOrder()).forEach(p -> {
@@ -336,7 +339,7 @@ class CatalogIntegrationTest {
         mvc.perform(get("/api/v1/products/{productId}/images/{imageId}/file", productId, imageId))
                 .andExpect(status().isNotFound());
 
-        Path uploadRoot = Path.of("/tmp/catalog-service-test-uploads");
+        Path uploadRoot = UPLOAD_ROOT;
         if (Files.exists(uploadRoot)) {
             try (var paths = Files.walk(uploadRoot)) {
                 assertTrue(paths.noneMatch(Files::isRegularFile));
@@ -354,6 +357,14 @@ class CatalogIntegrationTest {
                 .andExpect(status().isCreated())
                 .andReturn();
         return UUID.fromString(result.getResponse().getContentAsString().replaceAll(".*\\\"id\\\":\\\"([^\\\"]+)\\\".*", "$1"));
+    }
+
+    private static Path createUploadRoot() {
+        try {
+            return Files.createTempDirectory("catalog-service-test-uploads-");
+        } catch (IOException ex) {
+            throw new ExceptionInInitializerError(ex);
+        }
     }
 
     private UUID createProduct(UUID categoryId, String name, String sku, String currency, String price) throws Exception {

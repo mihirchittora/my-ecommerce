@@ -1,449 +1,376 @@
 # my-ecommerce
 
-This repository contains independently deployable services for the e-commerce platform:
+This repository contains independently deployable Java services and two Next.js
+applications for a local e-commerce platform. The default development workflow
+uses Docker Compose for PostgreSQL and backend services, then runs the browser
+applications on the host.
 
-```text
-my-ecommerce/
-├── auth-service/          # users, passwords, roles, permissions, JWTs
-├── catalog-service/       # products, categories, variants, images
-├── inventory-service/     # locations, units, reservations, movements
-├── order-service/         # historical orders, snapshots, idempotency, orchestration
-├── cart-service/          # customer-owned mutable SKU carts
-├── customer-service/      # customer profiles and current addresses
-├── payment-service/       # payment orchestration, gateway references, attempts, refunds
-├── shipping-service/      # fulfillment, shipments, carrier abstraction, tracking
-└── ecommerce-admin-ui/    # Next.js operations UI
-```
+## Architecture
 
-## Local ports
-
-| Component | Container name | Port |
+| Component | Directory | Host port |
 | --- | --- | ---: |
-| Auth service | `ecommerce-auth-service` | 8085 |
-| Catalog service | `ecommerce-catalog-service` | 8081 |
-| Inventory service | `ecommerce-inventory-service` | 8082 |
-| Order service | `ecommerce-order-service` | 8083 |
-| Cart service | `ecommerce-cart-service` | 8084 |
-| Customer service | `ecommerce-customer-service` | 8086 |
-| Payment service | `ecommerce-payment-service` | 8087 |
-| Shipping service | `shipping-service` | 8088 |
-| Next.js UI | — | 3000 |
-| Auth PostgreSQL | `ecommerce-auth-db` | 5434 |
-| Catalog PostgreSQL | `ecommerce-catalog-db` | 5432 |
-| Inventory PostgreSQL | `ecommerce-inventory-db` | 5433 |
-| Order PostgreSQL | `ecommerce-order-db` | 5435 |
-| Cart PostgreSQL | `ecommerce-cart-db` | 5436 |
-| Customer PostgreSQL | `ecommerce-customer-db` | 5437 |
-| Shipping PostgreSQL | `shipping-db` | 5439 |
+| Catalog | catalog-service | 8081 |
+| Inventory | inventory-service | 8082 |
+| Order | order-service | 8083 |
+| Cart | cart-service | 8084 |
+| Auth | auth-service | 8085 |
+| Customer | customer-service | 8086 |
+| Payment | payment-service | 8087 |
+| Shipping | shipping-service | 8088 |
+| Admin UI | ecommerce-admin-ui | 3000 |
+| Storefront | ecommerce-storefront | 3001 |
 
-Authentication is owned only by `auth-service`. It issues short-lived RS256 access
-tokens and rotates opaque, hashed refresh tokens. Catalog and Inventory validate
-the access token locally using the Auth service's public JWKS endpoint; they do not
-connect to the Auth database or call Auth for every request.
+Each backend has a dedicated docker-compose.yml and PostgreSQL volume. The
+Compose projects are intentionally independent; backend containers call each
+other through the host gateway, while each application calls its own database
+by the Compose service name.
 
-Public catalog reads remain available without a token. Catalog mutations require
-catalog permissions. Administrative Inventory APIs require a bearer token and the
-specific inventory permission for the operation. The internal Catalog SKU lookup
-uses a separate configured service secret (`CATALOG_SERVICE_TOKEN` on Inventory,
-`ORDER_SERVICE_TOKEN` on Order, or `CART_SERVICE_TOKEN` on Cart), not a human
-inventory permission.
+## Prerequisites
 
-Cart is a separate customer-facing service. It stores only SKU and quantity in
-its own database, enriches reads from Catalog, and delegates checkout to Order.
-Adding to Cart never reserves Inventory; Order coordinates reservation during
-checkout. See [cart-service/README.md](cart-service/README.md) for its API,
-lifecycle, integration contracts, and verification guide.
+All platforms need:
 
-Customer is a separate customer-facing service. It owns the current customer
-profile and address book in its own `customer_db`; Auth remains the source of
-truth for identity and credentials. Customer identifies the profile from JWT
-`sub`, never stores passwords or tokens, and never reads another service's
-database. It lazily creates an idempotent profile on the first
-`/api/v1/customers/me` call because Auth currently has no profile callback. See
-[customer-service/README.md](customer-service/README.md) and
-[docs/api-contracts.md](docs/api-contracts.md) for its contract.
+- Java 21
+- Maven 3.9+
+- Node.js 20+ and npm
+- Python 3.11+ for the development seed tool
+- Docker with Compose v2
 
-Payment is a gateway-agnostic orchestration service. External gateways process the
-payment; Payment Service owns payment state, provider references, attempts, verified
-webhooks, and refunds. It never stores card numbers, CVV/PINs, gateway secrets, or
-reads another service's database. Its internal operations endpoints require
-`PAYMENT_READ`, `PAYMENT_REFUND`, or `PAYMENT_RETRY` as appropriate. See
-[payment-service/README.md](payment-service/README.md) and
-[docs/api-contracts.md](docs/api-contracts.md).
+macOS:
 
-Shipping is an independently deployable fulfillment and transportation service.
-It owns fulfillments, shipments, shipment items, tracking events, shipment
-history, carrier references, and carrier webhook processing in its private
-`shipping_db`. It references Order and Inventory identifiers over authenticated
-HTTP only: it never reads their databases, imports their JPA entities, or
-mutates InventoryUnit rows. The service validates the actual Order state
-(`CONFIRMED`/`FULFILLING`) and the exact reservation unit references returned by
-Inventory before calling its configured SANDBOX or EasyPost carrier. See
-[shipping-service/README.md](shipping-service/README.md) and
-[docs/api-contracts.md](docs/api-contracts.md).
+- Docker Desktop, or Colima with the Docker CLI and Compose plugin
+- Apple Silicon and Intel are supported by the official multi-architecture
+  images used by the project
 
-The internal admin UI exposes read-only Cart support at `/carts` and
-`/carts/{id}` when the operator has `CART_READ`. Cart quantities, current
-Inventory availability, and historical Order pricing remain separate concepts;
-the admin UI does not provide Cart checkout or reservation mutations. See
-[docs/api-contracts.md](docs/api-contracts.md) for the staff Cart contract.
+Windows:
 
-See [auth-service/README.md](auth-service/README.md) for the complete authentication,
-authorization, key management, local development, and security-testing guide.
+- Docker Desktop with Linux containers enabled
+- WSL2 is recommended by Docker Desktop but Git Bash is not required
 
-## Start locally with Docker on macOS
+Linux:
 
-Docker Desktop or Colima must be running. Verify Docker before starting:
+- Docker Engine or Docker Desktop with the Compose v2 plugin
+- A distro-neutral Docker installation; no systemd, apt, or specific distro
+  is required by this repository
 
-```bash
+Check the local toolchain with:
+
+~~~text
+npm run doctor
+~~~
+
+The diagnostic does not print environment values or secrets. Add -- --health
+to probe already-running backend health endpoints.
+
+## Supported Platforms
+
+The intended local workflow is supported on macOS, Windows 10/11, and Linux.
+Docker Desktop and Linux Docker Engine use the same Compose files. Colima is an
+optional macOS Docker runtime, not a repository requirement.
+
+## Quick Start
+
+1. Clone the repository and change into its directory.
+2. Copy the root .env.example to .env and change the development-only admin
+   password. The seed tool reads this file automatically.
+3. Start Docker Desktop, Docker Engine, or the optional Colima runtime.
+4. Validate the Compose files with docker compose config.
+5. Start the eight backend Compose projects.
+6. Copy each frontend example environment file, install dependencies, and start
+   the Admin UI and Storefront.
+7. Run the repeatable development seed.
+
+The commands below are the complete workflow. Run each npm run command in its own
+terminal when the process is long-running.
+
+## Local Development
+
+### 1. Configure local values
+
+macOS/Linux:
+
+~~~text
+cp .env.example .env
+cp ecommerce-admin-ui/.env.example ecommerce-admin-ui/.env.local
+cp ecommerce-storefront/.env.example ecommerce-storefront/.env.local
+~~~
+
+Windows PowerShell:
+
+~~~powershell
+Copy-Item .env.example .env
+Copy-Item ecommerce-admin-ui/.env.example ecommerce-admin-ui/.env.local
+Copy-Item ecommerce-storefront/.env.example ecommerce-storefront/.env.local
+~~~
+
+The root file contains local-only database defaults, Auth bootstrap values, and
+host-published URLs for the seed tool. The frontend files contain browser URLs.
+Do not put production credentials in any example file.
+
+### 2. Start the backend services
+
+Run from the repository root:
+
+~~~text
+docker compose -f auth-service/docker-compose.yml up -d --build
+docker compose -f catalog-service/docker-compose.yml up -d --build
+docker compose -f inventory-service/docker-compose.yml up -d --build
+docker compose -f order-service/docker-compose.yml up -d --build
+docker compose -f cart-service/docker-compose.yml up -d --build
+docker compose -f customer-service/docker-compose.yml up -d --build
+docker compose -f payment-service/docker-compose.yml up -d --build
+docker compose -f shipping-service/docker-compose.yml up -d --build
+~~~
+
+The images build their JARs inside Docker, so a local target/ directory is not
+required before docker compose up --build.
+
+Validate before startup, or when diagnosing interpolation problems:
+
+~~~text
+docker compose -f auth-service/docker-compose.yml config
+docker compose -f catalog-service/docker-compose.yml config
+~~~
+
+### 3. Start the browser applications
+
+Install once and then start each application in a separate terminal:
+
+~~~text
+npm --prefix ecommerce-admin-ui install
+npm --prefix ecommerce-admin-ui run dev
+~~~
+
+~~~text
+npm --prefix ecommerce-storefront install
+npm --prefix ecommerce-storefront run dev
+~~~
+
+The same commands work in macOS/Linux shells, PowerShell, and CMD. They use the
+repository's lock files and do not require shell environment assignments.
+
+## Command Matrix
+
+| Task | macOS/Linux | Windows PowerShell |
+| --- | --- | --- |
+| Copy root env | `cp .env.example .env` | `Copy-Item .env.example .env` |
+| Start Docker | `docker info` or `colima start` | Start Docker Desktop, then `docker info` |
+| Validate Compose | `docker compose ... config` | `docker compose ... config` |
+| Build backend | `mvn -f <service>/pom.xml clean package` | `mvn -f <service>/pom.xml clean package` |
+| Build frontend | `npm --prefix ecommerce-admin-ui run build` | same command |
+| Seed | `npm run seed` | `npm run seed` |
+| Reset seed | `npm run seed:reset` | `npm run seed:reset` |
+
+### 4. Seed development data
+
+After Auth and all required backend services are healthy:
+
+~~~text
+npm run seed
+~~~
+
+Equivalent direct commands:
+
+~~~text
+python3 dev-seed/scripts/seed.py  # macOS/Linux
+python dev-seed/scripts/seed.py   # Windows
+~~~
+
+On Windows installations that expose only the Python launcher, use
+py dev-seed/scripts/seed.py. The npm entry point auto-detects python3, python,
+or py. The seed is restricted to SEED_ENV=development or
+SEED_ENV=test, is repeatable, and writes its manifest under dev-seed.
+
+## macOS
+
+Docker Desktop is the default macOS option. Start it, then use the Quick Start
+commands unchanged. Both Intel and Apple Silicon are supported by the base
+images used here.
+
+## Windows
+
+Docker Desktop with Linux containers is the recommended setup. WSL2 integration
+is optional but useful for Docker Desktop's Linux backend. Use PowerShell or CMD
+for the normal workflow; Git Bash is not required.
+
+PowerShell equivalents for the few file-copy operations are shown above. Maven,
+Node, npm, Python, and docker compose commands are otherwise identical.
+
+## Linux
+
+Use Docker Engine or Docker Desktop with Compose v2. The Compose files add the
+portable host.docker.internal:host-gateway mapping needed by Docker Engine so
+Linux does not depend on a platform-specific host alias. No distro-specific
+package manager command is part of the project workflow.
+
+## Docker
+
+From the host, use http://localhost:<port> for published service ports. Inside
+one of these independent Compose projects:
+
+Published ports can be changed without editing Compose files by setting the
+matching `<SERVICE>_HOST_PORT` and `<SERVICE>_DB_HOST_PORT` variables, such as
+`CATALOG_HOST_PORT` or `CATALOG_DB_HOST_PORT`. Keep the frontend and seed URLs
+in sync when changing backend host ports; container-internal ports stay fixed.
+
+- The local database is reached by its Compose service name, such as
+  jdbc:postgresql://catalog-db:5432/... or jdbc:postgresql://postgres:5432/....
+- A backend in another Compose project is reached through
+  http://host.docker.internal:<port>.
+- localhost inside a container means that same container; it is never another
+  backend service.
+
+If all services are later placed in one Compose network, use service DNS names
+such as http://catalog-service:8081 instead of the host gateway. The current
+independent Compose layout intentionally uses the host gateway and does not
+require host socket mounts.
+
+To stop services while retaining database volumes:
+
+~~~text
+docker compose -f auth-service/docker-compose.yml down
+docker compose -f catalog-service/docker-compose.yml down
+docker compose -f inventory-service/docker-compose.yml down
+docker compose -f order-service/docker-compose.yml down
+docker compose -f cart-service/docker-compose.yml down
+docker compose -f customer-service/docker-compose.yml down
+docker compose -f payment-service/docker-compose.yml down
+docker compose -f shipping-service/docker-compose.yml down
+~~~
+
+Add -v only when intentionally deleting local database data.
+
+## Colima
+
+Colima is optional on macOS. If it is installed, the minimum setup is:
+
+~~~text
+colima start
 docker info
-```
-
-Each backend has its own `docker-compose.yml` and database. The Compose files use
-separate networks, so service-to-service URLs use `host.docker.internal` from
-inside containers. The browser uses `localhost` because the UI runs on the Mac.
-
-### Build JARs required by Auth and Order
-
-The Auth and Order Dockerfiles copy an existing JAR from `target/`; their Docker
-build does not run Maven. Rebuild these JARs whenever their Java source changes:
-
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce
-mvn -f auth-service/pom.xml -DskipTests package
-mvn -f order-service/pom.xml -DskipTests package
-docker-compose -f auth-service/docker-compose.yml build --no-cache auth-service
-docker-compose -f order-service/docker-compose.yml build --no-cache order-service
-```
-
-Catalog and Inventory use multi-stage Dockerfiles that run Maven inside the image,
-so a local Maven package step is not required for those two services. The
-`--no-cache` build is important for Auth and Order because their Dockerfiles copy
-the locally generated JAR into the image.
-
-### Start Auth
-
-The example creates a local admin account. Change the example password for your
-own machine; never use these development credentials outside local development.
-
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce/auth-service
-AUTH_DB_NAME=auth_db \
-AUTH_DB_USERNAME=postgres \
-AUTH_DB_PASSWORD=postgres \
-AUTH_ISSUER=http://localhost:8085 \
-AUTH_AUDIENCE=ecommerce-api \
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001 \
-INITIAL_ADMIN_EMAIL=admin@example.com \
-INITIAL_ADMIN_PASSWORD='Admin123!' \
-docker-compose up -d --build
-```
-
-The bootstrap admin values are used only when the Auth database is initialized.
-Changing them later does not reset an existing admin password.
-
-### Start Catalog
-
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce/catalog-service
-AUTH_ISSUER=http://localhost:8085 \
-AUTH_AUDIENCE=ecommerce-api \
-AUTH_JWK_SET_URI=http://host.docker.internal:8085/.well-known/jwks.json \
-INVENTORY_SERVICE_TOKEN=dev-inventory-to-catalog \
-ORDER_SERVICE_TOKEN=dev-order-to-catalog \
-docker-compose up -d --build
-```
-
-### Start Inventory
-
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce/inventory-service
-INVENTORY_DB_USERNAME=inventory \
-INVENTORY_DB_PASSWORD=inventory \
-CATALOG_SERVICE_URL=http://host.docker.internal:8081 \
-AUTH_ISSUER=http://localhost:8085 \
-AUTH_AUDIENCE=ecommerce-api \
-AUTH_JWK_SET_URI=http://host.docker.internal:8085/.well-known/jwks.json \
-CATALOG_SERVICE_TOKEN=dev-inventory-to-catalog \
-ORDER_SERVICE_TOKEN=dev-order-to-inventory \
-docker-compose up -d --build
-```
-
-### Start Order
-
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce/order-service
-CATALOG_SERVICE_URL=http://host.docker.internal:8081 \
-INVENTORY_SERVICE_URL=http://host.docker.internal:8082 \
-AUTH_ISSUER=http://localhost:8085 \
-AUTH_AUDIENCE=ecommerce-api \
-AUTH_JWK_SET_URI=http://host.docker.internal:8085/.well-known/jwks.json \
-CATALOG_SERVICE_TOKEN=dev-order-to-catalog \
-INVENTORY_SERVICE_TOKEN=dev-order-to-inventory \
-docker-compose up -d --build --force-recreate
-```
-
-### Start Cart
-
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce/cart-service
-CATALOG_SERVICE_URL=http://host.docker.internal:8081 \
-ORDER_SERVICE_URL=http://host.docker.internal:8083 \
-AUTH_ISSUER=http://localhost:8085 \
-AUTH_AUDIENCE=ecommerce-api \
-AUTH_JWK_SET_URI=http://host.docker.internal:8085/.well-known/jwks.json \
-CART_CATALOG_SERVICE_TOKEN=dev-cart-to-catalog \
-docker-compose up -d --build
-```
-
-### Start Customer
-
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce/customer-service
-AUTH_ISSUER=http://localhost:8085 \
-AUTH_AUDIENCE=ecommerce-api \
-AUTH_JWK_SET_URI=http://host.docker.internal:8085/.well-known/jwks.json \
-docker-compose up -d --build
-```
-
-### Start Payment
-
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce/payment-service
-AUTH_ISSUER=http://localhost:8085 \
-AUTH_AUDIENCE=ecommerce-api \
-AUTH_JWK_SET_URI=http://host.docker.internal:8085/.well-known/jwks.json \
-ORDER_SERVICE_URL=http://host.docker.internal:8083 \
-docker-compose up -d --build
-```
-
-### Start the admin UI
-
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce/ecommerce-admin-ui
-cp .env.example .env.local   # only needed the first time
-npm install                  # only needed the first time
-npm run dev
-```
-
-Open <http://localhost:3000> and sign in with the Auth admin credentials.
-
-### Verify and stop the stack
-
-```bash
-docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
-
-curl -fsS http://localhost:8085/actuator/health
-curl -fsS http://localhost:8081/actuator/health
-curl -fsS http://localhost:8082/actuator/health
-curl -fsS http://localhost:8083/actuator/health
-curl -fsS http://localhost:8084/actuator/health
-curl -fsS http://localhost:8086/actuator/health
-curl -fsS http://localhost:8087/actuator/health
-curl -fsS http://localhost:8088/actuator/health
-```
-
-Stop a service without deleting its database volume:
-
-```bash
-(cd auth-service && docker-compose down)
-(cd catalog-service && docker-compose down)
-(cd inventory-service && docker-compose down)
-(cd order-service && docker-compose down)
-(cd cart-service && docker-compose down)
-(cd customer-service && docker-compose down)
-(cd payment-service && docker-compose down)
-(cd shipping-service && docker-compose down)
-```
-
-Use `docker-compose down -v` only when you intentionally want to delete that
-service's local database data and start from an empty database.
-
-### Environment variables and local values
-
-The values below are for local development only. Compose defaults most database,
-port, and URL settings, but the explicit values below make the Auth issuer,
-browser URLs, service credentials, and initial admin account clear.
-
-#### Auth service
-
-| Variable | Local value | Relevance |
-| --- | --- | --- |
-| `AUTH_DB_NAME` | `auth_db` | Auth PostgreSQL database name. |
-| `AUTH_DB_USERNAME` | `postgres` | Auth PostgreSQL user. |
-| `AUTH_DB_PASSWORD` | `postgres` | Auth PostgreSQL local password. |
-| `AUTH_ISSUER` | `http://localhost:8085` | JWT `iss` claim; downstream services must use the same value. |
-| `AUTH_AUDIENCE` | `ecommerce-api` | JWT audience required by backend APIs. |
-| `ALLOWED_ORIGINS` | `http://localhost:3000,http://localhost:3001` | Browser origins allowed by Auth CORS. |
-| `INITIAL_ADMIN_EMAIL` | `admin@example.com` | Email for the first local admin user. |
-| `INITIAL_ADMIN_PASSWORD` | `Admin123!` | Password for that local admin user. |
-
-Auth also has application defaults for `AUTH_ACCESS_TOKEN_TTL` (`PT15M`),
-`AUTH_REFRESH_TOKEN_TTL` (`P30D`), `AUTH_MAX_FAILED_ATTEMPTS` (`5`), and
-`AUTH_LOCK_DURATION` (`PT15M`). They do not need to be set for the local Docker
-workflow.
-
-#### Catalog, Inventory, Order, Customer, and Payment connectivity
-
-| Variable | Local value | Relevance |
-| --- | --- | --- |
-| `AUTH_ISSUER` | `http://localhost:8085` | Must match the issuer Auth puts in JWTs. |
-| `AUTH_AUDIENCE` | `ecommerce-api` | Must match Auth's JWT audience. |
-| `AUTH_JWK_SET_URI` | `http://host.docker.internal:8085/.well-known/jwks.json` | Container-to-host URL used to fetch Auth's public signing keys. |
-| `CATALOG_SERVICE_URL` | `http://host.docker.internal:8081` | Inventory/Order URL for Catalog from inside Docker. |
-| `INVENTORY_SERVICE_URL` | `http://host.docker.internal:8082` | Order URL for Inventory from inside Docker. |
-| `CUSTOMER_DB_URL` | `jdbc:postgresql://customer-db:5432/customer_db` | Dedicated Customer database URL inside Compose. |
-
-`AUTH_ISSUER` and `AUTH_JWK_SET_URI` intentionally use different hostnames:
-the issuer must match the JWT value (`localhost`), while the JWK request must be
-reachable from a container (`host.docker.internal`).
-
-#### Service-to-service tokens
-
-These are development-only shared secrets. The caller's variable and the
-receiver's variable must contain the same value:
-
-| Caller | Receiver | Caller variable | Receiver variable | Local value |
-| --- | --- | --- | --- | --- |
-| Inventory | Catalog | `CATALOG_SERVICE_TOKEN` | `INVENTORY_SERVICE_TOKEN` | `dev-inventory-to-catalog` |
-| Order | Catalog | `CATALOG_SERVICE_TOKEN` | `ORDER_SERVICE_TOKEN` | `dev-order-to-catalog` |
-| Order | Inventory | `INVENTORY_SERVICE_TOKEN` | `ORDER_SERVICE_TOKEN` | `dev-order-to-inventory` |
-| Cart | Catalog | `CART_CATALOG_SERVICE_TOKEN` | `CART_SERVICE_TOKEN` | `dev-cart-to-catalog` |
-
-These secrets authenticate internal SKU, reservation, confirmation, and release
-calls. They are separate from a user's JWT and from permissions such as
-`INVENTORY_READ` or `ORDER_READ`. Do not commit real secrets to the repository.
-
-#### Database and server values fixed by Compose
-
-These values are already set in each Compose file and normally do not need to be
-exported:
-
-| Service | Database URL inside Compose | Database | App port | Host port |
-| --- | --- | --- | ---: | ---: |
-| Auth | `jdbc:postgresql://auth-db:5432/auth_db` | `auth_db` | 8085 | 8085 |
-| Catalog | `jdbc:postgresql://postgres:5432/ecommerce` | `ecommerce` | 8081 | 8081 |
-| Inventory | `jdbc:postgresql://inventory-postgres:5432/inventory_db` | `inventory_db` | 8082 | 8082 |
-| Order | `jdbc:postgresql://order-db:5432/order_db` | `order_db` | 8083 | 8083 |
-| Customer | `jdbc:postgresql://customer-db:5432/customer_db` | `customer_db` | 8086 | 8086 |
-| Payment | `jdbc:postgresql://payment-db:5432/payment_db` | `payment_db` | 8087 | 8087 |
-
-Do not replace these container-side database hostnames with `localhost`:
-`localhost` inside a container means that same container, not the database
-container.
-
-#### Admin UI
-
-Copy `ecommerce-admin-ui/.env.example` to `.env.local`:
-
-| Variable | Value | Relevance |
-| --- | --- | --- |
-| `NEXT_PUBLIC_AUTH_API_URL` | `http://localhost:8085` | Auth login, refresh, and user APIs. |
-| `NEXT_PUBLIC_CATALOG_API_URL` | `http://localhost:8081` | Catalog products, categories, variants, and images. |
-| `NEXT_PUBLIC_INVENTORY_API_URL` | `http://localhost:8082` | Inventory stock, units, locations, and reservations. |
-| `NEXT_PUBLIC_ORDER_API_URL` | `http://localhost:8083` | Order list, detail, history, and cancellation APIs. |
-| `NEXT_PUBLIC_CART_API_URL` | `http://localhost:8084` | Read-only Cart support list and detail APIs. |
-| `NEXT_PUBLIC_CUSTOMER_API_URL` | `http://localhost:8086` | Customer Service base URL for customer self-service and User Management administration. |
-| `NEXT_PUBLIC_PAYMENT_API_URL` | `http://localhost:8087` | Payment Service operations list, detail, attempts, and refund APIs. |
-
-The `NEXT_PUBLIC_` prefix is required by Next.js because these URLs are used by
-browser code. Do not use Docker-only hostnames such as `host.docker.internal` in
-the UI environment.
-
-The Admin UI has a shared permission-gated User Management section with separate
-Customers, Service users, Roles, and Permissions screens. Customers use
-Customer Service's `CUSTOMER_READ`/`CUSTOMER_UPDATE` admin contracts for profile,
-status, and shipping/billing address operations. Service users and roles use
-Auth's administrative contracts; customer signup remains public Auth behavior.
-
-## Service ownership and connected admin flow
-
-```text
-                         ecommerce-admin-ui :3000
-                                  |
-             +--------------------+--------------------+--------------------+
-             |                    |                    |                    |
-             v                    v                    v                    v
-       Catalog :8081        Inventory :8082        Order :8083        Payment :8087
-       current products     physical stock         historical orders       payment state,
-       variants and SKUs    units and reservations snapshots and history   attempts, refunds
-             \                    |                    /                    /
-              \                   |                   /                    /
-                         Auth :8085
-                  identity and permissions
-```
-
-The operational navigation connects the domains without changing ownership:
-
-```text
-Product → Variant → SKU → Inventory → Reservation → Order
-Order → Order Item → SKU → Product snapshot
-Order → Reservation → Inventory Units
-Payment → Order reference → Order Service
-Payment → Customer reference → Customer Service
-```
-
-Catalog owns current product, variant, SKU, image, and price data. Inventory owns locations, aggregate stock, physical units, reservations, and movements. Order owns the commercial transaction, historical snapshots, totals, status, history, and remote reservation references. Payment owns gateway orchestration state, attempts, provider references, webhooks, and refunds; external gateways perform the actual processing. Customer owns customer profiles and addresses. Auth owns users, JWTs, roles, permissions, and refresh sessions. The admin UI composes these APIs and keeps each service's data authoritative.
-
-Order is a separate deployable service with its own database. It references the
-Catalog/Inventory SKU over HTTP, never imports their entities, and never shares
-their database. See [order-service/README.md](order-service/README.md) for the
-state machine, API, snapshot, idempotency, reservation, recovery, Docker, and
-Testcontainers design.
-
-### Required local service-to-service authentication
-
-The token mapping in the startup commands is intentional. Inventory calls
-Catalog with `CATALOG_SERVICE_TOKEN`, which Catalog validates against its
-`INVENTORY_SERVICE_TOKEN`. Order calls Catalog and Inventory with its own
-caller-specific tokens. Cart calls Catalog with its Cart-specific token. If a token is missing or different, the target service
-may be healthy while the remote request returns `401`, `403`, or `503`.
-
-For example, after both Catalog and Inventory are running, check the protected
-Catalog SKU lookup directly:
-
-```bash
-curl -i \
-  -H 'X-Inventory-Service-Token: dev-inventory-to-catalog' \
-  http://localhost:8081/internal/catalog/skus/<SKU>
-```
-
-This should return `200` for an existing active SKU. The browser still needs a
-fresh Auth JWT with the required Inventory permission for administrative API
-requests.
-
-### Admin dashboard data coverage
-
-The dashboard shows Catalog product/category counts, an active-product count,
-and Catalog request health. Inventory dashboard cards are loaded from the
-authenticated `GET /api/v1/inventory/summary` endpoint, which calculates total,
-available, reserved, damaged, and active-location counts from physical
-`InventoryUnit` records. Catalog status and Inventory status are separate; a
-healthy Catalog does not prove that Inventory is available.
-
-Payment metrics are intentionally not calculated in the browser. Payment Service
-currently exposes operational list/detail data but no efficient summary endpoint;
-add one before introducing dashboard totals for payment states.
-
-### Start Shipping
-
-Shipping has its own PostgreSQL database and its own Compose file:
-
-```bash
-cd /Users/mihirchittora/Desktop/my-ecommerce/shipping-service
-docker-compose up -d --build
-```
-
-For local service-to-service authentication, set
-`ORDER_TO_SHIPPING_SERVICE_TOKEN` on Shipping and the same value as
-`SHIPPING_TO_ORDER_SERVICE_TOKEN` on Order. Set
-`SHIPPING_TO_INVENTORY_SERVICE_TOKEN` on Shipping and the same value on
-Inventory. These credentials are server-only and are never sent to the browser.
-
-## Development Demo Data
-
-The repository contains synthetic development/demo data derived from public
-catalog references. It is not production catalog data and does not represent
-the reference source's branding or assets. See [dev-seed/README.md](dev-seed/README.md)
-for the API-only, repeatable seeding system, source provenance, demo scenarios,
-reset safeguards, and validation commands.
+~~~
+
+If more than one Docker context is installed, select Colima with
+docker context use colima. Do this only for the local shell; no repository
+file or application setting depends on a Colima socket. Testcontainers detects
+the active Docker API and the repository's test-only fallback checks optional
+Unix sockets only on Unix-like hosts.
+
+## Service Ports
+
+| Service | Host URL | Default database host port |
+| --- | --- | ---: |
+| Catalog | http://localhost:8081 | 5432 |
+| Inventory | http://localhost:8082 | 5433 |
+| Order | http://localhost:8083 | 5435 |
+| Cart | http://localhost:8084 | 5436 |
+| Auth | http://localhost:8085 | 5434 |
+| Customer | http://localhost:8086 | 5437 |
+| Payment | http://localhost:8087 | 5438 |
+| Shipping | http://localhost:8088 | 5439 |
+| Admin UI | http://localhost:3000 | — |
+| Storefront | http://localhost:3001 | — |
+
+Every application port is configurable through the service's environment
+configuration. The Compose files publish the documented defaults.
+
+## Environment Variables
+
+Prefer .env files over manually exporting many variables. The tracked example
+files are the safe starting points:
+
+- Root .env.example: shared Compose and seed values.
+- <service>/.env.example: host execution and service-specific values.
+- ecommerce-admin-ui/.env.example and ecommerce-storefront/.env.example:
+  browser API/rewrite URLs.
+
+For a variable that must be set interactively, the syntax is:
+
+| Shell | Example |
+| --- | --- |
+| macOS/Linux | export FOO=value |
+| PowerShell | $env:FOO="value" |
+| CMD | set FOO=value |
+
+The normal Compose workflow does not require these assignments. Internal service
+tokens and local passwords in examples are development-only placeholders, not
+production secrets.
+
+## Development Seed Data
+
+The portable entry point is python dev-seed/scripts/seed.py or npm run seed.
+The optional dev-seed/seed.sh wrapper is a Unix convenience only; Windows
+developers should invoke the Python entry point directly. Available commands:
+
+~~~text
+npm run seed
+npm run seed:validate
+npm run seed:refresh-images
+npm run seed:reset
+~~~
+
+seed:reset removes only the eight named local Compose volumes and requires
+SEED_ENV=development. It never targets production URLs.
+
+## Testing
+
+Backend tests run per service because there is no Maven aggregator:
+
+~~~text
+mvn -f auth-service/pom.xml clean test
+mvn -f catalog-service/pom.xml clean test
+mvn -f inventory-service/pom.xml clean test
+mvn -f order-service/pom.xml clean test
+mvn -f cart-service/pom.xml clean test
+mvn -f customer-service/pom.xml clean test
+mvn -f payment-service/pom.xml clean test
+mvn -f shipping-service/pom.xml clean test
+~~~
+
+The integration suites use Testcontainers PostgreSQL. They are not disabled or
+silently replaced with an in-memory database. Docker Desktop, Colima, and Linux
+Docker are detected through the Docker API; explicit DOCKER_HOST remains
+authoritative when a developer has configured one.
+
+Frontend checks:
+
+~~~text
+npm --prefix ecommerce-admin-ui run lint
+npm --prefix ecommerce-admin-ui test
+npm --prefix ecommerce-admin-ui run build
+npm --prefix ecommerce-storefront run lint
+npm --prefix ecommerce-storefront test
+npm --prefix ecommerce-storefront run build
+~~~
+
+## Admin UI
+
+The Admin UI runs on port 3000 and reads browser-safe service URLs from
+ecommerce-admin-ui/.env.local. It does not receive backend service secrets.
+Open http://localhost:3000 after Auth is seeded.
+
+## Storefront
+
+The Storefront runs on port 3001. Its Next.js rewrites keep browser calls
+same-origin; the backend origins are configured in
+ecommerce-storefront/.env.local. Open http://localhost:3001 after the backend
+services are healthy.
+
+## API Documentation
+
+Current service names, ports, authentication requirements, and endpoint contracts
+are in [docs/api-contracts.md](docs/api-contracts.md). Each service also exposes
+Swagger UI at http://localhost:<port>/swagger-ui.html and OpenAPI JSON at
+http://localhost:<port>/v3/api-docs.
+
+## Troubleshooting
+
+See [docs/troubleshooting.md](docs/troubleshooting.md) for Docker availability,
+port conflicts, Testcontainers, PostgreSQL, service health, JWT/JWKS, CORS,
+Windows Docker Desktop, macOS Colima, Linux Docker, and tool-version issues.
+
+## Production Deployment
+
+The local Compose files and seed data are development tooling. Production must
+provide managed PostgreSQL, cloud service URLs, TLS, managed secrets, persistent
+JWT signing keys, restricted CORS origins, real gateway/carrier credentials, and
+observability. Never deploy the example passwords, sandbox webhook secrets,
+localhost URLs, or development seed data.

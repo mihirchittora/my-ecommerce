@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: order
       POSTGRES_PASSWORD: order
     ports:
-      - "5435:5432"
+      - "${ORDER_DB_HOST_PORT:-5435}:5432"
     volumes:
       - order-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -19,8 +19,10 @@ services:
   order-service:
     build: .
     container_name: ecommerce-order-service
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
-      - "8083:8083"
+      - "${ORDER_HOST_PORT:-8083}:8083"
     environment:
       ORDER_SERVER_PORT: 8083
       ORDER_DB_URL: jdbc:postgresql://order-db:5432/order_db

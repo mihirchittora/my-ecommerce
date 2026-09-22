@@ -4,11 +4,24 @@ The public customer storefront for `my-ecommerce`, served on port `3001`.
 
 ## Run locally
 
-```bash
+macOS/Linux:
+
+```text
 cp .env.example .env.local
 npm install
 npm run dev
 ```
+
+Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env.local
+npm install
+npm run dev
+```
+
+The same npm commands work in CMD. The root README documents the full
+cross-platform workflow and Docker service startup.
 
 The storefront uses Next rewrites under `/backend/*` so browser requests stay same-origin while each service URL remains configurable through the environment. Auth access tokens live in memory and the refresh token is kept only in `sessionStorage` because the current Auth Service returns token JSON rather than setting an HttpOnly cookie. A future cookie-based Auth contract can remove that browser storage fallback without changing the storefront API modules.
 

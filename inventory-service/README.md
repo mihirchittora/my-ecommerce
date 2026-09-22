@@ -26,29 +26,10 @@ The local ports are:
 
 ## Prerequisites
 
-Install Java 21, Maven 3.9+, and Docker Desktop or Colima. On macOS with
-Colima:
-
-```bash
-colima start --network-address
-docker context use colima
-docker info
-```
-
-The repository-owned test bootstrap detects `~/.colima/default/docker.sock` and
-`~/.docker/run/docker.sock`, so the normal Maven workflow does not depend on
-pre-existing shell variables. Testcontainers' documented explicit Colima setup
-is:
-
-```bash
-export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
-export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
-export TESTCONTAINERS_HOST_OVERRIDE="$(colima ls -j | jq -r '.address')"
-```
-
-Use those variables when running tests from a shell that does not use the
-repository bootstrap, or when a test needs a container callback reachable from
-the host.
+Install Java 21, Maven 3.9+, and Docker Desktop, Docker Engine, or optional
+Colima. Start the selected Docker runtime before running the application or
+tests. Testcontainers uses the Docker API and the repository test bootstrap
+honors an explicit `DOCKER_HOST` when one is configured.
 
 ## Start the services manually
 
@@ -56,7 +37,7 @@ the host.
 
 In a separate terminal:
 
-```bash
+```text
 cd ../catalog-service
 docker compose up -d postgres
 mvn spring-boot:run
@@ -75,7 +56,7 @@ The response contains `sku`, `variantId`, `productId`, and `active`.
 
 From this directory:
 
-```bash
+```text
 docker compose up -d inventory-postgres
 ```
 
@@ -96,22 +77,21 @@ missing or does not match.
 
 For a local development run, start Catalog with:
 
-```bash
+```text
 cd ../catalog-service
-INVENTORY_SERVICE_TOKEN=dev-inventory-to-catalog mvn spring-boot:run
+mvn spring-boot:run
 ```
 
-Then start Inventory in this directory with:
+Then start Inventory in this directory with the matching values from `.env` or
+`.env.example`:
 
-```bash
-CATALOG_SERVICE_TOKEN=dev-inventory-to-catalog \
-CATALOG_SERVICE_URL=http://localhost:8081 \
+```text
 mvn spring-boot:run
 ```
 
 Verify the Catalog-to-Inventory service authentication before opening the UI:
 
-```bash
+```text
 curl -i \
   -H 'X-Inventory-Service-Token: dev-inventory-token' \
   http://localhost:8081/internal/catalog/skus/<SKU>
@@ -128,29 +108,24 @@ http://localhost:8082/swagger-ui.html
 http://localhost:8082/v3/api-docs
 ```
 
+## Docker execution
+
 To start the Inventory API and its PostgreSQL container together instead:
 
-```bash
+```text
 docker compose up --build
 ```
 
 The Compose application uses `host.docker.internal:8081` to reach a Catalog
-running on the macOS host. Set `CATALOG_SERVICE_URL` if Catalog runs elsewhere.
+running in another independent Compose project. The Compose file supplies the
+Linux `host-gateway` mapping as well.
 
 ## Run tests
 
 Tests keep Testcontainers and use an isolated PostgreSQL 17 container; the local
 Compose database is not required. From this directory:
 
-```bash
-mvn clean test
-```
-
-If you want to make the Colima socket explicit in a shell command:
-
-```bash
-DOCKER_HOST=unix://$HOME/.colima/default/docker.sock \
-DOCKER_API_VERSION=1.44 \
+```text
 mvn clean test
 ```
 

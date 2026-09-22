@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: cart
       POSTGRES_PASSWORD: cart
     ports:
-      - "5436:5432"
+      - "${CART_DB_HOST_PORT:-5436}:5432"
     volumes:
       - cart-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -19,8 +19,10 @@ services:
   cart-service:
     build: .
     container_name: ecommerce-cart-service
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
-      - "8084:8084"
+      - "${CART_HOST_PORT:-8084}:8084"
     environment:
       CART_SERVER_PORT: 8084
       CART_DB_URL: jdbc:postgresql://cart-db:5432/cart_db

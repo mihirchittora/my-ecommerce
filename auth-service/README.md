@@ -343,11 +343,11 @@ AUTH_DB_USERNAME=postgres
 AUTH_DB_PASSWORD=postgres
 AUTH_ISSUER=http://localhost:8085
 AUTH_AUDIENCE=ecommerce-api
-JWT_PRIVATE_KEY_PATH=/run/secrets/auth-private.pem
-JWT_PUBLIC_KEY_PATH=/run/secrets/auth-public.pem
+JWT_PRIVATE_KEY_PATH=<managed-secret-path>
+JWT_PUBLIC_KEY_PATH=<managed-secret-path>
 JWT_KEY_ID=auth-key-1
-INITIAL_ADMIN_EMAIL=mihirchittora6@gmail.com
-INITIAL_ADMIN_PASSWORD=123456
+INITIAL_ADMIN_EMAIL=admin@example.com
+INITIAL_ADMIN_PASSWORD=change-me-development-only
 ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
 ```
 
@@ -356,29 +356,28 @@ only inputs; do not commit them or use them as a production secret-management pl
 
 ## Docker
 
-`docker-compose.yml` starts only Auth PostgreSQL on host port 5434 by default and
-can start the Auth service after building the jar. Catalog and Inventory retain
-their own compose files and databases.
+`docker-compose.yml` starts Auth PostgreSQL on host port 5434 by default and can
+start the Auth service. Catalog and Inventory retain their own Compose files and
+databases.
 
-```bash
-mvn -s /tmp/maven-clean-settings.xml -gs /tmp/maven-clean-settings.xml package
+```text
 docker compose up --build
 ```
 
-## Colima
+## Docker runtimes and Testcontainers
 
-Testcontainers works with Docker Desktop or Colima. The existing repository tests
-detect `~/.colima/default/docker.sock` and `~/.docker/run/docker.sock`. If explicit
-configuration is needed, set `DOCKER_HOST` and, for containers that need a mounted
-socket, `TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE` and `TESTCONTAINERS_HOST_OVERRIDE`.
-Do not assume `/var/run/docker.sock` on macOS.
+Testcontainers works with Docker Desktop, Linux Docker, and optional macOS
+Colima through the Docker API. An explicit `DOCKER_HOST` remains authoritative.
+The test-only fallback detects optional Unix sockets only on Unix-like hosts and
+never constructs one on Windows. No Docker socket is mounted into the
+application.
 
 ## Local Development
 
-```bash
+```text
 cd auth-service
 docker compose up -d auth-db
-mvn -s /tmp/maven-clean-settings.xml -gs /tmp/maven-clean-settings.xml spring-boot:run
+mvn spring-boot:run
 ```
 
 Health: `http://localhost:8085/actuator/health`. The Auth, Catalog, and Inventory
@@ -391,8 +390,8 @@ cross-service calls. For local admin access set `INITIAL_ADMIN_EMAIL` and
 The developer environment may point Maven at a corporate Artifactory. This project
 does not modify global settings. To force public Maven Central use:
 
-```bash
-mvn -s /tmp/maven-clean-settings.xml -gs /tmp/maven-clean-settings.xml clean test
+```text
+mvn clean test
 ```
 
 ## Tests
@@ -427,8 +426,8 @@ endpoints; frontend visibility is not the security boundary.
 
 Run each suite from its module directory:
 
-```bash
-mvn -s /tmp/maven-clean-settings.xml -gs /tmp/maven-clean-settings.xml clean test
+```text
+mvn clean test
 ```
 
 The resource-server configuration rejects missing, expired, wrongly signed, wrong-

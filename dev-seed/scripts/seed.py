@@ -10,10 +10,13 @@ records. Database-generated UUIDs are recorded only after the API returns them.
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import hmac
 import json
 import os
+import shlex
+import shutil
 import subprocess
 import sys
 import urllib.error
@@ -30,6 +33,28 @@ DATA = ROOT / "data"
 IMAGES = ROOT / "images"
 MANIFEST = ROOT / "manifests" / "seed-manifest.json"
 SOURCE_URL = "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans"
+
+
+def load_dotenv(path: Path) -> None:
+    """Load simple KEY=VALUE pairs without requiring a platform-specific shell."""
+    if not path.is_file():
+        return
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[7:].lstrip()
+        key, separator, value = line.partition("=")
+        if not separator or not key.strip():
+            continue
+        value = value.strip()
+        if value[:1] in {"'", '"'} and value[-1:] == value[:1]:
+            try:
+                value = str(ast.literal_eval(value))
+            except (SyntaxError, ValueError):
+                value = value[1:-1]
+        os.environ.setdefault(key.strip(), value)
 
 
 class SeedError(RuntimeError):
@@ -144,10 +169,15 @@ class SeedRunner:
             "shipping": {"fulfillments": {}, "shipments": {}, "trackingEvents": {}},
             "counts": {},
         }
-        self.urls = {key: self._required_url(env) for key, env in {
-            "auth": "AUTH_SERVICE_URL", "catalog": "CATALOG_SERVICE_URL", "inventory": "INVENTORY_SERVICE_URL",
-            "order": "ORDER_SERVICE_URL", "cart": "CART_SERVICE_URL", "customer": "CUSTOMER_SERVICE_URL",
-            "payment": "PAYMENT_SERVICE_URL", "shipping": "SHIPPING_SERVICE_URL",
+        self.urls = {key: self._required_url(*env_names) for key, env_names in {
+            "auth": ("SEED_AUTH_SERVICE_URL", "AUTH_SERVICE_URL"),
+            "catalog": ("SEED_CATALOG_SERVICE_URL", "CATALOG_SERVICE_URL"),
+            "inventory": ("SEED_INVENTORY_SERVICE_URL", "INVENTORY_SERVICE_URL"),
+            "order": ("SEED_ORDER_SERVICE_URL", "ORDER_SERVICE_URL"),
+            "cart": ("SEED_CART_SERVICE_URL", "CART_SERVICE_URL"),
+            "customer": ("SEED_CUSTOMER_SERVICE_URL", "CUSTOMER_SERVICE_URL"),
+            "payment": ("SEED_PAYMENT_SERVICE_URL", "PAYMENT_SERVICE_URL"),
+            "shipping": ("SEED_SHIPPING_SERVICE_URL", "SHIPPING_SERVICE_URL"),
         }.items()}
         self.api = {key: ApiClient(key, url) for key, url in self.urls.items()}
         self.admin_token = ""
@@ -155,10 +185,10 @@ class SeedRunner:
         self.customer_records: dict[str, dict] = {}
         self.inventory_units: dict[str, list[dict]] = {}
 
-    def _required_url(self, env_name: str) -> str:
-        value = os.environ.get(env_name, "").strip()
+    def _required_url(self, *env_names: str) -> str:
+        value = next((os.environ.get(name, "").strip() for name in env_names if os.environ.get(name, "").strip()), "")
         if not value:
-            raise SeedError(f"{env_name} must be set; see dev-seed/README.md")
+            raise SeedError(f"one of {', '.join(env_names)} must be set; see dev-seed/README.md")
         return value
 
     def _read_manifest(self) -> dict:
@@ -632,12 +662,34 @@ def reset_development() -> None:
         "order-service/docker-compose.yml", "cart-service/docker-compose.yml", "customer-service/docker-compose.yml",
         "payment-service/docker-compose.yml", "shipping-service/docker-compose.yml",
     ]
-    docker = os.environ.get("DOCKER_COMPOSE_BIN", "docker compose").split()
+    docker = compose_command()
     print("Resetting only the eight named local development Compose projects; production URLs are never contacted.")
     for compose_file in compose:
         subprocess.run([*docker, "-f", str(ROOT / compose_file), "down", "-v"], cwd=ROOT, check=True)
     if MANIFEST.exists():
         MANIFEST.unlink()
+
+
+def compose_command() -> list[str]:
+    configured = os.environ.get("DOCKER_COMPOSE_BIN", "").strip()
+    if configured:
+        return shlex.split(configured, posix=os.name != "nt")
+    try:
+        plugin = subprocess.run(
+            ["docker", "compose", "version"],
+            cwd=ROOT,
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        if plugin.returncode == 0:
+            return ["docker", "compose"]
+    except OSError:
+        pass
+    standalone = shutil.which("docker-compose")
+    if standalone:
+        return [standalone]
+    return ["docker", "compose"]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -652,6 +704,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: list[str] | None = None) -> int:
+    load_dotenv(ROOT.parent / ".env")
     args = parse_args(argv)
     try:
         if args.refresh_source:

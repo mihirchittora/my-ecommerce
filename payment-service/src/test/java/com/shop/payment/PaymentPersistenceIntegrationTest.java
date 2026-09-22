@@ -20,6 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(properties = {"app.security.enabled=false", "server.port=0"})
 @Testcontainers
 class PaymentPersistenceIntegrationTest {
+    static {
+        PortableDockerEnvironment.configure();
+    }
+
     @Container
     static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:17");
 

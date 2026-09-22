@@ -615,15 +615,14 @@ mvn spring-boot:run
 
 The defaults are in `.env.example`. Do not commit real service tokens or secrets.
 
-## Colima
+## Docker runtimes and Testcontainers
 
-The integration test has a repository-owned Docker socket fallback for `~/.colima/default/docker.sock` and `~/.docker/run/docker.sock`. It does not hardcode `/var/run/docker.sock` as the only path. A local Colima setup can be started with:
-
-```bash
-colima start
-```
-
-If Docker is unavailable, the Testcontainers integration test is skipped by the Testcontainers `disabledWithoutDocker` setting; it is not removed or replaced by a fake database.
+The integration test uses PostgreSQL through Testcontainers and the Docker API.
+Docker Desktop, Linux Docker, and optional macOS Colima are supported without
+repository-specific socket assignments. An explicit `DOCKER_HOST` remains
+authoritative; the test-only fallback never constructs a Unix socket path on
+Windows. The integration test is not disabled or replaced with an in-memory
+database.
 
 ## Maven
 

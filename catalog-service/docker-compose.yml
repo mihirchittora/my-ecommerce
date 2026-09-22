@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: ecommerce
       POSTGRES_PASSWORD: ecommerce
     ports:
-      - "5432:5432"
+      - "${CATALOG_DB_HOST_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -19,6 +19,8 @@ services:
   app:
     build: .
     container_name: ecommerce-catalog-service
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       DB_URL: jdbc:postgresql://postgres:5432/ecommerce
       DB_USERNAME: ecommerce
@@ -31,7 +33,7 @@ services:
       ORDER_SERVICE_TOKEN: ${ORDER_SERVICE_TOKEN:-dev-order-to-catalog}
       CART_SERVICE_TOKEN: ${CART_SERVICE_TOKEN:-dev-cart-to-catalog}
     ports:
-      - "8081:8081"
+      - "${CATALOG_HOST_PORT:-8081}:8081"
     volumes:
       - ./uploads:/app/uploads
     depends_on:

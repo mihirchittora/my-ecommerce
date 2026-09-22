@@ -1,5 +1,28 @@
 # API contracts
 
+## Service base URLs and portability
+
+The published host base URLs are stable across macOS, Windows, and Linux:
+
+| Service | Host base URL |
+| --- | --- |
+| Catalog | `http://localhost:8081` |
+| Inventory | `http://localhost:8082` |
+| Order | `http://localhost:8083` |
+| Cart | `http://localhost:8084` |
+| Auth | `http://localhost:8085` |
+| Customer | `http://localhost:8086` |
+| Payment | `http://localhost:8087` |
+| Shipping | `http://localhost:8088` |
+
+These URLs are for a host-run browser or developer command. The backend Compose
+projects are intentionally independent: a container calls a database by its
+Compose service name and calls another backend through
+`http://host.docker.internal:<port>`. The Compose files add the Linux
+`host-gateway` mapping. If several services are placed in one Compose network,
+use that network's service DNS names instead. `localhost` inside a container
+always means that same container.
+
 ## Auth Service — admin contracts
 
 Base URL: `http://localhost:8085`. Auth owns user identity, passwords, roles,
