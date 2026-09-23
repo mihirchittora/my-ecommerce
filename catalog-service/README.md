@@ -17,6 +17,7 @@ A production-oriented Product Catalog module for an e-commerce application.
 ## Features
 
 - Recursive category hierarchy with parent/child validation
+- Catalog-owned single category image with replacement, alt text, and safe removal
 - Category and product CRUD
 - Product variants / globally unique SKU model
 - Optional product expiry dates returned as ISO `YYYY-MM-DD` values
@@ -117,6 +118,9 @@ IMAGE_MAX_SIZE_BYTES
 
 The default image storage directory is `./uploads`. Image binaries are stored on
 the local filesystem; PostgreSQL stores image metadata and storage keys only.
+Product images live under `products/`; category images live under `categories/`.
+The `ImageStorageService` abstraction keeps the Catalog business model ready for
+object storage without exposing storage keys to storefront or admin clients.
 
 ## Authentication and authorization
 
@@ -130,6 +134,7 @@ POST product                         PRODUCT_CREATE
 PUT product                          PRODUCT_UPDATE
 DELETE product                       PRODUCT_DELETE
 POST/PUT/DELETE category              CATEGORY_CREATE/UPDATE/DELETE
+POST/PUT/DELETE category image        CATEGORY_UPDATE
 POST product image                    PRODUCT_IMAGE_UPLOAD
 DELETE product image                 PRODUCT_IMAGE_DELETE
 GET /internal/catalog/skus/{sku}     SERVICE_INVENTORY/SERVICE_ORDER/SERVICE_CART (service secret header)
@@ -155,10 +160,40 @@ GET    /api/v1/categories/{id}
 GET    /api/v1/categories?parentId={id}
 PUT    /api/v1/categories/{id}
 DELETE /api/v1/categories/{id}
+POST   /api/v1/categories/{id}/image
+PUT    /api/v1/categories/{id}/image
+GET    /api/v1/categories/{id}/image/file
+DELETE /api/v1/categories/{id}/image
 ```
 
 Categories reject blank names, invalid or duplicate sibling slugs, hierarchy cycles,
 self-parenting, and deletion while children or products still exist.
+
+Category responses include `description` and an optional Catalog-owned `image`:
+
+```json
+{
+  "id": "<category-id>",
+  "parentId": null,
+  "name": "Electronics",
+  "slug": "electronics",
+  "status": "ACTIVE",
+  "description": "Useful devices for everyday life.",
+  "image": {
+    "id": "<image-id>",
+    "url": "/api/v1/categories/<category-id>/image/file",
+    "altText": "Electronics collection"
+  }
+}
+```
+
+`POST /api/v1/categories/{id}/image` accepts multipart `file` plus optional
+`altText`, and replaces the single primary image. `PUT` accepts
+`{"altText":"Customer-friendly description"}`; `DELETE` removes the database
+metadata and stored file. JPEG, PNG, and WEBP files are accepted up to the
+configured 5 MB limit, with content-signature validation. Public GET category
+responses and image-file reads remain anonymous; all image mutations require
+`CATEGORY_UPDATE`.
 
 ### Products
 
@@ -253,6 +288,8 @@ The current migrations are:
 - `V1__init_catalog.sql` — initial catalog schema
 - `V2__catalog_hardening_and_images.sql` — validation, indexes, and image metadata
 - `V3__catalog_integrity_constraints.sql` — database integrity constraints, including global SKU uniqueness
+- `V4__product_expiry_date.sql` — optional product expiry date
+- `V5__add_category_images.sql` — category descriptions and single category image metadata
 
 Hibernate runs with `ddl-auto=validate`; schema changes must be made through Flyway.
 

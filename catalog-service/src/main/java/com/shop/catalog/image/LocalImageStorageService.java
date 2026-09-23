@@ -35,7 +35,7 @@ public class LocalImageStorageService implements ImageStorageService {
     }
 
     @Override
-    public StoredImage store(MultipartFile file, String productDirectory) {
+    public StoredImage store(MultipartFile file, String collection, String ownerDirectory) {
         if (file == null || file.isEmpty()) {
             throw new BadRequestException("Image file is required");
         }
@@ -55,13 +55,14 @@ public class LocalImageStorageService implements ImageStorageService {
             default -> throw new BadRequestException("Unsupported image type");
         };
 
-        String safeProductDirectory = productDirectory.replaceAll("[^A-Za-z0-9_-]", "");
-        if (safeProductDirectory.isBlank()) {
-            throw new BadRequestException("Invalid product directory");
+        String safeCollection = collection == null ? "" : collection.replaceAll("[^A-Za-z0-9_-]", "");
+        String safeOwnerDirectory = ownerDirectory == null ? "" : ownerDirectory.replaceAll("[^A-Za-z0-9_-]", "");
+        if (safeCollection.isBlank() || safeOwnerDirectory.isBlank()) {
+            throw new BadRequestException("Invalid image directory");
         }
 
         String filename = UUID.randomUUID() + extension;
-        Path directory = root.resolve("products").resolve(safeProductDirectory).normalize();
+        Path directory = root.resolve(safeCollection).resolve(safeOwnerDirectory).normalize();
         if (!directory.startsWith(root)) {
             throw new BadRequestException("Invalid image path");
         }

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDown, Menu, Search, ShoppingBag, UserRound, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Menu, Search, ShoppingBag, UserRound, X } from "lucide-react";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/components/auth-provider";
@@ -10,6 +10,8 @@ import { cartApi } from "@/lib/api/cart";
 import { catalogApi } from "@/lib/api/catalog";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { CategoryImage } from "@/components/category-image";
+import type { Category } from "@/lib/types";
 
 export function SiteHeader() {
   const { user, status } = useAuth();
@@ -62,11 +64,16 @@ export function SiteHeader() {
   const showSuggestions = searchFocused && query.trim().length >= 2;
   const isActive = (href: string) => href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
   const navLink = (href: string, label: string, key?: string) => <Link key={key} href={href} onClick={() => setMenuOpen(false)} aria-current={isActive(href) ? "page" : undefined} className={cn("shrink-0 border-b-2 border-transparent px-1 py-3 text-sm font-semibold text-ink/65 transition hover:border-coral hover:text-ink", isActive(href) && "border-coral text-ink")}>{label}</Link>;
-  const categoryNavLink = (category: { id: string; name: string; slug: string }, children: { id: string; name: string; slug: string }[]) => <div key={`desktop-category-${category.id}`} className="group relative shrink-0">
+  const categoryNavLink = (category: Category, children: Category[]) => <div key={`desktop-category-${category.id}`} className="group relative shrink-0">
     <Link href={`/categories/${encodeURIComponent(category.slug)}`} onClick={() => setMenuOpen(false)} aria-current={isActive(`/categories/${encodeURIComponent(category.slug)}`) ? "page" : undefined} aria-haspopup={children.length ? "menu" : undefined} className={cn("inline-flex items-center gap-1 border-b-2 border-transparent px-1 py-3 text-sm font-semibold text-ink/65 transition hover:border-coral hover:text-ink", isActive(`/categories/${encodeURIComponent(category.slug)}`) && "border-coral text-ink")}>{category.name}{children.length ? <ChevronDown className="h-3.5 w-3.5" /> : null}</Link>
-    {children.length ? <div className="invisible absolute left-0 top-full z-50 w-56 translate-y-1 rounded-2xl border border-ink/10 bg-white p-2 opacity-0 shadow-xl transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100" role="menu">
-      {children.map((child) => <Link key={child.id} href={`/categories/${encodeURIComponent(child.slug)}`} onClick={() => setMenuOpen(false)} role="menuitem" className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-ink/70 hover:bg-mist hover:text-ink">{child.name}</Link>)}
+    {children.length ? <div className="invisible absolute left-0 top-full z-50 w-64 translate-y-1 rounded-2xl border border-ink/10 bg-white p-2 opacity-0 shadow-xl transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100" role="menu">
+      <Link href={`/categories/${encodeURIComponent(category.slug)}`} onClick={() => setMenuOpen(false)} role="menuitem" className="mb-1 flex items-center gap-3 rounded-xl bg-sand/70 p-2.5 hover:bg-mist"><span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-mist"><CategoryImage category={category} sizes="44px" /></span><span className="min-w-0"><span className="block truncate text-sm font-bold text-ink">{category.name}</span><span className="mt-0.5 block text-xs text-ink/50">Explore collection</span></span></Link>
+      {children.map((child) => <Link key={child.id} href={`/categories/${encodeURIComponent(child.slug)}`} onClick={() => setMenuOpen(false)} role="menuitem" className="flex items-center gap-3 rounded-xl px-2.5 py-2 hover:bg-mist"><span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-mist"><CategoryImage category={child} sizes="32px" /></span><span className="truncate text-sm font-semibold text-ink/70">{child.name}</span></Link>)}
     </div> : null}
+  </div>;
+  const mobileCategoryNavLink = (category: Category, children: Category[]) => <div key={`mobile-category-${category.id}`}>
+    <Link href={`/categories/${encodeURIComponent(category.slug)}`} onClick={() => setMenuOpen(false)} aria-current={isActive(`/categories/${encodeURIComponent(category.slug)}`) ? "page" : undefined} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-ink/80 hover:bg-white"><span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-mist"><CategoryImage category={category} sizes="40px" /></span><span className="min-w-0 flex-1 truncate">{category.name}</span>{children.length ? <ChevronDown className="h-4 w-4 text-ink/45" /> : <ChevronRight className="h-4 w-4 text-ink/45" />}</Link>
+    {children.length ? <div className="ml-8 grid gap-1 border-l border-ink/10 pl-3">{children.map((child) => <Link key={child.id} href={`/categories/${encodeURIComponent(child.slug)}`} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 rounded-xl px-2 py-2 text-sm font-medium text-ink/65 hover:bg-white"><span className="relative h-7 w-7 shrink-0 overflow-hidden rounded-md bg-mist"><CategoryImage category={child} sizes="28px" /></span><span className="truncate">{child.name}</span></Link>)}</div> : null}
   </div>;
 
   return <header className="sticky top-0 z-40 border-b border-ink/10 bg-white/95 backdrop-blur">
@@ -86,6 +93,6 @@ export function SiteHeader() {
       <div className="ml-auto flex shrink-0 items-center gap-1"><Link className="rounded-full p-2.5 text-ink hover:bg-mist" href={accountHref} aria-label={user ? "Account" : "Sign in"}><UserRound className="h-5 w-5" /></Link><Link className="relative rounded-full p-2.5 text-ink hover:bg-mist" href="/cart" aria-label={`Cart${itemCount ? `, ${itemCount} items` : ""}`}><ShoppingBag className="h-5 w-5" />{itemCount ? <span className="absolute -right-0.5 -top-0.5 grid min-h-5 min-w-5 place-items-center rounded-full bg-coral px-1 text-[10px] font-bold text-white">{itemCount > 99 ? "99+" : itemCount}</span> : null}</Link></div>
     </div>
     <nav aria-label="Primary" className="border-t border-ink/10"><div className="page-shell relative flex items-center gap-5 overflow-x-auto whitespace-nowrap scrollbar-none md:overflow-visible">{navLink("/", "Home")}{rootCategories.slice(0, 6).map((category) => categoryNavLink(category, childCategoriesByParent.get(category.id) ?? []))}{navLink("/products", "Shop all")}{rootCategories.length > 6 ? <Link href="/categories" className="inline-flex shrink-0 items-center gap-1 py-3 text-sm font-semibold text-ink/65 hover:text-ink">More <ChevronDown className="h-3.5 w-3.5" /></Link> : navLink("/categories", "Categories")}</div></nav>
-    <div className={cn("border-t border-ink/10 bg-sand px-5 pb-5 pt-4 md:hidden", menuOpen ? "block" : "hidden")}><nav className="grid gap-1 text-sm font-semibold"><p className="px-3 pb-2 text-xs font-bold uppercase tracking-[0.16em] text-moss">Browse</p>{navLink("/", "Home")}{rootCategories.map((category) => <div key={`mobile-category-${category.id}`}>{navLink(`/categories/${encodeURIComponent(category.slug)}`, category.name, `mobile-${category.id}`)}{(childCategoriesByParent.get(category.id) ?? []).length ? <div className="ml-5 grid gap-1 border-l border-ink/10 pl-3">{(childCategoriesByParent.get(category.id) ?? []).map((child) => navLink(`/categories/${encodeURIComponent(child.slug)}`, child.name, `mobile-child-${child.id}`))}</div> : null}</div>)}{navLink("/products", "Shop all")}{navLink("/categories", "All categories")}</nav><div className="mt-4 border-t border-ink/10 pt-4">{navLink(accountHref, user ? "My account" : "Sign in")}</div></div>
+    <div className={cn("border-t border-ink/10 bg-sand px-5 pb-5 pt-4 md:hidden", menuOpen ? "block" : "hidden")}><nav className="grid gap-1 text-sm font-semibold"><p className="px-3 pb-2 text-xs font-bold uppercase tracking-[0.16em] text-moss">Browse</p>{navLink("/", "Home")}{rootCategories.map((category) => mobileCategoryNavLink(category, childCategoriesByParent.get(category.id) ?? []))}{navLink("/products", "Shop all")}{navLink("/categories", "All categories")}</nav><div className="mt-4 border-t border-ink/10 pt-4">{navLink(accountHref, user ? "My account" : "Sign in")}</div></div>
   </header>;
 }

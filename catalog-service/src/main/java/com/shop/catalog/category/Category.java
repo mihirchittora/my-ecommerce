@@ -40,6 +40,9 @@ public class Category {
     @Column(nullable = false, unique = true, length = 150)
     private String slug;
 
+    @Column(length = 500)
+    private String description;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private CategoryStatus status;

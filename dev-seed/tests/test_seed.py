@@ -27,6 +27,7 @@ class SeedDatasetTest(unittest.TestCase):
         self.assertEqual(summary["topLevelCategories"], 10)
         self.assertEqual(summary["variants"], 111)
         self.assertEqual(summary["images"], 91)
+        self.assertEqual(summary["categoryImages"], 29)
         self.assertEqual(summary["plannedInventoryUnits"], 242)
         self.assertEqual(summary["customers"], 10)
         self.assertEqual(summary["orderScenarios"], 12)
@@ -68,7 +69,7 @@ class SeedDatasetTest(unittest.TestCase):
         original_load = validate_dataset.load
         docs = {
             name: original_load(name)
-            for name in ("categories.json", "products.json", "variants.json", "skus.json", "images.json", "customers.json", "inventory.json", "scenarios.json")
+            for name in ("categories.json", "category-images.json", "products.json", "variants.json", "skus.json", "images.json", "customers.json", "inventory.json", "scenarios.json")
         }
         docs["skus.json"]["skus"].append(docs["skus.json"]["skus"][0].copy())
         with patch.object(validate_dataset, "load", side_effect=lambda name: docs[name]):
@@ -83,7 +84,7 @@ class SeedDatasetTest(unittest.TestCase):
 
     def test_broken_source_image_is_rejected(self):
         original_load = validate_dataset.load
-        docs = {name: original_load(name) for name in ("categories.json", "products.json", "variants.json", "skus.json", "images.json", "customers.json", "inventory.json", "scenarios.json")}
+        docs = {name: original_load(name) for name in ("categories.json", "category-images.json", "products.json", "variants.json", "skus.json", "images.json", "customers.json", "inventory.json", "scenarios.json")}
         docs["products.json"]["products"][0]["images"][0]["file"] = "missing/not-found.png"
         with patch.object(validate_dataset, "load", side_effect=lambda name: docs[name]):
             with self.assertRaises(validate_dataset.DatasetError):
@@ -118,7 +119,7 @@ class SeedSafetyTest(unittest.TestCase):
 
     def test_invalid_sku_and_category_are_rejected(self):
         original_load = validate_dataset.load
-        docs = {name: original_load(name) for name in ("categories.json", "products.json", "variants.json", "skus.json", "images.json", "customers.json", "inventory.json", "scenarios.json")}
+        docs = {name: original_load(name) for name in ("categories.json", "category-images.json", "products.json", "variants.json", "skus.json", "images.json", "customers.json", "inventory.json", "scenarios.json")}
         docs["products.json"]["products"][0]["variants"][0]["sku"] = "bad sku"
         with patch.object(validate_dataset, "load", side_effect=lambda name: docs[name]):
             with self.assertRaises(validate_dataset.DatasetError):

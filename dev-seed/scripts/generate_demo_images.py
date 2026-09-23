@@ -24,9 +24,9 @@ def chunk(kind: bytes, payload: bytes) -> bytes:
     return struct.pack(">I", len(payload)) + kind + payload + struct.pack(">I", zlib.crc32(kind + payload) & 0xFFFFFFFF)
 
 
-def png(rows: list[bytes]) -> bytes:
+def png(rows: list[bytes], width: int = WIDTH, height: int = HEIGHT) -> bytes:
     raw = b"".join(b"\x00" + row for row in rows)
-    return b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", WIDTH, HEIGHT, 8, 2, 0, 0, 0)) + chunk(b"IDAT", zlib.compress(raw, 6)) + chunk(b"IEND", b"")
+    return b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0)) + chunk(b"IDAT", zlib.compress(raw, 6)) + chunk(b"IEND", b"")
 
 
 PALETTE = [
@@ -65,6 +65,30 @@ def render(index: int, image_index: int) -> bytes:
     return png(rows)
 
 
+def render_category(index: int) -> bytes:
+    width, height = 1024, 768
+    primary = PALETTE[(index * 2) % len(PALETTE)]
+    secondary = PALETTE[(index * 2 + 3) % len(PALETTE)]
+    rows = []
+    for y in range(height):
+        row = bytearray()
+        for x in range(width):
+            colour = (247, 242, 234)
+            if x < 28 or x >= width - 28 or y < 28 or y >= height - 28:
+                colour = (234, 226, 214)
+            if 92 <= x < 620 and 86 <= y < height - 86:
+                colour = primary
+            if 668 <= x < 930 and 128 <= y < 350:
+                colour = secondary
+            if 690 <= x < 900 and 408 <= y < 590:
+                colour = (242, 207, 126)
+            if 120 <= x < 510 and 540 <= y < 585:
+                colour = (255, 248, 229)
+            row.extend(colour)
+        rows.append(bytes(row))
+    return png(rows, width, height)
+
+
 def main() -> None:
     products = json.loads((DATA / "products.json").read_text(encoding="utf-8"))["products"]
     IMAGES.mkdir(parents=True, exist_ok=True)
@@ -73,7 +97,12 @@ def main() -> None:
             path = IMAGES / image["file"]
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(render(index, image_index))
-    print(f"Generated {sum(len(product['images']) for product in products)} original local PNG assets in {IMAGES}")
+    category_images = json.loads((DATA / "category-images.json").read_text(encoding="utf-8"))["images"]
+    for index, image in enumerate(category_images, start=1):
+        path = IMAGES / image["file"]
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(render_category(index))
+    print(f"Generated {sum(len(product['images']) for product in products)} product and {len(category_images)} category PNG assets in {IMAGES}")
 
 
 if __name__ == "__main__":

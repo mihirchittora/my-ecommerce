@@ -339,6 +339,7 @@ class CatalogIntegrationTest {
         UUID productId = createProduct(category, "Image Phone", "IMG-1", "INR", "100.00");
 
         byte[] png = new byte[]{(byte) 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
+
         MvcResult upload = mvc.perform(multipart("/api/v1/products/{id}/images", productId)
                         .file(new MockMultipartFile("file", "image.png", "image/png", png))
                         .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -367,6 +368,65 @@ class CatalogIntegrationTest {
                 assertTrue(paths.noneMatch(Files::isRegularFile));
             }
         }
+    }
+
+    @Test
+    void categoryImageIsReturnedReplacedRemovedAndCleanedUpWithCategory() throws Exception {
+        UUID categoryId = createCategory("Category image", null);
+        byte[] png = new byte[]{(byte) 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
+
+        mvc.perform(multipart("/api/v1/categories/{id}/image", categoryId)
+                        .file(new MockMultipartFile("file", "not-image.png", "image/png", "not an image".getBytes()))
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isBadRequest());
+
+        mvc.perform(get("/api/v1/categories/{id}", categoryId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.image").value(nullValue()));
+
+        MvcResult upload = mvc.perform(multipart("/api/v1/categories/{id}/image", categoryId)
+                        .file(new MockMultipartFile("file", "category.png", "image/png", png))
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .param("altText", "Category image collection"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.url").value("/api/v1/categories/%s/image/file".formatted(categoryId)))
+                .andExpect(jsonPath("$.altText").value("Category image collection"))
+                .andReturn();
+        String imageId = upload.getResponse().getContentAsString().replaceAll(".*\\\"id\\\":\\\"([^\\\"]+)\\\".*", "$1");
+
+        mvc.perform(get("/api/v1/categories/{id}", categoryId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.image.id").value(imageId))
+                .andExpect(jsonPath("$.image.altText").value("Category image collection"));
+
+        mvc.perform(put("/api/v1/categories/{id}/image", categoryId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"altText\":\"Updated category collection\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.altText").value("Updated category collection"));
+
+        mvc.perform(put("/api/v1/categories/{id}/image", categoryId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"altText\":\"%s\"}".formatted("x".repeat(256))))
+                .andExpect(status().isBadRequest());
+
+        mvc.perform(multipart("/api/v1/categories/{id}/image", categoryId)
+                        .file(new MockMultipartFile("file", "replacement.png", "image/png", png))
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.altText").value("Category image collection"));
+
+        mvc.perform(delete("/api/v1/categories/{id}/image", categoryId))
+                .andExpect(status().isNoContent());
+        mvc.perform(get("/api/v1/categories/{id}", categoryId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.image").value(nullValue()));
+
+        mvc.perform(delete("/api/v1/categories/{id}", categoryId))
+                .andExpect(status().isNoContent());
+        mvc.perform(get("/api/v1/categories/{id}", categoryId))
+                .andExpect(status().isNotFound());
     }
 
     private UUID createCategory(String name, UUID parentId) throws Exception {

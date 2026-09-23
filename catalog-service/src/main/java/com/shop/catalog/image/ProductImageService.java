@@ -39,7 +39,7 @@ public class ProductImageService {
                     .orElseThrow(() -> new NotFoundException("Variant not found for product: " + variantId));
         }
 
-        ImageStorageService.StoredImage stored = storage.store(file, productId.toString());
+        ImageStorageService.StoredImage stored = storage.store(file, "products", productId.toString());
         ProductImage image = new ProductImage();
         image.setProduct(product);
         image.setVariant(variant);

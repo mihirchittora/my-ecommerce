@@ -71,7 +71,7 @@ Route access and navigation are filtered from the permission codes returned by `
 
 - `/dashboard` — catalog and inventory health overview
 - `/login` — internal user sign-in
-- `/categories` — hierarchical category tree with create-child, edit and delete flows
+- `/categories` — hierarchical category tree with Catalog-owned image thumbnails, create-child, edit, replace/remove image, alt text, and delete flows
 - `/products` — searchable, filterable, sortable, paginated product table
 - `/products/new` — validated product and multi-variant creation form
 - `/products/[id]` — product detail/edit, SKU inventory panel, image management and delete confirmation
@@ -158,6 +158,12 @@ Catalog modules:
 - `lib/api/products.ts`
 - `lib/api/images.ts`
 
+Category image mutations remain centralized in `lib/api/categories.ts` and use
+the existing `CATEGORY_UPDATE` permission. The edit dialog validates JPEG, PNG,
+and WEBP files up to 5 MB, supports picker/drop preview, and uploads only after
+the operator saves the category. The backend remains authoritative for
+authorization and safely removes the Catalog-owned stored file on deletion.
+
 Inventory module:
 
 - `lib/api/inventory.ts`
@@ -199,6 +205,9 @@ The frontend uses the following existing catalog endpoints:
 - `POST /api/v1/categories`
 - `PUT /api/v1/categories/{id}`
 - `DELETE /api/v1/categories/{id}`
+- `POST /api/v1/categories/{id}/image` as multipart/form-data
+- `PUT /api/v1/categories/{id}/image` for alt text
+- `DELETE /api/v1/categories/{id}/image`
 - `GET /api/v1/products?page=&size=&sort=name,asc&search=&categoryId=`
 - `GET /api/v1/products/{id}`
 - `POST /api/v1/products`

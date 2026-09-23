@@ -25,6 +25,14 @@ export interface Category {
   name: string;
   slug: string;
   status: CategoryStatus;
+  description: string | null;
+  image: CategoryImage | null;
+}
+
+export interface CategoryImage {
+  id: string;
+  url: string;
+  altText: string;
 }
 
 export interface CategoryNode extends Category {
@@ -88,6 +96,7 @@ export interface CategoryPayload {
   name: string;
   parentId?: string | null;
   slug?: string;
+  description?: string | null;
   status?: CategoryStatus;
 }
 

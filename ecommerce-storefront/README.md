@@ -29,6 +29,18 @@ The storefront uses Next rewrites under `/backend/*` so browser requests stay sa
 
 The UI does not persist catalog, inventory, cart, customer, order, payment, or shipment data locally. It reads and mutates those domains through the owning service. Product prices shown in cart and checkout are estimates; Order Service calculates the authoritative order total. Checkout uses the Cart Service delegation endpoint with a stable `Idempotency-Key`, and payment uses Payment Service with its own stable key.
 
+Category images are read directly from Catalog's typed category response. The
+storefront does not persist or duplicate categories. Root-category navigation,
+the mobile menu, homepage `Shop by category` cards, category heroes, and child
+cards all use the Catalog `image.url` and `image.altText` fields. A branded Morrow
+fallback keeps navigation usable when an image is absent or unavailable.
+
+Category images are read directly from Catalog's typed category response. The
+storefront does not persist or duplicate categories. Root-category navigation,
+the mobile menu, homepage `Shop by category` cards, category heroes, and child
+cards all use the Catalog `image.url` and `image.altText` fields. A branded Morrow
+fallback keeps navigation usable when an image is absent or unavailable.
+
 ## Tests
 
 ```bash
@@ -46,6 +58,8 @@ The storefront needs public slug lookups and customer-safe availability. The sma
 
 - `GET /api/v1/products/slug/{slug}`
 - `GET /api/v1/categories/slug/{slug}`
+- `GET /api/v1/categories/{id}/image/file` (the stable public image URL returned by Catalog)
+- `GET /api/v1/categories/{id}/image/file` (the stable public image URL returned by Catalog)
 - `GET /api/v1/inventory/availability/{sku}`
 
 The availability response exposes only `{ sku, available, message }`; operational quantities, locations, reservation identifiers, and inventory units remain private.

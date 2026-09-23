@@ -29,6 +29,13 @@ Women's Fashion, Men's Fashion, Kids, Footwear, Bags & Accessories, Beauty &
 Personal Care, Home & Kitchen, Electronics, Home Decor, and Tools & Lifestyle.
 Every top-level category has 2-4 populated subcategories.
 
+`data/category-images.json` maps 29 categories to deterministic, locally
+generated 1024×768 PNG assets. All 10 top-level categories have images and 19 of
+38 child categories have images, intentionally exercising both image-present and
+Morrow fallback behavior. The seed creates categories first, then uploads or
+reconciles category images through Catalog's `POST /api/v1/categories/{id}/image`
+endpoint; it never writes category or image rows directly.
+
 ## Products
 
 There are 37 original product names. Each product is `ACTIVE`, has useful
@@ -68,6 +75,11 @@ POST /api/v1/products/{productId}/images?sortOrder={n}
 
 Provenance is kept in the seed files and is not sent in Catalog product copy or
 exposed as customer-facing metadata.
+
+Category image uploads are also idempotent. The manifest stores the returned
+Catalog image reference and a local source hash; reruns upload only when an image
+is missing or its checked-in source changes. Live validation checks every root
+category has an image URL and that the Catalog file endpoint returns the asset.
 
 ## Inventory
 
@@ -207,9 +219,10 @@ explicit unavailable-service errors.
 
 ## Image Provenance
 
-The only checked-in images used by this dataset are locally generated PNGs. The
-Meesho URL is retained only as source-reference metadata in the JSON documents;
-no Meesho image URL is used as a runtime image identity or storage dependency.
+The only checked-in images used by this dataset are locally generated PNGs,
+including the category collection art. The Meesho URL is retained only as
+source-reference metadata in the JSON documents; no Meesho image URL is used as
+a runtime image identity or storage dependency.
 
 ## Production Safety
 

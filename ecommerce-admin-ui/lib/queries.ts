@@ -61,6 +61,30 @@ export function useDeleteCategory() {
   });
 }
 
+export function useUploadCategoryImage() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, file, altText }: { id: string; file: File; altText?: string }) => categoryApi.uploadImage(id, file, altText),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.categoryTree }),
+  });
+}
+
+export function useUpdateCategoryImageAltText() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, altText }: { id: string; altText: string }) => categoryApi.updateImageAltText(id, altText),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.categoryTree }),
+  });
+}
+
+export function useDeleteCategoryImage() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => categoryApi.deleteImage(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.categoryTree }),
+  });
+}
+
 export function useCreateProduct() {
   const queryClient = useQueryClient();
   return useMutation({

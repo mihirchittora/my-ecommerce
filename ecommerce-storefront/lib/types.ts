@@ -26,6 +26,14 @@ export interface Category {
   name: string;
   slug: string;
   status: CategoryStatus;
+  description: string | null;
+  image: CategoryImage | null;
+}
+
+export interface CategoryImage {
+  id: string;
+  url: string;
+  altText: string;
 }
 
 export interface ProductVariant {

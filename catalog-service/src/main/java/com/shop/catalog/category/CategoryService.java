@@ -3,6 +3,8 @@ package com.shop.catalog.category;
 import com.shop.catalog.common.ConflictException;
 import com.shop.catalog.common.NotFoundException;
 import com.shop.catalog.product.ProductRepository;
+import com.shop.catalog.image.CategoryImageRepository;
+import com.shop.catalog.image.ImageStorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +22,17 @@ public class CategoryService {
     private static final Pattern NON_ALNUM = Pattern.compile("[^a-z0-9]+");
     private final CategoryRepository repository;
     private final ProductRepository products;
+    private final CategoryImageRepository images;
+    private final ImageStorageService storage;
 
-    public CategoryService(CategoryRepository repository, ProductRepository products) {
+    public CategoryService(CategoryRepository repository,
+                           ProductRepository products,
+                           CategoryImageRepository images,
+                           ImageStorageService storage) {
         this.repository = repository;
         this.products = products;
+        this.images = images;
+        this.storage = storage;
     }
 
     public CategoryDtos.Response create(CategoryDtos.CreateRequest request) {
@@ -34,14 +43,16 @@ public class CategoryService {
         Category category = new Category();
         category.setName(name);
         category.setSlug(uniqueSlug(request.slug(), name, null, parent));
+        category.setDescription(normalizeDescription(request.description()));
         category.setParent(parent);
         category.setStatus(CategoryStatus.ACTIVE);
-        return CategoryDtos.Response.from(repository.save(category));
+        return response(repository.save(category));
     }
 
     @Transactional(readOnly = true)
     public CategoryDtos.Response get(UUID id) {
-        return CategoryDtos.Response.from(find(id));
+        Category category = find(id);
+        return response(category);
     }
 
     @Transactional(readOnly = true)
@@ -49,8 +60,9 @@ public class CategoryService {
         if (slug == null || slug.isBlank()) {
             throw new NotFoundException("Category not found");
         }
-        return CategoryDtos.Response.from(repository.findBySlug(slug.trim().toLowerCase(Locale.ROOT))
-                .orElseThrow(() -> new NotFoundException("Category not found: " + slug)));
+        Category category = repository.findBySlug(slug.trim().toLowerCase(Locale.ROOT))
+                .orElseThrow(() -> new NotFoundException("Category not found: " + slug));
+        return response(category);
     }
 
     @Transactional(readOnly = true)
@@ -61,7 +73,7 @@ public class CategoryService {
         List<Category> categories = parentId == null
                 ? repository.findByParentIsNullOrderByName()
                 : repository.findByParent_IdOrderByName(parentId);
-        return categories.stream().map(CategoryDtos.Response::from).toList();
+        return responses(categories);
     }
 
     public CategoryDtos.Response update(UUID id, CategoryDtos.UpdateRequest request) {
@@ -79,11 +91,12 @@ public class CategoryService {
 
         category.setName(name);
         category.setSlug(uniqueSlug(request.slug(), name, id, parent));
+        category.setDescription(normalizeDescription(request.description()));
         category.setParent(parent);
         if (request.status() != null) {
             category.setStatus(request.status());
         }
-        return CategoryDtos.Response.from(repository.save(category));
+        return response(repository.save(category));
     }
 
     public void delete(UUID id) {
@@ -94,7 +107,28 @@ public class CategoryService {
         if (products.existsByCategory_Id(id)) {
             throw new ConflictException("Category cannot be deleted while products belong to it");
         }
+        images.findByCategory_Id(id).ifPresent(image -> {
+            storage.delete(image.getStorageKey());
+            images.delete(image);
+        });
         repository.delete(category);
+    }
+
+    private List<CategoryDtos.Response> responses(List<Category> categories) {
+        if (categories.isEmpty()) {
+            return List.of();
+        }
+        var imageByCategory = images.findByCategory_IdIn(categories.stream().map(Category::getId).toList()).stream()
+                .collect(java.util.stream.Collectors.toMap(image -> image.getCategory().getId(), image -> image));
+        return categories.stream().map(category -> CategoryDtos.Response.from(category, imageByCategory.get(category.getId()))).toList();
+    }
+
+    private CategoryDtos.Response response(Category category) {
+        return CategoryDtos.Response.from(category, images.findByCategory_Id(category.getId()).orElse(null));
+    }
+
+    private String normalizeDescription(String description) {
+        return description == null || description.isBlank() ? null : description.trim();
     }
 
     private void ensureSiblingNameAvailable(String name, Category parent, UUID currentId) {

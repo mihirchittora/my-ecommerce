@@ -672,3 +672,55 @@ The storefront is served on port `3001` and keeps browser calls same-origin
 through its `/backend/{service}` Next rewrites. Service origins are configured
 with the `NEXT_PUBLIC_*_API_URL` variables in
 `ecommerce-storefront/.env.example`.
+
+## Catalog — category image contracts
+
+Catalog owns category hierarchy, metadata, and the optional single primary
+category image. No other service persists category image state.
+
+### `GET /api/v1/categories`, `GET /api/v1/categories/{id}`, `GET /api/v1/categories/slug/{slug}`
+
+- Auth/permission: public read; no bearer token required.
+- Response: the existing category fields plus nullable `description` and
+  nullable `image` with `{id, url, altText}`. `url` is a stable usable Catalog
+  reference; storage keys and provenance are not exposed.
+- Errors: `404` for a missing category; `400` for malformed UUID/query input.
+
+### `POST /api/v1/categories/{id}/image`
+
+- Auth/permission: bearer JWT with `CATEGORY_UPDATE`.
+- Request: multipart `file` plus optional `altText` form field.
+- Validation: JPEG, PNG, or WEBP; maximum 5 MB by default; content signature
+  must match the declared media type. If `altText` is omitted, Catalog derives
+  customer-friendly text such as `<category name> collection`.
+- Behavior: creates or replaces the one primary image. The old Catalog file is
+  removed after the replacement metadata is persisted.
+- Response: `200 {id,url,altText}`.
+- Errors: `400` invalid/empty/oversized image or alt text; `401` unauthenticated;
+  `403` missing `CATEGORY_UPDATE`; `404` missing category; `500` storage failure.
+
+### `PUT /api/v1/categories/{id}/image`
+
+- Auth/permission: bearer JWT with `CATEGORY_UPDATE`.
+- Request: JSON `{"altText":"Electronics collection"}`.
+- Response: `200 {id,url,altText}`.
+- Errors: `400` blank or overlong alt text; `401`; `403`; `404` missing category
+  or image.
+
+### `GET /api/v1/categories/{id}/image/file`
+
+- Auth/permission: public read for public category browsing; no bearer token
+  required.
+- Response: inline JPEG, PNG, or WEBP bytes from Catalog's storage abstraction.
+- Errors: `404` when the category/image metadata or stored file is missing.
+
+### `DELETE /api/v1/categories/{id}/image`
+
+- Auth/permission: bearer JWT with `CATEGORY_UPDATE`.
+- Request: none.
+- Response: `204 No Content`.
+- Errors: `401`; `403`; `404` missing category/image; `500` storage failure.
+
+Deleting a category through `DELETE /api/v1/categories/{id}` also deletes its
+Catalog image metadata and stored file after the existing child/product safety
+checks pass.

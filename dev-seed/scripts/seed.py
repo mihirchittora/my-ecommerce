@@ -99,14 +99,21 @@ class ApiClient:
         except urllib.error.URLError as exc:
             raise SeedError(f"{self.service} {method} {path} is unavailable: {exc.reason}") from exc
 
-    def upload(self, path: str, filename: str, content: bytes, token: str, sort_order: int = 0) -> Any:
+    def upload(self, path: str, filename: str, content: bytes, token: str, sort_order: int = 0, alt_text: str | None = None) -> Any:
         boundary = "----myEcommerceSeedBoundary"
         head = (
             f"--{boundary}\r\n"
             f"Content-Disposition: form-data; name=\"file\"; filename=\"{filename}\"\r\n"
             "Content-Type: image/png\r\n\r\n"
         ).encode("utf-8")
-        tail = f"\r\n--{boundary}--\r\n".encode("utf-8")
+        alt_part = b""
+        if alt_text:
+            alt_part = (
+                f"\r\n--{boundary}\r\n"
+                "Content-Disposition: form-data; name=\"altText\"\r\n\r\n"
+                f"{alt_text}"
+            ).encode("utf-8")
+        tail = alt_part + f"\r\n--{boundary}--\r\n".encode("utf-8")
         payload = head + content + tail
         request = urllib.request.Request(
             self.base_url + path + "?" + urllib.parse.urlencode({"sortOrder": sort_order}),
@@ -152,6 +159,7 @@ class SeedRunner:
         self.products_doc = read_json("products.json")
         self.products = self.products_doc["products"]
         self.categories = read_json("categories.json")
+        self.category_images = read_json("category-images.json")["images"]
         self.customers = read_json("customers.json")["customers"]
         self.inventory_plan = read_json("inventory.json")
         self.scenarios = read_json("scenarios.json")["scenarios"]
@@ -164,7 +172,7 @@ class SeedRunner:
                        "note": "Reference metadata only; this is synthetic development data."},
             "lastRunAt": now(),
             "environment": os.environ.get("SEED_ENV"),
-            "catalog": {"categories": {}, "products": {}, "variants": {}, "images": {}},
+            "catalog": {"categories": {}, "categoryImages": {}, "products": {}, "variants": {}, "images": {}},
             "inventory": {"locations": {}, "units": {}, "reservations": {}, "adjustments": {}},
             "customers": {}, "carts": {}, "orders": {}, "payments": {},
             "shipping": {"fulfillments": {}, "shipments": {}, "trackingEvents": {}},
@@ -210,6 +218,7 @@ class SeedRunner:
         self.state["counts"] = {
             "products": len(products),
             "categories": len(self.state["catalog"]["categories"]),
+            "categoryImages": len(self.state["catalog"]["categoryImages"]),
             "variants": len(self.state["catalog"]["variants"]),
             "skus": len(self.state["catalog"]["variants"]),
             "images": len(self.state["catalog"]["images"]),
@@ -297,10 +306,35 @@ class SeedRunner:
                     raise
                 parent_id = category_ids.get(category["parentKey"]) if category["parentKey"] else None
                 existing = self.api["catalog"].request("POST", "/api/v1/categories", {
-                    "name": category["name"], "parentId": parent_id, "slug": category["slug"],
+                    "name": category["name"], "parentId": parent_id, "slug": category["slug"], "description": category.get("description"),
                 }, headers=bearer(self.admin_token), expected=(201,))
             category_ids[category["key"]] = existing["id"]
             self.state["catalog"]["categories"][category["key"]] = existing["id"]
+
+        for image in self.category_images:
+            category_id = category_ids[image["categoryKey"]]
+            image_path = IMAGES / image["file"]
+            source_hash = hashlib.sha256(image_path.read_bytes()).hexdigest()
+            current = self.api["catalog"].request("GET", f"/api/v1/categories/{category_id}", expected=(200,))
+            current_image = current.get("image")
+            previous_image = self.previous.get("catalog", {}).get("categoryImages", {}).get(image["categoryKey"], {})
+            should_upload = current_image is None or previous_image.get("sourceHash") != source_hash
+            if should_upload:
+                uploaded = self.api["catalog"].upload(
+                    f"/api/v1/categories/{category_id}/image",
+                    image_path.name,
+                    image_path.read_bytes(),
+                    self.admin_token,
+                    alt_text=image["alt"],
+                )
+                current_image = uploaded
+            elif current_image and current_image.get("altText") != image["alt"]:
+                current_image = self.api["catalog"].request(
+                    "PUT", f"/api/v1/categories/{category_id}/image",
+                    {"altText": image["alt"]}, headers=bearer(self.admin_token), expected=(200,))
+            self.state["catalog"]["categoryImages"][image["categoryKey"]] = {
+                **(current_image or {}), "sourceHash": source_hash, "sourceFile": image["file"],
+            }
 
         for product in self.products:
             category_id = category_ids[product["categoryKey"]]
@@ -673,6 +707,16 @@ class SeedRunner:
             product = returned_products[product_id]
             if product.get("status") != "ACTIVE" or not product.get("variants") or not product.get("images"):
                 raise SeedError(f"product {product.get('slug')} is missing an active variant or image gallery")
+        root_keys = {category["key"] for category in self.categories if category.get("parentKey") is None}
+        seeded_category_images = self.state["catalog"]["categoryImages"]
+        for category_key in root_keys:
+            category_id = self.state["catalog"]["categories"][category_key]
+            category = self.api["catalog"].request("GET", f"/api/v1/categories/{category_id}", expected=(200,))
+            if not category.get("image", {}).get("url"):
+                raise SeedError(f"top-level category {category_key} is missing an image")
+            self.api["catalog"].request("GET", f"/api/v1/categories/{category_id}/image/file", expected=(200,))
+        if set(seeded_category_images) != {image["categoryKey"] for image in self.category_images}:
+            raise SeedError("category image manifest is out of sync with category image data")
         inventory_summary = self.api["inventory"].request("GET", "/api/v1/inventory/summary", headers=bearer(self.admin_token), expected=(200,))
         if inventory_summary.get("totalInventoryUnits", 0) < 100:
             raise SeedError("inventory validation found fewer than 100 active physical units")

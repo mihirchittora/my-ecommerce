@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Path;
 
 public interface ImageStorageService {
-    StoredImage store(MultipartFile file, String productDirectory);
+    StoredImage store(MultipartFile file, String collection, String ownerDirectory);
 
     void delete(String storageKey);
 

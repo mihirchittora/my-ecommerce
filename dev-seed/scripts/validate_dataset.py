@@ -21,6 +21,8 @@ REQUIRED_SCENARIOS = {
     "womens-fashion-browsing", "out-of-stock-variant", "low-stock-product", "partial-shipment",
     "multiple-inventory-locations", "historical-price-change",
 }
+CATEGORY_IMAGE_CHILD_MIN = 0.5
+CATEGORY_IMAGE_CHILD_MAX = 0.7
 
 
 class DatasetError(ValueError):
@@ -33,6 +35,7 @@ def load(name: str):
 
 def validate() -> dict:
     categories = load("categories.json")
+    category_images_doc = load("category-images.json")
     product_doc = load("products.json")
     variants_doc = load("variants.json")
     skus_doc = load("skus.json")
@@ -57,6 +60,27 @@ def validate() -> dict:
             children_by_parent[category["parentKey"]].append(category["key"])
     if any(not 2 <= len(children) <= 4 for children in children_by_parent.values()):
         raise DatasetError("every top-level category must have 2-4 subcategories")
+
+    category_image_rows = category_images_doc["images"]
+    category_image_keys = [image["categoryKey"] for image in category_image_rows]
+    if len(category_image_keys) != len(set(category_image_keys)):
+        raise DatasetError("duplicate category image mapping")
+    if not REQUIRED_ROOTS <= set(category_image_keys):
+        raise DatasetError("every top-level category must have a category image")
+    child_keys = category_keys - REQUIRED_ROOTS
+    child_image_keys = child_keys & set(category_image_keys)
+    coverage = len(child_image_keys) / len(child_keys)
+    if not CATEGORY_IMAGE_CHILD_MIN <= coverage <= CATEGORY_IMAGE_CHILD_MAX:
+        raise DatasetError(f"child category image coverage must be 50-70%, found {coverage:.0%}")
+    for image in category_image_rows:
+        if image["categoryKey"] not in category_keys:
+            raise DatasetError(f"category image references unknown category: {image['categoryKey']}")
+        image_path = IMAGES / image["file"]
+        if not image_path.is_file() or not image_path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"):
+            raise DatasetError(f"missing or invalid category image: {image['file']}")
+        for field in ("alt", "sourceName", "sourceAccessedAt", "mediaType", "version"):
+            if not image.get(field):
+                raise DatasetError(f"incomplete category image metadata {field}: {image['file']}")
 
     products = product_doc["products"]
     flat_variants = variants_doc["variants"]
@@ -162,7 +186,7 @@ def validate() -> dict:
     return {
         "products": len(products), "categories": len(categories), "topLevelCategories": len(roots),
         "subcategories": len(categories) - len(roots), "variants": len(skus), "skus": len(skus),
-        "images": len(image_files), "locations": len(locations), "plannedInventoryUnits": planned_units,
+        "images": len(image_files), "categoryImages": len(category_image_rows), "locations": len(locations), "plannedInventoryUnits": planned_units,
         "customers": len(customers), "orderScenarios": len(order_scenarios), "scenarios": len(scenarios),
     }
 

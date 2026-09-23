@@ -25,6 +25,17 @@ Compose projects are intentionally independent; backend containers call each
 other through the host gateway, while each application calls its own database
 by the Compose service name.
 
+Catalog is the sole owner of category hierarchy, metadata, and category images:
+
+```text
+Catalog Service → Category → CategoryImage → Storefront / Admin UI
+```
+
+The storefront derives all category navigation from Catalog responses and never
+stores a duplicate category list. Admin image mutations use Catalog's existing
+JWT permission boundary (`CATEGORY_UPDATE`), while public category/image reads
+remain anonymous.
+
 ## Prerequisites
 
 All platforms need:
@@ -309,7 +320,7 @@ npm run seed:reset
 ~~~
 
 The dataset is synthetic general e-commerce demo data: 10 top-level
-categories, 37 products, 111 variants/SKUs, local product galleries, three
+categories, 29 local category images (all roots plus partial child coverage), 37 products, 111 variants/SKUs, local product galleries, three
 inventory locations, 10 fake customers, and API-created cart/order/payment/
 fulfillment/shipment scenarios. It uses Meesho only as a public marketplace
 variety reference and does not copy its branding, UI, identifiers, customer
