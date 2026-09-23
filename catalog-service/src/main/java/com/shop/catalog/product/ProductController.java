@@ -66,7 +66,7 @@ public class ProductController {
     @Operation(summary = "List products", description = "Paginated product listing. Sort format is property,direction (for example name,asc).")
     @GetMapping
     public Page<ProductDtos.Response> list(
-            @Parameter(description = "Filter by exact category ID")
+            @Parameter(description = "Filter by category ID, including products in all descendant categories")
             @RequestParam(required = false) UUID categoryId,
             @Parameter(description = "Case-insensitive product name search")
             @RequestParam(required = false) String search,

@@ -1,380 +1,560 @@
 {
-  "seedVersion": "1.0.0",
+  "seedVersion": "2.0.0",
   "skus": [
     {
-      "sku": "HIGHLAND-COCOA-WB-250",
+      "sku": "WFT-SAR-COTTON-BLU-FS",
       "productKey": "product-01",
-      "variantKey": "HIGHLAND-COCOA-WB-250"
+      "variantKey": "WFT-SAR-COTTON-BLU-FS"
     },
     {
-      "sku": "HIGHLAND-COCOA-GR-250",
+      "sku": "WFT-SAR-COTTON-GRN-FS",
       "productKey": "product-01",
-      "variantKey": "HIGHLAND-COCOA-GR-250"
+      "variantKey": "WFT-SAR-COTTON-GRN-FS"
     },
     {
-      "sku": "HIGHLAND-COCOA-WB-500",
+      "sku": "WFT-SAR-COTTON-MAR-FS",
       "productKey": "product-01",
-      "variantKey": "HIGHLAND-COCOA-WB-500"
+      "variantKey": "WFT-SAR-COTTON-MAR-FS"
     },
     {
-      "sku": "EMBER-VALLEY-WB-250",
+      "sku": "WFT-SAR-COTTON-YLW-FS",
+      "productKey": "product-01",
+      "variantKey": "WFT-SAR-COTTON-YLW-FS"
+    },
+    {
+      "sku": "WFT-KUR-EMB-PNK-S",
       "productKey": "product-02",
-      "variantKey": "EMBER-VALLEY-WB-250"
+      "variantKey": "WFT-KUR-EMB-PNK-S"
     },
     {
-      "sku": "EMBER-VALLEY-GR-250",
+      "sku": "WFT-KUR-EMB-PNK-M",
       "productKey": "product-02",
-      "variantKey": "EMBER-VALLEY-GR-250"
+      "variantKey": "WFT-KUR-EMB-PNK-M"
     },
     {
-      "sku": "EMBER-VALLEY-WB-500",
+      "sku": "WFT-KUR-EMB-PNK-L",
       "productKey": "product-02",
-      "variantKey": "EMBER-VALLEY-WB-500"
+      "variantKey": "WFT-KUR-EMB-PNK-L"
     },
     {
-      "sku": "RAINLINE-HONEY-WB-250",
+      "sku": "WFT-KUR-EMB-BLU-M",
+      "productKey": "product-02",
+      "variantKey": "WFT-KUR-EMB-BLU-M"
+    },
+    {
+      "sku": "WFT-KUR-EMB-BLU-XL",
+      "productKey": "product-02",
+      "variantKey": "WFT-KUR-EMB-BLU-XL"
+    },
+    {
+      "sku": "WFT-DRS-FLORAL-YLW-S",
       "productKey": "product-03",
-      "variantKey": "RAINLINE-HONEY-WB-250"
+      "variantKey": "WFT-DRS-FLORAL-YLW-S"
     },
     {
-      "sku": "RAINLINE-HONEY-GR-250",
+      "sku": "WFT-DRS-FLORAL-YLW-M",
       "productKey": "product-03",
-      "variantKey": "RAINLINE-HONEY-GR-250"
+      "variantKey": "WFT-DRS-FLORAL-YLW-M"
     },
     {
-      "sku": "RAINLINE-HONEY-WB-500",
+      "sku": "WFT-DRS-FLORAL-BLK-M",
       "productKey": "product-03",
-      "variantKey": "RAINLINE-HONEY-WB-500"
+      "variantKey": "WFT-DRS-FLORAL-BLK-M"
     },
     {
-      "sku": "ORCHARD-PEAK-WB-250",
+      "sku": "WFT-SET-LINEN-IVY-S",
       "productKey": "product-04",
-      "variantKey": "ORCHARD-PEAK-WB-250"
+      "variantKey": "WFT-SET-LINEN-IVY-S"
     },
     {
-      "sku": "ORCHARD-PEAK-GR-250",
+      "sku": "WFT-SET-LINEN-IVY-M",
       "productKey": "product-04",
-      "variantKey": "ORCHARD-PEAK-GR-250"
+      "variantKey": "WFT-SET-LINEN-IVY-M"
     },
     {
-      "sku": "ORCHARD-PEAK-WB-500",
+      "sku": "WFT-SET-LINEN-IVY-L",
       "productKey": "product-04",
-      "variantKey": "ORCHARD-PEAK-WB-500"
+      "variantKey": "WFT-SET-LINEN-IVY-L"
     },
     {
-      "sku": "CEDAR-BLOOM-WB-250",
+      "sku": "WFT-COORD-LOUNGE-SAGE-S",
       "productKey": "product-05",
-      "variantKey": "CEDAR-BLOOM-WB-250"
+      "variantKey": "WFT-COORD-LOUNGE-SAGE-S"
     },
     {
-      "sku": "CEDAR-BLOOM-GR-250",
+      "sku": "WFT-COORD-LOUNGE-SAGE-M",
       "productKey": "product-05",
-      "variantKey": "CEDAR-BLOOM-GR-250"
+      "variantKey": "WFT-COORD-LOUNGE-SAGE-M"
     },
     {
-      "sku": "CEDAR-BLOOM-WB-500",
+      "sku": "WFT-COORD-LOUNGE-SAGE-L",
       "productKey": "product-05",
-      "variantKey": "CEDAR-BLOOM-WB-500"
+      "variantKey": "WFT-COORD-LOUNGE-SAGE-L"
     },
     {
-      "sku": "MONSOON-TRAIL-WB-250",
+      "sku": "MFT-TSH-COTTON-BLK-S",
       "productKey": "product-06",
-      "variantKey": "MONSOON-TRAIL-WB-250"
+      "variantKey": "MFT-TSH-COTTON-BLK-S"
     },
     {
-      "sku": "MONSOON-TRAIL-GR-250",
+      "sku": "MFT-TSH-COTTON-BLK-M",
       "productKey": "product-06",
-      "variantKey": "MONSOON-TRAIL-GR-250"
+      "variantKey": "MFT-TSH-COTTON-BLK-M"
     },
     {
-      "sku": "MONSOON-TRAIL-WB-500",
+      "sku": "MFT-TSH-COTTON-BLK-L",
       "productKey": "product-06",
-      "variantKey": "MONSOON-TRAIL-WB-500"
+      "variantKey": "MFT-TSH-COTTON-BLK-L"
     },
     {
-      "sku": "SUNLIT-SPICE-WB-250",
+      "sku": "MFT-TSH-COTTON-BLK-XL",
+      "productKey": "product-06",
+      "variantKey": "MFT-TSH-COTTON-BLK-XL"
+    },
+    {
+      "sku": "MFT-TSH-COTTON-BLU-M",
+      "productKey": "product-06",
+      "variantKey": "MFT-TSH-COTTON-BLU-M"
+    },
+    {
+      "sku": "MFT-TSH-COTTON-BLU-L",
+      "productKey": "product-06",
+      "variantKey": "MFT-TSH-COTTON-BLU-L"
+    },
+    {
+      "sku": "MFT-SHT-SLIM-WHT-M",
       "productKey": "product-07",
-      "variantKey": "SUNLIT-SPICE-WB-250"
+      "variantKey": "MFT-SHT-SLIM-WHT-M"
     },
     {
-      "sku": "SUNLIT-SPICE-GR-250",
+      "sku": "MFT-SHT-SLIM-WHT-L",
       "productKey": "product-07",
-      "variantKey": "SUNLIT-SPICE-GR-250"
+      "variantKey": "MFT-SHT-SLIM-WHT-L"
     },
     {
-      "sku": "SUNLIT-SPICE-WB-500",
+      "sku": "MFT-SHT-SLIM-BLU-M",
       "productKey": "product-07",
-      "variantKey": "SUNLIT-SPICE-WB-500"
+      "variantKey": "MFT-SHT-SLIM-BLU-M"
     },
     {
-      "sku": "NIGHTJAR-ROAST-WB-250",
+      "sku": "MFT-SHT-SLIM-BLU-L",
+      "productKey": "product-07",
+      "variantKey": "MFT-SHT-SLIM-BLU-L"
+    },
+    {
+      "sku": "MFT-TRS-REG-GRY-30",
       "productKey": "product-08",
-      "variantKey": "NIGHTJAR-ROAST-WB-250"
+      "variantKey": "MFT-TRS-REG-GRY-30"
     },
     {
-      "sku": "NIGHTJAR-ROAST-GR-250",
+      "sku": "MFT-TRS-REG-GRY-32",
       "productKey": "product-08",
-      "variantKey": "NIGHTJAR-ROAST-GR-250"
+      "variantKey": "MFT-TRS-REG-GRY-32"
     },
     {
-      "sku": "NIGHTJAR-ROAST-WB-500",
+      "sku": "MFT-TRS-REG-GRY-34",
       "productKey": "product-08",
-      "variantKey": "NIGHTJAR-ROAST-WB-500"
+      "variantKey": "MFT-TRS-REG-GRY-34"
     },
     {
-      "sku": "CANYON-BLOOM-WB-250",
+      "sku": "MFT-TRS-REG-GRY-36",
+      "productKey": "product-08",
+      "variantKey": "MFT-TRS-REG-GRY-36"
+    },
+    {
+      "sku": "MFT-JNS-CLASSIC-IND-30",
       "productKey": "product-09",
-      "variantKey": "CANYON-BLOOM-WB-250"
+      "variantKey": "MFT-JNS-CLASSIC-IND-30"
     },
     {
-      "sku": "CANYON-BLOOM-GR-250",
+      "sku": "MFT-JNS-CLASSIC-IND-32",
       "productKey": "product-09",
-      "variantKey": "CANYON-BLOOM-GR-250"
+      "variantKey": "MFT-JNS-CLASSIC-IND-32"
     },
     {
-      "sku": "CANYON-BLOOM-WB-500",
+      "sku": "MFT-JNS-CLASSIC-IND-34",
       "productKey": "product-09",
-      "variantKey": "CANYON-BLOOM-WB-500"
+      "variantKey": "MFT-JNS-CLASSIC-IND-34"
     },
     {
-      "sku": "STONEFRUIT-DRIFT-WB-250",
+      "sku": "MFT-JNS-CLASSIC-IND-36",
+      "productKey": "product-09",
+      "variantKey": "MFT-JNS-CLASSIC-IND-36"
+    },
+    {
+      "sku": "MFT-PLO-TEXT-NAV-M",
       "productKey": "product-10",
-      "variantKey": "STONEFRUIT-DRIFT-WB-250"
+      "variantKey": "MFT-PLO-TEXT-NAV-M"
     },
     {
-      "sku": "STONEFRUIT-DRIFT-GR-250",
+      "sku": "MFT-PLO-TEXT-NAV-L",
       "productKey": "product-10",
-      "variantKey": "STONEFRUIT-DRIFT-GR-250"
+      "variantKey": "MFT-PLO-TEXT-NAV-L"
     },
     {
-      "sku": "STONEFRUIT-DRIFT-WB-500",
+      "sku": "MFT-PLO-TEXT-OLV-XL",
       "productKey": "product-10",
-      "variantKey": "STONEFRUIT-DRIFT-WB-500"
+      "variantKey": "MFT-PLO-TEXT-OLV-XL"
     },
     {
-      "sku": "LANTERN-HOUSE-WB-250",
+      "sku": "KDS-SET-COTTON-RED-2Y",
       "productKey": "product-11",
-      "variantKey": "LANTERN-HOUSE-WB-250"
+      "variantKey": "KDS-SET-COTTON-RED-2Y"
     },
     {
-      "sku": "LANTERN-HOUSE-GR-250",
+      "sku": "KDS-SET-COTTON-BLU-4Y",
       "productKey": "product-11",
-      "variantKey": "LANTERN-HOUSE-GR-250"
+      "variantKey": "KDS-SET-COTTON-BLU-4Y"
     },
     {
-      "sku": "LANTERN-HOUSE-WB-500",
+      "sku": "KDS-SET-COTTON-GRE-6Y",
       "productKey": "product-11",
-      "variantKey": "LANTERN-HOUSE-WB-500"
+      "variantKey": "KDS-SET-COTTON-GRE-6Y"
     },
     {
-      "sku": "RIVERBEND-DARK-WB-250",
+      "sku": "KDS-SET-COTTON-PCH-8Y",
+      "productKey": "product-11",
+      "variantKey": "KDS-SET-COTTON-PCH-8Y"
+    },
+    {
+      "sku": "KDS-TOY-BLOCKS-48PC",
       "productKey": "product-12",
-      "variantKey": "RIVERBEND-DARK-WB-250"
+      "variantKey": "KDS-TOY-BLOCKS-48PC"
     },
     {
-      "sku": "RIVERBEND-DARK-GR-250",
+      "sku": "KDS-TOY-BLOCKS-96PC",
       "productKey": "product-12",
-      "variantKey": "RIVERBEND-DARK-GR-250"
+      "variantKey": "KDS-TOY-BLOCKS-96PC"
     },
     {
-      "sku": "RIVERBEND-DARK-WB-500",
-      "productKey": "product-12",
-      "variantKey": "RIVERBEND-DARK-WB-500"
-    },
-    {
-      "sku": "GOLDEN-CANOPY-WB-250",
+      "sku": "KDS-BAG-SCHOOL-BLU-12L",
       "productKey": "product-13",
-      "variantKey": "GOLDEN-CANOPY-WB-250"
+      "variantKey": "KDS-BAG-SCHOOL-BLU-12L"
     },
     {
-      "sku": "GOLDEN-CANOPY-GR-250",
+      "sku": "KDS-BAG-SCHOOL-RED-18L",
       "productKey": "product-13",
-      "variantKey": "GOLDEN-CANOPY-GR-250"
+      "variantKey": "KDS-BAG-SCHOOL-RED-18L"
     },
     {
-      "sku": "GOLDEN-CANOPY-WB-500",
+      "sku": "KDS-BAG-SCHOOL-GRN-20L",
       "productKey": "product-13",
-      "variantKey": "GOLDEN-CANOPY-WB-500"
+      "variantKey": "KDS-BAG-SCHOOL-GRN-20L"
     },
     {
-      "sku": "CLOUDLINE-ESTATE-WB-250",
+      "sku": "KDS-ART-RNBW-24PC",
       "productKey": "product-14",
-      "variantKey": "CLOUDLINE-ESTATE-WB-250"
+      "variantKey": "KDS-ART-RNBW-24PC"
     },
     {
-      "sku": "CLOUDLINE-ESTATE-GR-250",
+      "sku": "KDS-ART-RNBW-48PC",
       "productKey": "product-14",
-      "variantKey": "CLOUDLINE-ESTATE-GR-250"
+      "variantKey": "KDS-ART-RNBW-48PC"
     },
     {
-      "sku": "CLOUDLINE-ESTATE-WB-500",
-      "productKey": "product-14",
-      "variantKey": "CLOUDLINE-ESTATE-WB-500"
-    },
-    {
-      "sku": "HEARTH-BLEND-WB-250",
+      "sku": "FTW-FLT-EVERYDAY-BLK-07",
       "productKey": "product-15",
-      "variantKey": "HEARTH-BLEND-WB-250"
+      "variantKey": "FTW-FLT-EVERYDAY-BLK-07"
     },
     {
-      "sku": "HEARTH-BLEND-GR-250",
+      "sku": "FTW-FLT-EVERYDAY-BLK-08",
       "productKey": "product-15",
-      "variantKey": "HEARTH-BLEND-GR-250"
+      "variantKey": "FTW-FLT-EVERYDAY-BLK-08"
     },
     {
-      "sku": "HEARTH-BLEND-WB-500",
+      "sku": "FTW-FLT-EVERYDAY-BLK-09",
       "productKey": "product-15",
-      "variantKey": "HEARTH-BLEND-WB-500"
+      "variantKey": "FTW-FLT-EVERYDAY-BLK-09"
     },
     {
-      "sku": "PORCHLIGHT-BLEND-WB-250",
+      "sku": "FTW-FLT-EVERYDAY-BEG-08",
+      "productKey": "product-15",
+      "variantKey": "FTW-FLT-EVERYDAY-BEG-08"
+    },
+    {
+      "sku": "FTW-SNK-STREET-BLK-07",
       "productKey": "product-16",
-      "variantKey": "PORCHLIGHT-BLEND-WB-250"
+      "variantKey": "FTW-SNK-STREET-BLK-07"
     },
     {
-      "sku": "PORCHLIGHT-BLEND-GR-250",
+      "sku": "FTW-SNK-STREET-BLK-08",
       "productKey": "product-16",
-      "variantKey": "PORCHLIGHT-BLEND-GR-250"
+      "variantKey": "FTW-SNK-STREET-BLK-08"
     },
     {
-      "sku": "PORCHLIGHT-BLEND-WB-500",
+      "sku": "FTW-SNK-STREET-BLK-09",
       "productKey": "product-16",
-      "variantKey": "PORCHLIGHT-BLEND-WB-500"
+      "variantKey": "FTW-SNK-STREET-BLK-09"
     },
     {
-      "sku": "ALPINE-MOSS-WB-250",
+      "sku": "FTW-SNK-STREET-WHT-08",
+      "productKey": "product-16",
+      "variantKey": "FTW-SNK-STREET-WHT-08"
+    },
+    {
+      "sku": "FTW-SND-COMFORT-TAN-07",
       "productKey": "product-17",
-      "variantKey": "ALPINE-MOSS-WB-250"
+      "variantKey": "FTW-SND-COMFORT-TAN-07"
     },
     {
-      "sku": "ALPINE-MOSS-GR-250",
+      "sku": "FTW-SND-COMFORT-TAN-08",
       "productKey": "product-17",
-      "variantKey": "ALPINE-MOSS-GR-250"
+      "variantKey": "FTW-SND-COMFORT-TAN-08"
     },
     {
-      "sku": "ALPINE-MOSS-WB-500",
+      "sku": "FTW-SND-COMFORT-TAN-09",
       "productKey": "product-17",
-      "variantKey": "ALPINE-MOSS-WB-500"
+      "variantKey": "FTW-SND-COMFORT-TAN-09"
     },
     {
-      "sku": "SAFFRON-GATE-WB-250",
+      "sku": "FTW-KID-VELCRO-BLU-11",
       "productKey": "product-18",
-      "variantKey": "SAFFRON-GATE-WB-250"
+      "variantKey": "FTW-KID-VELCRO-BLU-11"
     },
     {
-      "sku": "SAFFRON-GATE-GR-250",
+      "sku": "FTW-KID-VELCRO-BLU-12",
       "productKey": "product-18",
-      "variantKey": "SAFFRON-GATE-GR-250"
+      "variantKey": "FTW-KID-VELCRO-BLU-12"
     },
     {
-      "sku": "SAFFRON-GATE-WB-500",
+      "sku": "FTW-KID-VELCRO-BLU-13",
       "productKey": "product-18",
-      "variantKey": "SAFFRON-GATE-WB-500"
+      "variantKey": "FTW-KID-VELCRO-BLU-13"
     },
     {
-      "sku": "AFTERGLOW-WB-250",
+      "sku": "BAG-HANDBAG-EVERY-BLK-STD",
       "productKey": "product-19",
-      "variantKey": "AFTERGLOW-WB-250"
+      "variantKey": "BAG-HANDBAG-EVERY-BLK-STD"
     },
     {
-      "sku": "AFTERGLOW-GR-250",
+      "sku": "BAG-HANDBAG-EVERY-TAN-STD",
       "productKey": "product-19",
-      "variantKey": "AFTERGLOW-GR-250"
+      "variantKey": "BAG-HANDBAG-EVERY-TAN-STD"
     },
     {
-      "sku": "AFTERGLOW-WB-500",
+      "sku": "BAG-HANDBAG-EVERY-WNE-STD",
       "productKey": "product-19",
-      "variantKey": "AFTERGLOW-WB-500"
+      "variantKey": "BAG-HANDBAG-EVERY-WNE-STD"
     },
     {
-      "sku": "MEADOW-SIGNAL-WB-250",
+      "sku": "BAG-HANDBAG-EVERY-MNT-STD",
+      "productKey": "product-19",
+      "variantKey": "BAG-HANDBAG-EVERY-MNT-STD"
+    },
+    {
+      "sku": "BAG-BACKPACK-LAP-BLK-15L",
       "productKey": "product-20",
-      "variantKey": "MEADOW-SIGNAL-WB-250"
+      "variantKey": "BAG-BACKPACK-LAP-BLK-15L"
     },
     {
-      "sku": "MEADOW-SIGNAL-GR-250",
+      "sku": "BAG-BACKPACK-LAP-GRY-15L",
       "productKey": "product-20",
-      "variantKey": "MEADOW-SIGNAL-GR-250"
+      "variantKey": "BAG-BACKPACK-LAP-GRY-15L"
     },
     {
-      "sku": "MEADOW-SIGNAL-WB-500",
+      "sku": "BAG-BACKPACK-LAP-NAV-17L",
       "productKey": "product-20",
-      "variantKey": "MEADOW-SIGNAL-WB-500"
+      "variantKey": "BAG-BACKPACK-LAP-NAV-17L"
     },
     {
-      "sku": "EXPLORER-FLIGHT-WB-250",
+      "sku": "BAG-WALLET-TRAVEL-BLK-STD",
       "productKey": "product-21",
-      "variantKey": "EXPLORER-FLIGHT-WB-250"
+      "variantKey": "BAG-WALLET-TRAVEL-BLK-STD"
     },
     {
-      "sku": "EXPLORER-FLIGHT-GR-250",
+      "sku": "BAG-WALLET-TRAVEL-TAN-STD",
       "productKey": "product-21",
-      "variantKey": "EXPLORER-FLIGHT-GR-250"
+      "variantKey": "BAG-WALLET-TRAVEL-TAN-STD"
     },
     {
-      "sku": "EXPLORER-FLIGHT-WB-500",
+      "sku": "BAG-WALLET-TRAVEL-TEA-STD",
       "productKey": "product-21",
-      "variantKey": "EXPLORER-FLIGHT-WB-500"
+      "variantKey": "BAG-WALLET-TRAVEL-TEA-STD"
     },
     {
-      "sku": "BOLD-FLIGHT-WB-250",
+      "sku": "BPC-SERUM-DEWDROP-10ML",
       "productKey": "product-22",
-      "variantKey": "BOLD-FLIGHT-WB-250"
+      "variantKey": "BPC-SERUM-DEWDROP-10ML"
     },
     {
-      "sku": "BOLD-FLIGHT-GR-250",
+      "sku": "BPC-SERUM-DEWDROP-30ML",
       "productKey": "product-22",
-      "variantKey": "BOLD-FLIGHT-GR-250"
+      "variantKey": "BPC-SERUM-DEWDROP-30ML"
     },
     {
-      "sku": "BOLD-FLIGHT-WB-500",
-      "productKey": "product-22",
-      "variantKey": "BOLD-FLIGHT-WB-500"
-    },
-    {
-      "sku": "WEATHER-NOTES-TRIO-WB-250",
+      "sku": "BPC-LIP-VELVET-ROSE-3PC",
       "productKey": "product-23",
-      "variantKey": "WEATHER-NOTES-TRIO-WB-250"
+      "variantKey": "BPC-LIP-VELVET-ROSE-3PC"
     },
     {
-      "sku": "WEATHER-NOTES-TRIO-GR-250",
+      "sku": "BPC-LIP-VELVET-NUDE-3PC",
       "productKey": "product-23",
-      "variantKey": "WEATHER-NOTES-TRIO-GR-250"
+      "variantKey": "BPC-LIP-VELVET-NUDE-3PC"
     },
     {
-      "sku": "WEATHER-NOTES-TRIO-WB-500",
+      "sku": "BPC-LIP-VELVET-BERRY-3PC",
       "productKey": "product-23",
-      "variantKey": "WEATHER-NOTES-TRIO-WB-500"
+      "variantKey": "BPC-LIP-VELVET-BERRY-3PC"
     },
     {
-      "sku": "WEEKEND-BREW-SET-WB-250",
+      "sku": "BPC-SHAMPOO-HERB-250ML",
       "productKey": "product-24",
-      "variantKey": "WEEKEND-BREW-SET-WB-250"
+      "variantKey": "BPC-SHAMPOO-HERB-250ML"
     },
     {
-      "sku": "WEEKEND-BREW-SET-GR-250",
+      "sku": "BPC-SHAMPOO-HERB-500ML",
       "productKey": "product-24",
-      "variantKey": "WEEKEND-BREW-SET-GR-250"
+      "variantKey": "BPC-SHAMPOO-HERB-500ML"
     },
     {
-      "sku": "WEEKEND-BREW-SET-WB-500",
-      "productKey": "product-24",
-      "variantKey": "WEEKEND-BREW-SET-WB-500"
-    },
-    {
-      "sku": "EVERYDAY-GROUND-SET-WB-250",
+      "sku": "HOM-COOK-GRANITE-2PC",
       "productKey": "product-25",
-      "variantKey": "EVERYDAY-GROUND-SET-WB-250"
+      "variantKey": "HOM-COOK-GRANITE-2PC"
     },
     {
-      "sku": "EVERYDAY-GROUND-SET-GR-250",
+      "sku": "HOM-COOK-GRANITE-5PC",
       "productKey": "product-25",
-      "variantKey": "EVERYDAY-GROUND-SET-GR-250"
+      "variantKey": "HOM-COOK-GRANITE-5PC"
     },
     {
-      "sku": "EVERYDAY-GROUND-SET-WB-500",
+      "sku": "HOM-COOK-GRANITE-7PC",
       "productKey": "product-25",
-      "variantKey": "EVERYDAY-GROUND-SET-WB-500"
+      "variantKey": "HOM-COOK-GRANITE-7PC"
+    },
+    {
+      "sku": "HOM-BOX-STORAGE-3PC",
+      "productKey": "product-26",
+      "variantKey": "HOM-BOX-STORAGE-3PC"
+    },
+    {
+      "sku": "HOM-BOX-STORAGE-6PC",
+      "productKey": "product-26",
+      "variantKey": "HOM-BOX-STORAGE-6PC"
+    },
+    {
+      "sku": "HOM-DINE-MEADOW-12PC",
+      "productKey": "product-27",
+      "variantKey": "HOM-DINE-MEADOW-12PC"
+    },
+    {
+      "sku": "HOM-DINE-MEADOW-18PC",
+      "productKey": "product-27",
+      "variantKey": "HOM-DINE-MEADOW-18PC"
+    },
+    {
+      "sku": "HOM-CLEAN-FRESH-BASIC",
+      "productKey": "product-28",
+      "variantKey": "HOM-CLEAN-FRESH-BASIC"
+    },
+    {
+      "sku": "HOM-CLEAN-FRESH-PLUS",
+      "productKey": "product-28",
+      "variantKey": "HOM-CLEAN-FRESH-PLUS"
+    },
+    {
+      "sku": "ELE-PHN-NOVA-BLK-128",
+      "productKey": "product-29",
+      "variantKey": "ELE-PHN-NOVA-BLK-128"
+    },
+    {
+      "sku": "ELE-PHN-NOVA-BLK-256",
+      "productKey": "product-29",
+      "variantKey": "ELE-PHN-NOVA-BLK-256"
+    },
+    {
+      "sku": "ELE-PHN-NOVA-BLU-128",
+      "productKey": "product-29",
+      "variantKey": "ELE-PHN-NOVA-BLU-128"
+    },
+    {
+      "sku": "ELE-PHN-NOVA-BLU-256",
+      "productKey": "product-29",
+      "variantKey": "ELE-PHN-NOVA-BLU-256"
+    },
+    {
+      "sku": "ELE-EAR-AIRLOOP-WHT-STD",
+      "productKey": "product-30",
+      "variantKey": "ELE-EAR-AIRLOOP-WHT-STD"
+    },
+    {
+      "sku": "ELE-EAR-AIRLOOP-BLK-STD",
+      "productKey": "product-30",
+      "variantKey": "ELE-EAR-AIRLOOP-BLK-STD"
+    },
+    {
+      "sku": "ELE-WAT-PULSE-BLK-STD",
+      "productKey": "product-31",
+      "variantKey": "ELE-WAT-PULSE-BLK-STD"
+    },
+    {
+      "sku": "ELE-WAT-PULSE-BLU-STD",
+      "productKey": "product-31",
+      "variantKey": "ELE-WAT-PULSE-BLU-STD"
+    },
+    {
+      "sku": "ELE-WAT-PULSE-ROS-STD",
+      "productKey": "product-31",
+      "variantKey": "ELE-WAT-PULSE-ROS-STD"
+    },
+    {
+      "sku": "DEC-LMP-HALO-WHT-STD",
+      "productKey": "product-32",
+      "variantKey": "DEC-LMP-HALO-WHT-STD"
+    },
+    {
+      "sku": "DEC-LMP-HALO-AMB-STD",
+      "productKey": "product-32",
+      "variantKey": "DEC-LMP-HALO-AMB-STD"
+    },
+    {
+      "sku": "DEC-ART-GALLERY-3PC",
+      "productKey": "product-33",
+      "variantKey": "DEC-ART-GALLERY-3PC"
+    },
+    {
+      "sku": "DEC-ART-GALLERY-5PC",
+      "productKey": "product-33",
+      "variantKey": "DEC-ART-GALLERY-5PC"
+    },
+    {
+      "sku": "DEC-VASE-TERRA-SML",
+      "productKey": "product-34",
+      "variantKey": "DEC-VASE-TERRA-SML"
+    },
+    {
+      "sku": "DEC-VASE-TERRA-MED",
+      "productKey": "product-34",
+      "variantKey": "DEC-VASE-TERRA-MED"
+    },
+    {
+      "sku": "TLS-TOOL-FORGE-12PC",
+      "productKey": "product-35",
+      "variantKey": "TLS-TOOL-FORGE-12PC"
+    },
+    {
+      "sku": "TLS-TOOL-FORGE-24PC",
+      "productKey": "product-35",
+      "variantKey": "TLS-TOOL-FORGE-24PC"
+    },
+    {
+      "sku": "TLS-FIT-BANDS-LIGHT",
+      "productKey": "product-36",
+      "variantKey": "TLS-FIT-BANDS-LIGHT"
+    },
+    {
+      "sku": "TLS-FIT-BANDS-HEAVY",
+      "productKey": "product-36",
+      "variantKey": "TLS-FIT-BANDS-HEAVY"
+    },
+    {
+      "sku": "TLS-ORG-PACK-3PC",
+      "productKey": "product-37",
+      "variantKey": "TLS-ORG-PACK-3PC"
+    },
+    {
+      "sku": "TLS-ORG-PACK-6PC",
+      "productKey": "product-37",
+      "variantKey": "TLS-ORG-PACK-6PC"
     }
   ]
 }

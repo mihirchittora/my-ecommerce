@@ -20,34 +20,162 @@
     }
   ],
   "unitsPerSkuByLocation": {
-    "WH-MUM": 2,
+    "WH-MUM": 1,
     "WH-DEL": 1,
-    "WH-BLR": 1
+    "WH-BLR": 0
   },
-  "receiptReferencePrefix": "DEMO-RECEIPT",
+  "extraUnits": [
+    {
+      "sku": "WFT-SAR-COTTON-BLU-FS",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-SAR-COTTON-GRN-FS",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-SAR-COTTON-MAR-FS",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-SAR-COTTON-YLW-FS",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-KUR-EMB-PNK-S",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-KUR-EMB-PNK-M",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-KUR-EMB-PNK-L",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-KUR-EMB-BLU-M",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-KUR-EMB-BLU-XL",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-DRS-FLORAL-YLW-S",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-DRS-FLORAL-YLW-M",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-DRS-FLORAL-BLK-M",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-SET-LINEN-IVY-S",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-SET-LINEN-IVY-M",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-SET-LINEN-IVY-L",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-COORD-LOUNGE-SAGE-S",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-COORD-LOUNGE-SAGE-M",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "WFT-COORD-LOUNGE-SAGE-L",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "MFT-TSH-COTTON-BLK-S",
+      "locationCode": "WH-BLR",
+      "quantity": 1
+    },
+    {
+      "sku": "MFT-TSH-COTTON-BLK-M",
+      "locationCode": "WH-MUM",
+      "quantity": 1
+    }
+  ],
+  "receiptReferencePrefix": "DEMO-RECEIPT-V2",
   "reservationScenarios": [
     {
-      "key": "reserved-cart-checkout",
-      "sku": "EVERYDAY-GROUND-SET-WB-250",
+      "key": "reserved-stock",
+      "sku": "BAG-BACKPACK-LAP-BLK-15L",
       "locationCode": "WH-MUM",
-      "quantity": 2,
-      "referenceId": "DEMO-RESERVATION-001"
+      "quantity": 1,
+      "referenceId": "DEMO-MARKETPLACE-RESERVATION-001"
     }
   ],
   "adjustmentScenarios": [
     {
       "key": "damaged-unit",
-      "sku": "HIGHLAND-COCOA-WB-250",
+      "sku": "ELE-PHN-NOVA-BLU-128",
       "locationCode": "WH-MUM",
+      "quantity": -1,
       "reason": "DAMAGE",
       "referenceId": "DEMO-DAMAGE-001"
     },
     {
       "key": "lost-unit",
-      "sku": "EMBER-VALLEY-GR-250",
+      "sku": "BPC-SHAMPOO-HERB-250ML",
       "locationCode": "WH-DEL",
+      "quantity": -1,
       "reason": "LOSS",
       "referenceId": "DEMO-LOSS-001"
+    },
+    {
+      "key": "low-stock",
+      "sku": "BAG-HANDBAG-EVERY-BLK-STD",
+      "locationCode": "WH-MUM",
+      "quantity": -1,
+      "reason": "LOSS",
+      "referenceId": "DEMO-LOW-STOCK-001"
+    },
+    {
+      "key": "out-of-stock",
+      "sku": "ELE-PHN-NOVA-BLK-256",
+      "locationCode": "WH-MUM",
+      "quantity": -1,
+      "reason": "DAMAGE",
+      "referenceId": "DEMO-OOS-MUM-001"
+    },
+    {
+      "key": "out-of-stock",
+      "sku": "ELE-PHN-NOVA-BLK-256",
+      "locationCode": "WH-DEL",
+      "quantity": -1,
+      "reason": "DAMAGE",
+      "referenceId": "DEMO-OOS-DEL-001"
     }
   ]
 }

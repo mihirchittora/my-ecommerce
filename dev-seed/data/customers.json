@@ -1,5 +1,5 @@
 {
-  "seedVersion": "1.0.0",
+  "seedVersion": "2.0.0",
   "customers": [
     {
       "key": "customer01",
@@ -80,6 +80,26 @@
       "city": "Jaipur",
       "state": "Rajasthan",
       "postalCode": "302001"
+    },
+    {
+      "key": "customer09",
+      "email": "demo.customer09@example.test",
+      "firstName": "Demo",
+      "lastName": "Customer 09",
+      "phone": "+919000000009",
+      "city": "Lucknow",
+      "state": "Uttar Pradesh",
+      "postalCode": "226001"
+    },
+    {
+      "key": "customer10",
+      "email": "demo.customer10@example.test",
+      "firstName": "Demo",
+      "lastName": "Customer 10",
+      "phone": "+919000000010",
+      "city": "Ahmedabad",
+      "state": "Gujarat",
+      "postalCode": "380001"
     }
   ]
 }

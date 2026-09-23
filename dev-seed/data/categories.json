@@ -1,50 +1,290 @@
 [
   {
-    "key": "coffee",
-    "name": "Coffee",
-    "slug": "coffee",
+    "key": "womens-fashion",
+    "name": "Women's Fashion",
+    "slug": "womens-fashion",
     "parentKey": null
   },
   {
-    "key": "single-estate",
-    "name": "Single Estate",
-    "slug": "single-estate",
-    "parentKey": "coffee"
+    "key": "womens-sarees",
+    "name": "Sarees",
+    "slug": "womens-sarees",
+    "parentKey": "womens-fashion"
   },
   {
-    "key": "blends",
-    "name": "Blends",
-    "slug": "blends",
-    "parentKey": "coffee"
+    "key": "womens-kurtis",
+    "name": "Kurtis",
+    "slug": "womens-kurtis",
+    "parentKey": "womens-fashion"
   },
   {
-    "key": "sampler-packs",
-    "name": "Sampler Packs",
-    "slug": "sampler-packs",
-    "parentKey": "coffee"
+    "key": "womens-dresses",
+    "name": "Dresses",
+    "slug": "womens-dresses",
+    "parentKey": "womens-fashion"
   },
   {
-    "key": "light-roast",
-    "name": "Light Roast",
-    "slug": "light-roast",
-    "parentKey": "coffee"
+    "key": "womens-ethnic-sets",
+    "name": "Ethnic Sets",
+    "slug": "womens-ethnic-sets",
+    "parentKey": "womens-fashion"
   },
   {
-    "key": "medium-roast",
-    "name": "Medium Roast",
-    "slug": "medium-roast",
-    "parentKey": "coffee"
+    "key": "mens-fashion",
+    "name": "Men's Fashion",
+    "slug": "mens-fashion",
+    "parentKey": null
   },
   {
-    "key": "medium-dark-roast",
-    "name": "Medium Dark Roast",
-    "slug": "medium-dark-roast",
-    "parentKey": "coffee"
+    "key": "mens-tshirts",
+    "name": "T-Shirts",
+    "slug": "mens-tshirts",
+    "parentKey": "mens-fashion"
   },
   {
-    "key": "dark-roast",
-    "name": "Dark Roast",
-    "slug": "dark-roast",
-    "parentKey": "coffee"
+    "key": "mens-shirts",
+    "name": "Shirts",
+    "slug": "mens-shirts",
+    "parentKey": "mens-fashion"
+  },
+  {
+    "key": "mens-trousers",
+    "name": "Trousers",
+    "slug": "mens-trousers",
+    "parentKey": "mens-fashion"
+  },
+  {
+    "key": "mens-jeans",
+    "name": "Jeans",
+    "slug": "mens-jeans",
+    "parentKey": "mens-fashion"
+  },
+  {
+    "key": "kids",
+    "name": "Kids",
+    "slug": "kids",
+    "parentKey": null
+  },
+  {
+    "key": "kids-clothing",
+    "name": "Kids Clothing",
+    "slug": "kids-clothing",
+    "parentKey": "kids"
+  },
+  {
+    "key": "toys-games",
+    "name": "Toys & Games",
+    "slug": "toys-games",
+    "parentKey": "kids"
+  },
+  {
+    "key": "school-essentials",
+    "name": "School Essentials",
+    "slug": "school-essentials",
+    "parentKey": "kids"
+  },
+  {
+    "key": "footwear",
+    "name": "Footwear",
+    "slug": "footwear",
+    "parentKey": null
+  },
+  {
+    "key": "womens-flats",
+    "name": "Women's Flats",
+    "slug": "womens-flats",
+    "parentKey": "footwear"
+  },
+  {
+    "key": "mens-sneakers",
+    "name": "Men's Sneakers",
+    "slug": "mens-sneakers",
+    "parentKey": "footwear"
+  },
+  {
+    "key": "sandals",
+    "name": "Sandals",
+    "slug": "sandals",
+    "parentKey": "footwear"
+  },
+  {
+    "key": "bags-accessories",
+    "name": "Bags & Accessories",
+    "slug": "bags-accessories",
+    "parentKey": null
+  },
+  {
+    "key": "handbags",
+    "name": "Handbags",
+    "slug": "handbags",
+    "parentKey": "bags-accessories"
+  },
+  {
+    "key": "backpacks",
+    "name": "Backpacks",
+    "slug": "backpacks",
+    "parentKey": "bags-accessories"
+  },
+  {
+    "key": "wallets",
+    "name": "Wallets",
+    "slug": "wallets",
+    "parentKey": "bags-accessories"
+  },
+  {
+    "key": "travel-accessories",
+    "name": "Travel Accessories",
+    "slug": "travel-accessories",
+    "parentKey": "bags-accessories"
+  },
+  {
+    "key": "beauty-personal-care",
+    "name": "Beauty & Personal Care",
+    "slug": "beauty-personal-care",
+    "parentKey": null
+  },
+  {
+    "key": "makeup",
+    "name": "Makeup",
+    "slug": "makeup",
+    "parentKey": "beauty-personal-care"
+  },
+  {
+    "key": "skincare",
+    "name": "Skincare",
+    "slug": "skincare",
+    "parentKey": "beauty-personal-care"
+  },
+  {
+    "key": "haircare",
+    "name": "Haircare",
+    "slug": "haircare",
+    "parentKey": "beauty-personal-care"
+  },
+  {
+    "key": "personal-care",
+    "name": "Personal Care",
+    "slug": "personal-care",
+    "parentKey": "beauty-personal-care"
+  },
+  {
+    "key": "home-kitchen",
+    "name": "Home & Kitchen",
+    "slug": "home-kitchen",
+    "parentKey": null
+  },
+  {
+    "key": "cookware",
+    "name": "Cookware",
+    "slug": "cookware",
+    "parentKey": "home-kitchen"
+  },
+  {
+    "key": "storage",
+    "name": "Storage",
+    "slug": "storage",
+    "parentKey": "home-kitchen"
+  },
+  {
+    "key": "dining",
+    "name": "Dining",
+    "slug": "dining",
+    "parentKey": "home-kitchen"
+  },
+  {
+    "key": "cleaning",
+    "name": "Cleaning",
+    "slug": "cleaning",
+    "parentKey": "home-kitchen"
+  },
+  {
+    "key": "electronics",
+    "name": "Electronics",
+    "slug": "electronics",
+    "parentKey": null
+  },
+  {
+    "key": "smartphones",
+    "name": "Smartphones",
+    "slug": "smartphones",
+    "parentKey": "electronics"
+  },
+  {
+    "key": "earphones",
+    "name": "Earphones",
+    "slug": "earphones",
+    "parentKey": "electronics"
+  },
+  {
+    "key": "smartwatches",
+    "name": "Smartwatches",
+    "slug": "smartwatches",
+    "parentKey": "electronics"
+  },
+  {
+    "key": "electronics-accessories",
+    "name": "Accessories",
+    "slug": "electronics-accessories",
+    "parentKey": "electronics"
+  },
+  {
+    "key": "home-decor",
+    "name": "Home Decor",
+    "slug": "home-decor",
+    "parentKey": null
+  },
+  {
+    "key": "lighting",
+    "name": "Lighting",
+    "slug": "lighting",
+    "parentKey": "home-decor"
+  },
+  {
+    "key": "wall-decor",
+    "name": "Wall Decor",
+    "slug": "wall-decor",
+    "parentKey": "home-decor"
+  },
+  {
+    "key": "decorative-items",
+    "name": "Decorative Items",
+    "slug": "decorative-items",
+    "parentKey": "home-decor"
+  },
+  {
+    "key": "organizers",
+    "name": "Organizers",
+    "slug": "organizers",
+    "parentKey": "home-decor"
+  },
+  {
+    "key": "tools-lifestyle",
+    "name": "Tools & Lifestyle",
+    "slug": "tools-lifestyle",
+    "parentKey": null
+  },
+  {
+    "key": "hand-tools",
+    "name": "Hand Tools",
+    "slug": "hand-tools",
+    "parentKey": "tools-lifestyle"
+  },
+  {
+    "key": "fitness-accessories",
+    "name": "Fitness Accessories",
+    "slug": "fitness-accessories",
+    "parentKey": "tools-lifestyle"
+  },
+  {
+    "key": "travel-utility",
+    "name": "Travel Accessories",
+    "slug": "travel-utility",
+    "parentKey": "tools-lifestyle"
+  },
+  {
+    "key": "utility-items",
+    "name": "Utility Items",
+    "slug": "utility-items",
+    "parentKey": "tools-lifestyle"
   }
 ]

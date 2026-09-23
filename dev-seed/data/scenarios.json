@@ -1,40 +1,105 @@
 {
-  "seedVersion": "1.0.0",
+  "seedVersion": "2.0.0",
   "scenarios": [
     {
-      "key": "catalog-browsing",
-      "description": "Browse products, categories, filters, variants, and local images."
+      "key": "womens-fashion-browsing",
+      "description": "Browse Women's Fashion products, color/size facets, galleries, and prices."
     },
     {
-      "key": "cart",
-      "customerKey": "customer03",
+      "key": "out-of-stock-variant",
+      "sku": "ELE-PHN-NOVA-BLK-256",
+      "description": "Nova Android Smartphone Black / 256GB has zero available physical units."
+    },
+    {
+      "key": "low-stock-product",
+      "sku": "BAG-HANDBAG-EVERY-BLK-STD",
+      "description": "Everyday Handbag Black / Standard retains one available unit."
+    },
+    {
+      "key": "cart-01",
+      "customerKey": "customer01",
       "items": [
         {
-          "sku": "RAINLINE-HONEY-WB-250",
-          "quantity": 1
-        },
-        {
-          "sku": "ORCHARD-PEAK-GR-250",
+          "sku": "MFT-TSH-COTTON-BLK-M",
           "quantity": 2
         }
       ]
     },
     {
-      "key": "checkout-success-delivered",
-      "customerKey": "customer01",
-      "orderReference": "DEMO-ORDER-001",
+      "key": "cart-02",
+      "customerKey": "customer02",
       "items": [
         {
-          "sku": "HIGHLAND-COCOA-WB-250",
-          "quantity": 1
-        },
-        {
-          "sku": "HIGHLAND-COCOA-GR-250",
+          "sku": "BAG-HANDBAG-EVERY-BLK-STD",
           "quantity": 1
         }
+      ]
+    },
+    {
+      "key": "cart-03",
+      "customerKey": "customer03",
+      "items": [
+        {
+          "sku": "ELE-PHN-NOVA-BLK-128",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "key": "cart-04",
+      "customerKey": "customer04",
+      "items": [
+        {
+          "sku": "WFT-SAR-COTTON-BLU-FS",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "key": "cart-05",
+      "customerKey": "customer05",
+      "items": [
+        {
+          "sku": "BPC-SERUM-DEWDROP-10ML",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "key": "cart-06",
+      "customerKey": "customer06",
+      "items": [
+        {
+          "sku": "HOM-COOK-GRANITE-2PC",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "key": "cart-07",
+      "customerKey": "customer07",
+      "items": [
+        {
+          "sku": "TLS-TOOL-FORGE-12PC",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "key": "checkout-online-delivered",
+      "customerKey": "customer01",
+      "orderReference": "DEMO-MARKETPLACE-ORDER-001",
+      "items": [
+        {
+          "sku": "MFT-TSH-COTTON-BLK-M",
+          "quantity": 2
+        }
       ],
+      "paymentMethod": "ONLINE",
       "payment": "CAPTURED",
       "tracking": [
+        "LABEL_CREATED",
+        "PICKED_UP",
         "IN_TRANSIT",
         "OUT_FOR_DELIVERY",
         "DELIVERED"
@@ -42,31 +107,60 @@
       "refund": true
     },
     {
-      "key": "payment-failure",
+      "key": "online-payment-failed",
       "customerKey": "customer02",
-      "orderReference": "DEMO-ORDER-002",
-      "sku": "EMBER-VALLEY-WB-250",
-      "quantity": 1,
+      "orderReference": "DEMO-MARKETPLACE-ORDER-002",
+      "items": [
+        {
+          "sku": "MFT-SHT-SLIM-WHT-M",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "ONLINE",
       "payment": "FAILED",
       "tracking": []
     },
     {
-      "key": "shipment-in-transit",
+      "key": "online-payment-pending",
       "customerKey": "customer03",
-      "orderReference": "DEMO-ORDER-003",
-      "sku": "CEDAR-BLOOM-WB-250",
-      "quantity": 1,
+      "orderReference": "DEMO-MARKETPLACE-ORDER-003",
+      "items": [
+        {
+          "sku": "MFT-TRS-REG-GRY-30",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "ONLINE",
+      "payment": "PENDING",
+      "tracking": []
+    },
+    {
+      "key": "online-in-transit",
+      "customerKey": "customer04",
+      "orderReference": "DEMO-MARKETPLACE-ORDER-004",
+      "items": [
+        {
+          "sku": "MFT-JNS-CLASSIC-IND-30",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "ONLINE",
       "payment": "CAPTURED",
       "tracking": [
         "IN_TRANSIT"
       ]
     },
     {
-      "key": "shipment-out-for-delivery",
-      "customerKey": "customer04",
-      "orderReference": "DEMO-ORDER-004",
-      "sku": "MONSOON-TRAIL-WB-250",
-      "quantity": 1,
+      "key": "online-out-for-delivery",
+      "customerKey": "customer05",
+      "orderReference": "DEMO-MARKETPLACE-ORDER-005",
+      "items": [
+        {
+          "sku": "MFT-PLO-TEXT-NAV-M",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "ONLINE",
       "payment": "CAPTURED",
       "tracking": [
         "IN_TRANSIT",
@@ -74,20 +168,130 @@
       ]
     },
     {
-      "key": "pending-payment",
-      "customerKey": "customer05",
-      "orderReference": "DEMO-ORDER-005",
-      "sku": "SUNLIT-SPICE-WB-250",
-      "quantity": 1,
+      "key": "cod-delivered-collected",
+      "customerKey": "customer06",
+      "orderReference": "DEMO-MARKETPLACE-ORDER-006",
+      "items": [
+        {
+          "sku": "KDS-SET-COTTON-BLU-4Y",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "CASH_ON_DELIVERY",
+      "payment": "COD_PENDING_COLLECTION",
+      "tracking": [
+        "IN_TRANSIT",
+        "OUT_FOR_DELIVERY",
+        "DELIVERED"
+      ],
+      "collectCod": true
+    },
+    {
+      "key": "cancelled-order",
+      "customerKey": "customer07",
+      "orderReference": "DEMO-MARKETPLACE-ORDER-007",
+      "items": [
+        {
+          "sku": "KDS-TOY-BLOCKS-48PC",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "ONLINE",
       "payment": "PENDING",
+      "tracking": [],
+      "cancel": true
+    },
+    {
+      "key": "online-shipped",
+      "customerKey": "customer08",
+      "orderReference": "DEMO-MARKETPLACE-ORDER-008",
+      "items": [
+        {
+          "sku": "FTW-FLT-EVERYDAY-BLK-07",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "ONLINE",
+      "payment": "CAPTURED",
       "tracking": []
     },
     {
+      "key": "cod-shipped",
+      "customerKey": "customer09",
+      "orderReference": "DEMO-MARKETPLACE-ORDER-009",
+      "items": [
+        {
+          "sku": "FTW-SNK-STREET-BLK-07",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "CASH_ON_DELIVERY",
+      "payment": "COD_PENDING_COLLECTION",
+      "tracking": [
+        "IN_TRANSIT"
+      ],
+      "collectCod": false
+    },
+    {
+      "key": "online-confirmed",
+      "customerKey": "customer10",
+      "orderReference": "DEMO-MARKETPLACE-ORDER-010",
+      "items": [
+        {
+          "sku": "BAG-WALLET-TRAVEL-BLK-STD",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "ONLINE",
+      "payment": "CAPTURED",
+      "tracking": [],
+      "createShipment": false
+    },
+    {
+      "key": "online-refund",
+      "customerKey": "customer03",
+      "orderReference": "DEMO-MARKETPLACE-ORDER-011",
+      "items": [
+        {
+          "sku": "BPC-SERUM-DEWDROP-30ML",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "ONLINE",
+      "payment": "CAPTURED",
+      "tracking": [],
+      "refund": true
+    },
+    {
+      "key": "cod-pending",
+      "customerKey": "customer04",
+      "orderReference": "DEMO-MARKETPLACE-ORDER-012",
+      "items": [
+        {
+          "sku": "TLS-ORG-PACK-3PC",
+          "quantity": 1
+        }
+      ],
+      "paymentMethod": "CASH_ON_DELIVERY",
+      "payment": "COD_PENDING_COLLECTION",
+      "tracking": [],
+      "createShipment": false
+    },
+    {
       "key": "historical-price-change",
-      "sku": "HIGHLAND-COCOA-WB-250",
-      "before": 700,
-      "after": 799,
-      "description": "Highland Cocoa demonstrates a reference price of INR 700 and current demo price of INR 799; order snapshots are immutable."
+      "sku": "MFT-TSH-COTTON-BLK-M",
+      "before": 349,
+      "after": 399,
+      "description": "Casual Cotton T-Shirt Black / M is staged at INR 349 during DEMO-MARKETPLACE-ORDER-001 creation, then restored to INR 399."
+    },
+    {
+      "key": "partial-shipment",
+      "supportedByCurrentService": false,
+      "description": "Documented scenario only: itemized Shipping requires the exact full reservation unit set, so partial itemized shipment is not executable without an API change."
+    },
+    {
+      "key": "multiple-inventory-locations",
+      "description": "Stock is distributed across WH-MUM, WH-DEL, and selected WH-BLR receipts."
     }
   ]
 }

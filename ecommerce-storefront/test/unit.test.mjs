@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { activeVariants, availabilityLabel, parseDiscoveryState, productIsOutOfStock, selectedVariant, variantIsUnavailable, wrapGalleryIndex } from "../lib/storefront-logic.ts";
+import { activeVariants, attributeValueHasVariant, availabilityLabel, parseDiscoveryState, productIsOutOfStock, selectedVariant, variantAttributeGroups, variantForAttributeSelection, variantIsUnavailable, wrapGalleryIndex } from "../lib/storefront-logic.ts";
 
 const variants = [
   { id: "1", sku: "M-BLK", price: 10, currency: "INR", attributes: { Color: "Black" }, status: "ACTIVE" },
@@ -34,6 +34,19 @@ test("unavailable variants are not purchasable and remain understandable", () =>
   assert.equal(variantIsUnavailable(variants[0], { sku: "M-BLK", available: true, message: "In stock" }), false);
 });
 
+test("attribute selectors resolve only valid variant combinations", () => {
+  const coffeeVariants = [
+    { id: "1", sku: "250-GROUND", price: 700, currency: "INR", attributes: { Size: "250g", Grind: "Ground" }, status: "ACTIVE" },
+    { id: "2", sku: "250-BEAN", price: 700, currency: "INR", attributes: { Size: "250g", Grind: "Whole Bean" }, status: "ACTIVE" },
+    { id: "3", sku: "500-GROUND", price: 1200, currency: "INR", attributes: { Size: "500g", Grind: "Ground" }, status: "INACTIVE" },
+  ];
+  assert.deepEqual(variantAttributeGroups(coffeeVariants), { Size: ["250g", "500g"], Grind: ["Ground", "Whole Bean"] });
+  assert.equal(variantForAttributeSelection(coffeeVariants, { Size: "250g", Grind: "Whole Bean" })?.sku, "250-BEAN");
+  assert.equal(variantForAttributeSelection(coffeeVariants, { Size: "500g", Grind: "Ground" }), null);
+  assert.equal(attributeValueHasVariant(coffeeVariants, { Size: "250g", Grind: "Ground" }, "Grind", "Whole Bean"), true);
+  assert.equal(attributeValueHasVariant(coffeeVariants, { Size: "250g", Grind: "Whole Bean" }, "Size", "500g"), false);
+});
+
 test("discovery state round-trips URL filters and supported sort values", () => {
   const state = parseDiscoveryState(new URLSearchParams("category=phones&availability=in_stock&priceMin=10000&priceMax=50000&brand=Acme&brand=Nova&attribute=color:Black&sort=createdAt,desc&page=2"));
   assert.deepEqual(state, {
@@ -47,6 +60,12 @@ test("discovery state round-trips URL filters and supported sort values", () => 
     attributes: ["color:Black"],
     sort: "createdAt,desc",
   });
+});
+
+test("missing price filters stay unset instead of becoming zero", () => {
+  const state = parseDiscoveryState(new URLSearchParams("category=coffee"));
+  assert.equal(state.priceMin, undefined);
+  assert.equal(state.priceMax, undefined);
 });
 
 test("gallery navigation wraps in both directions", () => {

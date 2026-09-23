@@ -1,1279 +1,1566 @@
 {
-  "seedVersion": "1.0.0",
+  "seedVersion": "2.0.0",
   "variants": [
     {
       "productKey": "product-01",
-      "productSlug": "highland-cocoa",
-      "key": "HIGHLAND-COCOA-WB-250",
-      "sku": "HIGHLAND-COCOA-WB-250",
-      "price": 799,
+      "productSlug": "printed-cotton-saree",
+      "key": "WFT-SAR-COTTON-BLU-FS",
+      "sku": "WFT-SAR-COTTON-BLU-FS",
+      "price": 999,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "FRENCH_PRESS"
+        "color": "Blue",
+        "size": "Free Size",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-01",
-      "productSlug": "highland-cocoa",
-      "key": "HIGHLAND-COCOA-GR-250",
-      "sku": "HIGHLAND-COCOA-GR-250",
-      "price": 799,
+      "productSlug": "printed-cotton-saree",
+      "key": "WFT-SAR-COTTON-GRN-FS",
+      "sku": "WFT-SAR-COTTON-GRN-FS",
+      "price": 999,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "FRENCH_PRESS"
+        "color": "Green",
+        "size": "Free Size",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-01",
-      "productSlug": "highland-cocoa",
-      "key": "HIGHLAND-COCOA-WB-500",
-      "sku": "HIGHLAND-COCOA-WB-500",
-      "price": 1438,
+      "productSlug": "printed-cotton-saree",
+      "key": "WFT-SAR-COTTON-MAR-FS",
+      "sku": "WFT-SAR-COTTON-MAR-FS",
+      "price": 1099,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "FRENCH_PRESS"
+        "color": "Maroon",
+        "size": "Free Size",
+        "material": "Cotton"
+      }
+    },
+    {
+      "productKey": "product-01",
+      "productSlug": "printed-cotton-saree",
+      "key": "WFT-SAR-COTTON-YLW-FS",
+      "sku": "WFT-SAR-COTTON-YLW-FS",
+      "price": 999,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Yellow",
+        "size": "Free Size",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-02",
-      "productSlug": "ember-valley",
-      "key": "EMBER-VALLEY-WB-250",
-      "sku": "EMBER-VALLEY-WB-250",
-      "price": 650,
+      "productSlug": "embroidered-everyday-kurti",
+      "key": "WFT-KUR-EMB-PNK-S",
+      "sku": "WFT-KUR-EMB-PNK-S",
+      "price": 799,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "ESPRESSO"
+        "color": "Pink",
+        "size": "S",
+        "material": "Rayon"
       }
     },
     {
       "productKey": "product-02",
-      "productSlug": "ember-valley",
-      "key": "EMBER-VALLEY-GR-250",
-      "sku": "EMBER-VALLEY-GR-250",
-      "price": 650,
+      "productSlug": "embroidered-everyday-kurti",
+      "key": "WFT-KUR-EMB-PNK-M",
+      "sku": "WFT-KUR-EMB-PNK-M",
+      "price": 799,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "ESPRESSO"
+        "color": "Pink",
+        "size": "M",
+        "material": "Rayon"
       }
     },
     {
       "productKey": "product-02",
-      "productSlug": "ember-valley",
-      "key": "EMBER-VALLEY-WB-500",
-      "sku": "EMBER-VALLEY-WB-500",
-      "price": 1170,
+      "productSlug": "embroidered-everyday-kurti",
+      "key": "WFT-KUR-EMB-PNK-L",
+      "sku": "WFT-KUR-EMB-PNK-L",
+      "price": 799,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "ESPRESSO"
+        "color": "Pink",
+        "size": "L",
+        "material": "Rayon"
+      }
+    },
+    {
+      "productKey": "product-02",
+      "productSlug": "embroidered-everyday-kurti",
+      "key": "WFT-KUR-EMB-BLU-M",
+      "sku": "WFT-KUR-EMB-BLU-M",
+      "price": 849,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Blue",
+        "size": "M",
+        "material": "Rayon"
+      }
+    },
+    {
+      "productKey": "product-02",
+      "productSlug": "embroidered-everyday-kurti",
+      "key": "WFT-KUR-EMB-BLU-XL",
+      "sku": "WFT-KUR-EMB-BLU-XL",
+      "price": 849,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Blue",
+        "size": "XL",
+        "material": "Rayon"
       }
     },
     {
       "productKey": "product-03",
-      "productSlug": "rainline-honey",
-      "key": "RAINLINE-HONEY-WB-250",
-      "sku": "RAINLINE-HONEY-WB-250",
-      "price": 800,
+      "productSlug": "casual-floral-midi-dress",
+      "key": "WFT-DRS-FLORAL-YLW-S",
+      "sku": "WFT-DRS-FLORAL-YLW-S",
+      "price": 899,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRUITY_PUNCHY",
-        "equipment": "POUROVER"
+        "color": "Yellow",
+        "size": "S",
+        "material": "Viscose"
       }
     },
     {
       "productKey": "product-03",
-      "productSlug": "rainline-honey",
-      "key": "RAINLINE-HONEY-GR-250",
-      "sku": "RAINLINE-HONEY-GR-250",
-      "price": 800,
+      "productSlug": "casual-floral-midi-dress",
+      "key": "WFT-DRS-FLORAL-YLW-M",
+      "sku": "WFT-DRS-FLORAL-YLW-M",
+      "price": 899,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRUITY_PUNCHY",
-        "equipment": "POUROVER"
+        "color": "Yellow",
+        "size": "M",
+        "material": "Viscose"
       }
     },
     {
       "productKey": "product-03",
-      "productSlug": "rainline-honey",
-      "key": "RAINLINE-HONEY-WB-500",
-      "sku": "RAINLINE-HONEY-WB-500",
-      "price": 1440,
+      "productSlug": "casual-floral-midi-dress",
+      "key": "WFT-DRS-FLORAL-BLK-M",
+      "sku": "WFT-DRS-FLORAL-BLK-M",
+      "price": 949,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRUITY_PUNCHY",
-        "equipment": "POUROVER"
+        "color": "Black",
+        "size": "M",
+        "material": "Viscose"
       }
     },
     {
       "productKey": "product-04",
-      "productSlug": "orchard-peak",
-      "key": "ORCHARD-PEAK-WB-250",
-      "sku": "ORCHARD-PEAK-WB-250",
-      "price": 850,
+      "productSlug": "linen-blend-ethnic-set",
+      "key": "WFT-SET-LINEN-IVY-S",
+      "sku": "WFT-SET-LINEN-IVY-S",
+      "price": 1299,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "POUROVER"
+        "color": "Ivory",
+        "size": "S",
+        "material": "Linen Blend"
       }
     },
     {
       "productKey": "product-04",
-      "productSlug": "orchard-peak",
-      "key": "ORCHARD-PEAK-GR-250",
-      "sku": "ORCHARD-PEAK-GR-250",
-      "price": 850,
+      "productSlug": "linen-blend-ethnic-set",
+      "key": "WFT-SET-LINEN-IVY-M",
+      "sku": "WFT-SET-LINEN-IVY-M",
+      "price": 1299,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "POUROVER"
+        "color": "Ivory",
+        "size": "M",
+        "material": "Linen Blend"
       }
     },
     {
       "productKey": "product-04",
-      "productSlug": "orchard-peak",
-      "key": "ORCHARD-PEAK-WB-500",
-      "sku": "ORCHARD-PEAK-WB-500",
-      "price": 1530,
+      "productSlug": "linen-blend-ethnic-set",
+      "key": "WFT-SET-LINEN-IVY-L",
+      "sku": "WFT-SET-LINEN-IVY-L",
+      "price": 1299,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "POUROVER"
+        "color": "Ivory",
+        "size": "L",
+        "material": "Linen Blend"
       }
     },
     {
       "productKey": "product-05",
-      "productSlug": "cedar-bloom",
-      "key": "CEDAR-BLOOM-WB-250",
-      "sku": "CEDAR-BLOOM-WB-250",
-      "price": 800,
+      "productSlug": "soft-lounge-co-ord-set",
+      "key": "WFT-COORD-LOUNGE-SAGE-S",
+      "sku": "WFT-COORD-LOUNGE-SAGE-S",
+      "price": 899,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "AEROPRESS"
+        "color": "Sage",
+        "size": "S",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-05",
-      "productSlug": "cedar-bloom",
-      "key": "CEDAR-BLOOM-GR-250",
-      "sku": "CEDAR-BLOOM-GR-250",
-      "price": 800,
+      "productSlug": "soft-lounge-co-ord-set",
+      "key": "WFT-COORD-LOUNGE-SAGE-M",
+      "sku": "WFT-COORD-LOUNGE-SAGE-M",
+      "price": 899,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "AEROPRESS"
+        "color": "Sage",
+        "size": "M",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-05",
-      "productSlug": "cedar-bloom",
-      "key": "CEDAR-BLOOM-WB-500",
-      "sku": "CEDAR-BLOOM-WB-500",
-      "price": 1440,
+      "productSlug": "soft-lounge-co-ord-set",
+      "key": "WFT-COORD-LOUNGE-SAGE-L",
+      "sku": "WFT-COORD-LOUNGE-SAGE-L",
+      "price": 899,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "AEROPRESS"
+        "color": "Sage",
+        "size": "L",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-06",
-      "productSlug": "monsoon-trail",
-      "key": "MONSOON-TRAIL-WB-250",
-      "sku": "MONSOON-TRAIL-WB-250",
-      "price": 700,
+      "productSlug": "casual-cotton-t-shirt",
+      "key": "MFT-TSH-COTTON-BLK-S",
+      "sku": "MFT-TSH-COTTON-BLK-S",
+      "price": 399,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "SOUTH_INDIAN_FILTER"
+        "color": "Black",
+        "size": "S",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-06",
-      "productSlug": "monsoon-trail",
-      "key": "MONSOON-TRAIL-GR-250",
-      "sku": "MONSOON-TRAIL-GR-250",
-      "price": 700,
+      "productSlug": "casual-cotton-t-shirt",
+      "key": "MFT-TSH-COTTON-BLK-M",
+      "sku": "MFT-TSH-COTTON-BLK-M",
+      "price": 399,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "SOUTH_INDIAN_FILTER"
+        "color": "Black",
+        "size": "M",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-06",
-      "productSlug": "monsoon-trail",
-      "key": "MONSOON-TRAIL-WB-500",
-      "sku": "MONSOON-TRAIL-WB-500",
-      "price": 1260,
+      "productSlug": "casual-cotton-t-shirt",
+      "key": "MFT-TSH-COTTON-BLK-L",
+      "sku": "MFT-TSH-COTTON-BLK-L",
+      "price": 399,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "SOUTH_INDIAN_FILTER"
+        "color": "Black",
+        "size": "L",
+        "material": "Cotton"
+      }
+    },
+    {
+      "productKey": "product-06",
+      "productSlug": "casual-cotton-t-shirt",
+      "key": "MFT-TSH-COTTON-BLK-XL",
+      "sku": "MFT-TSH-COTTON-BLK-XL",
+      "price": 399,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Black",
+        "size": "XL",
+        "material": "Cotton"
+      }
+    },
+    {
+      "productKey": "product-06",
+      "productSlug": "casual-cotton-t-shirt",
+      "key": "MFT-TSH-COTTON-BLU-M",
+      "sku": "MFT-TSH-COTTON-BLU-M",
+      "price": 449,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Blue",
+        "size": "M",
+        "material": "Cotton"
+      }
+    },
+    {
+      "productKey": "product-06",
+      "productSlug": "casual-cotton-t-shirt",
+      "key": "MFT-TSH-COTTON-BLU-L",
+      "sku": "MFT-TSH-COTTON-BLU-L",
+      "price": 449,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Blue",
+        "size": "L",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-07",
-      "productSlug": "sunlit-spice",
-      "key": "SUNLIT-SPICE-WB-250",
-      "sku": "SUNLIT-SPICE-WB-250",
-      "price": 800,
+      "productSlug": "slim-fit-casual-shirt",
+      "key": "MFT-SHT-SLIM-WHT-M",
+      "sku": "MFT-SHT-SLIM-WHT-M",
+      "price": 899,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "MOKA_POT"
+        "color": "White",
+        "size": "M",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-07",
-      "productSlug": "sunlit-spice",
-      "key": "SUNLIT-SPICE-GR-250",
-      "sku": "SUNLIT-SPICE-GR-250",
-      "price": 800,
+      "productSlug": "slim-fit-casual-shirt",
+      "key": "MFT-SHT-SLIM-WHT-L",
+      "sku": "MFT-SHT-SLIM-WHT-L",
+      "price": 899,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "MOKA_POT"
+        "color": "White",
+        "size": "L",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-07",
-      "productSlug": "sunlit-spice",
-      "key": "SUNLIT-SPICE-WB-500",
-      "sku": "SUNLIT-SPICE-WB-500",
-      "price": 1440,
+      "productSlug": "slim-fit-casual-shirt",
+      "key": "MFT-SHT-SLIM-BLU-M",
+      "sku": "MFT-SHT-SLIM-BLU-M",
+      "price": 949,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "MOKA_POT"
+        "color": "Blue",
+        "size": "M",
+        "material": "Cotton"
+      }
+    },
+    {
+      "productKey": "product-07",
+      "productSlug": "slim-fit-casual-shirt",
+      "key": "MFT-SHT-SLIM-BLU-L",
+      "sku": "MFT-SHT-SLIM-BLU-L",
+      "price": 949,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Blue",
+        "size": "L",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-08",
-      "productSlug": "nightjar-roast",
-      "key": "NIGHTJAR-ROAST-WB-250",
-      "sku": "NIGHTJAR-ROAST-WB-250",
-      "price": 750,
+      "productSlug": "regular-fit-everyday-trousers",
+      "key": "MFT-TRS-REG-GRY-30",
+      "sku": "MFT-TRS-REG-GRY-30",
+      "price": 1099,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "ESPRESSO"
+        "color": "Grey",
+        "size": "30",
+        "material": "Cotton Twill"
       }
     },
     {
       "productKey": "product-08",
-      "productSlug": "nightjar-roast",
-      "key": "NIGHTJAR-ROAST-GR-250",
-      "sku": "NIGHTJAR-ROAST-GR-250",
-      "price": 750,
+      "productSlug": "regular-fit-everyday-trousers",
+      "key": "MFT-TRS-REG-GRY-32",
+      "sku": "MFT-TRS-REG-GRY-32",
+      "price": 1099,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "ESPRESSO"
+        "color": "Grey",
+        "size": "32",
+        "material": "Cotton Twill"
       }
     },
     {
       "productKey": "product-08",
-      "productSlug": "nightjar-roast",
-      "key": "NIGHTJAR-ROAST-WB-500",
-      "sku": "NIGHTJAR-ROAST-WB-500",
-      "price": 1350,
+      "productSlug": "regular-fit-everyday-trousers",
+      "key": "MFT-TRS-REG-GRY-34",
+      "sku": "MFT-TRS-REG-GRY-34",
+      "price": 1099,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "ESPRESSO"
+        "color": "Grey",
+        "size": "34",
+        "material": "Cotton Twill"
+      }
+    },
+    {
+      "productKey": "product-08",
+      "productSlug": "regular-fit-everyday-trousers",
+      "key": "MFT-TRS-REG-GRY-36",
+      "sku": "MFT-TRS-REG-GRY-36",
+      "price": 1099,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Grey",
+        "size": "36",
+        "material": "Cotton Twill"
       }
     },
     {
       "productKey": "product-09",
-      "productSlug": "canyon-bloom",
-      "key": "CANYON-BLOOM-WB-250",
-      "sku": "CANYON-BLOOM-WB-250",
-      "price": 700,
+      "productSlug": "classic-denim-jeans",
+      "key": "MFT-JNS-CLASSIC-IND-30",
+      "sku": "MFT-JNS-CLASSIC-IND-30",
+      "price": 1399,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "FRENCH_PRESS"
+        "color": "Indigo",
+        "size": "30",
+        "material": "Denim"
       }
     },
     {
       "productKey": "product-09",
-      "productSlug": "canyon-bloom",
-      "key": "CANYON-BLOOM-GR-250",
-      "sku": "CANYON-BLOOM-GR-250",
-      "price": 700,
+      "productSlug": "classic-denim-jeans",
+      "key": "MFT-JNS-CLASSIC-IND-32",
+      "sku": "MFT-JNS-CLASSIC-IND-32",
+      "price": 1399,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "FRENCH_PRESS"
+        "color": "Indigo",
+        "size": "32",
+        "material": "Denim"
       }
     },
     {
       "productKey": "product-09",
-      "productSlug": "canyon-bloom",
-      "key": "CANYON-BLOOM-WB-500",
-      "sku": "CANYON-BLOOM-WB-500",
-      "price": 1260,
+      "productSlug": "classic-denim-jeans",
+      "key": "MFT-JNS-CLASSIC-IND-34",
+      "sku": "MFT-JNS-CLASSIC-IND-34",
+      "price": 1399,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "FRENCH_PRESS"
+        "color": "Indigo",
+        "size": "34",
+        "material": "Denim"
+      }
+    },
+    {
+      "productKey": "product-09",
+      "productSlug": "classic-denim-jeans",
+      "key": "MFT-JNS-CLASSIC-IND-36",
+      "sku": "MFT-JNS-CLASSIC-IND-36",
+      "price": 1399,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Indigo",
+        "size": "36",
+        "material": "Denim"
       }
     },
     {
       "productKey": "product-10",
-      "productSlug": "stonefruit-drift",
-      "key": "STONEFRUIT-DRIFT-WB-250",
-      "sku": "STONEFRUIT-DRIFT-WB-250",
-      "price": 1000,
+      "productSlug": "textured-polo-tee",
+      "key": "MFT-PLO-TEXT-NAV-M",
+      "sku": "MFT-PLO-TEXT-NAV-M",
+      "price": 599,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRUITY_PUNCHY",
-        "equipment": "POUROVER"
+        "color": "Navy",
+        "size": "M",
+        "material": "Cotton Pique"
       }
     },
     {
       "productKey": "product-10",
-      "productSlug": "stonefruit-drift",
-      "key": "STONEFRUIT-DRIFT-GR-250",
-      "sku": "STONEFRUIT-DRIFT-GR-250",
-      "price": 1000,
+      "productSlug": "textured-polo-tee",
+      "key": "MFT-PLO-TEXT-NAV-L",
+      "sku": "MFT-PLO-TEXT-NAV-L",
+      "price": 599,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRUITY_PUNCHY",
-        "equipment": "POUROVER"
+        "color": "Navy",
+        "size": "L",
+        "material": "Cotton Pique"
       }
     },
     {
       "productKey": "product-10",
-      "productSlug": "stonefruit-drift",
-      "key": "STONEFRUIT-DRIFT-WB-500",
-      "sku": "STONEFRUIT-DRIFT-WB-500",
-      "price": 1800,
+      "productSlug": "textured-polo-tee",
+      "key": "MFT-PLO-TEXT-OLV-XL",
+      "sku": "MFT-PLO-TEXT-OLV-XL",
+      "price": 649,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRUITY_PUNCHY",
-        "equipment": "POUROVER"
+        "color": "Olive",
+        "size": "XL",
+        "material": "Cotton Pique"
       }
     },
     {
       "productKey": "product-11",
-      "productSlug": "lantern-house",
-      "key": "LANTERN-HOUSE-WB-250",
-      "sku": "LANTERN-HOUSE-WB-250",
-      "price": 700,
+      "productSlug": "kids-cotton-play-set",
+      "key": "KDS-SET-COTTON-RED-2Y",
+      "sku": "KDS-SET-COTTON-RED-2Y",
+      "price": 699,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "AEROPRESS"
+        "color": "Red",
+        "size": "2-3Y",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-11",
-      "productSlug": "lantern-house",
-      "key": "LANTERN-HOUSE-GR-250",
-      "sku": "LANTERN-HOUSE-GR-250",
-      "price": 700,
+      "productSlug": "kids-cotton-play-set",
+      "key": "KDS-SET-COTTON-BLU-4Y",
+      "sku": "KDS-SET-COTTON-BLU-4Y",
+      "price": 699,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "AEROPRESS"
+        "color": "Blue",
+        "size": "4-5Y",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-11",
-      "productSlug": "lantern-house",
-      "key": "LANTERN-HOUSE-WB-500",
-      "sku": "LANTERN-HOUSE-WB-500",
-      "price": 1260,
+      "productSlug": "kids-cotton-play-set",
+      "key": "KDS-SET-COTTON-GRE-6Y",
+      "sku": "KDS-SET-COTTON-GRE-6Y",
+      "price": 749,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "AEROPRESS"
+        "color": "Green",
+        "size": "6-7Y",
+        "material": "Cotton"
+      }
+    },
+    {
+      "productKey": "product-11",
+      "productSlug": "kids-cotton-play-set",
+      "key": "KDS-SET-COTTON-PCH-8Y",
+      "sku": "KDS-SET-COTTON-PCH-8Y",
+      "price": 749,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Peach",
+        "size": "8-9Y",
+        "material": "Cotton"
       }
     },
     {
       "productKey": "product-12",
-      "productSlug": "riverbend-dark",
-      "key": "RIVERBEND-DARK-WB-250",
-      "sku": "RIVERBEND-DARK-WB-250",
-      "price": 800,
+      "productSlug": "build-and-learn-blocks",
+      "key": "KDS-TOY-BLOCKS-48PC",
+      "sku": "KDS-TOY-BLOCKS-48PC",
+      "price": 499,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "MOKA_POT"
+        "color": "Multi",
+        "size": "48 Pieces",
+        "material": "ABS Plastic"
       }
     },
     {
       "productKey": "product-12",
-      "productSlug": "riverbend-dark",
-      "key": "RIVERBEND-DARK-GR-250",
-      "sku": "RIVERBEND-DARK-GR-250",
-      "price": 800,
+      "productSlug": "build-and-learn-blocks",
+      "key": "KDS-TOY-BLOCKS-96PC",
+      "sku": "KDS-TOY-BLOCKS-96PC",
+      "price": 799,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "MOKA_POT"
-      }
-    },
-    {
-      "productKey": "product-12",
-      "productSlug": "riverbend-dark",
-      "key": "RIVERBEND-DARK-WB-500",
-      "sku": "RIVERBEND-DARK-WB-500",
-      "price": 1440,
-      "currency": "INR",
-      "status": "ACTIVE",
-      "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "MOKA_POT"
+        "color": "Multi",
+        "size": "96 Pieces",
+        "material": "ABS Plastic"
       }
     },
     {
       "productKey": "product-13",
-      "productSlug": "golden-canopy",
-      "key": "GOLDEN-CANOPY-WB-250",
-      "sku": "GOLDEN-CANOPY-WB-250",
-      "price": 800,
+      "productSlug": "school-day-backpack",
+      "key": "KDS-BAG-SCHOOL-BLU-12L",
+      "sku": "KDS-BAG-SCHOOL-BLU-12L",
+      "price": 699,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "POUROVER"
+        "color": "Blue",
+        "size": "12L",
+        "material": "Polyester"
       }
     },
     {
       "productKey": "product-13",
-      "productSlug": "golden-canopy",
-      "key": "GOLDEN-CANOPY-GR-250",
-      "sku": "GOLDEN-CANOPY-GR-250",
-      "price": 800,
+      "productSlug": "school-day-backpack",
+      "key": "KDS-BAG-SCHOOL-RED-18L",
+      "sku": "KDS-BAG-SCHOOL-RED-18L",
+      "price": 799,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "POUROVER"
+        "color": "Red",
+        "size": "18L",
+        "material": "Polyester"
       }
     },
     {
       "productKey": "product-13",
-      "productSlug": "golden-canopy",
-      "key": "GOLDEN-CANOPY-WB-500",
-      "sku": "GOLDEN-CANOPY-WB-500",
-      "price": 1440,
+      "productSlug": "school-day-backpack",
+      "key": "KDS-BAG-SCHOOL-GRN-20L",
+      "sku": "KDS-BAG-SCHOOL-GRN-20L",
+      "price": 899,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "POUROVER"
+        "color": "Green",
+        "size": "20L",
+        "material": "Polyester"
       }
     },
     {
       "productKey": "product-14",
-      "productSlug": "cloudline-estate",
-      "key": "CLOUDLINE-ESTATE-WB-250",
-      "sku": "CLOUDLINE-ESTATE-WB-250",
-      "price": 700,
+      "productSlug": "rainbow-art-kit",
+      "key": "KDS-ART-RNBW-24PC",
+      "sku": "KDS-ART-RNBW-24PC",
+      "price": 299,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "INVERTED_AEROPRESS"
+        "color": "Multi",
+        "size": "24 Pieces",
+        "material": "Non-toxic"
       }
     },
     {
       "productKey": "product-14",
-      "productSlug": "cloudline-estate",
-      "key": "CLOUDLINE-ESTATE-GR-250",
-      "sku": "CLOUDLINE-ESTATE-GR-250",
-      "price": 700,
+      "productSlug": "rainbow-art-kit",
+      "key": "KDS-ART-RNBW-48PC",
+      "sku": "KDS-ART-RNBW-48PC",
+      "price": 499,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "INVERTED_AEROPRESS"
-      }
-    },
-    {
-      "productKey": "product-14",
-      "productSlug": "cloudline-estate",
-      "key": "CLOUDLINE-ESTATE-WB-500",
-      "sku": "CLOUDLINE-ESTATE-WB-500",
-      "price": 1260,
-      "currency": "INR",
-      "status": "ACTIVE",
-      "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "INVERTED_AEROPRESS"
+        "color": "Multi",
+        "size": "48 Pieces",
+        "material": "Non-toxic"
       }
     },
     {
       "productKey": "product-15",
-      "productSlug": "hearth-blend",
-      "key": "HEARTH-BLEND-WB-250",
-      "sku": "HEARTH-BLEND-WB-250",
-      "price": 700,
+      "productSlug": "women-s-everyday-flats",
+      "key": "FTW-FLT-EVERYDAY-BLK-07",
+      "sku": "FTW-FLT-EVERYDAY-BLK-07",
+      "price": 699,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "FRENCH_PRESS"
+        "color": "Black",
+        "size": "7",
+        "material": "Synthetic"
       }
     },
     {
       "productKey": "product-15",
-      "productSlug": "hearth-blend",
-      "key": "HEARTH-BLEND-GR-250",
-      "sku": "HEARTH-BLEND-GR-250",
-      "price": 700,
+      "productSlug": "women-s-everyday-flats",
+      "key": "FTW-FLT-EVERYDAY-BLK-08",
+      "sku": "FTW-FLT-EVERYDAY-BLK-08",
+      "price": 699,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "FRENCH_PRESS"
+        "color": "Black",
+        "size": "8",
+        "material": "Synthetic"
       }
     },
     {
       "productKey": "product-15",
-      "productSlug": "hearth-blend",
-      "key": "HEARTH-BLEND-WB-500",
-      "sku": "HEARTH-BLEND-WB-500",
-      "price": 1260,
+      "productSlug": "women-s-everyday-flats",
+      "key": "FTW-FLT-EVERYDAY-BLK-09",
+      "sku": "FTW-FLT-EVERYDAY-BLK-09",
+      "price": 699,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "FRENCH_PRESS"
+        "color": "Black",
+        "size": "9",
+        "material": "Synthetic"
+      }
+    },
+    {
+      "productKey": "product-15",
+      "productSlug": "women-s-everyday-flats",
+      "key": "FTW-FLT-EVERYDAY-BEG-08",
+      "sku": "FTW-FLT-EVERYDAY-BEG-08",
+      "price": 749,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Beige",
+        "size": "8",
+        "material": "Synthetic"
       }
     },
     {
       "productKey": "product-16",
-      "productSlug": "porchlight-blend",
-      "key": "PORCHLIGHT-BLEND-WB-250",
-      "sku": "PORCHLIGHT-BLEND-WB-250",
-      "price": 700,
+      "productSlug": "men-s-street-sneakers",
+      "key": "FTW-SNK-STREET-BLK-07",
+      "sku": "FTW-SNK-STREET-BLK-07",
+      "price": 1599,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "SOUTH_INDIAN_FILTER"
+        "color": "Black",
+        "size": "7",
+        "material": "Mesh"
       }
     },
     {
       "productKey": "product-16",
-      "productSlug": "porchlight-blend",
-      "key": "PORCHLIGHT-BLEND-GR-250",
-      "sku": "PORCHLIGHT-BLEND-GR-250",
-      "price": 700,
+      "productSlug": "men-s-street-sneakers",
+      "key": "FTW-SNK-STREET-BLK-08",
+      "sku": "FTW-SNK-STREET-BLK-08",
+      "price": 1599,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "SOUTH_INDIAN_FILTER"
+        "color": "Black",
+        "size": "8",
+        "material": "Mesh"
       }
     },
     {
       "productKey": "product-16",
-      "productSlug": "porchlight-blend",
-      "key": "PORCHLIGHT-BLEND-WB-500",
-      "sku": "PORCHLIGHT-BLEND-WB-500",
-      "price": 1260,
+      "productSlug": "men-s-street-sneakers",
+      "key": "FTW-SNK-STREET-BLK-09",
+      "sku": "FTW-SNK-STREET-BLK-09",
+      "price": 1599,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "SOUTH_INDIAN_FILTER"
+        "color": "Black",
+        "size": "9",
+        "material": "Mesh"
+      }
+    },
+    {
+      "productKey": "product-16",
+      "productSlug": "men-s-street-sneakers",
+      "key": "FTW-SNK-STREET-WHT-08",
+      "sku": "FTW-SNK-STREET-WHT-08",
+      "price": 1699,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "White",
+        "size": "8",
+        "material": "Mesh"
       }
     },
     {
       "productKey": "product-17",
-      "productSlug": "alpine-moss",
-      "key": "ALPINE-MOSS-WB-250",
-      "sku": "ALPINE-MOSS-WB-250",
-      "price": 850,
+      "productSlug": "casual-comfort-sandals",
+      "key": "FTW-SND-COMFORT-TAN-07",
+      "sku": "FTW-SND-COMFORT-TAN-07",
+      "price": 599,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "POUROVER"
+        "color": "Tan",
+        "size": "7",
+        "material": "EVA"
       }
     },
     {
       "productKey": "product-17",
-      "productSlug": "alpine-moss",
-      "key": "ALPINE-MOSS-GR-250",
-      "sku": "ALPINE-MOSS-GR-250",
-      "price": 850,
+      "productSlug": "casual-comfort-sandals",
+      "key": "FTW-SND-COMFORT-TAN-08",
+      "sku": "FTW-SND-COMFORT-TAN-08",
+      "price": 599,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "POUROVER"
+        "color": "Tan",
+        "size": "8",
+        "material": "EVA"
       }
     },
     {
       "productKey": "product-17",
-      "productSlug": "alpine-moss",
-      "key": "ALPINE-MOSS-WB-500",
-      "sku": "ALPINE-MOSS-WB-500",
-      "price": 1530,
+      "productSlug": "casual-comfort-sandals",
+      "key": "FTW-SND-COMFORT-TAN-09",
+      "sku": "FTW-SND-COMFORT-TAN-09",
+      "price": 599,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "POUROVER"
+        "color": "Tan",
+        "size": "9",
+        "material": "EVA"
       }
     },
     {
       "productKey": "product-18",
-      "productSlug": "saffron-gate",
-      "key": "SAFFRON-GATE-WB-250",
-      "sku": "SAFFRON-GATE-WB-250",
-      "price": 700,
+      "productSlug": "kids-velcro-sneakers",
+      "key": "FTW-KID-VELCRO-BLU-11",
+      "sku": "FTW-KID-VELCRO-BLU-11",
+      "price": 799,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "EXPERIMENTAL",
-        "equipment": "CHANNI"
+        "color": "Blue",
+        "size": "11",
+        "material": "Mesh"
       }
     },
     {
       "productKey": "product-18",
-      "productSlug": "saffron-gate",
-      "key": "SAFFRON-GATE-GR-250",
-      "sku": "SAFFRON-GATE-GR-250",
-      "price": 700,
+      "productSlug": "kids-velcro-sneakers",
+      "key": "FTW-KID-VELCRO-BLU-12",
+      "sku": "FTW-KID-VELCRO-BLU-12",
+      "price": 799,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "EXPERIMENTAL",
-        "equipment": "CHANNI"
+        "color": "Blue",
+        "size": "12",
+        "material": "Mesh"
       }
     },
     {
       "productKey": "product-18",
-      "productSlug": "saffron-gate",
-      "key": "SAFFRON-GATE-WB-500",
-      "sku": "SAFFRON-GATE-WB-500",
-      "price": 1260,
+      "productSlug": "kids-velcro-sneakers",
+      "key": "FTW-KID-VELCRO-BLU-13",
+      "sku": "FTW-KID-VELCRO-BLU-13",
+      "price": 849,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "EXPERIMENTAL",
-        "equipment": "CHANNI"
+        "color": "Blue",
+        "size": "13",
+        "material": "Mesh"
       }
     },
     {
       "productKey": "product-19",
-      "productSlug": "afterglow",
-      "key": "AFTERGLOW-WB-250",
-      "sku": "AFTERGLOW-WB-250",
-      "price": 650,
+      "productSlug": "everyday-handbag",
+      "key": "BAG-HANDBAG-EVERY-BLK-STD",
+      "sku": "BAG-HANDBAG-EVERY-BLK-STD",
+      "price": 899,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "ESPRESSO"
+        "color": "Black",
+        "size": "Standard",
+        "material": "Faux Leather"
       }
     },
     {
       "productKey": "product-19",
-      "productSlug": "afterglow",
-      "key": "AFTERGLOW-GR-250",
-      "sku": "AFTERGLOW-GR-250",
-      "price": 650,
+      "productSlug": "everyday-handbag",
+      "key": "BAG-HANDBAG-EVERY-TAN-STD",
+      "sku": "BAG-HANDBAG-EVERY-TAN-STD",
+      "price": 899,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "ESPRESSO"
+        "color": "Tan",
+        "size": "Standard",
+        "material": "Faux Leather"
       }
     },
     {
       "productKey": "product-19",
-      "productSlug": "afterglow",
-      "key": "AFTERGLOW-WB-500",
-      "sku": "AFTERGLOW-WB-500",
-      "price": 1170,
+      "productSlug": "everyday-handbag",
+      "key": "BAG-HANDBAG-EVERY-WNE-STD",
+      "sku": "BAG-HANDBAG-EVERY-WNE-STD",
+      "price": 949,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "ESPRESSO"
+        "color": "Wine",
+        "size": "Standard",
+        "material": "Faux Leather"
+      }
+    },
+    {
+      "productKey": "product-19",
+      "productSlug": "everyday-handbag",
+      "key": "BAG-HANDBAG-EVERY-MNT-STD",
+      "sku": "BAG-HANDBAG-EVERY-MNT-STD",
+      "price": 899,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Mint",
+        "size": "Standard",
+        "material": "Faux Leather"
       }
     },
     {
       "productKey": "product-20",
-      "productSlug": "meadow-signal",
-      "key": "MEADOW-SIGNAL-WB-250",
-      "sku": "MEADOW-SIGNAL-WB-250",
-      "price": 750,
+      "productSlug": "laptop-backpack",
+      "key": "BAG-BACKPACK-LAP-BLK-15L",
+      "sku": "BAG-BACKPACK-LAP-BLK-15L",
+      "price": 1299,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "COLD_BREW"
+        "color": "Black",
+        "size": "15L",
+        "material": "Polyester"
       }
     },
     {
       "productKey": "product-20",
-      "productSlug": "meadow-signal",
-      "key": "MEADOW-SIGNAL-GR-250",
-      "sku": "MEADOW-SIGNAL-GR-250",
-      "price": 750,
+      "productSlug": "laptop-backpack",
+      "key": "BAG-BACKPACK-LAP-GRY-15L",
+      "sku": "BAG-BACKPACK-LAP-GRY-15L",
+      "price": 1299,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "COLD_BREW"
+        "color": "Grey",
+        "size": "15L",
+        "material": "Polyester"
       }
     },
     {
       "productKey": "product-20",
-      "productSlug": "meadow-signal",
-      "key": "MEADOW-SIGNAL-WB-500",
-      "sku": "MEADOW-SIGNAL-WB-500",
-      "price": 1350,
+      "productSlug": "laptop-backpack",
+      "key": "BAG-BACKPACK-LAP-NAV-17L",
+      "sku": "BAG-BACKPACK-LAP-NAV-17L",
+      "price": 1499,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "COLD_BREW"
+        "color": "Navy",
+        "size": "17L",
+        "material": "Polyester"
       }
     },
     {
       "productKey": "product-21",
-      "productSlug": "explorer-flight",
-      "key": "EXPLORER-FLIGHT-WB-250",
-      "sku": "EXPLORER-FLIGHT-WB-250",
-      "price": 1170,
+      "productSlug": "travel-wallet",
+      "key": "BAG-WALLET-TRAVEL-BLK-STD",
+      "sku": "BAG-WALLET-TRAVEL-BLK-STD",
+      "price": 499,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "EXPERIMENTAL",
-        "equipment": "AEROPRESS"
+        "color": "Black",
+        "size": "Standard",
+        "material": "Vegan Leather"
       }
     },
     {
       "productKey": "product-21",
-      "productSlug": "explorer-flight",
-      "key": "EXPLORER-FLIGHT-GR-250",
-      "sku": "EXPLORER-FLIGHT-GR-250",
-      "price": 1170,
+      "productSlug": "travel-wallet",
+      "key": "BAG-WALLET-TRAVEL-TAN-STD",
+      "sku": "BAG-WALLET-TRAVEL-TAN-STD",
+      "price": 499,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "EXPERIMENTAL",
-        "equipment": "AEROPRESS"
+        "color": "Tan",
+        "size": "Standard",
+        "material": "Vegan Leather"
       }
     },
     {
       "productKey": "product-21",
-      "productSlug": "explorer-flight",
-      "key": "EXPLORER-FLIGHT-WB-500",
-      "sku": "EXPLORER-FLIGHT-WB-500",
-      "price": 2106,
+      "productSlug": "travel-wallet",
+      "key": "BAG-WALLET-TRAVEL-TEA-STD",
+      "sku": "BAG-WALLET-TRAVEL-TEA-STD",
+      "price": 549,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "EXPERIMENTAL",
-        "equipment": "AEROPRESS"
+        "color": "Teal",
+        "size": "Standard",
+        "material": "Vegan Leather"
       }
     },
     {
       "productKey": "product-22",
-      "productSlug": "bold-flight",
-      "key": "BOLD-FLIGHT-WB-250",
-      "sku": "BOLD-FLIGHT-WB-250",
-      "price": 700,
+      "productSlug": "dewdrop-face-serum",
+      "key": "BPC-SERUM-DEWDROP-10ML",
+      "sku": "BPC-SERUM-DEWDROP-10ML",
+      "price": 599,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "MOKA_POT"
+        "color": "Clear",
+        "size": "10ml",
+        "material": "Plant-based blend",
+        "skinType": "All Skin"
       }
     },
     {
       "productKey": "product-22",
-      "productSlug": "bold-flight",
-      "key": "BOLD-FLIGHT-GR-250",
-      "sku": "BOLD-FLIGHT-GR-250",
-      "price": 700,
+      "productSlug": "dewdrop-face-serum",
+      "key": "BPC-SERUM-DEWDROP-30ML",
+      "sku": "BPC-SERUM-DEWDROP-30ML",
+      "price": 999,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "MOKA_POT"
-      }
-    },
-    {
-      "productKey": "product-22",
-      "productSlug": "bold-flight",
-      "key": "BOLD-FLIGHT-WB-500",
-      "sku": "BOLD-FLIGHT-WB-500",
-      "price": 1260,
-      "currency": "INR",
-      "status": "ACTIVE",
-      "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "MOKA_POT"
+        "color": "Clear",
+        "size": "30ml",
+        "material": "Plant-based blend",
+        "skinType": "All Skin"
       }
     },
     {
       "productKey": "product-23",
-      "productSlug": "weather-notes-trio",
-      "key": "WEATHER-NOTES-TRIO-WB-250",
-      "sku": "WEATHER-NOTES-TRIO-WB-250",
-      "price": 650,
+      "productSlug": "velvet-lip-color-set",
+      "key": "BPC-LIP-VELVET-ROSE-3PC",
+      "sku": "BPC-LIP-VELVET-ROSE-3PC",
+      "price": 699,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "FRENCH_PRESS"
+        "color": "Rose",
+        "size": "3 Shades",
+        "material": "Cream Finish"
       }
     },
     {
       "productKey": "product-23",
-      "productSlug": "weather-notes-trio",
-      "key": "WEATHER-NOTES-TRIO-GR-250",
-      "sku": "WEATHER-NOTES-TRIO-GR-250",
-      "price": 650,
+      "productSlug": "velvet-lip-color-set",
+      "key": "BPC-LIP-VELVET-NUDE-3PC",
+      "sku": "BPC-LIP-VELVET-NUDE-3PC",
+      "price": 699,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "FRENCH_PRESS"
+        "color": "Nude",
+        "size": "3 Shades",
+        "material": "Cream Finish"
       }
     },
     {
       "productKey": "product-23",
-      "productSlug": "weather-notes-trio",
-      "key": "WEATHER-NOTES-TRIO-WB-500",
-      "sku": "WEATHER-NOTES-TRIO-WB-500",
-      "price": 1170,
+      "productSlug": "velvet-lip-color-set",
+      "key": "BPC-LIP-VELVET-BERRY-3PC",
+      "sku": "BPC-LIP-VELVET-BERRY-3PC",
+      "price": 749,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "FRENCH_PRESS"
+        "color": "Berry",
+        "size": "3 Shades",
+        "material": "Cream Finish"
       }
     },
     {
       "productKey": "product-24",
-      "productSlug": "weekend-brew-set",
-      "key": "WEEKEND-BREW-SET-WB-250",
-      "sku": "WEEKEND-BREW-SET-WB-250",
-      "price": 700,
+      "productSlug": "herbal-shine-shampoo",
+      "key": "BPC-SHAMPOO-HERB-250ML",
+      "sku": "BPC-SHAMPOO-HERB-250ML",
+      "price": 349,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "POUROVER"
+        "color": "Amber",
+        "size": "250ml",
+        "material": "Herbal blend",
+        "hairType": "All Hair"
       }
     },
     {
       "productKey": "product-24",
-      "productSlug": "weekend-brew-set",
-      "key": "WEEKEND-BREW-SET-GR-250",
-      "sku": "WEEKEND-BREW-SET-GR-250",
-      "price": 700,
+      "productSlug": "herbal-shine-shampoo",
+      "key": "BPC-SHAMPOO-HERB-500ML",
+      "sku": "BPC-SHAMPOO-HERB-500ML",
+      "price": 599,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "POUROVER"
-      }
-    },
-    {
-      "productKey": "product-24",
-      "productSlug": "weekend-brew-set",
-      "key": "WEEKEND-BREW-SET-WB-500",
-      "sku": "WEEKEND-BREW-SET-WB-500",
-      "price": 1260,
-      "currency": "INR",
-      "status": "ACTIVE",
-      "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "POUROVER"
+        "color": "Amber",
+        "size": "500ml",
+        "material": "Herbal blend",
+        "hairType": "All Hair"
       }
     },
     {
       "productKey": "product-25",
-      "productSlug": "everyday-ground-set",
-      "key": "EVERYDAY-GROUND-SET-WB-250",
-      "sku": "EVERYDAY-GROUND-SET-WB-250",
-      "price": 700,
+      "productSlug": "granite-non-stick-cookware-set",
+      "key": "HOM-COOK-GRANITE-2PC",
+      "sku": "HOM-COOK-GRANITE-2PC",
+      "price": 1299,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "SOUTH_INDIAN_FILTER"
+        "color": "Black",
+        "size": "2 Pieces",
+        "material": "Aluminium"
       }
     },
     {
       "productKey": "product-25",
-      "productSlug": "everyday-ground-set",
-      "key": "EVERYDAY-GROUND-SET-GR-250",
-      "sku": "EVERYDAY-GROUND-SET-GR-250",
-      "price": 700,
+      "productSlug": "granite-non-stick-cookware-set",
+      "key": "HOM-COOK-GRANITE-5PC",
+      "sku": "HOM-COOK-GRANITE-5PC",
+      "price": 2199,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "GROUND",
-        "packSize": "250G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "SOUTH_INDIAN_FILTER"
+        "color": "Black",
+        "size": "5 Pieces",
+        "material": "Aluminium"
       }
     },
     {
       "productKey": "product-25",
-      "productSlug": "everyday-ground-set",
-      "key": "EVERYDAY-GROUND-SET-WB-500",
-      "sku": "EVERYDAY-GROUND-SET-WB-500",
-      "price": 1260,
+      "productSlug": "granite-non-stick-cookware-set",
+      "key": "HOM-COOK-GRANITE-7PC",
+      "sku": "HOM-COOK-GRANITE-7PC",
+      "price": 2999,
       "currency": "INR",
       "status": "ACTIVE",
       "attributes": {
-        "format": "WHOLE_BEAN",
-        "packSize": "500G",
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "SOUTH_INDIAN_FILTER"
+        "color": "Black",
+        "size": "7 Pieces",
+        "material": "Aluminium"
+      }
+    },
+    {
+      "productKey": "product-26",
+      "productSlug": "clearspace-storage-box-set",
+      "key": "HOM-BOX-STORAGE-3PC",
+      "sku": "HOM-BOX-STORAGE-3PC",
+      "price": 699,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Clear",
+        "size": "3 Pieces",
+        "material": "Food-safe Plastic"
+      }
+    },
+    {
+      "productKey": "product-26",
+      "productSlug": "clearspace-storage-box-set",
+      "key": "HOM-BOX-STORAGE-6PC",
+      "sku": "HOM-BOX-STORAGE-6PC",
+      "price": 1199,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Clear",
+        "size": "6 Pieces",
+        "material": "Food-safe Plastic"
+      }
+    },
+    {
+      "productKey": "product-27",
+      "productSlug": "meadow-dinner-set",
+      "key": "HOM-DINE-MEADOW-12PC",
+      "sku": "HOM-DINE-MEADOW-12PC",
+      "price": 1599,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Ivory",
+        "size": "12 Pieces",
+        "material": "Stoneware"
+      }
+    },
+    {
+      "productKey": "product-27",
+      "productSlug": "meadow-dinner-set",
+      "key": "HOM-DINE-MEADOW-18PC",
+      "sku": "HOM-DINE-MEADOW-18PC",
+      "price": 2299,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Ivory",
+        "size": "18 Pieces",
+        "material": "Stoneware"
+      }
+    },
+    {
+      "productKey": "product-28",
+      "productSlug": "freshstart-cleaning-kit",
+      "key": "HOM-CLEAN-FRESH-BASIC",
+      "sku": "HOM-CLEAN-FRESH-BASIC",
+      "price": 299,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Multi",
+        "size": "Basic Kit",
+        "material": "Microfiber"
+      }
+    },
+    {
+      "productKey": "product-28",
+      "productSlug": "freshstart-cleaning-kit",
+      "key": "HOM-CLEAN-FRESH-PLUS",
+      "sku": "HOM-CLEAN-FRESH-PLUS",
+      "price": 499,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Multi",
+        "size": "Plus Kit",
+        "material": "Microfiber"
+      }
+    },
+    {
+      "productKey": "product-29",
+      "productSlug": "nova-android-smartphone",
+      "key": "ELE-PHN-NOVA-BLK-128",
+      "sku": "ELE-PHN-NOVA-BLK-128",
+      "price": 14999,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Black",
+        "size": "128GB",
+        "storage": "128GB",
+        "ram": "8GB"
+      }
+    },
+    {
+      "productKey": "product-29",
+      "productSlug": "nova-android-smartphone",
+      "key": "ELE-PHN-NOVA-BLK-256",
+      "sku": "ELE-PHN-NOVA-BLK-256",
+      "price": 16999,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Black",
+        "size": "256GB",
+        "storage": "256GB",
+        "ram": "8GB"
+      }
+    },
+    {
+      "productKey": "product-29",
+      "productSlug": "nova-android-smartphone",
+      "key": "ELE-PHN-NOVA-BLU-128",
+      "sku": "ELE-PHN-NOVA-BLU-128",
+      "price": 14999,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Blue",
+        "size": "128GB",
+        "storage": "128GB",
+        "ram": "8GB"
+      }
+    },
+    {
+      "productKey": "product-29",
+      "productSlug": "nova-android-smartphone",
+      "key": "ELE-PHN-NOVA-BLU-256",
+      "sku": "ELE-PHN-NOVA-BLU-256",
+      "price": 16999,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Blue",
+        "size": "256GB",
+        "storage": "256GB",
+        "ram": "8GB"
+      }
+    },
+    {
+      "productKey": "product-30",
+      "productSlug": "airloop-wireless-earbuds",
+      "key": "ELE-EAR-AIRLOOP-WHT-STD",
+      "sku": "ELE-EAR-AIRLOOP-WHT-STD",
+      "price": 1999,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "White",
+        "size": "Standard",
+        "material": "ABS Plastic"
+      }
+    },
+    {
+      "productKey": "product-30",
+      "productSlug": "airloop-wireless-earbuds",
+      "key": "ELE-EAR-AIRLOOP-BLK-STD",
+      "sku": "ELE-EAR-AIRLOOP-BLK-STD",
+      "price": 1999,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Black",
+        "size": "Standard",
+        "material": "ABS Plastic"
+      }
+    },
+    {
+      "productKey": "product-31",
+      "productSlug": "pulsefit-smartwatch",
+      "key": "ELE-WAT-PULSE-BLK-STD",
+      "sku": "ELE-WAT-PULSE-BLK-STD",
+      "price": 2499,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Black",
+        "size": "Standard",
+        "material": "Aluminium"
+      }
+    },
+    {
+      "productKey": "product-31",
+      "productSlug": "pulsefit-smartwatch",
+      "key": "ELE-WAT-PULSE-BLU-STD",
+      "sku": "ELE-WAT-PULSE-BLU-STD",
+      "price": 2499,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Blue",
+        "size": "Standard",
+        "material": "Aluminium"
+      }
+    },
+    {
+      "productKey": "product-31",
+      "productSlug": "pulsefit-smartwatch",
+      "key": "ELE-WAT-PULSE-ROS-STD",
+      "sku": "ELE-WAT-PULSE-ROS-STD",
+      "price": 2599,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Rose",
+        "size": "Standard",
+        "material": "Aluminium"
+      }
+    },
+    {
+      "productKey": "product-32",
+      "productSlug": "halo-table-lamp",
+      "key": "DEC-LMP-HALO-WHT-STD",
+      "sku": "DEC-LMP-HALO-WHT-STD",
+      "price": 1299,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "White",
+        "size": "Standard",
+        "material": "Ceramic"
+      }
+    },
+    {
+      "productKey": "product-32",
+      "productSlug": "halo-table-lamp",
+      "key": "DEC-LMP-HALO-AMB-STD",
+      "sku": "DEC-LMP-HALO-AMB-STD",
+      "price": 1399,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Amber",
+        "size": "Standard",
+        "material": "Ceramic"
+      }
+    },
+    {
+      "productKey": "product-33",
+      "productSlug": "gallery-wall-art-set",
+      "key": "DEC-ART-GALLERY-3PC",
+      "sku": "DEC-ART-GALLERY-3PC",
+      "price": 899,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Multi",
+        "size": "3 Pieces",
+        "material": "Canvas"
+      }
+    },
+    {
+      "productKey": "product-33",
+      "productSlug": "gallery-wall-art-set",
+      "key": "DEC-ART-GALLERY-5PC",
+      "sku": "DEC-ART-GALLERY-5PC",
+      "price": 1299,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Multi",
+        "size": "5 Pieces",
+        "material": "Canvas"
+      }
+    },
+    {
+      "productKey": "product-34",
+      "productSlug": "terracotta-accent-vase",
+      "key": "DEC-VASE-TERRA-SML",
+      "sku": "DEC-VASE-TERRA-SML",
+      "price": 599,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Terracotta",
+        "size": "Small",
+        "material": "Ceramic"
+      }
+    },
+    {
+      "productKey": "product-34",
+      "productSlug": "terracotta-accent-vase",
+      "key": "DEC-VASE-TERRA-MED",
+      "sku": "DEC-VASE-TERRA-MED",
+      "price": 799,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Terracotta",
+        "size": "Medium",
+        "material": "Ceramic"
+      }
+    },
+    {
+      "productKey": "product-35",
+      "productSlug": "forge-multi-purpose-tool-kit",
+      "key": "TLS-TOOL-FORGE-12PC",
+      "sku": "TLS-TOOL-FORGE-12PC",
+      "price": 999,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Red",
+        "size": "12 Pieces",
+        "material": "Chrome Vanadium"
+      }
+    },
+    {
+      "productKey": "product-35",
+      "productSlug": "forge-multi-purpose-tool-kit",
+      "key": "TLS-TOOL-FORGE-24PC",
+      "sku": "TLS-TOOL-FORGE-24PC",
+      "price": 1599,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Red",
+        "size": "24 Pieces",
+        "material": "Chrome Vanadium"
+      }
+    },
+    {
+      "productKey": "product-36",
+      "productSlug": "flexi-resistance-band-set",
+      "key": "TLS-FIT-BANDS-LIGHT",
+      "sku": "TLS-FIT-BANDS-LIGHT",
+      "price": 399,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Multi",
+        "size": "Light Resistance",
+        "material": "Latex"
+      }
+    },
+    {
+      "productKey": "product-36",
+      "productSlug": "flexi-resistance-band-set",
+      "key": "TLS-FIT-BANDS-HEAVY",
+      "sku": "TLS-FIT-BANDS-HEAVY",
+      "price": 599,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Multi",
+        "size": "Heavy Resistance",
+        "material": "Latex"
+      }
+    },
+    {
+      "productKey": "product-37",
+      "productSlug": "packright-travel-organizer",
+      "key": "TLS-ORG-PACK-3PC",
+      "sku": "TLS-ORG-PACK-3PC",
+      "price": 699,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Grey",
+        "size": "3 Pieces",
+        "material": "Nylon"
+      }
+    },
+    {
+      "productKey": "product-37",
+      "productSlug": "packright-travel-organizer",
+      "key": "TLS-ORG-PACK-6PC",
+      "sku": "TLS-ORG-PACK-6PC",
+      "price": 999,
+      "currency": "INR",
+      "status": "ACTIVE",
+      "attributes": {
+        "color": "Grey",
+        "size": "6 Pieces",
+        "material": "Nylon"
       }
     }
   ]

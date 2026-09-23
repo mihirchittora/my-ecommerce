@@ -4,8 +4,9 @@
   "scripts": {
     "doctor": "node scripts/doctor.mjs",
     "seed": "node scripts/run-python.mjs dev-seed/scripts/seed.py",
-    "seed:reset": "node scripts/run-python.mjs dev-seed/scripts/seed.py --reset",
+    "seed:reset": "node scripts/run-python.mjs dev-seed/scripts/reset.py",
     "seed:validate": "node scripts/run-python.mjs dev-seed/scripts/seed.py --validate-only",
+    "seed:dry-run": "node scripts/run-python.mjs dev-seed/scripts/seed.py --dry-run",
     "seed:refresh-source": "node scripts/run-python.mjs dev-seed/scripts/seed.py --refresh-source",
     "seed:refresh-images": "node scripts/run-python.mjs dev-seed/scripts/seed.py --refresh-images",
     "dev:admin": "npm --prefix ecommerce-admin-ui run dev",

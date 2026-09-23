@@ -1,24 +1,2279 @@
 {
-  "seedVersion": "1.0.0",
-  "status": "not-run",
+  "seedVersion": "2.0.0",
+  "status": "completed",
   "datasetType": "DEVELOPMENT_DEMO_ONLY",
   "source": {
-    "name": "Blue Tokai reference catalog",
-    "url": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-    "note": "Synthetic local data; not Blue Tokai data. Run seed.sh to replace this template with API-returned IDs and counts."
+    "name": "Meesho public marketplace reference",
+    "url": "https://www.meesho.com/",
+    "note": "Reference metadata only; this is synthetic development data."
+  },
+  "lastRunAt": "2026-09-23T10:54:53Z",
+  "environment": "development",
+  "catalog": {
+    "categories": {
+      "womens-fashion": "90ac9335-a48b-4c7a-9306-8b5430e6bf02",
+      "womens-sarees": "859c6660-4c08-4ff7-b2e5-ed79cedb89ec",
+      "womens-kurtis": "addc51b2-d724-4354-a296-9174c7a29b30",
+      "womens-dresses": "0fdad15d-8f94-431d-adca-6beea5982959",
+      "womens-ethnic-sets": "0c8c87f0-a5b9-4fab-8848-87f9554ee5f1",
+      "mens-fashion": "426694bc-2333-42a2-a340-aa3c5c80844c",
+      "mens-tshirts": "8acf506e-dd8a-40ac-88b9-037b58ef9562",
+      "mens-shirts": "671df27d-7c1b-48d4-8cd1-c92e790e2a76",
+      "mens-trousers": "31296e68-1e31-4a14-b48b-4dc2f5610df5",
+      "mens-jeans": "ed9ca217-c490-463c-9df3-542cc8058f4e",
+      "kids": "bd9b5e07-8131-4917-8790-bf5f0970650a",
+      "kids-clothing": "23b64611-97e9-4d05-9395-592784f2e024",
+      "toys-games": "b31912a3-d662-4760-b681-27e03ee37448",
+      "school-essentials": "d8aef1a4-2a49-4883-a182-9bd3ee1618d4",
+      "footwear": "3a6b149d-11e8-4f91-892b-58ff8dbcbb1b",
+      "womens-flats": "adc74516-8b70-4753-9a90-2d80c8958599",
+      "mens-sneakers": "c97af67e-99aa-4d6c-81ff-615ecf18969f",
+      "sandals": "74916ea9-cec9-441f-9059-631b9df76d65",
+      "bags-accessories": "178d8218-3afa-4016-9398-97ed652aa853",
+      "handbags": "059bbe17-331b-458a-88a3-0d182647aa92",
+      "backpacks": "9748b87d-ee20-41ea-bb50-4d3ea2bbdf31",
+      "wallets": "e0be83ed-9f3f-4b15-9e7f-0b6f79b5d6de",
+      "travel-accessories": "99cd5a8e-76bc-41ca-add6-7c13cd314f8c",
+      "beauty-personal-care": "ec5914d9-962f-4531-9cab-e2ab5c2f306f",
+      "makeup": "1207c4b7-6c49-46f0-9b80-8e551d0780a5",
+      "skincare": "c84fa6cb-5463-4da0-a678-721b175fccdd",
+      "haircare": "583c598d-9757-439c-b69a-2722b3e22422",
+      "personal-care": "69af8ecb-fe09-4c4f-9537-501a460f3ad9",
+      "home-kitchen": "7cd36096-7c1c-4837-93c0-0a538e23387c",
+      "cookware": "765ee21a-80ae-40d3-b881-815fe9af7a5d",
+      "storage": "49c57ae1-1ab5-47f4-8e04-e54501a4a02d",
+      "dining": "be97f095-e6c0-4fcd-a7ba-629e23b70b5f",
+      "cleaning": "99eb8302-25cd-41e4-9c6f-cc91f52b9640",
+      "electronics": "363c98c4-970f-41f1-b68c-4c149b5aa3e2",
+      "smartphones": "66d717f4-bfae-4aab-8e23-b3ef260e2488",
+      "earphones": "6999c2b2-01b7-4194-a424-b3058e70f61c",
+      "smartwatches": "2c8088fe-b08a-491a-8200-944fba53d401",
+      "electronics-accessories": "e8b41635-e080-4b63-9a91-a72c1bf13323",
+      "home-decor": "878a078f-853e-4f83-82d1-c04b272f49eb",
+      "lighting": "ee4a0657-25cd-4980-94a9-61f9ccb21120",
+      "wall-decor": "b27a87b9-217b-4235-8766-f66e050d2303",
+      "decorative-items": "2d207449-59df-4fed-809d-b1190b92f2c7",
+      "organizers": "8962ba77-1f35-4e06-99c6-27f66c4b8646",
+      "tools-lifestyle": "54ab042e-2476-4574-a933-6179e0dfa16b",
+      "hand-tools": "8288b4a2-633f-4dbb-aa72-c0f05b8a5856",
+      "fitness-accessories": "32bdfc65-152c-4416-9938-44e43d0fa865",
+      "travel-utility": "97d80d12-ba9b-4011-b09d-b51e6070f740",
+      "utility-items": "2c9905c0-aee2-491f-953f-dbd5208da7f7"
+    },
+    "products": {
+      "product-01": "8746a144-39b4-46c5-a6c4-1fe8992f0cd1",
+      "product-02": "abcadfad-147b-4e0c-921a-134c2f6212bf",
+      "product-03": "ca2889a4-9912-47dc-bb92-7e75cd389206",
+      "product-04": "7854b302-78fa-43ed-b975-c390f7c644d0",
+      "product-05": "562aec1e-9f5d-4d04-a19f-84000c8f401f",
+      "product-06": "fb214b26-5e8c-4e39-a4c0-ba706dd68cce",
+      "product-07": "334d15be-8bc2-4733-bca9-ee0ae22fd7b2",
+      "product-08": "9a2b92b0-13ff-4f2c-b31d-73edb2696eb1",
+      "product-09": "273cff7b-0165-4a81-b7e1-922cd591b429",
+      "product-10": "a167f1cb-75e5-4072-b5c4-074771f9511e",
+      "product-11": "d9cb3577-b0a2-4777-a9f7-bd7f07ebf49f",
+      "product-12": "225eeaa6-45fb-488f-8340-c75b7cd270df",
+      "product-13": "95dec812-f65a-4729-b0fd-50e0aa7924b6",
+      "product-14": "d7f0b785-d852-4d5e-a016-0fecade0cbcb",
+      "product-15": "00c482a9-0ff4-4e25-af8e-c6d3d779b0e9",
+      "product-16": "bc673e96-86f5-4106-a69d-d2e408178f84",
+      "product-17": "dae3ecb4-f658-4cb5-a3fb-9fdd38c21a14",
+      "product-18": "14bb47f6-2ba7-4014-b189-52f1ef1ad122",
+      "product-19": "a26d726f-f31c-4670-aa85-35368a8eeb66",
+      "product-20": "5f21bcfb-620e-46cd-858b-16a2ac0d7d00",
+      "product-21": "f369725e-90e1-42b6-9db5-bcef0d06e8fe",
+      "product-22": "c0ea43c6-cb58-40e5-b5bc-6a45aef6c01a",
+      "product-23": "88bb298e-1d46-4803-9d17-57d37ce9447b",
+      "product-24": "751a1b91-37ab-4249-bc73-a41b26899237",
+      "product-25": "fc74f1bb-1222-446f-8e2f-fc3ae5a03380",
+      "product-26": "1cb87ebd-f315-41c6-975e-995f0b5a1e2a",
+      "product-27": "19c46542-e5af-4a40-b775-558b2c450d54",
+      "product-28": "4ad8f857-691f-4712-be15-6c481a1372d7",
+      "product-29": "c383aab9-069a-4ee6-a29b-51a372b78444",
+      "product-30": "4693654c-7326-4e6e-ab7f-ab7da8d3a181",
+      "product-31": "edb33d3d-6cd5-4f40-84a3-392768b46ac1",
+      "product-32": "3b597677-cb9b-4ca1-9c6c-acef14b2a8ee",
+      "product-33": "9b913ff9-9c6c-427b-a674-31843a6accb4",
+      "product-34": "354cba0f-c097-4065-b7a3-510b0275afbc",
+      "product-35": "1ad0ce6b-d14f-48f0-9a99-4c30bbd59d39",
+      "product-36": "2e8e683d-503d-4c06-913d-1e420b4c1677",
+      "product-37": "e4296569-2b77-4e97-9311-ab9ce4b6c31f"
+    },
+    "variants": {
+      "WFT-SAR-COTTON-BLU-FS": "6ccae2d1-4dcd-4738-a8bf-ca1bf01cdfc8",
+      "WFT-SAR-COTTON-GRN-FS": "b5ea8112-2bd6-441e-9902-a6c5d1054f79",
+      "WFT-SAR-COTTON-MAR-FS": "f152e4b1-be25-4912-a47a-f5aaa58fe83c",
+      "WFT-SAR-COTTON-YLW-FS": "6f2d2d3c-11c9-4f85-89a5-5c5001fa3c31",
+      "WFT-KUR-EMB-BLU-M": "ea8060d0-72ea-4a66-bd98-03e01934a9fd",
+      "WFT-KUR-EMB-BLU-XL": "f844e03c-b272-4ee4-b148-d5b09653defc",
+      "WFT-KUR-EMB-PNK-L": "96d112c9-c907-41e4-bd2c-8ef7c09815b1",
+      "WFT-KUR-EMB-PNK-M": "0c041fc6-4084-4b33-8b16-dfd24bc4c5e7",
+      "WFT-KUR-EMB-PNK-S": "b20e6bb1-ed49-45e2-93e8-d1c2343f3acf",
+      "WFT-DRS-FLORAL-BLK-M": "68cadc33-8ab7-4f74-b615-6fe31293f933",
+      "WFT-DRS-FLORAL-YLW-M": "9712fa2a-58a6-4226-8617-e8115b60fb84",
+      "WFT-DRS-FLORAL-YLW-S": "4bde8d44-08b4-48ea-8d57-d4696b572b12",
+      "WFT-SET-LINEN-IVY-L": "90969897-617b-41db-94ac-602d91f72c68",
+      "WFT-SET-LINEN-IVY-M": "fcf05d65-522f-40e9-ad42-1258d0c9887d",
+      "WFT-SET-LINEN-IVY-S": "d314a855-c856-4158-867d-aa7da7df5008",
+      "WFT-COORD-LOUNGE-SAGE-L": "ebe85b5c-56cc-4957-9785-8937b31949ee",
+      "WFT-COORD-LOUNGE-SAGE-M": "776db739-09d1-47dd-8d78-5f29884c80c8",
+      "WFT-COORD-LOUNGE-SAGE-S": "1ab8b043-4a64-49af-8480-cf8093033273",
+      "MFT-TSH-COTTON-BLK-L": "0255c510-5919-4d8c-8c34-837018233fd4",
+      "MFT-TSH-COTTON-BLK-M": "8472f607-c3b0-448e-a2b7-67eaf4223c65",
+      "MFT-TSH-COTTON-BLK-S": "0426e924-66c0-4dba-9534-6de74f0b9ed9",
+      "MFT-TSH-COTTON-BLK-XL": "e51486ca-d6a8-4091-a3b1-80f2bf912b8d",
+      "MFT-TSH-COTTON-BLU-L": "86294b2c-da92-47b0-8175-500b5c49e2a5",
+      "MFT-TSH-COTTON-BLU-M": "aaf1f458-9134-4343-9d3a-972f1dd4321a",
+      "MFT-SHT-SLIM-BLU-L": "0400d7d2-f3f8-4bf5-8958-549642175381",
+      "MFT-SHT-SLIM-BLU-M": "91b91daf-50bb-4ab3-a893-570ebedeb1f2",
+      "MFT-SHT-SLIM-WHT-L": "82c50844-cea2-4966-b411-7603d06c9ed6",
+      "MFT-SHT-SLIM-WHT-M": "f9f4dc79-67f4-4721-a387-0a4b88e0ff3f",
+      "MFT-TRS-REG-GRY-30": "22e48f76-2547-4fff-a82d-8e5685e9e12a",
+      "MFT-TRS-REG-GRY-32": "184790b4-ea7d-4377-b6db-a7487a014804",
+      "MFT-TRS-REG-GRY-34": "0af05947-e9f9-44f0-a88a-937792cba1b9",
+      "MFT-TRS-REG-GRY-36": "468aef64-1c74-4765-aec1-7b2fc005ab8a",
+      "MFT-JNS-CLASSIC-IND-30": "8ef10d99-5db9-4e0d-9eab-33544d64e645",
+      "MFT-JNS-CLASSIC-IND-32": "f2bfd89b-25c4-4704-af1b-7a2aa3ee7971",
+      "MFT-JNS-CLASSIC-IND-34": "97b8581f-0cd8-4554-8432-cb5dc45b34b8",
+      "MFT-JNS-CLASSIC-IND-36": "db9e813d-0e8a-46a5-9af2-22989f276b27",
+      "MFT-PLO-TEXT-NAV-L": "d74201a6-3cd8-4c63-8a9f-18f966d2a537",
+      "MFT-PLO-TEXT-NAV-M": "8f64f057-05e8-4a83-abd5-49267370cccc",
+      "MFT-PLO-TEXT-OLV-XL": "a54e1e3b-b9ce-4a43-aeb5-070a2c9d1dfe",
+      "KDS-SET-COTTON-BLU-4Y": "1051f478-0620-441a-8814-5bf95051d60c",
+      "KDS-SET-COTTON-GRE-6Y": "22a78f3a-019c-495c-97ed-9bba522df255",
+      "KDS-SET-COTTON-PCH-8Y": "5172d560-0f98-4d2d-8518-5bc184d59ff4",
+      "KDS-SET-COTTON-RED-2Y": "b3c3b33d-6fff-4c4f-89fd-132e4b222a6c",
+      "KDS-TOY-BLOCKS-48PC": "9e684833-a8da-424f-8e76-5cab96078de4",
+      "KDS-TOY-BLOCKS-96PC": "4492ef46-6327-4698-9dbb-0bc1b6862268",
+      "KDS-BAG-SCHOOL-BLU-12L": "6a81c8b9-1fad-441b-835a-1354ef5d84c8",
+      "KDS-BAG-SCHOOL-GRN-20L": "b6fb69b3-46d8-4527-94f3-1749f1c6bfdf",
+      "KDS-BAG-SCHOOL-RED-18L": "1c2a963d-777b-4439-9675-42f26bcc25fa",
+      "KDS-ART-RNBW-24PC": "b66715c7-fb8e-424b-ac55-d144b938050f",
+      "KDS-ART-RNBW-48PC": "9b2cbc7f-3951-40e7-83fa-30014b264a3b",
+      "FTW-FLT-EVERYDAY-BEG-08": "6faa1944-ea91-406f-b1f6-10c8292ccfbf",
+      "FTW-FLT-EVERYDAY-BLK-07": "c5d27ea6-e086-4e08-8b28-f4d31a9a5fb1",
+      "FTW-FLT-EVERYDAY-BLK-08": "28b27719-0cd3-4e2a-9ebb-d4ff8acf8bfb",
+      "FTW-FLT-EVERYDAY-BLK-09": "477d3db8-3ea1-4808-ac00-8a91f56ece1e",
+      "FTW-SNK-STREET-BLK-07": "df69c8df-026b-4068-a0dc-148d5b16a704",
+      "FTW-SNK-STREET-BLK-08": "50968458-5c8e-4b36-ba17-770eec00f986",
+      "FTW-SNK-STREET-BLK-09": "978314e4-04d0-44f0-8e51-aea7ec89ae01",
+      "FTW-SNK-STREET-WHT-08": "3550ea43-e06b-4f11-bf1f-474ab0d0c6de",
+      "FTW-SND-COMFORT-TAN-07": "2a105f16-acf2-44a2-b183-b92d5f5a2c87",
+      "FTW-SND-COMFORT-TAN-08": "228c0023-4d5f-4df0-9867-7a589b95bd06",
+      "FTW-SND-COMFORT-TAN-09": "a13cf690-c196-4d4c-8b99-4224316ea009",
+      "FTW-KID-VELCRO-BLU-11": "96e3f012-1611-47de-b5bd-e7685dabbd9f",
+      "FTW-KID-VELCRO-BLU-12": "fe6f741c-bab6-4150-8f79-4e5565d83e5d",
+      "FTW-KID-VELCRO-BLU-13": "8215ad6b-88dc-4d17-94d9-ec5aa7e8e442",
+      "BAG-HANDBAG-EVERY-BLK-STD": "1570649f-a8ed-4687-8eb3-da95fc096183",
+      "BAG-HANDBAG-EVERY-MNT-STD": "e8595a8d-70c7-4198-8591-916c8399728f",
+      "BAG-HANDBAG-EVERY-TAN-STD": "e30e6599-ff70-49c4-9b5f-6e352488b2a2",
+      "BAG-HANDBAG-EVERY-WNE-STD": "ed168eb3-0286-40eb-94c3-02e77b9f627d",
+      "BAG-BACKPACK-LAP-BLK-15L": "5ca2424f-42d3-4bed-82a2-3e0a598c043e",
+      "BAG-BACKPACK-LAP-GRY-15L": "cfe89e2b-f00e-4ae2-a0c1-9b1605b45e04",
+      "BAG-BACKPACK-LAP-NAV-17L": "5ac645de-a2a8-4fac-a1e7-eaa6b603429d",
+      "BAG-WALLET-TRAVEL-BLK-STD": "0946fac9-0d58-4a6f-99ea-3f915a5eb73e",
+      "BAG-WALLET-TRAVEL-TAN-STD": "7e093aa3-2251-403f-8c2e-f58d4c4840fa",
+      "BAG-WALLET-TRAVEL-TEA-STD": "bc73084d-1e98-46b5-b4ff-261bfa09b76c",
+      "BPC-SERUM-DEWDROP-10ML": "13a24728-efdd-4d07-913e-0754ef23d260",
+      "BPC-SERUM-DEWDROP-30ML": "ebb817a8-d0ca-4f55-acbd-fd5b9ab99aa9",
+      "BPC-LIP-VELVET-BERRY-3PC": "a85afc27-dced-4b4c-aa5c-4b134853d590",
+      "BPC-LIP-VELVET-NUDE-3PC": "489134c1-b660-4441-87c9-9d49dee0e59f",
+      "BPC-LIP-VELVET-ROSE-3PC": "65987bf0-32c9-4ac3-b677-bd18184930ed",
+      "BPC-SHAMPOO-HERB-250ML": "2dc0796c-f946-49ab-9efb-a7b4e16505f6",
+      "BPC-SHAMPOO-HERB-500ML": "49eac5de-f1d1-4fad-9a21-03350dd516d1",
+      "HOM-COOK-GRANITE-2PC": "0ab9b594-3923-4faf-b807-c9960f9541af",
+      "HOM-COOK-GRANITE-5PC": "7c61e7de-ab2b-4212-abdd-198615488f9e",
+      "HOM-COOK-GRANITE-7PC": "e7f5b042-ef77-4460-a089-c83b52612ce3",
+      "HOM-BOX-STORAGE-3PC": "1d1527cd-f111-4b6c-af95-19af058f0983",
+      "HOM-BOX-STORAGE-6PC": "da552d39-9f15-4ed1-bca0-287d0ea528c3",
+      "HOM-DINE-MEADOW-12PC": "6320f59d-c733-4d6e-8ed1-f80fcac8d145",
+      "HOM-DINE-MEADOW-18PC": "f2536225-ce87-418b-87f8-32514f9393b8",
+      "HOM-CLEAN-FRESH-BASIC": "ed394f05-923d-4792-a5e8-50e9325647d8",
+      "HOM-CLEAN-FRESH-PLUS": "d6ab140d-7ee0-4af4-920d-cb32488c0452",
+      "ELE-PHN-NOVA-BLK-128": "717372b9-e42f-4190-a704-7eac96e691f9",
+      "ELE-PHN-NOVA-BLK-256": "685060ca-cd50-410f-bd30-e5a8be496162",
+      "ELE-PHN-NOVA-BLU-128": "6757c481-39c6-4db4-bae8-c78eeab2c7ba",
+      "ELE-PHN-NOVA-BLU-256": "2cbeff45-64ac-4e34-a7f6-3ad459eae287",
+      "ELE-EAR-AIRLOOP-BLK-STD": "09a7859c-57e3-475c-9cb0-92f3864050d1",
+      "ELE-EAR-AIRLOOP-WHT-STD": "986369cc-2826-4444-a0a9-76f5c26833b9",
+      "ELE-WAT-PULSE-BLK-STD": "fcaceee1-fd23-4476-8c1b-12bc65b22e61",
+      "ELE-WAT-PULSE-BLU-STD": "8c0af51a-a1bb-4ae9-aefb-a9d3e7b12511",
+      "ELE-WAT-PULSE-ROS-STD": "1f12e0aa-818f-40e8-a49a-8675c9577580",
+      "DEC-LMP-HALO-AMB-STD": "5c3e70a8-04be-40c9-9e52-a78ef61fa286",
+      "DEC-LMP-HALO-WHT-STD": "118bf3cf-a6e1-4b33-98e1-b3fa31ca9de9",
+      "DEC-ART-GALLERY-3PC": "780f589c-be42-433a-847c-d8e1a4a7efd8",
+      "DEC-ART-GALLERY-5PC": "0a70e3d3-9db2-4361-ac7e-b8cb4ae90dde",
+      "DEC-VASE-TERRA-MED": "1e1597fa-1bcc-4ae7-b21c-506aeaed062c",
+      "DEC-VASE-TERRA-SML": "543020c6-b923-4bc9-9261-2282790894fb",
+      "TLS-TOOL-FORGE-12PC": "51168e6e-005d-4caf-b818-59c2cd4926b9",
+      "TLS-TOOL-FORGE-24PC": "2760efe3-5158-4153-bf2b-eb1a9dfe074f",
+      "TLS-FIT-BANDS-HEAVY": "3008bc9d-b462-429e-9895-556b6ebf43ac",
+      "TLS-FIT-BANDS-LIGHT": "83d056dd-0732-43a0-b9a6-0a1ac83acb87",
+      "TLS-ORG-PACK-3PC": "1ad42b8d-acc4-497e-8747-d471c194e703",
+      "TLS-ORG-PACK-6PC": "cf2f6318-0fae-4b23-830c-35b893b82293"
+    },
+    "images": {
+      "printed-cotton-saree/printed-cotton-saree-01.png": "7cec5d69-e757-41ed-9b9a-7e537fe25e52",
+      "embroidered-everyday-kurti/embroidered-everyday-kurti-01.png": "c63c7272-b2e0-4231-bf0e-8ac11aaba4a1",
+      "embroidered-everyday-kurti/embroidered-everyday-kurti-02.png": "48c0e19c-9573-42cc-a19a-d35321b6d13c",
+      "casual-floral-midi-dress/casual-floral-midi-dress-01.png": "7ee7c52a-890a-4fc7-9b99-b739af59545f",
+      "casual-floral-midi-dress/casual-floral-midi-dress-02.png": "48307ebd-9aad-48d3-a4b7-a6663e94c157",
+      "casual-floral-midi-dress/casual-floral-midi-dress-03.png": "5110f36e-d86d-407b-a2d0-c1ee30913c31",
+      "linen-blend-ethnic-set/linen-blend-ethnic-set-01.png": "3e5fa329-858b-4b08-97da-622e2e3fc60f",
+      "linen-blend-ethnic-set/linen-blend-ethnic-set-02.png": "0de4aea5-7a61-4ac8-89df-150655cba3bb",
+      "linen-blend-ethnic-set/linen-blend-ethnic-set-03.png": "548ac981-d749-4a58-a68a-538222367574",
+      "linen-blend-ethnic-set/linen-blend-ethnic-set-04.png": "8dc22a08-9549-44a3-88b9-be72d8d3398a",
+      "soft-lounge-co-ord-set/soft-lounge-co-ord-set-01.png": "e65893e5-a3c6-4cb2-a519-053623c3b3bc",
+      "casual-cotton-t-shirt/casual-cotton-t-shirt-01.png": "1cde6a6b-1314-4d6c-b3b0-1727e8b3888d",
+      "casual-cotton-t-shirt/casual-cotton-t-shirt-02.png": "8e4c1a9e-af1a-40d1-97ef-5cc2080f7163",
+      "slim-fit-casual-shirt/slim-fit-casual-shirt-01.png": "b7575314-c93b-4b84-9e2e-2ae6f8f8cc8f",
+      "slim-fit-casual-shirt/slim-fit-casual-shirt-02.png": "3eb67012-1285-4405-9d0a-bf4265714692",
+      "slim-fit-casual-shirt/slim-fit-casual-shirt-03.png": "5ae95a67-dc02-43b8-912c-c1f96d809634",
+      "regular-fit-everyday-trousers/regular-fit-everyday-trousers-01.png": "43a11fb3-e9e6-46cb-9304-97b17e3802a8",
+      "regular-fit-everyday-trousers/regular-fit-everyday-trousers-02.png": "b130c965-9f3f-4154-a668-79707d7ff324",
+      "regular-fit-everyday-trousers/regular-fit-everyday-trousers-03.png": "1b5374e7-2399-44b7-9711-fef8db23c870",
+      "regular-fit-everyday-trousers/regular-fit-everyday-trousers-04.png": "c710db08-b751-487b-a152-3257e4bd13cd",
+      "classic-denim-jeans/classic-denim-jeans-01.png": "b2b0a186-bf55-425f-bf18-6e63b40823ff",
+      "textured-polo-tee/textured-polo-tee-01.png": "9fbd2ce1-ba13-49a0-bf02-a756f3f6da99",
+      "textured-polo-tee/textured-polo-tee-02.png": "35b73931-ce30-4adb-88f9-9b429a1a77d0",
+      "kids-cotton-play-set/kids-cotton-play-set-01.png": "f6a3ac05-9e79-44fb-89b6-7a540067e04b",
+      "kids-cotton-play-set/kids-cotton-play-set-02.png": "9fcb8c03-46d3-4c91-b9de-d7d08c955c58",
+      "kids-cotton-play-set/kids-cotton-play-set-03.png": "770da92c-4324-46fc-b910-022897b9e2d8",
+      "build-and-learn-blocks/build-and-learn-blocks-01.png": "e53e2eb8-39b1-4b60-bcd0-ebd88f208709",
+      "build-and-learn-blocks/build-and-learn-blocks-02.png": "bf1102db-1db1-4a55-8f2f-ee4ec51b9ea6",
+      "build-and-learn-blocks/build-and-learn-blocks-03.png": "cbda90a4-5272-485e-8b13-f5ac0f942dce",
+      "build-and-learn-blocks/build-and-learn-blocks-04.png": "ff40da9b-b9d3-47aa-a971-6ccbf07f4694",
+      "school-day-backpack/school-day-backpack-01.png": "5c3ad77d-f857-4b0c-bd88-812434227743",
+      "rainbow-art-kit/rainbow-art-kit-01.png": "1836e438-a3f6-4b7a-87ca-45a181110f58",
+      "rainbow-art-kit/rainbow-art-kit-02.png": "d08bdcc9-8503-406f-b3bd-e1bd27034490",
+      "women-s-everyday-flats/women-s-everyday-flats-01.png": "19726c86-7978-4f8a-95de-37f5878a42b6",
+      "women-s-everyday-flats/women-s-everyday-flats-02.png": "0a9c7956-66c5-42eb-9e4d-3bb9fccb4afb",
+      "women-s-everyday-flats/women-s-everyday-flats-03.png": "632041de-4ec8-4b71-95f0-badcc150a0ee",
+      "men-s-street-sneakers/men-s-street-sneakers-01.png": "5da17251-df93-4bf8-b897-02016c5f91d2",
+      "men-s-street-sneakers/men-s-street-sneakers-02.png": "c5326266-3652-4508-863c-d7be6648972d",
+      "men-s-street-sneakers/men-s-street-sneakers-03.png": "3efc07ec-a565-4fba-9704-77ae8c300c28",
+      "men-s-street-sneakers/men-s-street-sneakers-04.png": "91ba4a97-16df-42ab-ad18-b75df236537f",
+      "casual-comfort-sandals/casual-comfort-sandals-01.png": "ca3530c6-97f4-47ab-a6fd-3ac7c8250563",
+      "kids-velcro-sneakers/kids-velcro-sneakers-01.png": "4911e70d-83c7-47fa-b763-68b5cb6f0708",
+      "kids-velcro-sneakers/kids-velcro-sneakers-02.png": "3d4a02ad-f5eb-40a9-8d03-f707a0f6bcb1",
+      "everyday-handbag/everyday-handbag-01.png": "9825cb58-83b7-47cd-a8da-d4b3ea20291f",
+      "everyday-handbag/everyday-handbag-02.png": "ce66a17d-3ddc-4aa2-bc62-a2b1e93906f7",
+      "everyday-handbag/everyday-handbag-03.png": "c994c573-fd67-45b3-8ff7-419d72ea023b",
+      "laptop-backpack/laptop-backpack-01.png": "355d8875-b817-4d33-9391-4d034ec44571",
+      "laptop-backpack/laptop-backpack-02.png": "c841e39a-34a2-4612-a899-aa26fb2b381a",
+      "laptop-backpack/laptop-backpack-03.png": "1af6ddc7-5d8b-4966-a187-9a09f8a9ea6c",
+      "laptop-backpack/laptop-backpack-04.png": "d6826345-5e85-4478-875c-f089d819f254",
+      "travel-wallet/travel-wallet-01.png": "609e743b-a2a6-4a49-9ea5-0d5e2dce6740",
+      "dewdrop-face-serum/dewdrop-face-serum-01.png": "4b6c2c3c-14e8-4962-8319-8419caa95ebd",
+      "dewdrop-face-serum/dewdrop-face-serum-02.png": "7c03f1c9-fef2-4d48-a29d-0b8dabcd5a89",
+      "velvet-lip-color-set/velvet-lip-color-set-01.png": "1939a20c-d2a4-46e5-aa6c-8a7545fd136a",
+      "velvet-lip-color-set/velvet-lip-color-set-02.png": "cf1bd667-a531-47ec-a8ce-464dbb038b02",
+      "velvet-lip-color-set/velvet-lip-color-set-03.png": "4ec8ef45-3681-49f7-b18e-9eec0604eade",
+      "herbal-shine-shampoo/herbal-shine-shampoo-01.png": "66230e2b-d947-4483-9067-d13326a4fb5e",
+      "herbal-shine-shampoo/herbal-shine-shampoo-02.png": "a72f20f9-c5fb-4bab-b880-c1c221e90b9b",
+      "herbal-shine-shampoo/herbal-shine-shampoo-03.png": "7f8c589b-692e-4e63-be01-4dcab67a40c2",
+      "herbal-shine-shampoo/herbal-shine-shampoo-04.png": "6a387b57-4f69-4a5b-afb8-54b574dd1592",
+      "granite-non-stick-cookware-set/granite-non-stick-cookware-set-01.png": "056c921d-3183-4e57-8c4b-743d05fe596d",
+      "clearspace-storage-box-set/clearspace-storage-box-set-01.png": "4c862f4e-cba9-424c-a35a-15fb50b82d28",
+      "clearspace-storage-box-set/clearspace-storage-box-set-02.png": "3cdb226b-e6c2-44bc-8243-232b79866a74",
+      "meadow-dinner-set/meadow-dinner-set-01.png": "baceca98-e536-42aa-9736-cb61d14788e0",
+      "meadow-dinner-set/meadow-dinner-set-02.png": "a5ef5f94-eeaf-45e7-a172-deccfad38109",
+      "meadow-dinner-set/meadow-dinner-set-03.png": "765e9661-de84-4753-9a02-1f6d9459ec8a",
+      "freshstart-cleaning-kit/freshstart-cleaning-kit-01.png": "d9648185-6043-4a81-b530-b3ea2433731e",
+      "freshstart-cleaning-kit/freshstart-cleaning-kit-02.png": "f724e9e5-d8a0-4761-b5c2-969a4381a22d",
+      "freshstart-cleaning-kit/freshstart-cleaning-kit-03.png": "d3180501-4d77-4d9d-80d4-fd208e22f536",
+      "freshstart-cleaning-kit/freshstart-cleaning-kit-04.png": "9bf2c184-45a7-4787-8b41-28e25dbe123b",
+      "nova-android-smartphone/nova-android-smartphone-01.png": "55afc3fe-884f-4c8b-96d7-8a83d73c9025",
+      "airloop-wireless-earbuds/airloop-wireless-earbuds-01.png": "5dd956bb-6e60-4456-b046-b2ab85639199",
+      "airloop-wireless-earbuds/airloop-wireless-earbuds-02.png": "ceda78bf-38f1-4668-b14b-dd1dcfb27694",
+      "pulsefit-smartwatch/pulsefit-smartwatch-01.png": "ce123dc1-d2e1-4b28-8890-49183b0f13e5",
+      "pulsefit-smartwatch/pulsefit-smartwatch-02.png": "551e3670-daca-4bd1-bf95-5dec3469d3f8",
+      "pulsefit-smartwatch/pulsefit-smartwatch-03.png": "fa9ea281-8998-4c00-8ad3-4e9dd59cc530",
+      "halo-table-lamp/halo-table-lamp-01.png": "0a85906d-7ee3-4ef8-8574-2029a1fb6836",
+      "halo-table-lamp/halo-table-lamp-02.png": "428f3091-ef1e-4d6b-a6d3-b4e89f6b42d1",
+      "halo-table-lamp/halo-table-lamp-03.png": "a64dfd11-3bbb-49b8-8369-f1388f71c9b0",
+      "halo-table-lamp/halo-table-lamp-04.png": "7e89c302-9da5-43c7-9967-6b4f2760ba40",
+      "gallery-wall-art-set/gallery-wall-art-set-01.png": "f5bd16fe-19c3-4f5f-8690-7845a0b1b001",
+      "terracotta-accent-vase/terracotta-accent-vase-01.png": "fa95c1c6-0284-4fa6-ad0e-8b949c9292ff",
+      "terracotta-accent-vase/terracotta-accent-vase-02.png": "25151d91-943d-4a1f-b241-cf8d9e908769",
+      "forge-multi-purpose-tool-kit/forge-multi-purpose-tool-kit-01.png": "39c1487c-d6aa-409a-9200-453d7571d39f",
+      "forge-multi-purpose-tool-kit/forge-multi-purpose-tool-kit-02.png": "d288ae63-14b8-43fa-98b1-5907e300fcbe",
+      "forge-multi-purpose-tool-kit/forge-multi-purpose-tool-kit-03.png": "64091b93-d645-4c19-bb42-64b59166f501",
+      "flexi-resistance-band-set/flexi-resistance-band-set-01.png": "b3e3c7d3-1443-4e54-a63e-c056e1c1b440",
+      "flexi-resistance-band-set/flexi-resistance-band-set-02.png": "19b7946f-1fc4-4074-95f4-13492a804f23",
+      "flexi-resistance-band-set/flexi-resistance-band-set-03.png": "09b3acaf-99e4-4649-b9b8-5189b329d8cc",
+      "flexi-resistance-band-set/flexi-resistance-band-set-04.png": "391aca20-d1a7-45c8-a9ad-6fc53de0d355",
+      "packright-travel-organizer/packright-travel-organizer-01.png": "d586681e-6f1e-4f28-9dab-f3adf5e832d9"
+    }
+  },
+  "inventory": {
+    "locations": {
+      "WH-MUM": "3ecafd28-a54a-4524-96a3-b5472f1cfebe",
+      "WH-DEL": "5722c1b6-3fa8-4de2-83dc-f2a771f794cb",
+      "WH-BLR": "08c095c2-7640-4c41-a5e1-413101eab61a"
+    },
+    "units": {
+      "WFT-SAR-COTTON-BLU-FS": [
+        {
+          "id": "24cf45e6-f916-4fb2-8907-407fcff326ff",
+          "unitCode": "UNIT-7987188D6FC4484493D6A33CF0B5B9EA",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "1b07415b-f935-4b03-8c2d-f0bdd901cc60",
+          "unitCode": "UNIT-76091628783E42EA8392DA75B26709E0",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "7fc2b7b1-1efc-4643-98a7-51a8848f05e6",
+          "unitCode": "UNIT-0935C12731654442BF9479772C987F25",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-SAR-COTTON-GRN-FS": [
+        {
+          "id": "449d002d-970b-4d65-be65-ebefc9171cce",
+          "unitCode": "UNIT-5667F5D401884935920A7FDB06ECD882",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "f82949ee-b9e4-4140-859e-f8caee189906",
+          "unitCode": "UNIT-27097C1FA2384333B930EF5DC59627E5",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "3fc99987-c0db-4643-99a1-be244793e3eb",
+          "unitCode": "UNIT-9113B3A759EA4FE99E7C645210A13D04",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-SAR-COTTON-MAR-FS": [
+        {
+          "id": "320b96a2-e342-4f77-94cd-5f537f37f393",
+          "unitCode": "UNIT-C6E2CF3BF3A34E3AA15406F24EFA8280",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "bf169f56-854a-4791-a72d-642711dcb079",
+          "unitCode": "UNIT-4F20F5DAE99D48928BBCDE6D146356A3",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "e7fba995-8ff7-4553-b8fd-077cd310b797",
+          "unitCode": "UNIT-CE779C47D6784957AB62978E7AB0DA0E",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-SAR-COTTON-YLW-FS": [
+        {
+          "id": "82742649-66bb-40fa-82ce-4155937bb1bf",
+          "unitCode": "UNIT-5FB5EAD6067E401EB1A836FAEE66BE3F",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "f43324a3-02f1-4e6c-884a-509fa23a2251",
+          "unitCode": "UNIT-9E0B2EDAEA954EDF93DE34AA1C43BEF0",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "b6510919-b4de-408b-8c65-7df6c5eabcc1",
+          "unitCode": "UNIT-B108DCE60740425A8542813A47A0E362",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-KUR-EMB-PNK-S": [
+        {
+          "id": "de4fe78c-6d49-45fa-b1cd-120afd8d54eb",
+          "unitCode": "UNIT-77B429CFC9C44B3F82F1C34CB4CE76AC",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "42768f70-4af8-4cc9-a033-cb3c327157c8",
+          "unitCode": "UNIT-EB95C8C8D7394357AE88ADE8FDBB7648",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "add56ee5-89fb-4485-9a24-8b459fed4343",
+          "unitCode": "UNIT-8FB87CF4859340C283419B0B2AAFA016",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-KUR-EMB-PNK-M": [
+        {
+          "id": "3c203065-28b8-4cbe-b340-803f2af3cf42",
+          "unitCode": "UNIT-685F7B6F9DFE4D6FB6EA2A8E0A5A0DDE",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "ebac91f7-7cef-4b23-bdbe-7f150952bc8c",
+          "unitCode": "UNIT-122A507274624395AB2ADFAA0AADA698",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "fc797d4f-9d54-4e7e-b3b8-fdec1fd28c42",
+          "unitCode": "UNIT-2B5FC7518FFB4927A1A08DAC45BFAC75",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-KUR-EMB-PNK-L": [
+        {
+          "id": "017946c4-1271-41b0-9dfe-801dedddbc47",
+          "unitCode": "UNIT-CA5B2EF383254628825481EA624D0B36",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "3ab982fe-5395-4ef9-ae37-2bb67cd1623c",
+          "unitCode": "UNIT-2C766832784A44E28886824EFA548DC5",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "d353f0ca-f6a9-4551-84b4-67af05a3a7a6",
+          "unitCode": "UNIT-860DAADC3C5D4647975C38182A1E57E0",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-KUR-EMB-BLU-M": [
+        {
+          "id": "6d79cfaf-3092-477c-913f-d7468d0d9388",
+          "unitCode": "UNIT-1EB04858CCE043418E004EA7851585A0",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "27d11c86-b048-4a66-a98b-ad1d3a85ee35",
+          "unitCode": "UNIT-8FFFF791FF7241329930A31F3E9D5013",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "3b97cc32-f385-41f6-84a4-65ea233b0e79",
+          "unitCode": "UNIT-BDC62E07F7E44AE59ADD6024CFC9D6F6",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-KUR-EMB-BLU-XL": [
+        {
+          "id": "8e0c716b-02ce-48e3-9240-32acb3267894",
+          "unitCode": "UNIT-F6F4CD51363D4BDB8B87243055F64D51",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "16fbc9bf-b81f-420a-aa55-7fece2b54f23",
+          "unitCode": "UNIT-13B49526A5B54CB39417621BEE6FBDD7",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "56d861f6-76ed-47ff-bc0c-e5793deb29bc",
+          "unitCode": "UNIT-53757932795443AA83620F905F98B148",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-DRS-FLORAL-YLW-S": [
+        {
+          "id": "8dff6659-7858-42de-8d9b-e54a51397548",
+          "unitCode": "UNIT-E23A0CE84AD64BB6B522E06588E6C5A9",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "69ec0bea-2011-4b5a-9636-18d296efcfdc",
+          "unitCode": "UNIT-394CB4D9BD994EA98BDF6845D8BE8BE4",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "442bbda8-339b-4bc3-b595-0ce73e8853bb",
+          "unitCode": "UNIT-260C305FCDD5419AB181C4D3DC2054F6",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-DRS-FLORAL-YLW-M": [
+        {
+          "id": "7c2c6218-bfd9-4bcd-8023-4ef0fee4ae8b",
+          "unitCode": "UNIT-48516C0FDABE442B8532C5774669CC84",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "606859aa-13c5-479f-9e0f-09fef5a40e28",
+          "unitCode": "UNIT-6D8492B9F34845D89F4C94342DF6EC26",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "5db80493-5ff8-475f-a32d-7bf4fba7bcdf",
+          "unitCode": "UNIT-23B47F1BAE0D43D8B3FD3EB10F497A37",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-DRS-FLORAL-BLK-M": [
+        {
+          "id": "3ab78ae9-5f5d-4578-b01c-c8ccf4cecef6",
+          "unitCode": "UNIT-B7E8EB7900EA495AA9BF905F11CBB3CC",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "bbd174b8-85b2-4487-8896-fd28df106932",
+          "unitCode": "UNIT-935DA2DC8DC14E57A02490E8B1BE8769",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "05b087f7-d718-47c2-8835-546f7c956180",
+          "unitCode": "UNIT-18B24BA2CE804BA99904E9B3F009C2B2",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-SET-LINEN-IVY-S": [
+        {
+          "id": "f3f16644-829e-46fe-a78d-8129fd13a8d4",
+          "unitCode": "UNIT-5D8DD8503A97424DB1FAD8496E58EF3F",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "6a63301f-68b0-4b6f-9498-ab0e07d6699e",
+          "unitCode": "UNIT-21D0E7D5C04E4D0DB4FD51B5A3783B54",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "c905b8cd-e614-4d6b-83a7-78cd553cdc81",
+          "unitCode": "UNIT-B7A6F35B330140B2A66E788346814DA8",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-SET-LINEN-IVY-M": [
+        {
+          "id": "55615249-9443-4afc-9461-9a49e5db44d5",
+          "unitCode": "UNIT-7814579D459D402A9B7373E1737D045F",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "c99bb9ae-8749-455b-8123-bd542012fb54",
+          "unitCode": "UNIT-E8688748A2AA4310B438D27A4DEA11BF",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "228e8873-f09a-4eb9-9507-c4b11c1dcdb4",
+          "unitCode": "UNIT-6AD6A967CDFF4BFBA1A31868D0E0AC79",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-SET-LINEN-IVY-L": [
+        {
+          "id": "064199d8-1544-4e09-b156-c9b91431744e",
+          "unitCode": "UNIT-5C62A5C8E8B1473E93065550ED98FB38",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "4948c6ac-1c5d-46d9-b471-69b1a3dcdfd9",
+          "unitCode": "UNIT-09EECCC021194A6DA1A59E465457A970",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "b3d407d6-4d35-4972-9a8f-fd157fbd1e45",
+          "unitCode": "UNIT-499B94321C244C409A9EFDE1FC16275D",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-COORD-LOUNGE-SAGE-S": [
+        {
+          "id": "a5a57178-2f17-4002-85f3-aeb92779f3be",
+          "unitCode": "UNIT-D2BC2B107D8543F5ADC50B0A4446D0C7",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "509475db-9419-445d-8c1d-19d444190f58",
+          "unitCode": "UNIT-34F3F6CF95A34556A0FD0F380BEA66F1",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "fb4c9bb0-7a74-411c-972b-0b55a606605f",
+          "unitCode": "UNIT-0B3429E214F34B89B231C6936E431091",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-COORD-LOUNGE-SAGE-M": [
+        {
+          "id": "2637ac1b-5a36-447d-b09b-28205760cd38",
+          "unitCode": "UNIT-90772177AEE349EF972B937C304CD69C",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "d73223e4-ce71-4daa-b557-00766aef69fc",
+          "unitCode": "UNIT-7768576EDDB04760BBD18955D5288007",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "6bff167c-ea23-41b9-b752-42fd81c9dcb9",
+          "unitCode": "UNIT-71BC6BBF66234DA0B59919BC4EF6442A",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "WFT-COORD-LOUNGE-SAGE-L": [
+        {
+          "id": "c5f08825-db89-43e5-9227-20c76574fec0",
+          "unitCode": "UNIT-93D713EE0EFF4374B6D8DB763B06EE2B",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "ed1ef4a7-96b7-47df-9d19-816afc50f314",
+          "unitCode": "UNIT-BD85A674851546E48DC77520712AA673",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "7167e116-d6f5-43f7-b47b-b1c156ca8915",
+          "unitCode": "UNIT-52BC6AA6DC744F889F954A05B33E9245",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-TSH-COTTON-BLK-S": [
+        {
+          "id": "29a27877-cc4c-4849-a1a9-75584be4ac47",
+          "unitCode": "UNIT-59AD45668C6F44BFA7D27DA3E672910A",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "759b7d4d-b6ef-4331-82b0-027810aa3371",
+          "unitCode": "UNIT-B00D990733474760A96D20852483C6BE",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "ed9b11fa-88cb-4403-84ec-bb6ec208b9d2",
+          "unitCode": "UNIT-BA78CD10828A4F969A2F592F02FB18AA",
+          "locationCode": "WH-BLR",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-TSH-COTTON-BLK-M": [
+        {
+          "id": "51565480-8193-4a62-b149-6e7cda03e78b",
+          "unitCode": "UNIT-190B591B67734978BEEC766ABF0146D8",
+          "locationCode": "WH-MUM",
+          "status": "IN_TRANSIT"
+        },
+        {
+          "id": "05961716-7247-4c14-97eb-871f05e3811e",
+          "unitCode": "UNIT-1F5E8690888B4529BAA725C22AFC6D2E",
+          "locationCode": "WH-MUM",
+          "status": "IN_TRANSIT"
+        },
+        {
+          "id": "56a84c94-273f-4e9b-b440-aa5cf6266765",
+          "unitCode": "UNIT-0A31154413EF4C61BEE52943DCBB5991",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-TSH-COTTON-BLK-L": [
+        {
+          "id": "98d49b9b-47ee-422c-9ff6-197984ed6aba",
+          "unitCode": "UNIT-92FC0E216D514F198124AFF64D44DCA4",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "28293e08-8e0c-4e95-90d7-1af1c0cd6978",
+          "unitCode": "UNIT-D94A78CE32B9494D9BF5BAC3200C46C8",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-TSH-COTTON-BLK-XL": [
+        {
+          "id": "f23f5371-fc12-4514-a6bd-48f21f4f5459",
+          "unitCode": "UNIT-240D5FB89105485283580F78435A9568",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "643f975b-915c-44e2-a352-48ee9557af06",
+          "unitCode": "UNIT-AEA6BE97E9D34564B24FA849F8FD5553",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-TSH-COTTON-BLU-M": [
+        {
+          "id": "56e00bfb-7a1b-47d0-9a69-1d218da9b77d",
+          "unitCode": "UNIT-4E70693079CE4394B171DE7E6EE4A513",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "df2d4bee-2f29-4698-beea-2cef95f56c57",
+          "unitCode": "UNIT-1BCEC795D9AC4F3BB6CE7CAC579A8A57",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-TSH-COTTON-BLU-L": [
+        {
+          "id": "d828d79c-704b-4171-960d-6779fc9a3a12",
+          "unitCode": "UNIT-1FE2938449674E79A168B4CB9A04B653",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "1a0a8c3d-d699-4fa7-9030-b7449e50d27e",
+          "unitCode": "UNIT-6264BC44995245B88FB09DE9050CF9D8",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-SHT-SLIM-WHT-M": [
+        {
+          "id": "6287b28b-4246-40d5-a38f-c3cc145ef2f4",
+          "unitCode": "UNIT-63E406518F7E4B41A27EE249EB05129E",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "16a57213-089d-4b07-a630-1bf65922634f",
+          "unitCode": "UNIT-746D9687B79A4119AF3F86AF4233233E",
+          "locationCode": "WH-DEL",
+          "status": "RESERVED"
+        }
+      ],
+      "MFT-SHT-SLIM-WHT-L": [
+        {
+          "id": "2a98d1b8-062c-435b-8165-1fe3ff3ead91",
+          "unitCode": "UNIT-D7B96EBC4EA74605B3AA48358C20DC25",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "27404377-d94f-4088-8eaa-d5f7ea6ea86e",
+          "unitCode": "UNIT-97E05F86009B47798752A5951696713D",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-SHT-SLIM-BLU-M": [
+        {
+          "id": "584283f7-1246-42bb-858a-c4c5328c4ea4",
+          "unitCode": "UNIT-57675B003CAA457ABF846783074FCD66",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "e9be78b6-5fb0-4304-91b8-687588f7476d",
+          "unitCode": "UNIT-15CAEE1BC27B4275A75DE1F1434FB858",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-SHT-SLIM-BLU-L": [
+        {
+          "id": "416555a9-9d97-4e7e-beef-cf7291d244b8",
+          "unitCode": "UNIT-3D4AB52F16CD446587AC2816FD0B5DA0",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "08cf61b8-41f1-4a6a-b27f-adc248a6a729",
+          "unitCode": "UNIT-AE74397ECCE34801A867E68170CBA7A5",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-TRS-REG-GRY-30": [
+        {
+          "id": "b28124b4-13f3-4d0d-a246-dff06932d1d0",
+          "unitCode": "UNIT-9D2DD0BBD5064D6090CEB75A1AF7219D",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "d62b17fa-c930-4da1-b2b7-9ad88b3b57c7",
+          "unitCode": "UNIT-DA84D4FDB2434B6D89393972E9358AC2",
+          "locationCode": "WH-DEL",
+          "status": "RESERVED"
+        }
+      ],
+      "MFT-TRS-REG-GRY-32": [
+        {
+          "id": "6e3a20b3-1fb7-4321-8428-067ca3ea57b9",
+          "unitCode": "UNIT-E3AB128B2CA04F2FB2A861E0575EF9FF",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "11a44539-c512-4703-b793-36b54a7265d2",
+          "unitCode": "UNIT-B95A889132A64F4485186700E7762105",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-TRS-REG-GRY-34": [
+        {
+          "id": "5771d899-ff08-475d-8005-a9bc75d0b24f",
+          "unitCode": "UNIT-AAAAE66416A74BA4A2DE831717EF7722",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "4d384b64-8ce8-4da9-84b7-f3de26c5fe6f",
+          "unitCode": "UNIT-50388E32DA5C499BB4457743AEDD439B",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-TRS-REG-GRY-36": [
+        {
+          "id": "7addf633-5432-4fbd-8975-3cdb61a276e2",
+          "unitCode": "UNIT-77E6330AB9D2402DA9D112745A8AD365",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "c19b2302-9551-4eb9-9bfb-ce234f4d57cc",
+          "unitCode": "UNIT-15A5E7D3D4064732A174D45730A5D369",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-JNS-CLASSIC-IND-30": [
+        {
+          "id": "f0c5997b-e4bb-46db-a7fd-def59ee04b27",
+          "unitCode": "UNIT-37E64D24E41B43A2891D9B6423FF587C",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "08560461-9cd5-4adc-9654-2f010612f118",
+          "unitCode": "UNIT-7038B950D8C34951B0C27A71B81A8C1A",
+          "locationCode": "WH-DEL",
+          "status": "IN_TRANSIT"
+        }
+      ],
+      "MFT-JNS-CLASSIC-IND-32": [
+        {
+          "id": "3accf286-e838-4798-b50d-29c44af13587",
+          "unitCode": "UNIT-8C8C9BA3C4674CBCBC1A1CCD1C07F438",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "57dafbc0-4c07-429d-ae45-94cb569d7fde",
+          "unitCode": "UNIT-D359E321A6544729B50290465E8D56BA",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-JNS-CLASSIC-IND-34": [
+        {
+          "id": "3cea2238-f43d-4e3c-a006-c72d860e2587",
+          "unitCode": "UNIT-0C62BDFDE6DB46B78A8B6B87055B5C4B",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "6b10dbd9-b141-4b78-86a9-cd9e621541d1",
+          "unitCode": "UNIT-D9D1D0C884F949049EC951DFB67985CF",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-JNS-CLASSIC-IND-36": [
+        {
+          "id": "0b6c5d8b-4f61-45c0-a9d9-b61093af4d0d",
+          "unitCode": "UNIT-2172A8678521404AB42C91132ABEF50D",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "5ef0d6f8-33a2-42ad-bcbf-3035678ac3c9",
+          "unitCode": "UNIT-135FEFFCCF2244CB96575BCC59A18EAE",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-PLO-TEXT-NAV-M": [
+        {
+          "id": "f0f0944a-2489-4709-a65c-3e4715250e58",
+          "unitCode": "UNIT-88EB4603CB424D32BE04C58BB0054D04",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "a3877e7c-dc1c-4760-b9d6-15e406d62440",
+          "unitCode": "UNIT-BFF356E7F02E44E0854A5EDB27C8C533",
+          "locationCode": "WH-DEL",
+          "status": "IN_TRANSIT"
+        }
+      ],
+      "MFT-PLO-TEXT-NAV-L": [
+        {
+          "id": "6d2ee37a-9519-4bd1-a769-412e8370ff66",
+          "unitCode": "UNIT-D134D59EF9154B6C88D9C419742AABCB",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "84c5f0fe-3693-442c-a2a1-5ca7f68e9677",
+          "unitCode": "UNIT-21D9290ACA5045378FAAB62D6661F6AC",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "MFT-PLO-TEXT-OLV-XL": [
+        {
+          "id": "7fe63059-636d-4d12-8c6e-a52111126416",
+          "unitCode": "UNIT-5FCCDF415E4741B1A507658339078030",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "07583289-f42b-4b21-8d12-16bf4d5c335f",
+          "unitCode": "UNIT-6ABCE2BC2A864D98AA35AE87205E1463",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "KDS-SET-COTTON-RED-2Y": [
+        {
+          "id": "d3acfb58-0c84-456f-8083-e150e11db79d",
+          "unitCode": "UNIT-122474929ABE44EC8EB5C21947E63C7F",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "1cfc543e-f1c5-4e7f-9d55-d8d9b1109350",
+          "unitCode": "UNIT-EE8CA2E5D187486A8DBD49CC1A6AAD68",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "KDS-SET-COTTON-BLU-4Y": [
+        {
+          "id": "6e963249-6ebe-454a-9533-fea162b50dc4",
+          "unitCode": "UNIT-4E126DB82BF848C2927C5E430F46B36F",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "ae080724-e1d8-42d3-9ed6-4635b6939818",
+          "unitCode": "UNIT-B3E3DE6D7B3046948BF6194F54708360",
+          "locationCode": "WH-DEL",
+          "status": "IN_TRANSIT"
+        }
+      ],
+      "KDS-SET-COTTON-GRE-6Y": [
+        {
+          "id": "bf40217a-c304-4d70-b532-38052cfc2f67",
+          "unitCode": "UNIT-CC27A81A4EBA4A76B42DF7216A157343",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "17b54c3c-5fa1-4636-ac7c-a7b997cb68c6",
+          "unitCode": "UNIT-EC9BF17E9F1542A4ACFDE928EC2D10FC",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "KDS-SET-COTTON-PCH-8Y": [
+        {
+          "id": "de4231e5-63b2-4c69-b450-29ca85468c0f",
+          "unitCode": "UNIT-CF1F0393BB8243CABE5EE8D0310EEC14",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "6b99d84e-2ff9-4eb7-8a7f-4fa0310f1d87",
+          "unitCode": "UNIT-38FCBC8C7AEA471591EE5E8C680FFC0E",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "KDS-TOY-BLOCKS-48PC": [
+        {
+          "id": "671091a5-2850-403f-9a6a-b6a70152490c",
+          "unitCode": "UNIT-A88DB51A572E452C86AFF45120ADE8F8",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "2be0f66d-4577-449b-be0b-c516c2e6b7ea",
+          "unitCode": "UNIT-95AAA72F89234FFCA2199689164F1EB6",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "KDS-TOY-BLOCKS-96PC": [
+        {
+          "id": "81546be8-7f22-4c65-a67f-f3a4e8d9504a",
+          "unitCode": "UNIT-E148538847A14794AD96C1205A7EF45D",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "38b1cadd-4454-4afe-89cc-eaf4d1ddc74f",
+          "unitCode": "UNIT-F5BF8A7712524A99947F4ED90F08A18A",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "KDS-BAG-SCHOOL-BLU-12L": [
+        {
+          "id": "bbf8795b-0c30-4862-b2c3-537038ad04be",
+          "unitCode": "UNIT-A0C0DB6800AD486EA1940955897A1582",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "437aff86-9c4d-4f9b-a839-780046ca80cf",
+          "unitCode": "UNIT-57BE63F6CF7C417DA6FBC48C431A3019",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "KDS-BAG-SCHOOL-RED-18L": [
+        {
+          "id": "c97bfc3f-8eb5-4170-9257-785e10b1ea68",
+          "unitCode": "UNIT-EDAFD4F7B5E14AA48456ECF0F2348B9D",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "a5f194d0-4dee-4415-bfff-fd89d88bd9e2",
+          "unitCode": "UNIT-F0C1BD427F5340CC9DCF90FAAD3A0B13",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "KDS-BAG-SCHOOL-GRN-20L": [
+        {
+          "id": "9b4f1ed2-e435-49b6-ba4d-bf01c69c24b4",
+          "unitCode": "UNIT-65A3DECE9C8D4BDB800BEE0F93E51949",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "c367fa66-afd4-4473-aff6-a8dbefb4a0df",
+          "unitCode": "UNIT-8B83FA98B4A749F9B9924F777EE3DEEC",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "KDS-ART-RNBW-24PC": [
+        {
+          "id": "3a233e08-5d9b-4a0b-a4c8-670aca2bda71",
+          "unitCode": "UNIT-BE28DC1C951547CDB4B443B2FC536B8C",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "baefe2ee-f141-4440-b2a9-bc0d9bd24d4a",
+          "unitCode": "UNIT-6F1480AF51FA4D94AB38F88DB77B41E3",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "KDS-ART-RNBW-48PC": [
+        {
+          "id": "1a23fd49-4980-4a54-bc64-18e67fe5769b",
+          "unitCode": "UNIT-BCD052D6A8C24E2B916891A4A078E747",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "0f1200e7-35a6-421a-b746-c0c5b815fef7",
+          "unitCode": "UNIT-035825D6F41D4EF0B7CDAACF6075847B",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-FLT-EVERYDAY-BLK-07": [
+        {
+          "id": "bfa967ff-06fc-4daf-9a08-a085488f2243",
+          "unitCode": "UNIT-74BFF3E9B603474EA54060742BA9CBCC",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "8d365f43-4108-474b-a62a-3b1a36421081",
+          "unitCode": "UNIT-A8EFD4E6E9B34B1C83B76F6B5ADFA2AF",
+          "locationCode": "WH-DEL",
+          "status": "IN_TRANSIT"
+        }
+      ],
+      "FTW-FLT-EVERYDAY-BLK-08": [
+        {
+          "id": "43198a79-8f8c-44aa-b5fb-632872fb6b40",
+          "unitCode": "UNIT-62B5A17D58314EEA9627D91F5697E77F",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "f126c546-a63b-4604-b5dd-f8cb5db9b576",
+          "unitCode": "UNIT-90B151F90D7343F4AE7F1334BCED47DE",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-FLT-EVERYDAY-BLK-09": [
+        {
+          "id": "82c4ee3a-b5a4-4bcc-8ab2-3d4dc3f06b70",
+          "unitCode": "UNIT-F650B69203F6480B909A8294A853775B",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "8b3f01b5-307f-436d-83bf-2c89a593e464",
+          "unitCode": "UNIT-EA7964DB31964BF69E475C7B79DEA4DD",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-FLT-EVERYDAY-BEG-08": [
+        {
+          "id": "5785a3c4-e65a-4758-85d2-f77d6777cb4f",
+          "unitCode": "UNIT-C14C1000A54C4F3981983F8940AE9D06",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "e3b9fa80-7451-4575-aba5-423accbcad86",
+          "unitCode": "UNIT-3DB362BB7C184E57BD66F954E37C0855",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-SNK-STREET-BLK-07": [
+        {
+          "id": "818a9b9f-45d8-45a0-81b1-9e1cd4679bbe",
+          "unitCode": "UNIT-18DFCE8563714B118ABE66E8C73FD415",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "a40cbdf6-02d0-48dd-8d85-79278fea40b9",
+          "unitCode": "UNIT-89F5AD6A48D14627BA4CBB2953422249",
+          "locationCode": "WH-DEL",
+          "status": "IN_TRANSIT"
+        }
+      ],
+      "FTW-SNK-STREET-BLK-08": [
+        {
+          "id": "0c930e5d-2a66-41f1-bb7c-d3a4d2372f93",
+          "unitCode": "UNIT-0394A8942FCC4CA08401BD60ABBBB80B",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "04c5c48c-d95a-4ef6-844d-1f8e62b5ccf5",
+          "unitCode": "UNIT-486F55E358BE4B9CBBFC6C0489F6C3D4",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-SNK-STREET-BLK-09": [
+        {
+          "id": "e0048cd9-1563-4744-af60-e975ff635e8c",
+          "unitCode": "UNIT-8E62E0E2C4B240F0AA89DAD88AE77308",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "b8d4edba-2fa6-42d8-aa13-475a497bc987",
+          "unitCode": "UNIT-D0D7DDD3388B428DAFE7C813908F05A1",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-SNK-STREET-WHT-08": [
+        {
+          "id": "42bc90f6-49b4-4e2d-a0e8-19f0a7127f27",
+          "unitCode": "UNIT-4CA2A74B75F94F02887597C7246F57F7",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "777e182c-d7ce-489b-9e7f-6c10d1104071",
+          "unitCode": "UNIT-B8B5E144DD0844FD99478EBF47591235",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-SND-COMFORT-TAN-07": [
+        {
+          "id": "993b4f97-8f48-47d9-9adf-13861c82a785",
+          "unitCode": "UNIT-E1C1A0903A2E4D748F8AE83E3B0B96EE",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "c6c0ce45-b5e0-45ac-83ab-0ec8519b80fb",
+          "unitCode": "UNIT-CBA262D5FE1F42C281DDAD8D98795816",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-SND-COMFORT-TAN-08": [
+        {
+          "id": "c4bbf88c-db45-4c44-a3d3-85f9edcdedf2",
+          "unitCode": "UNIT-3EAE2232284D4C66942F3AF33043C889",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "e3ac9932-1f59-4a28-bd32-b8a814f7fb21",
+          "unitCode": "UNIT-FBDBF6337AFB4FF98E26C1626778090A",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-SND-COMFORT-TAN-09": [
+        {
+          "id": "f3751b8a-3bc7-45e7-bb1d-7119bf009224",
+          "unitCode": "UNIT-2F5400ECA0BF4B7EB1F1BFCEEF846E39",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "4d3130fb-75ec-4c51-bb1c-470f807cf4e7",
+          "unitCode": "UNIT-3F123146915549848E87A971ADE6DC2F",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-KID-VELCRO-BLU-11": [
+        {
+          "id": "24529036-62e9-4164-b8b1-3c6d4085c46b",
+          "unitCode": "UNIT-81364AF1FE1D4A6BA1D9AE34BDA42F70",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "4565458f-61b4-4daa-ae0d-3b0fbca45ee8",
+          "unitCode": "UNIT-92C2FC059B484025A23B6E253E68A911",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-KID-VELCRO-BLU-12": [
+        {
+          "id": "84d0d170-0db9-48fb-814c-918112e64172",
+          "unitCode": "UNIT-8541693A309B493C8D740E3CBDD6EE14",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "31f0f4e0-039e-4583-8bed-29d021a62d1f",
+          "unitCode": "UNIT-21C7339661624083AF34E99F16A26672",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "FTW-KID-VELCRO-BLU-13": [
+        {
+          "id": "23ee0884-ffa9-46ee-b4a0-c809af1d0fcc",
+          "unitCode": "UNIT-D6783CEDF5174154828CF1C2DE08EB73",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "03877076-02cc-4bf9-a857-e01beb77fdc6",
+          "unitCode": "UNIT-1F0FFBCBD1FF48D9A025A736C98B9316",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BAG-HANDBAG-EVERY-BLK-STD": [
+        {
+          "id": "7bc9e0c0-8cbe-4b75-9216-cd07994d9ac2",
+          "unitCode": "UNIT-68F341222BD24F44AD9E5E8BA65D6A4D",
+          "locationCode": "WH-MUM",
+          "status": "LOST"
+        },
+        {
+          "id": "84ad7577-4394-4f31-8e6e-497c0ba7f573",
+          "unitCode": "UNIT-CB29B57EBEE3480F904A59C54348098E",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BAG-HANDBAG-EVERY-TAN-STD": [
+        {
+          "id": "255919e3-b92b-44b0-8378-009c363e12a6",
+          "unitCode": "UNIT-FFCC43A013D2483EA13E57506BBADD15",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "6220d021-ec99-4855-b305-b830aee94d6e",
+          "unitCode": "UNIT-ED667C85886C486E82B0B7D9B97722C4",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BAG-HANDBAG-EVERY-WNE-STD": [
+        {
+          "id": "978f7a08-e841-4f4f-938a-fccdc494e200",
+          "unitCode": "UNIT-82C6E75C03A14842A7E4289504843803",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "4d7030cd-3d5a-4743-a1f5-4c503932ab75",
+          "unitCode": "UNIT-E32DC0669D824BB59A7E2E9AE84881B9",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BAG-HANDBAG-EVERY-MNT-STD": [
+        {
+          "id": "e912ff86-63fc-4922-ac56-9e6097a3b26d",
+          "unitCode": "UNIT-113996AC134D4AC593F7C407E5440EFB",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "bf05ad21-fba7-4674-97f9-82dae4f1f6e9",
+          "unitCode": "UNIT-8A501AB10755490496BAC31E53C805E8",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BAG-BACKPACK-LAP-BLK-15L": [
+        {
+          "id": "698a9b3f-6169-4be2-a0e1-ab843434e268",
+          "unitCode": "UNIT-3A0519B83BB04479ADCB46178F65A0BA",
+          "locationCode": "WH-MUM",
+          "status": "RESERVED"
+        },
+        {
+          "id": "7d0f1f89-ccef-4d7f-84d2-9da0ab1501df",
+          "unitCode": "UNIT-6FF39D70D59B480CA7C2514F85691F26",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BAG-BACKPACK-LAP-GRY-15L": [
+        {
+          "id": "80ea3a76-335c-43c1-8706-f222df0724c5",
+          "unitCode": "UNIT-F28D39E18E3E480795E30150E2788304",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "4ce3d1d0-71ee-4e4b-8ec2-e4e30c81d725",
+          "unitCode": "UNIT-1C92E7E06DC64A8799146CDDD31E820B",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BAG-BACKPACK-LAP-NAV-17L": [
+        {
+          "id": "3ce4c8a4-3578-49d8-8b33-8b7528f7719f",
+          "unitCode": "UNIT-83B5EEAC784A48358F4E52CA6CC46DAE",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "af07832c-ec7a-4530-ab35-4fd60dffa1f4",
+          "unitCode": "UNIT-031D09CCDE294D878FFE2889B7318524",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BAG-WALLET-TRAVEL-BLK-STD": [
+        {
+          "id": "cb5d9a87-4ca8-4577-9bfc-113698fcb3e7",
+          "unitCode": "UNIT-F557C12353E04B7AA4C73DAEA493C8DE",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "bb0765a5-2616-4aa8-96f5-2be0c2205425",
+          "unitCode": "UNIT-B7DA8C06E0734DB78AE85BB1963566C0",
+          "locationCode": "WH-DEL",
+          "status": "RESERVED"
+        }
+      ],
+      "BAG-WALLET-TRAVEL-TAN-STD": [
+        {
+          "id": "d9a8b82c-0ba6-4c9c-8066-6ad103328c9a",
+          "unitCode": "UNIT-EF53B464F5D14F2BAF6740970EE8A48B",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "f6b32d4e-26ec-4ace-a48f-b3fad90577ad",
+          "unitCode": "UNIT-1CAB0281A23946E9B8067BE620122B49",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BAG-WALLET-TRAVEL-TEA-STD": [
+        {
+          "id": "b0405158-a754-4525-9307-8a175ea8c43f",
+          "unitCode": "UNIT-0AFDC4F0C4A242C9AD0EEBFD140B852C",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "8d9ead74-450a-4a75-bea5-e67e25c98338",
+          "unitCode": "UNIT-341E9508F9DB4BBAB8EF5F2B691CDFED",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BPC-SERUM-DEWDROP-10ML": [
+        {
+          "id": "4ec8bbac-7527-4118-bfb5-5a264083597d",
+          "unitCode": "UNIT-F1767517DF0F4F4DAB192C3E7A0464F7",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "cff1b94c-ca9f-4a96-ba38-d261cfe9e497",
+          "unitCode": "UNIT-8D1E83CE78374A3C8B6DA82D776FFA5A",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BPC-SERUM-DEWDROP-30ML": [
+        {
+          "id": "74f6c65c-ea6c-40dd-b9b9-29dd44764b2e",
+          "unitCode": "UNIT-7D2688BAF6BC4CC4AC1EF5AC1611BA6B",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "24035775-3212-420e-a259-479b3c7d2f4c",
+          "unitCode": "UNIT-BF7F9461A31541AF8D64B638D8592FEC",
+          "locationCode": "WH-DEL",
+          "status": "IN_TRANSIT"
+        }
+      ],
+      "BPC-LIP-VELVET-ROSE-3PC": [
+        {
+          "id": "0a2131e7-aa28-4734-b24a-22f478747d77",
+          "unitCode": "UNIT-21E38520404542D9977D9E952F3099B1",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "48e4a6c4-eca4-4798-a145-20ef8b6c9a31",
+          "unitCode": "UNIT-E7BBCF8724F74A6EBB0DCAE4FC00E6F1",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BPC-LIP-VELVET-NUDE-3PC": [
+        {
+          "id": "d25f7628-bfcd-45c0-abb1-08f2ebe26f23",
+          "unitCode": "UNIT-855C273500ED4AC7B15754F30768CF6B",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "543f2065-4770-42a8-a8fc-480356725382",
+          "unitCode": "UNIT-FABF8F8D095A4A8E9B7F66142C4CFD4D",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BPC-LIP-VELVET-BERRY-3PC": [
+        {
+          "id": "ede3563f-f191-4cf5-ae89-1f7f7dc048eb",
+          "unitCode": "UNIT-B50E1C2095824C30BCBB2AFDFE83638F",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "2f1ff57b-62b4-43b7-ab42-f5c886bff32e",
+          "unitCode": "UNIT-919B75A553EA464CAC34C6387627DF66",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "BPC-SHAMPOO-HERB-250ML": [
+        {
+          "id": "3fedafb8-67b6-4440-9880-0ddae01511fb",
+          "unitCode": "UNIT-0712DBAF4D8F4BBBB701EFC21C6804B3",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "c9db985d-81fd-4344-b279-1fa55b38efbd",
+          "unitCode": "UNIT-C71E9AB45C404BD2858DFACFE7AD39EB",
+          "locationCode": "WH-DEL",
+          "status": "LOST"
+        }
+      ],
+      "BPC-SHAMPOO-HERB-500ML": [
+        {
+          "id": "a275ae6b-765f-434c-9dc8-c62e1744e916",
+          "unitCode": "UNIT-6D6B4D9DAEBD45C5A9F6FFA2466D193A",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "98b97088-47c8-4717-99ab-f1e028a5a584",
+          "unitCode": "UNIT-6412E60C238F42808F920070E01904BD",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "HOM-COOK-GRANITE-2PC": [
+        {
+          "id": "752afc7d-16a2-42a8-bd26-0d39c216fab5",
+          "unitCode": "UNIT-EDB88AB78F1E4865B652176FBEBBC6E7",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "b646266e-052d-4729-b702-f6480f38b3e1",
+          "unitCode": "UNIT-DDECB0B8D7034ED097BA5789FCCF01FC",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "HOM-COOK-GRANITE-5PC": [
+        {
+          "id": "6a4108ca-f3f7-4e13-bf4f-0e05f1949b0e",
+          "unitCode": "UNIT-4AB396BAF3C743CEA5FDDBFFBCB08B0A",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "75b9a68f-b825-404d-b363-8b28f70ab19b",
+          "unitCode": "UNIT-32BB7FFB42DA4BF18C2C7DD10A2E6BE5",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "HOM-COOK-GRANITE-7PC": [
+        {
+          "id": "ca5a1ab2-f4c6-4766-ae17-2e681a7c2c8e",
+          "unitCode": "UNIT-ECA33F6395754DB292B08E8877E114EF",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "cc80fa3c-dba1-4fdd-868c-b53ec21bfb85",
+          "unitCode": "UNIT-EB64B580DE06454DA4E085EC6F1A6BDC",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "HOM-BOX-STORAGE-3PC": [
+        {
+          "id": "b663f804-02c4-4ad4-bc72-57c7ba1b5f0a",
+          "unitCode": "UNIT-24A7665A2EEE4D84A6B1E8C019690E4E",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "16beacb9-c83d-43b2-a148-dda8be096b23",
+          "unitCode": "UNIT-09D13BFC2CE540A8BEADE8EE61866086",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "HOM-BOX-STORAGE-6PC": [
+        {
+          "id": "392dafd7-dab7-44e5-85db-f99593aad283",
+          "unitCode": "UNIT-FAECDA4642C445CBBCE46C2D7E684D5A",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "a9f17d33-0149-408b-9a9b-3d12e7227e1a",
+          "unitCode": "UNIT-01ADFF0075D740E3B30807AD967ADC88",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "HOM-DINE-MEADOW-12PC": [
+        {
+          "id": "83f00a4b-0d64-4887-8794-5e1073f78c24",
+          "unitCode": "UNIT-870C95724BE24AA183B7C83D860F5DDB",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "f49b4717-a62f-4e18-9b6a-0f98158774d3",
+          "unitCode": "UNIT-1279E2A09EB0491EB7BFE20B021C73B0",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "HOM-DINE-MEADOW-18PC": [
+        {
+          "id": "79ec105d-16c8-42bb-b21e-e364c3b6ffe0",
+          "unitCode": "UNIT-B0953C5C526C4AF9AF5037781C46552B",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "d5cd0a07-bbb6-4046-8089-c3ca1f8a6cfe",
+          "unitCode": "UNIT-F6F5A7CB8B9341DDA9CC942BBD55D18C",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "HOM-CLEAN-FRESH-BASIC": [
+        {
+          "id": "e9f956b9-f6f0-45b8-a239-b9ddaf483fac",
+          "unitCode": "UNIT-E07262C5EE9F42D9BBD07DDACBB6B3EE",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "03d06660-35cf-4cad-9a4c-f6978636c398",
+          "unitCode": "UNIT-EA161911A0D14115A4DC43335BA3CF59",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "HOM-CLEAN-FRESH-PLUS": [
+        {
+          "id": "c53842c6-0e0e-42f5-a39f-a469f179d09c",
+          "unitCode": "UNIT-B30B65BE9D8344D1B7CB2EB94D8FE5E5",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "f6961562-01ef-4bb1-9304-38fc0aa7f77e",
+          "unitCode": "UNIT-2AE43A205C4243E49DB55385AC3C7AE4",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "ELE-PHN-NOVA-BLK-128": [
+        {
+          "id": "2214da42-fe01-4504-83a7-02bbd0fba630",
+          "unitCode": "UNIT-3E8BCED5033148A69F20AAA399C312A5",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "33c336ad-aaad-4c47-93da-bee6efe4827d",
+          "unitCode": "UNIT-4415DE5C639649ED8E48CF90F97A9AF9",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "ELE-PHN-NOVA-BLK-256": [
+        {
+          "id": "5232b376-98fa-46c2-9d7a-8c59eff52f32",
+          "unitCode": "UNIT-DEB9C1D859534FF19E161827BCD17E0C",
+          "locationCode": "WH-MUM",
+          "status": "DAMAGED"
+        },
+        {
+          "id": "6d133ef3-cbe9-41fb-bc07-c4c54c05c1a2",
+          "unitCode": "UNIT-2C0F7336F8F541638D072F779D2AFC00",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "ELE-PHN-NOVA-BLU-128": [
+        {
+          "id": "410a2e55-8243-4c27-86d9-081500094667",
+          "unitCode": "UNIT-EF9FB1B3D6AD43C38B4791A850B33B23",
+          "locationCode": "WH-MUM",
+          "status": "DAMAGED"
+        },
+        {
+          "id": "377fb526-61aa-4742-aad8-f60cc75baf3e",
+          "unitCode": "UNIT-F16D6B64A1B545DD82BCE7AEE7B54AF1",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "ELE-PHN-NOVA-BLU-256": [
+        {
+          "id": "872fcee9-52db-442c-a673-139fc6e91675",
+          "unitCode": "UNIT-F5D3456A614C4535930303A6A4F80E44",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "d66c4da5-9860-4e05-933b-655c9dd357fc",
+          "unitCode": "UNIT-639651ADC5A84A4DB7AFB8B4B1AFF2BB",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "ELE-EAR-AIRLOOP-WHT-STD": [
+        {
+          "id": "bb52dda3-6a9f-464c-8d06-91eede5e1625",
+          "unitCode": "UNIT-C4801AF57F1D460C95FFAB8BC354D997",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "540080c5-1594-49c9-aa18-c59761b65cf5",
+          "unitCode": "UNIT-C13B6321340A4EC58D0B5000D403B303",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "ELE-EAR-AIRLOOP-BLK-STD": [
+        {
+          "id": "05f295a0-daee-4a63-bfac-28d0ae37b26c",
+          "unitCode": "UNIT-E2ABD49FED3348F8977E650C8DDA6F84",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "4402b1ff-2023-4ca0-a17f-74fd77560b1e",
+          "unitCode": "UNIT-A0F879E783ED494D87CEA14A8E7205EF",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "ELE-WAT-PULSE-BLK-STD": [
+        {
+          "id": "3bf9e0ce-d26e-41c3-ad96-2dec394519f2",
+          "unitCode": "UNIT-2FF6A4836C6B41BABEA8BF77D30DA887",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "37172171-ffe4-4875-97c4-00f3a3596e72",
+          "unitCode": "UNIT-677C1EFC3DC54DEDA78C73AAA5A8C01D",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "ELE-WAT-PULSE-BLU-STD": [
+        {
+          "id": "ea95e3a3-ab43-443f-996f-be72d6390048",
+          "unitCode": "UNIT-AFE8EA3D1B2349CBB4D8B36E5A1FCE05",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "cb362765-30e4-4ea1-b460-c3af8e27fef1",
+          "unitCode": "UNIT-5C637287426D498A993F877407EF1D7B",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "ELE-WAT-PULSE-ROS-STD": [
+        {
+          "id": "dfa804a0-ff42-4c20-9061-09993dacf92b",
+          "unitCode": "UNIT-5F5F966C9292498C9203773B594F4EDC",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "5e19a4aa-aa01-4c02-af08-1f7c5b35d2b0",
+          "unitCode": "UNIT-3716BB8550C945F8AC70D0C33B35359B",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "DEC-LMP-HALO-WHT-STD": [
+        {
+          "id": "f029511d-8117-4d89-82e8-3ea0c4156ca3",
+          "unitCode": "UNIT-A855308FDC6B46E9A88CC111F409912D",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "c9460d67-715d-4ee5-bb7f-71e60a9d2d69",
+          "unitCode": "UNIT-1C032BCC52A440969913F5A528E93E48",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "DEC-LMP-HALO-AMB-STD": [
+        {
+          "id": "2b4c7220-3be4-4c58-9bf7-7e22171dfa03",
+          "unitCode": "UNIT-527632BDB4D14C37B6FAB95753AE04C2",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "028499cd-8e2b-4f9d-9c28-a8202ea46efb",
+          "unitCode": "UNIT-AD2127E86D2D4B63966067C3852619A1",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "DEC-ART-GALLERY-3PC": [
+        {
+          "id": "6b403097-09ae-48b9-9487-e7c04cab05d7",
+          "unitCode": "UNIT-784981A3D9EA40CB9BF2711569DF384D",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "194c62b3-8ffe-46b0-83d9-5d6a23f35be8",
+          "unitCode": "UNIT-FD2E47069AD34A6F8B7703FBDCDCFCF5",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "DEC-ART-GALLERY-5PC": [
+        {
+          "id": "b5d5f209-f6eb-4096-8c2b-5a94e2ac2299",
+          "unitCode": "UNIT-2976625D482E4F609E7F3A22B1277B0E",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "1ea5af2c-ad20-4b92-8cb6-c1d0d8331fd1",
+          "unitCode": "UNIT-4A14DB7909FB4FB09C203A57B8EF62D4",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "DEC-VASE-TERRA-SML": [
+        {
+          "id": "87970974-1153-4a32-a164-24106d211ecd",
+          "unitCode": "UNIT-13170EB3775A4669876276E0629D4581",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "0e9fbbb5-5c7d-46cb-b33d-7c09dec20807",
+          "unitCode": "UNIT-58E2A6F404AB4FDAA162393F17C0FCD9",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "DEC-VASE-TERRA-MED": [
+        {
+          "id": "7329cf35-9dbc-4352-8e33-5bf8bb470791",
+          "unitCode": "UNIT-CDE3BFB4A9CF4622BE6D6C46028D5883",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "86eeb505-021b-41c7-81ff-a7cfe8294268",
+          "unitCode": "UNIT-2F0CF4D66F974B909840062D13EE137B",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "TLS-TOOL-FORGE-12PC": [
+        {
+          "id": "5ee35ca4-0f34-4cbf-a70b-cceca373ccb1",
+          "unitCode": "UNIT-122AC7997857451CBEDB6FC008464429",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "fcd3d51c-f945-4db7-ac67-e9d02aed2024",
+          "unitCode": "UNIT-30AC91349B484214A5AD4DE8F53B6D7A",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "TLS-TOOL-FORGE-24PC": [
+        {
+          "id": "856128f6-1d49-42fb-afb1-1f5c60088cb6",
+          "unitCode": "UNIT-A7954A99750F4CE3A67B1D80E473C5CC",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "3b6572d1-ac9f-482f-bcb4-eda228350d51",
+          "unitCode": "UNIT-E0236763FCB145E79D5F1C755C7DC39F",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "TLS-FIT-BANDS-LIGHT": [
+        {
+          "id": "2cbe2e9d-9e3a-4c2e-b42e-ff4e033d9cc5",
+          "unitCode": "UNIT-2EFFF14283924785A6E59A5BBC772C25",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "d6c07428-0fb2-47a7-a1fc-237a06469938",
+          "unitCode": "UNIT-600F389BA8EE4DF280902AAB7172CD8E",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "TLS-FIT-BANDS-HEAVY": [
+        {
+          "id": "5435a258-834b-4983-9be6-f9069e9cc1ef",
+          "unitCode": "UNIT-DD4D859548CD4946832E19E3BE3FBDFB",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "0bcc7a26-8a46-4181-b721-10396e003b6f",
+          "unitCode": "UNIT-BC72FFD89E464401906FE3A06BB88002",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ],
+      "TLS-ORG-PACK-3PC": [
+        {
+          "id": "103bf611-b18b-4ca4-856f-8f9ab9883ae4",
+          "unitCode": "UNIT-D3A502FF0B7B48DF8417065EB46729BF",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "946cbab4-273a-491a-92b0-d60a3f03662a",
+          "unitCode": "UNIT-49A8F3897ACA489DA0D67379B1387A4F",
+          "locationCode": "WH-DEL",
+          "status": "RESERVED"
+        }
+      ],
+      "TLS-ORG-PACK-6PC": [
+        {
+          "id": "67bb427b-d7f7-4dc9-9b78-47e924deca3a",
+          "unitCode": "UNIT-590C9CAF47C547509F14430455C33FE0",
+          "locationCode": "WH-MUM",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "0281d9cd-b527-452c-aba7-67e7b3ef6c61",
+          "unitCode": "UNIT-88A4C8F1EB8C4A919D063B5E8A79167F",
+          "locationCode": "WH-DEL",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    "reservations": {
+      "reserved-stock": "98e053c3-7b59-47f2-b484-c086202b6e67"
+    },
+    "adjustments": {
+      "damaged-unit": "16630627-9a5d-4948-93c6-e600e56c6892",
+      "lost-unit": "35e5d2a1-0bb6-4837-b97b-a6b25959db1d",
+      "low-stock": "4a5734c2-b5b0-49f3-8acd-7f5119793355",
+      "out-of-stock": "0126f4d9-c4c6-4e5f-8967-a29f8698eb8b"
+    }
+  },
+  "customers": {
+    "customer01": {
+      "authUserId": "d56ce01a-d030-4517-ab50-74aa35957410",
+      "customerId": "ca3cbd52-5582-4ef8-9143-729a844291bb",
+      "email": "demo.customer01@example.test",
+      "addresses": {
+        "shipping": "07d343d5-bf61-4666-94bf-cc7c9e58b117",
+        "billing": "51699c84-e16a-46cc-8824-387366d237c3"
+      }
+    },
+    "customer02": {
+      "authUserId": "80cddabc-7b94-440b-9b3c-4e124ad3c2e7",
+      "customerId": "ebd7a2d5-0eac-4439-9d20-e85ae252af2e",
+      "email": "demo.customer02@example.test",
+      "addresses": {
+        "shipping": "42c4d445-2124-4db0-87bc-327cb04b1abb",
+        "billing": "6e33c739-2b6f-417d-aeec-913845e6dad2"
+      }
+    },
+    "customer03": {
+      "authUserId": "3c3c6fa8-690f-404d-b9b7-b667cc56ca3f",
+      "customerId": "61582ff1-41e9-4142-a17c-aee7e6553105",
+      "email": "demo.customer03@example.test",
+      "addresses": {
+        "shipping": "1320160b-cd13-44e2-810c-175c365a97fc",
+        "billing": "6cfe98dc-8d4f-4248-8651-e32e6d585e73"
+      }
+    },
+    "customer04": {
+      "authUserId": "3f3c9cbc-1549-467d-bce6-1680194926eb",
+      "customerId": "199cf77f-d574-49dd-ae0a-197c839bc3f6",
+      "email": "demo.customer04@example.test",
+      "addresses": {
+        "shipping": "9c98bead-d37b-4c26-8c8d-99bef8cc32ae",
+        "billing": "6b78dbac-15f6-46ca-8d7b-2108bee30854"
+      }
+    },
+    "customer05": {
+      "authUserId": "12d09c10-34f6-403a-be13-a591abe8fbb7",
+      "customerId": "f0e9af46-7649-413c-8716-2c3d0c4ed8ee",
+      "email": "demo.customer05@example.test",
+      "addresses": {
+        "shipping": "af2ae81b-5895-421b-bf7d-e14e89a9a47e",
+        "billing": "ade7cf6c-f17e-4d2b-8a3f-9257ac891336"
+      }
+    },
+    "customer06": {
+      "authUserId": "994710c0-49ae-4ad2-9b0e-aa581a2cb7b6",
+      "customerId": "eaaef1b3-3d62-43e4-a53e-0e0f0eed5589",
+      "email": "demo.customer06@example.test",
+      "addresses": {
+        "shipping": "6c047c50-9689-4ff7-b9a3-11f4a4454436",
+        "billing": "d7f70f0f-9e23-40c3-a9d9-3ea5bfc86d2f"
+      }
+    },
+    "customer07": {
+      "authUserId": "ec8d8e8b-8c94-4f92-9221-1a9673896c80",
+      "customerId": "101b24c1-2741-46d2-abbf-90d57a32ee28",
+      "email": "demo.customer07@example.test",
+      "addresses": {
+        "shipping": "b7d657d5-0eae-4586-8a8f-2acc8c1d719d",
+        "billing": "d8015831-e771-4a6a-95bb-c859b17ed275"
+      }
+    },
+    "customer08": {
+      "authUserId": "4ebef4ab-56a3-4dab-a593-121518744491",
+      "customerId": "86512607-70c9-4ed3-9d01-57be8640d7b2",
+      "email": "demo.customer08@example.test",
+      "addresses": {
+        "shipping": "05fd1947-cd27-4856-aba7-5efb417544ce",
+        "billing": "2fd04ffd-6645-4a62-aa8e-7856640a9d3b"
+      }
+    },
+    "customer09": {
+      "authUserId": "4b1cda6d-875b-4b23-bcea-a67a4e3a680b",
+      "customerId": "88e06d6c-c23a-45cf-8b91-c800600b5238",
+      "email": "demo.customer09@example.test",
+      "addresses": {
+        "shipping": "0f722ba6-eddd-47eb-8073-f4bc60d85e6a",
+        "billing": "b058d448-bc1a-4c87-b8d7-c8ad80e3b175"
+      }
+    },
+    "customer10": {
+      "authUserId": "e8f2a398-a30a-4e58-b611-95e332ed539b",
+      "customerId": "01ff47e4-4efb-4829-acd6-45cc71725827",
+      "email": "demo.customer10@example.test",
+      "addresses": {
+        "shipping": "ad3a2b70-e71c-40dd-8538-50cd23fb714d",
+        "billing": "17e339da-a1cd-462b-848a-a9cca95d5d2b"
+      }
+    }
+  },
+  "carts": {
+    "customer01": "24a8cff2-2ea5-406c-8741-ab2971fb1e82",
+    "customer02": "89fbfe57-34e3-42c0-850e-11cdb6d405ef",
+    "customer03": "1ed28cdf-ede8-40e9-90a4-24b0bb05bd5e",
+    "customer04": "40a3795f-6f93-44d6-9c1a-010744f6be7b",
+    "customer05": "8ed67236-d988-4b9e-9f84-8dbd1ecb72e6",
+    "customer06": "843d33fa-5c55-4af4-9916-ea93a2f19cdb",
+    "customer07": "54524c67-476a-4844-9435-90c753a68ee6"
+  },
+  "orders": {
+    "DEMO-MARKETPLACE-ORDER-001": {
+      "id": "6e53bb44-2890-416b-b571-e3dbbca7b389",
+      "customerKey": "customer01",
+      "status": "DELIVERED"
+    },
+    "DEMO-MARKETPLACE-ORDER-002": {
+      "id": "3a7c600c-7552-40dc-9874-8bcc42950c68",
+      "customerKey": "customer02",
+      "status": "FAILED"
+    },
+    "DEMO-MARKETPLACE-ORDER-003": {
+      "id": "c4b5c2e4-3941-411e-9f1c-10091406714c",
+      "customerKey": "customer03",
+      "status": "PENDING_PAYMENT"
+    },
+    "DEMO-MARKETPLACE-ORDER-004": {
+      "id": "c7711804-bbcd-4886-81d2-422d93f9abb8",
+      "customerKey": "customer04",
+      "status": "SHIPPED"
+    },
+    "DEMO-MARKETPLACE-ORDER-005": {
+      "id": "2b417f89-a66b-4d5e-a710-d901b599d959",
+      "customerKey": "customer05",
+      "status": "SHIPPED"
+    },
+    "DEMO-MARKETPLACE-ORDER-006": {
+      "id": "38ac7f28-8868-4db8-8862-34a787192d6c",
+      "customerKey": "customer06",
+      "status": "COMPLETED"
+    },
+    "DEMO-MARKETPLACE-ORDER-007": {
+      "id": "a19c3bbe-8868-42f1-933c-0c2ed65306b9",
+      "customerKey": "customer07",
+      "status": "CANCELLED"
+    },
+    "DEMO-MARKETPLACE-ORDER-008": {
+      "id": "fb5d226f-4df3-4f3f-b52a-1132bbd6e2b0",
+      "customerKey": "customer08",
+      "status": "SHIPPED"
+    },
+    "DEMO-MARKETPLACE-ORDER-009": {
+      "id": "dc7fb582-ac4d-4486-99e9-e60f01b674ec",
+      "customerKey": "customer09",
+      "status": "SHIPPED"
+    },
+    "DEMO-MARKETPLACE-ORDER-010": {
+      "id": "e68beb20-faa3-4a9c-8dfc-6368bf90cdf8",
+      "customerKey": "customer10",
+      "status": "CONFIRMED"
+    },
+    "DEMO-MARKETPLACE-ORDER-011": {
+      "id": "40a7f823-8f82-4990-b216-4967887854ee",
+      "customerKey": "customer03",
+      "status": "SHIPPED"
+    },
+    "DEMO-MARKETPLACE-ORDER-012": {
+      "id": "e4120713-0540-43e7-81e5-578af303fb50",
+      "customerKey": "customer04",
+      "status": "CONFIRMED"
+    }
+  },
+  "payments": {
+    "DEMO-MARKETPLACE-ORDER-001": {
+      "id": "8fde9b4f-4755-4e5e-a790-c15681f3a699",
+      "status": "REFUNDED",
+      "customerKey": "customer01"
+    },
+    "DEMO-MARKETPLACE-ORDER-002": {
+      "id": "a08b05b9-50dd-40ff-8836-d4c73e78476a",
+      "status": "FAILED",
+      "customerKey": "customer02"
+    },
+    "DEMO-MARKETPLACE-ORDER-003": {
+      "id": "6f9a8793-ad23-4db5-b65c-70d8dc147a84",
+      "status": "PENDING",
+      "customerKey": "customer03"
+    },
+    "DEMO-MARKETPLACE-ORDER-004": {
+      "id": "82327f1f-a01c-4959-8adc-1fb40296ffd6",
+      "status": "CAPTURED",
+      "customerKey": "customer04"
+    },
+    "DEMO-MARKETPLACE-ORDER-005": {
+      "id": "5872a5d0-e7dc-4e7f-b0fb-5d42763ae1cf",
+      "status": "CAPTURED",
+      "customerKey": "customer05"
+    },
+    "DEMO-MARKETPLACE-ORDER-006": {
+      "id": "0aa2ef53-3e34-485f-91a2-b9ab4d7fbc08",
+      "status": "CAPTURED",
+      "customerKey": "customer06"
+    },
+    "DEMO-MARKETPLACE-ORDER-007": {
+      "id": "9c175d99-1225-407f-8fcc-e9be46c2c22f",
+      "status": "PENDING",
+      "customerKey": "customer07"
+    },
+    "DEMO-MARKETPLACE-ORDER-008": {
+      "id": "e3228168-986f-454d-ae43-51afba97ba4f",
+      "status": "CAPTURED",
+      "customerKey": "customer08"
+    },
+    "DEMO-MARKETPLACE-ORDER-009": {
+      "id": "11f12e5f-85d2-4cbe-a156-6a106a6ae3b5",
+      "status": "PENDING_COLLECTION",
+      "customerKey": "customer09"
+    },
+    "DEMO-MARKETPLACE-ORDER-010": {
+      "id": "67991bfc-85be-44b0-b716-c1997a3b7602",
+      "status": "CAPTURED",
+      "customerKey": "customer10"
+    },
+    "DEMO-MARKETPLACE-ORDER-011": {
+      "id": "494d9321-561f-4247-97ba-569c18fca11a",
+      "status": "REFUNDED",
+      "customerKey": "customer03"
+    },
+    "DEMO-MARKETPLACE-ORDER-012": {
+      "id": "07b2a3b5-1023-4656-84e8-5e7c5787aa94",
+      "status": "PENDING_COLLECTION",
+      "customerKey": "customer04"
+    }
+  },
+  "shipping": {
+    "fulfillments": {
+      "DEMO-MARKETPLACE-ORDER-001": "d01ea2f0-48af-4782-b76a-bf8d3fec060c",
+      "DEMO-MARKETPLACE-ORDER-004": "63b1b2e8-859a-417d-85f3-512d73bfcbdb",
+      "DEMO-MARKETPLACE-ORDER-005": "f774e249-8291-4e8c-af4b-b9edcb10975d",
+      "DEMO-MARKETPLACE-ORDER-006": "ebb42aab-d6bd-4973-9600-3cca74704ac0",
+      "DEMO-MARKETPLACE-ORDER-008": "288feadf-3cfa-4b53-8dca-38c297805843",
+      "DEMO-MARKETPLACE-ORDER-009": "31dfbb0b-dd4e-44eb-91e8-4b7f25e3f815",
+      "DEMO-MARKETPLACE-ORDER-010": "2a7f3a95-bafd-48d7-a129-ec52d1f7f4fb",
+      "DEMO-MARKETPLACE-ORDER-011": "bbfe51d0-02e2-4fcb-905c-06c076e13564",
+      "DEMO-MARKETPLACE-ORDER-012": "dac5fe68-6f72-417c-8ac0-fe5a91e1acdf"
+    },
+    "shipments": {
+      "DEMO-MARKETPLACE-ORDER-001": "531105fd-634f-46a2-964a-25ab2cb67914",
+      "DEMO-MARKETPLACE-ORDER-004": "8afee3ff-d73f-4f90-8f7b-cb414359952b",
+      "DEMO-MARKETPLACE-ORDER-005": "c534b250-8064-4e3e-bcbc-4643f1142e73",
+      "DEMO-MARKETPLACE-ORDER-006": "41140b7b-8315-455c-a6be-b6d22c77d0dc",
+      "DEMO-MARKETPLACE-ORDER-008": "0f3cf7bf-3e8b-48e8-b326-54b8a2ad052f",
+      "DEMO-MARKETPLACE-ORDER-009": "348976dc-4ea6-4b67-9ca6-61b418611cd1",
+      "DEMO-MARKETPLACE-ORDER-011": "795d9e30-2505-48d5-b09e-2c0661c94f0a"
+    },
+    "trackingEvents": {
+      "DEMO-MARKETPLACE-ORDER-001-LABEL_CREATED": "LABEL_CREATED",
+      "DEMO-MARKETPLACE-ORDER-001-PICKED_UP": "PICKED_UP",
+      "DEMO-MARKETPLACE-ORDER-001-IN_TRANSIT": "IN_TRANSIT",
+      "DEMO-MARKETPLACE-ORDER-001-OUT_FOR_DELIVERY": "OUT_FOR_DELIVERY",
+      "DEMO-MARKETPLACE-ORDER-001-DELIVERED": "DELIVERED",
+      "DEMO-MARKETPLACE-ORDER-004-IN_TRANSIT": "IN_TRANSIT",
+      "DEMO-MARKETPLACE-ORDER-005-IN_TRANSIT": "IN_TRANSIT",
+      "DEMO-MARKETPLACE-ORDER-005-OUT_FOR_DELIVERY": "OUT_FOR_DELIVERY",
+      "DEMO-MARKETPLACE-ORDER-006-IN_TRANSIT": "IN_TRANSIT",
+      "DEMO-MARKETPLACE-ORDER-006-OUT_FOR_DELIVERY": "OUT_FOR_DELIVERY",
+      "DEMO-MARKETPLACE-ORDER-006-DELIVERED": "DELIVERED",
+      "DEMO-MARKETPLACE-ORDER-009-IN_TRANSIT": "IN_TRANSIT"
+    }
   },
   "counts": {
-    "products": 25,
-    "categories": 8,
-    "variants": 75,
-    "skus": 75,
-    "images": 25,
+    "products": 37,
+    "categories": 48,
+    "variants": 111,
+    "skus": 111,
+    "images": 91,
     "locations": 3,
-    "plannedInventoryUnits": 300,
-    "customers": 8,
-    "orders": 5,
-    "payments": 5,
-    "fulfillments": 3,
-    "shipments": 3
+    "inventoryUnits": 242,
+    "customers": 10,
+    "addresses": 20,
+    "carts": 7,
+    "orders": 12,
+    "payments": 12,
+    "fulfillments": 9,
+    "shipments": 7,
+    "trackingEvents": 12
   }
 }

@@ -107,6 +107,28 @@ class CatalogIntegrationTest {
     }
 
     @Test
+    void parentCategoryListingIncludesProductsFromDescendantCategories() throws Exception {
+        UUID parent = createCategory("Coffee", null);
+        UUID child = createCategory("Beans", parent);
+        UUID grandchild = createCategory("Single Origin", child);
+        UUID unrelated = createCategory("Other Category " + UUID.randomUUID(), null);
+        createProduct(parent, "Coffee Gift Set", "COFFEE-PARENT", "INR", "700.00");
+        createProduct(child, "House Blend", "COFFEE-CHILD", "INR", "500.00");
+        createProduct(grandchild, "Estate Roast", "COFFEE-GRANDCHILD", "INR", "900.00");
+        createProduct(unrelated, "Phone Case", "PHONE-UNRELATED", "INR", "300.00");
+
+        mvc.perform(get("/api/v1/products")
+                        .param("categoryId", parent.toString())
+                        .param("status", "ACTIVE")
+                        .param("page", "0")
+                        .param("size", "20")
+                        .param("sort", "name,asc"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements").value(3))
+                .andExpect(jsonPath("$.content[*].name", org.hamcrest.Matchers.containsInAnyOrder("Coffee Gift Set", "House Blend", "Estate Roast")));
+    }
+
+    @Test
     void productCrudAndPaginationSort() throws Exception {
         UUID category = createCategory("Phones", null);
         UUID productId = createProduct(category, "Test Phone", "SKU-1", "INR", "100.00");

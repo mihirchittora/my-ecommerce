@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import base64
 import hashlib
 import hmac
 import json
@@ -32,7 +33,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 IMAGES = ROOT / "images"
 MANIFEST = ROOT / "manifests" / "seed-manifest.json"
-SOURCE_URL = "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans"
+SOURCE_URL = "https://www.meesho.com/"
 
 
 def load_dotenv(path: Path) -> None:
@@ -159,7 +160,7 @@ class SeedRunner:
             "seedVersion": self.products_doc["seedVersion"],
             "status": "running",
             "datasetType": "DEVELOPMENT_DEMO_ONLY",
-            "source": {"name": "Blue Tokai reference catalog", "url": SOURCE_URL,
+            "source": {"name": "Meesho public marketplace reference", "url": SOURCE_URL,
                        "note": "Reference metadata only; this is synthetic development data."},
             "lastRunAt": now(),
             "environment": os.environ.get("SEED_ENV"),
@@ -266,7 +267,14 @@ class SeedRunner:
                 existing = next((address for address in addresses if address.get("addressType") == address_type), None)
                 if existing is None:
                     existing = self.api["customer"].request("POST", "/api/v1/customers/me/addresses", self._address_payload(customer, address_type), headers=bearer(token), expected=(201,))
+                elif not existing.get("isDefault"):
+                    existing = self.api["customer"].request("POST", f"/api/v1/customers/me/addresses/{existing['id']}/default", headers=bearer(token), expected=(200,))
                 address_ids[address_type.lower()] = existing["id"]
+            addresses = self.api["customer"].request("GET", "/api/v1/customers/me/addresses", headers=bearer(token), expected=(200,))
+            for address_type in ("SHIPPING", "BILLING"):
+                defaults = [address for address in addresses if address.get("addressType") == address_type and address.get("isDefault")]
+                if len(defaults) != 1:
+                    raise SeedError(f"{customer['key']} must have exactly one default {address_type.lower()} address")
             self.customer_records[customer["key"]] = {"authUserId": profile["authUserId"], "customerId": profile["id"], "email": profile["email"], "addresses": address_ids}
             self.state["customers"][customer["key"]] = self.customer_records[customer["key"]]
 
@@ -311,10 +319,11 @@ class SeedRunner:
                 self.state["catalog"]["variants"][variant["sku"]] = variant["id"]
             image_by_name = {image.get("originalFilename"): image for image in existing.get("images", [])}
             for image in product["images"]:
-                if image["file"] not in image_by_name:
-                    uploaded = self.api["catalog"].upload(f"/api/v1/products/{existing['id']}/images", image["file"], (IMAGES / image["file"]).read_bytes(), self.admin_token, image["sortOrder"])
-                    image_by_name[image["file"]] = uploaded
-                self.state["catalog"]["images"][image["file"]] = image_by_name[image["file"]].get("id")
+                filename = Path(image["file"]).name
+                if filename not in image_by_name:
+                    uploaded = self.api["catalog"].upload(f"/api/v1/products/{existing['id']}/images", filename, (IMAGES / image["file"]).read_bytes(), self.admin_token, image["sortOrder"])
+                    image_by_name[filename] = uploaded
+                self.state["catalog"]["images"][image["file"]] = image_by_name[filename].get("id")
 
     def _product_payload(self, product: dict, category_id: str) -> dict:
         return {
@@ -371,12 +380,16 @@ class SeedRunner:
     def seed_inventory(self, location_ids: dict[str, str]) -> None:
         print("[5/10] Itemized Inventory")
         per_location = self.inventory_plan["unitsPerSkuByLocation"]
+        extras = {(entry["sku"], entry["locationCode"]): int(entry["quantity"])
+                  for entry in self.inventory_plan.get("extraUnits", [])}
         for product in self.products:
             for variant in product["variants"]:
                 sku = variant["sku"]
                 self.inventory_units.setdefault(sku, [])
                 for location in self.inventory_plan["locations"]:
-                    count = int(per_location[location["code"]])
+                    count = int(per_location[location["code"]]) + extras.get((sku, location["code"]), 0)
+                    if count < 1:
+                        continue
                     reference = f"{self.inventory_plan['receiptReferencePrefix']}-{sku}-{location['code']}"
                     response = self.api["inventory"].request("POST", f"/api/v1/inventory/{urllib.parse.quote(sku)}/receive", {
                         "locationId": location_ids[location["code"]], "quantity": count,
@@ -395,26 +408,33 @@ class SeedRunner:
         for scenario in self.inventory_plan["adjustmentScenarios"]:
             sku = scenario["sku"]
             desired_status = "DAMAGED" if scenario["reason"] == "DAMAGE" else "LOST"
-            candidate = next((unit for unit in self.inventory_units.get(sku, [])
-                              if unit.get("locationCode") == scenario["locationCode"] and unit.get("status") == desired_status), None)
-            if candidate is None:
-                candidate = next((unit for unit in self.inventory_units.get(sku, [])
-                                  if unit.get("locationCode") == scenario["locationCode"] and unit.get("status") == "AVAILABLE"), None)
-                if candidate is None:
-                    raise SeedError(f"no AVAILABLE unit available for {scenario['key']}")
-                response = self.api["inventory"].request("POST", f"/api/v1/inventory/{urllib.parse.quote(sku)}/adjustments", {
-                    "locationId": location_ids[scenario["locationCode"]], "quantity": -1,
-                    "reason": scenario["reason"], "referenceId": scenario["referenceId"], "unitIds": [candidate["id"]],
-                }, headers=bearer(self.admin_token), expected=(200,))
-                candidate["status"] = desired_status
-                self.state["inventory"]["units"][sku] = [
-                    {"id": unit.get("id"), "unitCode": unit.get("unitCode"),
-                     "locationCode": unit.get("locationCode"), "status": unit.get("status")}
-                    for unit in self.inventory_units[sku]
-                ]
-                self.state["inventory"]["adjustments"][scenario["key"]] = response.get("id")
+            requested_quantity = abs(int(scenario.get("quantity", -1)))
+            matching = [unit for unit in self.inventory_units.get(sku, [])
+                        if unit.get("locationCode") == scenario["locationCode"] and unit.get("status") == desired_status]
+            available = [unit for unit in self.inventory_units.get(sku, [])
+                         if unit.get("locationCode") == scenario["locationCode"] and unit.get("status") == "AVAILABLE"]
+            candidate_ids = [unit["id"] for unit in matching[:requested_quantity]]
+            if len(candidate_ids) < requested_quantity:
+                candidate_ids.extend(unit["id"] for unit in available[:requested_quantity - len(candidate_ids)])
+            if len(candidate_ids) != requested_quantity:
+                raise SeedError(f"not enough AVAILABLE units for {scenario['key']}: {sku} at {scenario['locationCode']}")
+            existing_adjustment = self.state["inventory"]["adjustments"].get(scenario["key"])
+            if existing_adjustment:
+                continue
+            response = self.api["inventory"].request("POST", f"/api/v1/inventory/{urllib.parse.quote(sku)}/adjustments", {
+                "locationId": location_ids[scenario["locationCode"]], "quantity": -requested_quantity,
+                "reason": scenario["reason"], "referenceId": scenario["referenceId"], "unitIds": candidate_ids,
+            }, headers=bearer(self.admin_token), expected=(200,))
+            for unit in self.inventory_units[sku]:
+                if unit.get("id") in candidate_ids:
+                    unit["status"] = desired_status
+            self.state["inventory"]["units"][sku] = [
+                {"id": unit.get("id"), "unitCode": unit.get("unitCode"),
+                 "locationCode": unit.get("locationCode"), "status": unit.get("status")}
+                for unit in self.inventory_units[sku]
+            ]
+            self.state["inventory"]["adjustments"][scenario["key"]] = response.get("id")
         for scenario in self.inventory_plan["reservationScenarios"]:
-            existing = self.state["inventory"]["reservations"].get(scenario["key"])
             response = self.api["inventory"].request("POST", f"/api/v1/inventory/{urllib.parse.quote(scenario['sku'])}/reservations", {
                 "locationId": location_ids[scenario["locationCode"]], "quantity": scenario["quantity"], "referenceId": scenario["referenceId"],
             }, headers=bearer(self.admin_token), expected=(201,))
@@ -433,20 +453,22 @@ class SeedRunner:
         print("[6/10] Carts")
         for scenario in self.scenarios:
             customer_key = scenario.get("customerKey")
-            if not customer_key or not scenario.get("items"):
+            if not customer_key or not scenario.get("items") or not scenario.get("key", "").startswith("cart-"):
                 continue
             token = self.customer_tokens[customer_key]
             cart = self.api["cart"].request("GET", "/api/v1/cart", headers=bearer(token), expected=(200,))
             if cart.get("status") == "ACTIVE":
+                desired = {item["sku"]: item["quantity"] for item in scenario["items"]}
+                for existing in list(cart.get("items", [])):
+                    if existing["sku"] not in desired:
+                        cart = self.api["cart"].request("DELETE", f"/api/v1/cart/items/{existing['id']}", headers=bearer(token), expected=(200,))
+                    elif existing["quantity"] != desired[existing["sku"]]:
+                        cart = self.api["cart"].request("PATCH", f"/api/v1/cart/items/{existing['id']}", {"quantity": desired[existing["sku"]]}, headers=bearer(token), expected=(200,))
                 existing_skus = {item["sku"] for item in cart.get("items", [])}
                 for item in scenario["items"]:
                     if item["sku"] not in existing_skus:
                         cart = self.api["cart"].request("POST", "/api/v1/cart/items", item, headers=bearer(token), expected=(200,))
             self.state["carts"][customer_key] = cart["id"]
-        for customer in self.customers:
-            if customer["key"] not in self.state["carts"]:
-                cart = self.api["cart"].request("GET", "/api/v1/cart", headers=bearer(self.customer_tokens[customer["key"]]), expected=(200,))
-                self.state["carts"][customer["key"]] = cart["id"]
 
     def _scenario_items(self, scenario: dict) -> list[dict]:
         return scenario.get("items") or [{"sku": scenario["sku"], "quantity": scenario["quantity"]}]
@@ -467,7 +489,7 @@ class SeedRunner:
                 address = self._shipping_address(customer_key)
                 scenario_items = self._scenario_items(scenario)
                 order_body = {"currency": "INR", "items": scenario_items, "shippingAddress": address}
-                if scenario["orderReference"] == "DEMO-ORDER-001":
+                if scenario["orderReference"] == "DEMO-MARKETPLACE-ORDER-001":
                     cart = self.api["cart"].request("GET", "/api/v1/cart", headers=bearer(token), expected=(200,))
                     if cart.get("status") == "ACTIVE":
                         desired = {item["sku"]: item["quantity"] for item in scenario_items}
@@ -480,15 +502,18 @@ class SeedRunner:
                         for item in scenario_items:
                             if item["sku"] not in existing_skus:
                                 cart = self.api["cart"].request("POST", "/api/v1/cart/items", item, headers=bearer(token), expected=(200,))
-                    checkout = self.api["cart"].request("POST", "/api/v1/cart/checkout", {"currency": "INR", "preferredLocationId": None, "shippingAddress": address}, headers={**bearer(token), "Idempotency-Key": scenario["orderReference"]}, expected=(200,))
-                    order_id = checkout["orderId"]
+                    checkout = self.api["cart"].request("POST", "/api/v1/cart/checkout", {"currency": "INR", "preferredLocationId": None, "shippingAddress": address, "paymentMethod": scenario.get("paymentMethod", "ONLINE")}, headers={**bearer(token), "Idempotency-Key": scenario["orderReference"]}, expected=(200,))
+                    order_id = checkout.get("orderId") or cart.get("convertedOrderId")
+                    if not order_id:
+                        raise SeedError(f"checkout for {scenario['orderReference']} did not return an orderId")
                     order = self.api["order"].request("GET", f"/api/v1/orders/{order_id}", headers=bearer(token), expected=(200,))
                 else:
+                    order_body["paymentMethod"] = scenario.get("paymentMethod", "ONLINE")
                     order = self.api["order"].request("POST", "/api/v1/orders", order_body, headers={**bearer(token), "Idempotency-Key": scenario["orderReference"]}, expected=(201,))
-                if scenario["orderReference"] == "DEMO-ORDER-001" and price_scenario:
+                if scenario["orderReference"] == "DEMO-MARKETPLACE-ORDER-001" and price_scenario:
                     historical_item = next((item for item in order.get("items", []) if item.get("sku") == price_scenario["sku"]), None)
                     if historical_item is None or Decimal(str(historical_item.get("unitPrice"))) != Decimal(str(price_scenario["before"])):
-                        raise SeedError("DEMO-ORDER-001 already has a non-historical price; use the explicit development reset before reseeding")
+                        raise SeedError("DEMO-MARKETPLACE-ORDER-001 already has a non-historical price; use the explicit development reset before reseeding")
                 self.state["orders"][scenario["orderReference"]] = {"id": order["id"], "customerKey": customer_key, "status": order["status"]}
         finally:
             if staged_price:
@@ -513,8 +538,9 @@ class SeedRunner:
             reference = scenario["orderReference"]
             order_record = self.state["orders"][reference]
             token = self.customer_tokens[scenario["customerKey"]]
+            payment_method = scenario.get("paymentMethod", "ONLINE")
             response = self.api["payment"].request("POST", "/api/v1/payments", {
-                "orderId": order_record["id"], "preferredProvider": "SANDBOX", "paymentMethodType": "DEMO_CHECKOUT",
+                "orderId": order_record["id"], "preferredProvider": "SANDBOX", "paymentMethod": payment_method,
             }, headers={**bearer(token), "Idempotency-Key": f"{reference}-PAYMENT"}, expected=(201,))
             payment_id = response["id"]
             self.state["payments"][reference] = {"id": payment_id, "status": response["status"], "customerKey": scenario["customerKey"]}
@@ -528,12 +554,16 @@ class SeedRunner:
                     "failureCode": "DEMO_DECLINED" if desired == "FAILED" else None,
                     "failureMessage": "Synthetic sandbox decline" if desired == "FAILED" else None,
                 }, separators=(",", ":"))
-                signature = hmac.new(secret, payload.encode("utf-8"), hashlib.sha256).hexdigest()
+                signature = base64.b64encode(
+                    hmac.new(secret, payload.encode("utf-8"), hashlib.sha256).digest()
+                ).decode("ascii")
                 self._raw_json(self.api["payment"], "POST", "/api/v1/payments/webhooks/SANDBOX", payload, {"X-Provider-Signature": signature})
                 event = "CAPTURED" if desired == "CAPTURED" else "FAILED"
                 self._payment_order_event(response, event, payment_to_order_token)
                 response["status"] = desired
                 self.state["payments"][reference]["status"] = desired
+            if scenario.get("cancel"):
+                self.api["order"].request("POST", f"/api/v1/orders/{order_record['id']}/cancel", headers=bearer(token), expected=(200,))
             if scenario.get("refund") and response.get("status") in {"CAPTURED", "REFUNDED"}:
                 response = self.api["payment"].request("POST", f"/api/v1/payments/{payment_id}/refund", {"reason": "Synthetic demo refund"}, headers={**bearer(token), "Idempotency-Key": f"{reference}-REFUND"}, expected=(200,))
                 self.state["payments"][reference]["status"] = response["status"]
@@ -572,12 +602,12 @@ class SeedRunner:
         order_to_shipping = os.environ.get("ORDER_TO_SHIPPING_SERVICE_TOKEN", "dev-order-to-shipping")
         shipping_secret = os.environ.get("SHIPPING_WEBHOOK_SECRET", "dev-shipping-webhook-secret").encode("utf-8")
         for scenario in self.scenarios:
-            if "orderReference" not in scenario or scenario["payment"] != "CAPTURED":
+            if "orderReference" not in scenario or scenario["payment"] not in {"CAPTURED", "COD_PENDING_COLLECTION"}:
                 continue
             reference = scenario["orderReference"]
             order_record = self.state["orders"][reference]
             detail = self.api["order"].request("GET", f"/api/v1/orders/{order_record['id']}", headers=bearer(self.customer_tokens[scenario["customerKey"]]), expected=(200,))
-            if detail["status"] not in {"CONFIRMED", "FULFILLING", "SHIPPED", "DELIVERED"}:
+            if detail["status"] not in {"CONFIRMED", "FULFILLING", "SHIPPED", "DELIVERED", "COMPLETED"}:
                 raise SeedError(f"{reference} is {detail['status']}; payment-to-order transition did not complete")
             fulfillment_id = self.state["shipping"]["fulfillments"].get(reference)
             if fulfillment_id:
@@ -586,6 +616,8 @@ class SeedRunner:
                 fulfillment = self.api["shipping"].request("POST", "/internal/fulfillments", {"orderId": order_record["id"]}, headers={"X-Order-Service-Token": order_to_shipping}, expected=(201,))
                 fulfillment_id = fulfillment["id"]
                 self.state["shipping"]["fulfillments"][reference] = fulfillment_id
+            if not scenario.get("createShipment", True):
+                continue
             shipment_id = self.state["shipping"]["shipments"].get(reference)
             if shipment_id:
                 shipment = self.api["shipping"].request("GET", f"/api/v1/shipments/{shipment_id}", headers=bearer(self.admin_token), expected=(200,))
@@ -596,14 +628,22 @@ class SeedRunner:
                 }, headers={"X-Order-Service-Token": order_to_shipping, "Idempotency-Key": f"{reference}-SHIPMENT"}, expected=(201,))
                 shipment_id = shipment["id"]
                 self.state["shipping"]["shipments"][reference] = shipment_id
-            for event_type in scenario.get("tracking", []):
+            existing_tracking = self.api["shipping"].request(
+                "GET", f"/api/v1/shipments/{shipment_id}/tracking", headers=bearer(self.admin_token), expected=(200,)
+            )
+            existing_event_types = {event.get("eventType") for event in existing_tracking.get("events", [])}
+            for event_index, event_type in enumerate(scenario.get("tracking", []), start=1):
                 event_key = f"{reference}-{event_type}"
                 if event_key in self.state["shipping"]["trackingEvents"]:
                     continue
+                if event_type in existing_event_types:
+                    self.state["shipping"]["trackingEvents"][event_key] = event_type
+                    continue
                 payload = json.dumps({
-                    "providerEventId": event_key, "providerShipmentId": shipment["providerShipmentId"],
+                    "providerEventId": f"DEMO-MARKETPLACE-TRACKING-{event_key}", "providerShipmentId": shipment["providerShipmentId"],
                     "trackingNumber": shipment["trackingNumber"], "eventType": event_type,
-                    "description": f"Synthetic sandbox carrier event: {event_type}", "location": "Demo logistics network", "occurredAt": now(),
+                    "description": f"Synthetic sandbox carrier event: {event_type}", "location": "Demo logistics network",
+                    "occurredAt": f"2026-09-23T{event_index:02d}:00:00Z",
                 }, separators=(",", ":"))
                 signature = hmac.new(shipping_secret, payload.encode("utf-8"), hashlib.sha256).hexdigest()
                 self._raw_json(self.api["shipping"], "POST", "/api/v1/shipping/webhooks/SANDBOX", payload, {"X-Sandbox-Signature": signature})
@@ -613,20 +653,41 @@ class SeedRunner:
                 for item in order.get("items", []):
                     if item.get("reservationId"):
                         self.api["inventory"].request("POST", f"/api/v1/inventory/reservations/{item['reservationId']}/confirm", headers=bearer(self.admin_token), expected=(200,))
+                if scenario.get("collectCod"):
+                    payment = self.state["payments"].get(reference)
+                    if payment:
+                        collected = self.api["payment"].request("POST", f"/api/v1/admin/payments/{payment['id']}/collect", headers=bearer(self.admin_token), expected=(200,))
+                        self.state["payments"][reference]["status"] = collected.get("status", "CAPTURED")
 
     def validate_live(self) -> None:
         print("[10/10] Validation")
         catalog_page = self.api["catalog"].request("GET", "/api/v1/products?page=0&size=100&sort=name,asc", expected=(200,))
-        if catalog_page.get("totalElements") != len(self.products):
-            raise SeedError(f"catalog product count mismatch: expected {len(self.products)}, got {catalog_page.get('totalElements')}")
+        if catalog_page.get("totalElements", 0) < len(self.products):
+            raise SeedError(f"catalog product count is below the seeded dataset: expected at least {len(self.products)}, got {catalog_page.get('totalElements')}")
+        seeded_product_ids = set(self.state["catalog"]["products"].values())
+        returned_products = {product.get("id"): product for product in catalog_page.get("content", [])}
+        missing_products = seeded_product_ids - returned_products.keys()
+        if missing_products:
+            raise SeedError(f"catalog validation could not find {len(missing_products)} seeded products in the first page")
+        for product_id in seeded_product_ids:
+            product = returned_products[product_id]
+            if product.get("status") != "ACTIVE" or not product.get("variants") or not product.get("images"):
+                raise SeedError(f"product {product.get('slug')} is missing an active variant or image gallery")
         inventory_summary = self.api["inventory"].request("GET", "/api/v1/inventory/summary", headers=bearer(self.admin_token), expected=(200,))
         if inventory_summary.get("totalInventoryUnits", 0) < 100:
             raise SeedError("inventory validation found fewer than 100 active physical units")
-        for customer in self.customers:
-            cart = self.api["cart"].request("GET", "/api/v1/cart", headers=bearer(self.customer_tokens[customer["key"]]), expected=(200,))
-            if cart.get("status") == "ACTIVE" and cart.get("items") and cart.get("totalQuantity", 0) > 0:
-                # Cart reads are intentionally not reservations; this is a visible contract check.
-                pass
+        active_carts = 0
+        for customer_key in self.state["carts"]:
+            cart = self.api["cart"].request("GET", "/api/v1/cart", headers=bearer(self.customer_tokens[customer_key]), expected=(200,))
+            if cart.get("status") == "ACTIVE":
+                active_carts += 1
+                for item in cart.get("items", []):
+                    if item.get("sku") not in self.state["catalog"]["variants"]:
+                        raise SeedError(f"cart contains an invalid SKU: {item.get('sku')}")
+                    if any(field in item for field in ("reservationId", "reservationIds", "inventoryUnitIds")):
+                        raise SeedError(f"cart item {item['sku']} unexpectedly contains reservation data")
+        if not 5 <= active_carts <= 8:
+            raise SeedError(f"expected 5-8 active demo carts, found {active_carts}")
         for reference, record in self.state["orders"].items():
             order = self.api["order"].request("GET", f"/api/v1/orders/{record['id']}", headers=bearer(self.customer_tokens[record["customerKey"]]), expected=(200,))
             if any(item.get("sku") not in self.state["catalog"]["variants"] for item in order.get("items", [])):
@@ -655,6 +716,8 @@ class SeedRunner:
 
 
 def reset_development() -> None:
+    if os.environ.get("APP_ENV", "").strip().lower() == "production":
+        raise SeedError("--reset refuses APP_ENV=production")
     if os.environ.get("SEED_ENV") != "development":
         raise SeedError("--reset requires SEED_ENV=development")
     compose = [
@@ -668,6 +731,22 @@ def reset_development() -> None:
         subprocess.run([*docker, "-f", str(ROOT / compose_file), "down", "-v"], cwd=ROOT, check=True)
     if MANIFEST.exists():
         MANIFEST.unlink()
+
+
+def dry_run() -> None:
+    """Print the deterministic operation plan without network calls or writes."""
+    from validate_dataset import validate
+
+    summary = validate()
+    print("[dry-run] no service or manifest mutations will be made")
+    print(json.dumps({
+        "environment": os.environ.get("SEED_ENV") or "not set (dry-run only)",
+        "sourceReference": SOURCE_URL,
+        "dependencyOrder": ["Auth", "Customers", "Categories", "Products", "Variants/SKUs", "Images",
+                             "Inventory locations", "Inventory units", "Carts", "Orders", "Payments",
+                             "Fulfillments", "Shipments", "Tracking", "Validation"],
+        "dataset": summary,
+    }, indent=2))
 
 
 def compose_command() -> list[str]:
@@ -698,6 +777,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--refresh-source", action="store_true", help="Extract source metadata for review; never imports it")
     parser.add_argument("--refresh-images", action="store_true", help="Regenerate original local demo PNGs")
     parser.add_argument("--validate-only", action="store_true", help="Validate frozen data and local image assets without network calls")
+    parser.add_argument("--dry-run", action="store_true", help="Show intended API operations without changing services or the manifest")
     parser.add_argument("--skip-orders", action="store_true")
     parser.add_argument("--skip-shipping", action="store_true")
     return parser.parse_args(argv)
@@ -717,9 +797,14 @@ def main(argv: list[str] | None = None) -> int:
         if args.validate_only:
             from validate_dataset import main as validate_main
             return validate_main()
+        if args.dry_run:
+            dry_run()
+            return 0
         if args.reset:
             reset_development()
             return 0
+        if os.environ.get("APP_ENV", "").strip().lower() == "production":
+            raise SeedError("refusing to seed: APP_ENV=production")
         if os.environ.get("SEED_ENV") not in {"development", "test"}:
             raise SeedError("refusing to seed: set SEED_ENV=development or SEED_ENV=test explicitly")
         runner = SeedRunner(args)

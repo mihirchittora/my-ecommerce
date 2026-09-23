@@ -1,2289 +1,3423 @@
 {
-  "seedVersion": "1.0.0",
+  "seedVersion": "2.0.0",
   "datasetType": "DEVELOPMENT_DEMO_ONLY",
   "source": {
-    "name": "Blue Tokai reference catalog",
-    "url": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-    "extractedAt": "2026-09-22T00:00:00Z"
+    "name": "Meesho public marketplace reference",
+    "url": "https://www.meesho.com/",
+    "accessedAt": "2026-09-23T00:00:00Z",
+    "note": "Reference only; all catalog identity, copy, prices, and images are original synthetic data."
   },
   "products": [
     {
       "key": "product-01",
-      "name": "Highland Cocoa",
-      "slug": "highland-cocoa",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Printed Cotton Saree",
+      "slug": "printed-cotton-saree",
+      "categoryKey": "womens-sarees",
+      "brand": "Loom & Leaf",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium dark profile with cocoa, dried fruit, roasted almond.",
-      "metadata": {
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "FRENCH_PRESS",
-        "tastingNotes": "cocoa, dried fruit, roasted almond"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 799,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": {
-          "before": 700,
-          "after": 799
-        }
-      },
+      "description": "A practical printed cotton saree designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Attikan Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "HIGHLAND-COCOA-WB-250",
-          "sku": "HIGHLAND-COCOA-WB-250",
-          "price": 799,
+          "key": "WFT-SAR-COTTON-BLU-FS",
+          "sku": "WFT-SAR-COTTON-BLU-FS",
+          "price": 999,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "FRENCH_PRESS"
+            "color": "Blue",
+            "size": "Free Size",
+            "material": "Cotton"
           }
         },
         {
-          "key": "HIGHLAND-COCOA-GR-250",
-          "sku": "HIGHLAND-COCOA-GR-250",
-          "price": 799,
+          "key": "WFT-SAR-COTTON-GRN-FS",
+          "sku": "WFT-SAR-COTTON-GRN-FS",
+          "price": 999,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "FRENCH_PRESS"
+            "color": "Green",
+            "size": "Free Size",
+            "material": "Cotton"
           }
         },
         {
-          "key": "HIGHLAND-COCOA-WB-500",
-          "sku": "HIGHLAND-COCOA-WB-500",
-          "price": 1438,
+          "key": "WFT-SAR-COTTON-MAR-FS",
+          "sku": "WFT-SAR-COTTON-MAR-FS",
+          "price": 1099,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "FRENCH_PRESS"
+            "color": "Maroon",
+            "size": "Free Size",
+            "material": "Cotton"
+          }
+        },
+        {
+          "key": "WFT-SAR-COTTON-YLW-FS",
+          "sku": "WFT-SAR-COTTON-YLW-FS",
+          "price": 999,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Yellow",
+            "size": "Free Size",
+            "material": "Cotton"
           }
         }
       ],
       "images": [
         {
-          "file": "highland-cocoa-01.png",
+          "file": "printed-cotton-saree/printed-cotton-saree-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Highland Cocoa development coffee bag",
+          "alt": "Printed Cotton Saree demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 999,
+        "max": 1099,
+        "base": 999
+      }
     },
     {
       "key": "product-02",
-      "name": "Ember Valley",
-      "slug": "ember-valley",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Embroidered Everyday Kurti",
+      "slug": "embroidered-everyday-kurti",
+      "categoryKey": "womens-kurtis",
+      "brand": "Loom & Leaf",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a dark profile with cocoa, toasted wood, bittersweet finish.",
-      "metadata": {
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "ESPRESSO",
-        "tastingNotes": "cocoa, toasted wood, bittersweet finish"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 650,
-        "sourceReferencePrice250g": 650,
-        "priceChangeDemo": null
-      },
+      "description": "A practical embroidered everyday kurti designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Vienna Roast",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "EMBER-VALLEY-WB-250",
-          "sku": "EMBER-VALLEY-WB-250",
-          "price": 650,
+          "key": "WFT-KUR-EMB-PNK-S",
+          "sku": "WFT-KUR-EMB-PNK-S",
+          "price": 799,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "ESPRESSO"
+            "color": "Pink",
+            "size": "S",
+            "material": "Rayon"
           }
         },
         {
-          "key": "EMBER-VALLEY-GR-250",
-          "sku": "EMBER-VALLEY-GR-250",
-          "price": 650,
+          "key": "WFT-KUR-EMB-PNK-M",
+          "sku": "WFT-KUR-EMB-PNK-M",
+          "price": 799,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "ESPRESSO"
+            "color": "Pink",
+            "size": "M",
+            "material": "Rayon"
           }
         },
         {
-          "key": "EMBER-VALLEY-WB-500",
-          "sku": "EMBER-VALLEY-WB-500",
-          "price": 1170,
+          "key": "WFT-KUR-EMB-PNK-L",
+          "sku": "WFT-KUR-EMB-PNK-L",
+          "price": 799,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "ESPRESSO"
+            "color": "Pink",
+            "size": "L",
+            "material": "Rayon"
+          }
+        },
+        {
+          "key": "WFT-KUR-EMB-BLU-M",
+          "sku": "WFT-KUR-EMB-BLU-M",
+          "price": 849,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Blue",
+            "size": "M",
+            "material": "Rayon"
+          }
+        },
+        {
+          "key": "WFT-KUR-EMB-BLU-XL",
+          "sku": "WFT-KUR-EMB-BLU-XL",
+          "price": 849,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Blue",
+            "size": "XL",
+            "material": "Rayon"
           }
         }
       ],
       "images": [
         {
-          "file": "ember-valley-01.png",
+          "file": "embroidered-everyday-kurti/embroidered-everyday-kurti-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Ember Valley development coffee bag",
+          "alt": "Embroidered Everyday Kurti demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "embroidered-everyday-kurti/embroidered-everyday-kurti-02.png",
+          "sourceUrl": null,
+          "alt": "Embroidered Everyday Kurti demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 799,
+        "max": 849,
+        "base": 799
+      }
     },
     {
       "key": "product-03",
-      "name": "Rainline Honey",
-      "slug": "rainline-honey",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Casual Floral Midi Dress",
+      "slug": "casual-floral-midi-dress",
+      "categoryKey": "womens-dresses",
+      "brand": "Loom & Leaf",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium profile with red fruit, honey, gentle citrus.",
-      "metadata": {
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRUITY_PUNCHY",
-        "equipment": "POUROVER",
-        "tastingNotes": "red fruit, honey, gentle citrus"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 800,
-        "sourceReferencePrice250g": 800,
-        "priceChangeDemo": null
-      },
+      "description": "A practical casual floral midi dress designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Sampigehoney Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "RAINLINE-HONEY-WB-250",
-          "sku": "RAINLINE-HONEY-WB-250",
-          "price": 800,
+          "key": "WFT-DRS-FLORAL-YLW-S",
+          "sku": "WFT-DRS-FLORAL-YLW-S",
+          "price": 899,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRUITY_PUNCHY",
-            "equipment": "POUROVER"
+            "color": "Yellow",
+            "size": "S",
+            "material": "Viscose"
           }
         },
         {
-          "key": "RAINLINE-HONEY-GR-250",
-          "sku": "RAINLINE-HONEY-GR-250",
-          "price": 800,
+          "key": "WFT-DRS-FLORAL-YLW-M",
+          "sku": "WFT-DRS-FLORAL-YLW-M",
+          "price": 899,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRUITY_PUNCHY",
-            "equipment": "POUROVER"
+            "color": "Yellow",
+            "size": "M",
+            "material": "Viscose"
           }
         },
         {
-          "key": "RAINLINE-HONEY-WB-500",
-          "sku": "RAINLINE-HONEY-WB-500",
-          "price": 1440,
+          "key": "WFT-DRS-FLORAL-BLK-M",
+          "sku": "WFT-DRS-FLORAL-BLK-M",
+          "price": 949,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRUITY_PUNCHY",
-            "equipment": "POUROVER"
+            "color": "Black",
+            "size": "M",
+            "material": "Viscose"
           }
         }
       ],
       "images": [
         {
-          "file": "rainline-honey-01.png",
+          "file": "casual-floral-midi-dress/casual-floral-midi-dress-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Rainline Honey development coffee bag",
+          "alt": "Casual Floral Midi Dress demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "casual-floral-midi-dress/casual-floral-midi-dress-02.png",
+          "sourceUrl": null,
+          "alt": "Casual Floral Midi Dress demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "casual-floral-midi-dress/casual-floral-midi-dress-03.png",
+          "sourceUrl": null,
+          "alt": "Casual Floral Midi Dress demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 899,
+        "max": 949,
+        "base": 899
+      }
     },
     {
       "key": "product-04",
-      "name": "Orchard Peak",
-      "slug": "orchard-peak",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Linen Blend Ethnic Set",
+      "slug": "linen-blend-ethnic-set",
+      "categoryKey": "womens-ethnic-sets",
+      "brand": "Loom & Leaf",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a light profile with pear, stone fruit, almond.",
-      "metadata": {
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "POUROVER",
-        "tastingNotes": "pear, stone fruit, almond"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 850,
-        "sourceReferencePrice250g": 850,
-        "priceChangeDemo": null
-      },
+      "description": "A practical linen blend ethnic set designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Salawara Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "ORCHARD-PEAK-WB-250",
-          "sku": "ORCHARD-PEAK-WB-250",
-          "price": 850,
+          "key": "WFT-SET-LINEN-IVY-S",
+          "sku": "WFT-SET-LINEN-IVY-S",
+          "price": 1299,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "DELICATE_COMPLEX",
-            "equipment": "POUROVER"
+            "color": "Ivory",
+            "size": "S",
+            "material": "Linen Blend"
           }
         },
         {
-          "key": "ORCHARD-PEAK-GR-250",
-          "sku": "ORCHARD-PEAK-GR-250",
-          "price": 850,
+          "key": "WFT-SET-LINEN-IVY-M",
+          "sku": "WFT-SET-LINEN-IVY-M",
+          "price": 1299,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "DELICATE_COMPLEX",
-            "equipment": "POUROVER"
+            "color": "Ivory",
+            "size": "M",
+            "material": "Linen Blend"
           }
         },
         {
-          "key": "ORCHARD-PEAK-WB-500",
-          "sku": "ORCHARD-PEAK-WB-500",
-          "price": 1530,
+          "key": "WFT-SET-LINEN-IVY-L",
+          "sku": "WFT-SET-LINEN-IVY-L",
+          "price": 1299,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "DELICATE_COMPLEX",
-            "equipment": "POUROVER"
+            "color": "Ivory",
+            "size": "L",
+            "material": "Linen Blend"
           }
         }
       ],
       "images": [
         {
-          "file": "orchard-peak-01.png",
+          "file": "linen-blend-ethnic-set/linen-blend-ethnic-set-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Orchard Peak development coffee bag",
+          "alt": "Linen Blend Ethnic Set demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "linen-blend-ethnic-set/linen-blend-ethnic-set-02.png",
+          "sourceUrl": null,
+          "alt": "Linen Blend Ethnic Set demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "linen-blend-ethnic-set/linen-blend-ethnic-set-03.png",
+          "sourceUrl": null,
+          "alt": "Linen Blend Ethnic Set demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "linen-blend-ethnic-set/linen-blend-ethnic-set-04.png",
+          "sourceUrl": null,
+          "alt": "Linen Blend Ethnic Set demo image 4",
+          "sortOrder": 3,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 1299,
+        "max": 1299,
+        "base": 1299
+      }
     },
     {
       "key": "product-05",
-      "name": "Cedar Bloom",
-      "slug": "cedar-bloom",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Soft Lounge Co-ord Set",
+      "slug": "soft-lounge-co-ord-set",
+      "categoryKey": "womens-dresses",
+      "brand": "Loom & Leaf",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium profile with orange, malt, roasted hazelnut.",
-      "metadata": {
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "AEROPRESS",
-        "tastingNotes": "orange, malt, roasted hazelnut"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 800,
-        "sourceReferencePrice250g": 800,
-        "priceChangeDemo": null
-      },
+      "description": "A practical soft lounge co-ord set designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Elkhill Estates",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "CEDAR-BLOOM-WB-250",
-          "sku": "CEDAR-BLOOM-WB-250",
-          "price": 800,
+          "key": "WFT-COORD-LOUNGE-SAGE-S",
+          "sku": "WFT-COORD-LOUNGE-SAGE-S",
+          "price": 899,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "AEROPRESS"
+            "color": "Sage",
+            "size": "S",
+            "material": "Cotton"
           }
         },
         {
-          "key": "CEDAR-BLOOM-GR-250",
-          "sku": "CEDAR-BLOOM-GR-250",
-          "price": 800,
+          "key": "WFT-COORD-LOUNGE-SAGE-M",
+          "sku": "WFT-COORD-LOUNGE-SAGE-M",
+          "price": 899,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "AEROPRESS"
+            "color": "Sage",
+            "size": "M",
+            "material": "Cotton"
           }
         },
         {
-          "key": "CEDAR-BLOOM-WB-500",
-          "sku": "CEDAR-BLOOM-WB-500",
-          "price": 1440,
+          "key": "WFT-COORD-LOUNGE-SAGE-L",
+          "sku": "WFT-COORD-LOUNGE-SAGE-L",
+          "price": 899,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "AEROPRESS"
+            "color": "Sage",
+            "size": "L",
+            "material": "Cotton"
           }
         }
       ],
       "images": [
         {
-          "file": "cedar-bloom-01.png",
+          "file": "soft-lounge-co-ord-set/soft-lounge-co-ord-set-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Cedar Bloom development coffee bag",
+          "alt": "Soft Lounge Co-ord Set demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 899,
+        "max": 899,
+        "base": 899
+      }
     },
     {
       "key": "product-06",
-      "name": "Monsoon Trail",
-      "slug": "monsoon-trail",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Casual Cotton T-Shirt",
+      "slug": "casual-cotton-t-shirt",
+      "categoryKey": "mens-tshirts",
+      "brand": "Northline Studio",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium dark profile with cocoa nib, nutmeg, raisin.",
-      "metadata": {
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "SOUTH_INDIAN_FILTER",
-        "tastingNotes": "cocoa nib, nutmeg, raisin"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 700,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": null
-      },
+      "description": "A practical casual cotton t-shirt designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Monsoon Malabar AA",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "MONSOON-TRAIL-WB-250",
-          "sku": "MONSOON-TRAIL-WB-250",
-          "price": 700,
+          "key": "MFT-TSH-COTTON-BLK-S",
+          "sku": "MFT-TSH-COTTON-BLK-S",
+          "price": 399,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "SOUTH_INDIAN_FILTER"
+            "color": "Black",
+            "size": "S",
+            "material": "Cotton"
           }
         },
         {
-          "key": "MONSOON-TRAIL-GR-250",
-          "sku": "MONSOON-TRAIL-GR-250",
-          "price": 700,
+          "key": "MFT-TSH-COTTON-BLK-M",
+          "sku": "MFT-TSH-COTTON-BLK-M",
+          "price": 399,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "SOUTH_INDIAN_FILTER"
+            "color": "Black",
+            "size": "M",
+            "material": "Cotton"
           }
         },
         {
-          "key": "MONSOON-TRAIL-WB-500",
-          "sku": "MONSOON-TRAIL-WB-500",
-          "price": 1260,
+          "key": "MFT-TSH-COTTON-BLK-L",
+          "sku": "MFT-TSH-COTTON-BLK-L",
+          "price": 399,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "SOUTH_INDIAN_FILTER"
+            "color": "Black",
+            "size": "L",
+            "material": "Cotton"
+          }
+        },
+        {
+          "key": "MFT-TSH-COTTON-BLK-XL",
+          "sku": "MFT-TSH-COTTON-BLK-XL",
+          "price": 399,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Black",
+            "size": "XL",
+            "material": "Cotton"
+          }
+        },
+        {
+          "key": "MFT-TSH-COTTON-BLU-M",
+          "sku": "MFT-TSH-COTTON-BLU-M",
+          "price": 449,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Blue",
+            "size": "M",
+            "material": "Cotton"
+          }
+        },
+        {
+          "key": "MFT-TSH-COTTON-BLU-L",
+          "sku": "MFT-TSH-COTTON-BLU-L",
+          "price": 449,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Blue",
+            "size": "L",
+            "material": "Cotton"
           }
         }
       ],
       "images": [
         {
-          "file": "monsoon-trail-01.png",
+          "file": "casual-cotton-t-shirt/casual-cotton-t-shirt-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Monsoon Trail development coffee bag",
+          "alt": "Casual Cotton T-Shirt demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "casual-cotton-t-shirt/casual-cotton-t-shirt-02.png",
+          "sourceUrl": null,
+          "alt": "Casual Cotton T-Shirt demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 399,
+        "max": 449,
+        "base": 399
+      }
     },
     {
       "key": "product-07",
-      "name": "Sunlit Spice",
-      "slug": "sunlit-spice",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Slim Fit Casual Shirt",
+      "slug": "slim-fit-casual-shirt",
+      "categoryKey": "mens-shirts",
+      "brand": "Northline Studio",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium profile with citrus peel, brown spice, tea.",
-      "metadata": {
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "MOKA_POT",
-        "tastingNotes": "citrus peel, brown spice, tea"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 800,
-        "sourceReferencePrice250g": 800,
-        "priceChangeDemo": null
-      },
+      "description": "A practical slim fit casual shirt designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "M.S. Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "SUNLIT-SPICE-WB-250",
-          "sku": "SUNLIT-SPICE-WB-250",
-          "price": 800,
+          "key": "MFT-SHT-SLIM-WHT-M",
+          "sku": "MFT-SHT-SLIM-WHT-M",
+          "price": 899,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "MOKA_POT"
+            "color": "White",
+            "size": "M",
+            "material": "Cotton"
           }
         },
         {
-          "key": "SUNLIT-SPICE-GR-250",
-          "sku": "SUNLIT-SPICE-GR-250",
-          "price": 800,
+          "key": "MFT-SHT-SLIM-WHT-L",
+          "sku": "MFT-SHT-SLIM-WHT-L",
+          "price": 899,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "MOKA_POT"
+            "color": "White",
+            "size": "L",
+            "material": "Cotton"
           }
         },
         {
-          "key": "SUNLIT-SPICE-WB-500",
-          "sku": "SUNLIT-SPICE-WB-500",
-          "price": 1440,
+          "key": "MFT-SHT-SLIM-BLU-M",
+          "sku": "MFT-SHT-SLIM-BLU-M",
+          "price": 949,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "MOKA_POT"
+            "color": "Blue",
+            "size": "M",
+            "material": "Cotton"
+          }
+        },
+        {
+          "key": "MFT-SHT-SLIM-BLU-L",
+          "sku": "MFT-SHT-SLIM-BLU-L",
+          "price": 949,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Blue",
+            "size": "L",
+            "material": "Cotton"
           }
         }
       ],
       "images": [
         {
-          "file": "sunlit-spice-01.png",
+          "file": "slim-fit-casual-shirt/slim-fit-casual-shirt-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Sunlit Spice development coffee bag",
+          "alt": "Slim Fit Casual Shirt demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "slim-fit-casual-shirt/slim-fit-casual-shirt-02.png",
+          "sourceUrl": null,
+          "alt": "Slim Fit Casual Shirt demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "slim-fit-casual-shirt/slim-fit-casual-shirt-03.png",
+          "sourceUrl": null,
+          "alt": "Slim Fit Casual Shirt demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 899,
+        "max": 949,
+        "base": 899
+      }
     },
     {
       "key": "product-08",
-      "name": "Nightjar Roast",
-      "slug": "nightjar-roast",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Regular Fit Everyday Trousers",
+      "slug": "regular-fit-everyday-trousers",
+      "categoryKey": "mens-trousers",
+      "brand": "Northline Studio",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a dark profile with dark cocoa, prune, smoky sugar.",
-      "metadata": {
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "ESPRESSO",
-        "tastingNotes": "dark cocoa, prune, smoky sugar"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 750,
-        "sourceReferencePrice250g": 750,
-        "priceChangeDemo": null
-      },
+      "description": "A practical regular fit everyday trousers designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Sandalwood Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "NIGHTJAR-ROAST-WB-250",
-          "sku": "NIGHTJAR-ROAST-WB-250",
-          "price": 750,
+          "key": "MFT-TRS-REG-GRY-30",
+          "sku": "MFT-TRS-REG-GRY-30",
+          "price": 1099,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "ESPRESSO"
+            "color": "Grey",
+            "size": "30",
+            "material": "Cotton Twill"
           }
         },
         {
-          "key": "NIGHTJAR-ROAST-GR-250",
-          "sku": "NIGHTJAR-ROAST-GR-250",
-          "price": 750,
+          "key": "MFT-TRS-REG-GRY-32",
+          "sku": "MFT-TRS-REG-GRY-32",
+          "price": 1099,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "ESPRESSO"
+            "color": "Grey",
+            "size": "32",
+            "material": "Cotton Twill"
           }
         },
         {
-          "key": "NIGHTJAR-ROAST-WB-500",
-          "sku": "NIGHTJAR-ROAST-WB-500",
-          "price": 1350,
+          "key": "MFT-TRS-REG-GRY-34",
+          "sku": "MFT-TRS-REG-GRY-34",
+          "price": 1099,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "ESPRESSO"
+            "color": "Grey",
+            "size": "34",
+            "material": "Cotton Twill"
+          }
+        },
+        {
+          "key": "MFT-TRS-REG-GRY-36",
+          "sku": "MFT-TRS-REG-GRY-36",
+          "price": 1099,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Grey",
+            "size": "36",
+            "material": "Cotton Twill"
           }
         }
       ],
       "images": [
         {
-          "file": "nightjar-roast-01.png",
+          "file": "regular-fit-everyday-trousers/regular-fit-everyday-trousers-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Nightjar Roast development coffee bag",
+          "alt": "Regular Fit Everyday Trousers demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "regular-fit-everyday-trousers/regular-fit-everyday-trousers-02.png",
+          "sourceUrl": null,
+          "alt": "Regular Fit Everyday Trousers demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "regular-fit-everyday-trousers/regular-fit-everyday-trousers-03.png",
+          "sourceUrl": null,
+          "alt": "Regular Fit Everyday Trousers demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "regular-fit-everyday-trousers/regular-fit-everyday-trousers-04.png",
+          "sourceUrl": null,
+          "alt": "Regular Fit Everyday Trousers demo image 4",
+          "sortOrder": 3,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 1099,
+        "max": 1099,
+        "base": 1099
+      }
     },
     {
       "key": "product-09",
-      "name": "Canyon Bloom",
-      "slug": "canyon-bloom",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Classic Denim Jeans",
+      "slug": "classic-denim-jeans",
+      "categoryKey": "mens-jeans",
+      "brand": "Northline Studio",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium dark profile with grapefruit, clove, toffee.",
-      "metadata": {
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "FRENCH_PRESS",
-        "tastingNotes": "grapefruit, clove, toffee"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 700,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": null
-      },
+      "description": "A practical classic denim jeans designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "St. Joseph Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "CANYON-BLOOM-WB-250",
-          "sku": "CANYON-BLOOM-WB-250",
-          "price": 700,
+          "key": "MFT-JNS-CLASSIC-IND-30",
+          "sku": "MFT-JNS-CLASSIC-IND-30",
+          "price": 1399,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "FRENCH_PRESS"
+            "color": "Indigo",
+            "size": "30",
+            "material": "Denim"
           }
         },
         {
-          "key": "CANYON-BLOOM-GR-250",
-          "sku": "CANYON-BLOOM-GR-250",
-          "price": 700,
+          "key": "MFT-JNS-CLASSIC-IND-32",
+          "sku": "MFT-JNS-CLASSIC-IND-32",
+          "price": 1399,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "FRENCH_PRESS"
+            "color": "Indigo",
+            "size": "32",
+            "material": "Denim"
           }
         },
         {
-          "key": "CANYON-BLOOM-WB-500",
-          "sku": "CANYON-BLOOM-WB-500",
-          "price": 1260,
+          "key": "MFT-JNS-CLASSIC-IND-34",
+          "sku": "MFT-JNS-CLASSIC-IND-34",
+          "price": 1399,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "FRENCH_PRESS"
+            "color": "Indigo",
+            "size": "34",
+            "material": "Denim"
+          }
+        },
+        {
+          "key": "MFT-JNS-CLASSIC-IND-36",
+          "sku": "MFT-JNS-CLASSIC-IND-36",
+          "price": 1399,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Indigo",
+            "size": "36",
+            "material": "Denim"
           }
         }
       ],
       "images": [
         {
-          "file": "canyon-bloom-01.png",
+          "file": "classic-denim-jeans/classic-denim-jeans-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Canyon Bloom development coffee bag",
+          "alt": "Classic Denim Jeans demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 1399,
+        "max": 1399,
+        "base": 1399
+      }
     },
     {
       "key": "product-10",
-      "name": "Stonefruit Drift",
-      "slug": "stonefruit-drift",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Textured Polo Tee",
+      "slug": "textured-polo-tee",
+      "categoryKey": "mens-tshirts",
+      "brand": "Northline Studio",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a light profile with stone fruit, jasmine, brown sugar.",
-      "metadata": {
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRUITY_PUNCHY",
-        "equipment": "POUROVER",
-        "tastingNotes": "stone fruit, jasmine, brown sugar"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 1000,
-        "sourceReferencePrice250g": 1000,
-        "priceChangeDemo": null
-      },
+      "description": "A practical textured polo tee designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Terroir Culture",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "STONEFRUIT-DRIFT-WB-250",
-          "sku": "STONEFRUIT-DRIFT-WB-250",
-          "price": 1000,
+          "key": "MFT-PLO-TEXT-NAV-M",
+          "sku": "MFT-PLO-TEXT-NAV-M",
+          "price": 599,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRUITY_PUNCHY",
-            "equipment": "POUROVER"
+            "color": "Navy",
+            "size": "M",
+            "material": "Cotton Pique"
           }
         },
         {
-          "key": "STONEFRUIT-DRIFT-GR-250",
-          "sku": "STONEFRUIT-DRIFT-GR-250",
-          "price": 1000,
+          "key": "MFT-PLO-TEXT-NAV-L",
+          "sku": "MFT-PLO-TEXT-NAV-L",
+          "price": 599,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRUITY_PUNCHY",
-            "equipment": "POUROVER"
+            "color": "Navy",
+            "size": "L",
+            "material": "Cotton Pique"
           }
         },
         {
-          "key": "STONEFRUIT-DRIFT-WB-500",
-          "sku": "STONEFRUIT-DRIFT-WB-500",
-          "price": 1800,
+          "key": "MFT-PLO-TEXT-OLV-XL",
+          "sku": "MFT-PLO-TEXT-OLV-XL",
+          "price": 649,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRUITY_PUNCHY",
-            "equipment": "POUROVER"
+            "color": "Olive",
+            "size": "XL",
+            "material": "Cotton Pique"
           }
         }
       ],
       "images": [
         {
-          "file": "stonefruit-drift-01.png",
+          "file": "textured-polo-tee/textured-polo-tee-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Stonefruit Drift development coffee bag",
+          "alt": "Textured Polo Tee demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "textured-polo-tee/textured-polo-tee-02.png",
+          "sourceUrl": null,
+          "alt": "Textured Polo Tee demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 599,
+        "max": 649,
+        "base": 599
+      }
     },
     {
       "key": "product-11",
-      "name": "Lantern House",
-      "slug": "lantern-house",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Kids Cotton Play Set",
+      "slug": "kids-cotton-play-set",
+      "categoryKey": "kids-clothing",
+      "brand": "BrightNest",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium profile with molasses, walnut, dark chocolate.",
-      "metadata": {
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "AEROPRESS",
-        "tastingNotes": "molasses, walnut, dark chocolate"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 700,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": null
-      },
+      "description": "A practical kids cotton play set designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Kolli Berri Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "LANTERN-HOUSE-WB-250",
-          "sku": "LANTERN-HOUSE-WB-250",
-          "price": 700,
+          "key": "KDS-SET-COTTON-RED-2Y",
+          "sku": "KDS-SET-COTTON-RED-2Y",
+          "price": 699,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "AEROPRESS"
+            "color": "Red",
+            "size": "2-3Y",
+            "material": "Cotton"
           }
         },
         {
-          "key": "LANTERN-HOUSE-GR-250",
-          "sku": "LANTERN-HOUSE-GR-250",
-          "price": 700,
+          "key": "KDS-SET-COTTON-BLU-4Y",
+          "sku": "KDS-SET-COTTON-BLU-4Y",
+          "price": 699,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "AEROPRESS"
+            "color": "Blue",
+            "size": "4-5Y",
+            "material": "Cotton"
           }
         },
         {
-          "key": "LANTERN-HOUSE-WB-500",
-          "sku": "LANTERN-HOUSE-WB-500",
-          "price": 1260,
+          "key": "KDS-SET-COTTON-GRE-6Y",
+          "sku": "KDS-SET-COTTON-GRE-6Y",
+          "price": 749,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "AEROPRESS"
+            "color": "Green",
+            "size": "6-7Y",
+            "material": "Cotton"
+          }
+        },
+        {
+          "key": "KDS-SET-COTTON-PCH-8Y",
+          "sku": "KDS-SET-COTTON-PCH-8Y",
+          "price": 749,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Peach",
+            "size": "8-9Y",
+            "material": "Cotton"
           }
         }
       ],
       "images": [
         {
-          "file": "lantern-house-01.png",
+          "file": "kids-cotton-play-set/kids-cotton-play-set-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Lantern House development coffee bag",
+          "alt": "Kids Cotton Play Set demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "kids-cotton-play-set/kids-cotton-play-set-02.png",
+          "sourceUrl": null,
+          "alt": "Kids Cotton Play Set demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "kids-cotton-play-set/kids-cotton-play-set-03.png",
+          "sourceUrl": null,
+          "alt": "Kids Cotton Play Set demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 699,
+        "max": 749,
+        "base": 699
+      }
     },
     {
       "key": "product-12",
-      "name": "Riverbend Dark",
-      "slug": "riverbend-dark",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Build & Learn Blocks",
+      "slug": "build-and-learn-blocks",
+      "categoryKey": "toys-games",
+      "brand": "BrightNest",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a dark profile with dark chocolate, raisin, spice.",
-      "metadata": {
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "MOKA_POT",
-        "tastingNotes": "dark chocolate, raisin, spice"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 800,
-        "sourceReferencePrice250g": 800,
-        "priceChangeDemo": null
-      },
+      "description": "A practical build & learn blocks designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Unakki Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "RIVERBEND-DARK-WB-250",
-          "sku": "RIVERBEND-DARK-WB-250",
-          "price": 800,
+          "key": "KDS-TOY-BLOCKS-48PC",
+          "sku": "KDS-TOY-BLOCKS-48PC",
+          "price": 499,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "MOKA_POT"
+            "color": "Multi",
+            "size": "48 Pieces",
+            "material": "ABS Plastic"
           }
         },
         {
-          "key": "RIVERBEND-DARK-GR-250",
-          "sku": "RIVERBEND-DARK-GR-250",
-          "price": 800,
+          "key": "KDS-TOY-BLOCKS-96PC",
+          "sku": "KDS-TOY-BLOCKS-96PC",
+          "price": 799,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "MOKA_POT"
-          }
-        },
-        {
-          "key": "RIVERBEND-DARK-WB-500",
-          "sku": "RIVERBEND-DARK-WB-500",
-          "price": 1440,
-          "currency": "INR",
-          "status": "ACTIVE",
-          "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "MOKA_POT"
+            "color": "Multi",
+            "size": "96 Pieces",
+            "material": "ABS Plastic"
           }
         }
       ],
       "images": [
         {
-          "file": "riverbend-dark-01.png",
+          "file": "build-and-learn-blocks/build-and-learn-blocks-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Riverbend Dark development coffee bag",
+          "alt": "Build & Learn Blocks demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "build-and-learn-blocks/build-and-learn-blocks-02.png",
+          "sourceUrl": null,
+          "alt": "Build & Learn Blocks demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "build-and-learn-blocks/build-and-learn-blocks-03.png",
+          "sourceUrl": null,
+          "alt": "Build & Learn Blocks demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "build-and-learn-blocks/build-and-learn-blocks-04.png",
+          "sourceUrl": null,
+          "alt": "Build & Learn Blocks demo image 4",
+          "sortOrder": 3,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 499,
+        "max": 799,
+        "base": 499
+      }
     },
     {
       "key": "product-13",
-      "name": "Golden Canopy",
-      "slug": "golden-canopy",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "School Day Backpack",
+      "slug": "school-day-backpack",
+      "categoryKey": "school-essentials",
+      "brand": "BrightNest",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium profile with orange marmalade, dried date, tea.",
-      "metadata": {
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "POUROVER",
-        "tastingNotes": "orange marmalade, dried date, tea"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 800,
-        "sourceReferencePrice250g": 800,
-        "priceChangeDemo": null
-      },
+      "description": "A practical school day backpack designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "M.S. Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "GOLDEN-CANOPY-WB-250",
-          "sku": "GOLDEN-CANOPY-WB-250",
-          "price": 800,
+          "key": "KDS-BAG-SCHOOL-BLU-12L",
+          "sku": "KDS-BAG-SCHOOL-BLU-12L",
+          "price": 699,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "POUROVER"
+            "color": "Blue",
+            "size": "12L",
+            "material": "Polyester"
           }
         },
         {
-          "key": "GOLDEN-CANOPY-GR-250",
-          "sku": "GOLDEN-CANOPY-GR-250",
-          "price": 800,
+          "key": "KDS-BAG-SCHOOL-RED-18L",
+          "sku": "KDS-BAG-SCHOOL-RED-18L",
+          "price": 799,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "POUROVER"
+            "color": "Red",
+            "size": "18L",
+            "material": "Polyester"
           }
         },
         {
-          "key": "GOLDEN-CANOPY-WB-500",
-          "sku": "GOLDEN-CANOPY-WB-500",
-          "price": 1440,
+          "key": "KDS-BAG-SCHOOL-GRN-20L",
+          "sku": "KDS-BAG-SCHOOL-GRN-20L",
+          "price": 899,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "POUROVER"
+            "color": "Green",
+            "size": "20L",
+            "material": "Polyester"
           }
         }
       ],
       "images": [
         {
-          "file": "golden-canopy-01.png",
+          "file": "school-day-backpack/school-day-backpack-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Golden Canopy development coffee bag",
+          "alt": "School Day Backpack demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 699,
+        "max": 899,
+        "base": 699
+      }
     },
     {
       "key": "product-14",
-      "name": "Cloudline Estate",
-      "slug": "cloudline-estate",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Rainbow Art Kit",
+      "slug": "rainbow-art-kit",
+      "categoryKey": "toys-games",
+      "brand": "BrightNest",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a light profile with floral citrus, apple, honey.",
-      "metadata": {
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "INVERTED_AEROPRESS",
-        "tastingNotes": "floral citrus, apple, honey"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 700,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": null
-      },
+      "description": "A practical rainbow art kit designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Krishnagiri Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "CLOUDLINE-ESTATE-WB-250",
-          "sku": "CLOUDLINE-ESTATE-WB-250",
-          "price": 700,
+          "key": "KDS-ART-RNBW-24PC",
+          "sku": "KDS-ART-RNBW-24PC",
+          "price": 299,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "DELICATE_COMPLEX",
-            "equipment": "INVERTED_AEROPRESS"
+            "color": "Multi",
+            "size": "24 Pieces",
+            "material": "Non-toxic"
           }
         },
         {
-          "key": "CLOUDLINE-ESTATE-GR-250",
-          "sku": "CLOUDLINE-ESTATE-GR-250",
-          "price": 700,
+          "key": "KDS-ART-RNBW-48PC",
+          "sku": "KDS-ART-RNBW-48PC",
+          "price": 499,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "DELICATE_COMPLEX",
-            "equipment": "INVERTED_AEROPRESS"
-          }
-        },
-        {
-          "key": "CLOUDLINE-ESTATE-WB-500",
-          "sku": "CLOUDLINE-ESTATE-WB-500",
-          "price": 1260,
-          "currency": "INR",
-          "status": "ACTIVE",
-          "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "DELICATE_COMPLEX",
-            "equipment": "INVERTED_AEROPRESS"
+            "color": "Multi",
+            "size": "48 Pieces",
+            "material": "Non-toxic"
           }
         }
       ],
       "images": [
         {
-          "file": "cloudline-estate-01.png",
+          "file": "rainbow-art-kit/rainbow-art-kit-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Cloudline Estate development coffee bag",
+          "alt": "Rainbow Art Kit demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "rainbow-art-kit/rainbow-art-kit-02.png",
+          "sourceUrl": null,
+          "alt": "Rainbow Art Kit demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 299,
+        "max": 499,
+        "base": 299
+      }
     },
     {
       "key": "product-15",
-      "name": "Hearth Blend",
-      "slug": "hearth-blend",
-      "categoryKey": "blends",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Women's Everyday Flats",
+      "slug": "women-s-everyday-flats",
+      "categoryKey": "womens-flats",
+      "brand": "StrideCraft",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium dark profile with cocoa, toasted grain, dried fruit.",
-      "metadata": {
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "FRENCH_PRESS",
-        "tastingNotes": "cocoa, toasted grain, dried fruit"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 700,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": null
-      },
+      "description": "A practical women's everyday flats designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Dhak Blend",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "HEARTH-BLEND-WB-250",
-          "sku": "HEARTH-BLEND-WB-250",
-          "price": 700,
+          "key": "FTW-FLT-EVERYDAY-BLK-07",
+          "sku": "FTW-FLT-EVERYDAY-BLK-07",
+          "price": 699,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "FRENCH_PRESS"
+            "color": "Black",
+            "size": "7",
+            "material": "Synthetic"
           }
         },
         {
-          "key": "HEARTH-BLEND-GR-250",
-          "sku": "HEARTH-BLEND-GR-250",
-          "price": 700,
+          "key": "FTW-FLT-EVERYDAY-BLK-08",
+          "sku": "FTW-FLT-EVERYDAY-BLK-08",
+          "price": 699,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "FRENCH_PRESS"
+            "color": "Black",
+            "size": "8",
+            "material": "Synthetic"
           }
         },
         {
-          "key": "HEARTH-BLEND-WB-500",
-          "sku": "HEARTH-BLEND-WB-500",
-          "price": 1260,
+          "key": "FTW-FLT-EVERYDAY-BLK-09",
+          "sku": "FTW-FLT-EVERYDAY-BLK-09",
+          "price": 699,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "FRENCH_PRESS"
+            "color": "Black",
+            "size": "9",
+            "material": "Synthetic"
+          }
+        },
+        {
+          "key": "FTW-FLT-EVERYDAY-BEG-08",
+          "sku": "FTW-FLT-EVERYDAY-BEG-08",
+          "price": 749,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Beige",
+            "size": "8",
+            "material": "Synthetic"
           }
         }
       ],
       "images": [
         {
-          "file": "hearth-blend-01.png",
+          "file": "women-s-everyday-flats/women-s-everyday-flats-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Hearth Blend development coffee bag",
+          "alt": "Women's Everyday Flats demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "women-s-everyday-flats/women-s-everyday-flats-02.png",
+          "sourceUrl": null,
+          "alt": "Women's Everyday Flats demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "women-s-everyday-flats/women-s-everyday-flats-03.png",
+          "sourceUrl": null,
+          "alt": "Women's Everyday Flats demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 699,
+        "max": 749,
+        "base": 699
+      }
     },
     {
       "key": "product-16",
-      "name": "Porchlight Blend",
-      "slug": "porchlight-blend",
-      "categoryKey": "blends",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Men's Street Sneakers",
+      "slug": "men-s-street-sneakers",
+      "categoryKey": "mens-sneakers",
+      "brand": "StrideCraft",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a dark profile with dark cocoa, fruit jam, caramel.",
-      "metadata": {
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "SOUTH_INDIAN_FILTER",
-        "tastingNotes": "dark cocoa, fruit jam, caramel"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 700,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": null
-      },
+      "description": "A practical men's street sneakers designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Rich and Bold Trio Pack",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "PORCHLIGHT-BLEND-WB-250",
-          "sku": "PORCHLIGHT-BLEND-WB-250",
-          "price": 700,
+          "key": "FTW-SNK-STREET-BLK-07",
+          "sku": "FTW-SNK-STREET-BLK-07",
+          "price": 1599,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "SOUTH_INDIAN_FILTER"
+            "color": "Black",
+            "size": "7",
+            "material": "Mesh"
           }
         },
         {
-          "key": "PORCHLIGHT-BLEND-GR-250",
-          "sku": "PORCHLIGHT-BLEND-GR-250",
-          "price": 700,
+          "key": "FTW-SNK-STREET-BLK-08",
+          "sku": "FTW-SNK-STREET-BLK-08",
+          "price": 1599,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "SOUTH_INDIAN_FILTER"
+            "color": "Black",
+            "size": "8",
+            "material": "Mesh"
           }
         },
         {
-          "key": "PORCHLIGHT-BLEND-WB-500",
-          "sku": "PORCHLIGHT-BLEND-WB-500",
-          "price": 1260,
+          "key": "FTW-SNK-STREET-BLK-09",
+          "sku": "FTW-SNK-STREET-BLK-09",
+          "price": 1599,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "SOUTH_INDIAN_FILTER"
+            "color": "Black",
+            "size": "9",
+            "material": "Mesh"
+          }
+        },
+        {
+          "key": "FTW-SNK-STREET-WHT-08",
+          "sku": "FTW-SNK-STREET-WHT-08",
+          "price": 1699,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "White",
+            "size": "8",
+            "material": "Mesh"
           }
         }
       ],
       "images": [
         {
-          "file": "porchlight-blend-01.png",
+          "file": "men-s-street-sneakers/men-s-street-sneakers-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Porchlight Blend development coffee bag",
+          "alt": "Men's Street Sneakers demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "men-s-street-sneakers/men-s-street-sneakers-02.png",
+          "sourceUrl": null,
+          "alt": "Men's Street Sneakers demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "men-s-street-sneakers/men-s-street-sneakers-03.png",
+          "sourceUrl": null,
+          "alt": "Men's Street Sneakers demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "men-s-street-sneakers/men-s-street-sneakers-04.png",
+          "sourceUrl": null,
+          "alt": "Men's Street Sneakers demo image 4",
+          "sortOrder": 3,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 1599,
+        "max": 1699,
+        "base": 1599
+      }
     },
     {
       "key": "product-17",
-      "name": "Alpine Moss",
-      "slug": "alpine-moss",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Casual Comfort Sandals",
+      "slug": "casual-comfort-sandals",
+      "categoryKey": "sandals",
+      "brand": "StrideCraft",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a light profile with bergamot, cacao nib, soft fruit.",
-      "metadata": {
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "DELICATE_COMPLEX",
-        "equipment": "POUROVER",
-        "tastingNotes": "bergamot, cacao nib, soft fruit"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 850,
-        "sourceReferencePrice250g": 850,
-        "priceChangeDemo": null
-      },
+      "description": "A practical casual comfort sandals designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Kalledevarapura Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "ALPINE-MOSS-WB-250",
-          "sku": "ALPINE-MOSS-WB-250",
-          "price": 850,
+          "key": "FTW-SND-COMFORT-TAN-07",
+          "sku": "FTW-SND-COMFORT-TAN-07",
+          "price": 599,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "DELICATE_COMPLEX",
-            "equipment": "POUROVER"
+            "color": "Tan",
+            "size": "7",
+            "material": "EVA"
           }
         },
         {
-          "key": "ALPINE-MOSS-GR-250",
-          "sku": "ALPINE-MOSS-GR-250",
-          "price": 850,
+          "key": "FTW-SND-COMFORT-TAN-08",
+          "sku": "FTW-SND-COMFORT-TAN-08",
+          "price": 599,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "DELICATE_COMPLEX",
-            "equipment": "POUROVER"
+            "color": "Tan",
+            "size": "8",
+            "material": "EVA"
           }
         },
         {
-          "key": "ALPINE-MOSS-WB-500",
-          "sku": "ALPINE-MOSS-WB-500",
-          "price": 1530,
+          "key": "FTW-SND-COMFORT-TAN-09",
+          "sku": "FTW-SND-COMFORT-TAN-09",
+          "price": 599,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "DELICATE_COMPLEX",
-            "equipment": "POUROVER"
+            "color": "Tan",
+            "size": "9",
+            "material": "EVA"
           }
         }
       ],
       "images": [
         {
-          "file": "alpine-moss-01.png",
+          "file": "casual-comfort-sandals/casual-comfort-sandals-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Alpine Moss development coffee bag",
+          "alt": "Casual Comfort Sandals demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 599,
+        "max": 599,
+        "base": 599
+      }
     },
     {
       "key": "product-18",
-      "name": "Saffron Gate",
-      "slug": "saffron-gate",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Kids Velcro Sneakers",
+      "slug": "kids-velcro-sneakers",
+      "categoryKey": "sandals",
+      "brand": "StrideCraft",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium profile with citrus, malt, warm spice.",
-      "metadata": {
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "EXPERIMENTAL",
-        "equipment": "CHANNI",
-        "tastingNotes": "citrus, malt, warm spice"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 700,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": null
-      },
+      "description": "A practical kids velcro sneakers designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Customised Sampler Pack",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "SAFFRON-GATE-WB-250",
-          "sku": "SAFFRON-GATE-WB-250",
-          "price": 700,
+          "key": "FTW-KID-VELCRO-BLU-11",
+          "sku": "FTW-KID-VELCRO-BLU-11",
+          "price": 799,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "EXPERIMENTAL",
-            "equipment": "CHANNI"
+            "color": "Blue",
+            "size": "11",
+            "material": "Mesh"
           }
         },
         {
-          "key": "SAFFRON-GATE-GR-250",
-          "sku": "SAFFRON-GATE-GR-250",
-          "price": 700,
+          "key": "FTW-KID-VELCRO-BLU-12",
+          "sku": "FTW-KID-VELCRO-BLU-12",
+          "price": 799,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "EXPERIMENTAL",
-            "equipment": "CHANNI"
+            "color": "Blue",
+            "size": "12",
+            "material": "Mesh"
           }
         },
         {
-          "key": "SAFFRON-GATE-WB-500",
-          "sku": "SAFFRON-GATE-WB-500",
-          "price": 1260,
+          "key": "FTW-KID-VELCRO-BLU-13",
+          "sku": "FTW-KID-VELCRO-BLU-13",
+          "price": 849,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "EXPERIMENTAL",
-            "equipment": "CHANNI"
+            "color": "Blue",
+            "size": "13",
+            "material": "Mesh"
           }
         }
       ],
       "images": [
         {
-          "file": "saffron-gate-01.png",
+          "file": "kids-velcro-sneakers/kids-velcro-sneakers-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Saffron Gate development coffee bag",
+          "alt": "Kids Velcro Sneakers demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "kids-velcro-sneakers/kids-velcro-sneakers-02.png",
+          "sourceUrl": null,
+          "alt": "Kids Velcro Sneakers demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 799,
+        "max": 849,
+        "base": 799
+      }
     },
     {
       "key": "product-19",
-      "name": "Afterglow",
-      "slug": "afterglow",
-      "categoryKey": "blends",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Everyday Handbag",
+      "slug": "everyday-handbag",
+      "categoryKey": "handbags",
+      "brand": "CarryKind",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium dark profile with cocoa, hazelnut, dried cherry.",
-      "metadata": {
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "ESPRESSO",
-        "tastingNotes": "cocoa, hazelnut, dried cherry"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 650,
-        "sourceReferencePrice250g": 650,
-        "priceChangeDemo": null
-      },
+      "description": "A practical everyday handbag designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "French Roast",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "AFTERGLOW-WB-250",
-          "sku": "AFTERGLOW-WB-250",
-          "price": 650,
+          "key": "BAG-HANDBAG-EVERY-BLK-STD",
+          "sku": "BAG-HANDBAG-EVERY-BLK-STD",
+          "price": 899,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "ESPRESSO"
+            "color": "Black",
+            "size": "Standard",
+            "material": "Faux Leather"
           }
         },
         {
-          "key": "AFTERGLOW-GR-250",
-          "sku": "AFTERGLOW-GR-250",
-          "price": 650,
+          "key": "BAG-HANDBAG-EVERY-TAN-STD",
+          "sku": "BAG-HANDBAG-EVERY-TAN-STD",
+          "price": 899,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "ESPRESSO"
+            "color": "Tan",
+            "size": "Standard",
+            "material": "Faux Leather"
           }
         },
         {
-          "key": "AFTERGLOW-WB-500",
-          "sku": "AFTERGLOW-WB-500",
-          "price": 1170,
+          "key": "BAG-HANDBAG-EVERY-WNE-STD",
+          "sku": "BAG-HANDBAG-EVERY-WNE-STD",
+          "price": 949,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "ESPRESSO"
+            "color": "Wine",
+            "size": "Standard",
+            "material": "Faux Leather"
+          }
+        },
+        {
+          "key": "BAG-HANDBAG-EVERY-MNT-STD",
+          "sku": "BAG-HANDBAG-EVERY-MNT-STD",
+          "price": 899,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Mint",
+            "size": "Standard",
+            "material": "Faux Leather"
           }
         }
       ],
       "images": [
         {
-          "file": "afterglow-01.png",
+          "file": "everyday-handbag/everyday-handbag-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Afterglow development coffee bag",
+          "alt": "Everyday Handbag demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "everyday-handbag/everyday-handbag-02.png",
+          "sourceUrl": null,
+          "alt": "Everyday Handbag demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "everyday-handbag/everyday-handbag-03.png",
+          "sourceUrl": null,
+          "alt": "Everyday Handbag demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 899,
+        "max": 949,
+        "base": 899
+      }
     },
     {
       "key": "product-20",
-      "name": "Meadow Signal",
-      "slug": "meadow-signal",
-      "categoryKey": "single-estate",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Laptop Backpack",
+      "slug": "laptop-backpack",
+      "categoryKey": "backpacks",
+      "brand": "CarryKind",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a light profile with apple, raisin, cocoa nib.",
-      "metadata": {
-        "roastLevel": "LIGHT",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "COLD_BREW",
-        "tastingNotes": "apple, raisin, cocoa nib"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 750,
-        "sourceReferencePrice250g": 750,
-        "priceChangeDemo": null
-      },
+      "description": "A practical laptop backpack designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Sampigehoney Estate",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "MEADOW-SIGNAL-WB-250",
-          "sku": "MEADOW-SIGNAL-WB-250",
-          "price": 750,
+          "key": "BAG-BACKPACK-LAP-BLK-15L",
+          "sku": "BAG-BACKPACK-LAP-BLK-15L",
+          "price": 1299,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "COLD_BREW"
+            "color": "Black",
+            "size": "15L",
+            "material": "Polyester"
           }
         },
         {
-          "key": "MEADOW-SIGNAL-GR-250",
-          "sku": "MEADOW-SIGNAL-GR-250",
-          "price": 750,
+          "key": "BAG-BACKPACK-LAP-GRY-15L",
+          "sku": "BAG-BACKPACK-LAP-GRY-15L",
+          "price": 1299,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "COLD_BREW"
+            "color": "Grey",
+            "size": "15L",
+            "material": "Polyester"
           }
         },
         {
-          "key": "MEADOW-SIGNAL-WB-500",
-          "sku": "MEADOW-SIGNAL-WB-500",
-          "price": 1350,
+          "key": "BAG-BACKPACK-LAP-NAV-17L",
+          "sku": "BAG-BACKPACK-LAP-NAV-17L",
+          "price": 1499,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "LIGHT",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "COLD_BREW"
+            "color": "Navy",
+            "size": "17L",
+            "material": "Polyester"
           }
         }
       ],
       "images": [
         {
-          "file": "meadow-signal-01.png",
+          "file": "laptop-backpack/laptop-backpack-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Meadow Signal development coffee bag",
+          "alt": "Laptop Backpack demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "laptop-backpack/laptop-backpack-02.png",
+          "sourceUrl": null,
+          "alt": "Laptop Backpack demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "laptop-backpack/laptop-backpack-03.png",
+          "sourceUrl": null,
+          "alt": "Laptop Backpack demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "laptop-backpack/laptop-backpack-04.png",
+          "sourceUrl": null,
+          "alt": "Laptop Backpack demo image 4",
+          "sortOrder": 3,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 1299,
+        "max": 1499,
+        "base": 1299
+      }
     },
     {
       "key": "product-21",
-      "name": "Explorer Flight",
-      "slug": "explorer-flight",
-      "categoryKey": "sampler-packs",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Travel Wallet",
+      "slug": "travel-wallet",
+      "categoryKey": "wallets",
+      "brand": "CarryKind",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium profile with a rotating set of bright and balanced cups.",
-      "metadata": {
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "EXPERIMENTAL",
-        "equipment": "AEROPRESS",
-        "tastingNotes": "a rotating set of bright and balanced cups"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 1170,
-        "sourceReferencePrice250g": 1170,
-        "priceChangeDemo": null
-      },
+      "description": "A practical travel wallet designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "5-in-1 Explorer Pack",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "EXPLORER-FLIGHT-WB-250",
-          "sku": "EXPLORER-FLIGHT-WB-250",
-          "price": 1170,
+          "key": "BAG-WALLET-TRAVEL-BLK-STD",
+          "sku": "BAG-WALLET-TRAVEL-BLK-STD",
+          "price": 499,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "EXPERIMENTAL",
-            "equipment": "AEROPRESS"
+            "color": "Black",
+            "size": "Standard",
+            "material": "Vegan Leather"
           }
         },
         {
-          "key": "EXPLORER-FLIGHT-GR-250",
-          "sku": "EXPLORER-FLIGHT-GR-250",
-          "price": 1170,
+          "key": "BAG-WALLET-TRAVEL-TAN-STD",
+          "sku": "BAG-WALLET-TRAVEL-TAN-STD",
+          "price": 499,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "EXPERIMENTAL",
-            "equipment": "AEROPRESS"
+            "color": "Tan",
+            "size": "Standard",
+            "material": "Vegan Leather"
           }
         },
         {
-          "key": "EXPLORER-FLIGHT-WB-500",
-          "sku": "EXPLORER-FLIGHT-WB-500",
-          "price": 2106,
+          "key": "BAG-WALLET-TRAVEL-TEA-STD",
+          "sku": "BAG-WALLET-TRAVEL-TEA-STD",
+          "price": 549,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "EXPERIMENTAL",
-            "equipment": "AEROPRESS"
+            "color": "Teal",
+            "size": "Standard",
+            "material": "Vegan Leather"
           }
         }
       ],
       "images": [
         {
-          "file": "explorer-flight-01.png",
+          "file": "travel-wallet/travel-wallet-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Explorer Flight development coffee bag",
+          "alt": "Travel Wallet demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 499,
+        "max": 549,
+        "base": 499
+      }
     },
     {
       "key": "product-22",
-      "name": "Bold Flight",
-      "slug": "bold-flight",
-      "categoryKey": "sampler-packs",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Dewdrop Face Serum",
+      "slug": "dewdrop-face-serum",
+      "categoryKey": "skincare",
+      "brand": "Petal & Pure",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a dark profile with three dark profiles for side-by-side tasting.",
-      "metadata": {
-        "roastLevel": "DARK",
-        "drinkingPreference": "WITH_MILK",
-        "flavourProfile": "BOLD_BITTER",
-        "equipment": "MOKA_POT",
-        "tastingNotes": "three dark profiles for side-by-side tasting"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 700,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": null
-      },
+      "description": "A practical dewdrop face serum designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "The Rich and Bold Trio Pack",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "BOLD-FLIGHT-WB-250",
-          "sku": "BOLD-FLIGHT-WB-250",
-          "price": 700,
+          "key": "BPC-SERUM-DEWDROP-10ML",
+          "sku": "BPC-SERUM-DEWDROP-10ML",
+          "price": 599,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "MOKA_POT"
+            "color": "Clear",
+            "size": "10ml",
+            "material": "Plant-based blend",
+            "skinType": "All Skin"
           }
         },
         {
-          "key": "BOLD-FLIGHT-GR-250",
-          "sku": "BOLD-FLIGHT-GR-250",
-          "price": 700,
+          "key": "BPC-SERUM-DEWDROP-30ML",
+          "sku": "BPC-SERUM-DEWDROP-30ML",
+          "price": 999,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "MOKA_POT"
-          }
-        },
-        {
-          "key": "BOLD-FLIGHT-WB-500",
-          "sku": "BOLD-FLIGHT-WB-500",
-          "price": 1260,
-          "currency": "INR",
-          "status": "ACTIVE",
-          "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "DARK",
-            "drinkingPreference": "WITH_MILK",
-            "flavourProfile": "BOLD_BITTER",
-            "equipment": "MOKA_POT"
+            "color": "Clear",
+            "size": "30ml",
+            "material": "Plant-based blend",
+            "skinType": "All Skin"
           }
         }
       ],
       "images": [
         {
-          "file": "bold-flight-01.png",
+          "file": "dewdrop-face-serum/dewdrop-face-serum-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Bold Flight development coffee bag",
+          "alt": "Dewdrop Face Serum demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "dewdrop-face-serum/dewdrop-face-serum-02.png",
+          "sourceUrl": null,
+          "alt": "Dewdrop Face Serum demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 599,
+        "max": 999,
+        "base": 599
+      }
     },
     {
       "key": "product-23",
-      "name": "Weather Notes Trio",
-      "slug": "weather-notes-trio",
-      "categoryKey": "sampler-packs",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Velvet Lip Color Set",
+      "slug": "velvet-lip-color-set",
+      "categoryKey": "makeup",
+      "brand": "Petal & Pure",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium dark profile with three comforting profiles for rainy afternoons.",
-      "metadata": {
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "CHOCOLATEY_NUTTY",
-        "equipment": "FRENCH_PRESS",
-        "tastingNotes": "three comforting profiles for rainy afternoons"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 650,
-        "sourceReferencePrice250g": 650,
-        "priceChangeDemo": null
-      },
+      "description": "A practical velvet lip color set designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "The Monsoon Trio",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "WEATHER-NOTES-TRIO-WB-250",
-          "sku": "WEATHER-NOTES-TRIO-WB-250",
-          "price": 650,
+          "key": "BPC-LIP-VELVET-ROSE-3PC",
+          "sku": "BPC-LIP-VELVET-ROSE-3PC",
+          "price": 699,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "FRENCH_PRESS"
+            "color": "Rose",
+            "size": "3 Shades",
+            "material": "Cream Finish"
           }
         },
         {
-          "key": "WEATHER-NOTES-TRIO-GR-250",
-          "sku": "WEATHER-NOTES-TRIO-GR-250",
-          "price": 650,
+          "key": "BPC-LIP-VELVET-NUDE-3PC",
+          "sku": "BPC-LIP-VELVET-NUDE-3PC",
+          "price": 699,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "FRENCH_PRESS"
+            "color": "Nude",
+            "size": "3 Shades",
+            "material": "Cream Finish"
           }
         },
         {
-          "key": "WEATHER-NOTES-TRIO-WB-500",
-          "sku": "WEATHER-NOTES-TRIO-WB-500",
-          "price": 1170,
+          "key": "BPC-LIP-VELVET-BERRY-3PC",
+          "sku": "BPC-LIP-VELVET-BERRY-3PC",
+          "price": 749,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "CHOCOLATEY_NUTTY",
-            "equipment": "FRENCH_PRESS"
+            "color": "Berry",
+            "size": "3 Shades",
+            "material": "Cream Finish"
           }
         }
       ],
       "images": [
         {
-          "file": "weather-notes-trio-01.png",
+          "file": "velvet-lip-color-set/velvet-lip-color-set-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Weather Notes Trio development coffee bag",
+          "alt": "Velvet Lip Color Set demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "velvet-lip-color-set/velvet-lip-color-set-02.png",
+          "sourceUrl": null,
+          "alt": "Velvet Lip Color Set demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "velvet-lip-color-set/velvet-lip-color-set-03.png",
+          "sourceUrl": null,
+          "alt": "Velvet Lip Color Set demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 699,
+        "max": 749,
+        "base": 699
+      }
     },
     {
       "key": "product-24",
-      "name": "Weekend Brew Set",
-      "slug": "weekend-brew-set",
-      "categoryKey": "sampler-packs",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Herbal Shine Shampoo",
+      "slug": "herbal-shine-shampoo",
+      "categoryKey": "haircare",
+      "brand": "Petal & Pure",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium profile with small-batch samples for an unhurried weekend.",
-      "metadata": {
-        "roastLevel": "MEDIUM",
-        "drinkingPreference": "WITHOUT_MILK",
-        "flavourProfile": "FRESH_FLAVOURFUL",
-        "equipment": "POUROVER",
-        "tastingNotes": "small-batch samples for an unhurried weekend"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 700,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": null
-      },
+      "description": "A practical herbal shine shampoo designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Customised Sampler Pack",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "WEEKEND-BREW-SET-WB-250",
-          "sku": "WEEKEND-BREW-SET-WB-250",
-          "price": 700,
+          "key": "BPC-SHAMPOO-HERB-250ML",
+          "sku": "BPC-SHAMPOO-HERB-250ML",
+          "price": 349,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "POUROVER"
+            "color": "Amber",
+            "size": "250ml",
+            "material": "Herbal blend",
+            "hairType": "All Hair"
           }
         },
         {
-          "key": "WEEKEND-BREW-SET-GR-250",
-          "sku": "WEEKEND-BREW-SET-GR-250",
-          "price": 700,
+          "key": "BPC-SHAMPOO-HERB-500ML",
+          "sku": "BPC-SHAMPOO-HERB-500ML",
+          "price": 599,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "POUROVER"
-          }
-        },
-        {
-          "key": "WEEKEND-BREW-SET-WB-500",
-          "sku": "WEEKEND-BREW-SET-WB-500",
-          "price": 1260,
-          "currency": "INR",
-          "status": "ACTIVE",
-          "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM",
-            "drinkingPreference": "WITHOUT_MILK",
-            "flavourProfile": "FRESH_FLAVOURFUL",
-            "equipment": "POUROVER"
+            "color": "Amber",
+            "size": "500ml",
+            "material": "Herbal blend",
+            "hairType": "All Hair"
           }
         }
       ],
       "images": [
         {
-          "file": "weekend-brew-set-01.png",
+          "file": "herbal-shine-shampoo/herbal-shine-shampoo-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Weekend Brew Set development coffee bag",
+          "alt": "Herbal Shine Shampoo demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "herbal-shine-shampoo/herbal-shine-shampoo-02.png",
+          "sourceUrl": null,
+          "alt": "Herbal Shine Shampoo demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "herbal-shine-shampoo/herbal-shine-shampoo-03.png",
+          "sourceUrl": null,
+          "alt": "Herbal Shine Shampoo demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "herbal-shine-shampoo/herbal-shine-shampoo-04.png",
+          "sourceUrl": null,
+          "alt": "Herbal Shine Shampoo demo image 4",
+          "sortOrder": 3,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 349,
+        "max": 599,
+        "base": 349
+      }
     },
     {
       "key": "product-25",
-      "name": "Everyday Ground Set",
-      "slug": "everyday-ground-set",
-      "categoryKey": "sampler-packs",
-      "brand": "Hearthline Demo Roasters",
+      "name": "Granite Non-Stick Cookware Set",
+      "slug": "granite-non-stick-cookware-set",
+      "categoryKey": "cookware",
+      "brand": "Hearth & Hue",
       "status": "ACTIVE",
-      "description": "Original development catalog copy: a medium dark profile with three approachable grinds for everyday brewing.",
-      "metadata": {
-        "roastLevel": "MEDIUM_DARK",
-        "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-        "flavourProfile": "BALANCED",
-        "equipment": "SOUTH_INDIAN_FILTER",
-        "tastingNotes": "three approachable grinds for everyday brewing"
-      },
-      "pricing": {
-        "demoCurrentPrice250g": 700,
-        "sourceReferencePrice250g": 700,
-        "priceChangeDemo": null
-      },
+      "description": "A practical granite non-stick cookware set designed for everyday use, with easy-to-compare options and dependable demo availability.",
       "source": {
-        "sourceName": "Blue Tokai reference catalog",
-        "sourceUrl": "https://bluetokaicoffee.com/collections/roasted-and-ground-coffee-beans",
-        "sourceProductUrl": null,
-        "sourceReferenceTitle": "Customised Sampler Pack",
-        "sourceExtractedAt": "2026-09-22T00:00:00Z",
-        "sourceImageUrl": null,
-        "usage": "Public metadata reference only; product identity, copy, and image are original development data."
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
       },
       "variants": [
         {
-          "key": "EVERYDAY-GROUND-SET-WB-250",
-          "sku": "EVERYDAY-GROUND-SET-WB-250",
-          "price": 700,
+          "key": "HOM-COOK-GRANITE-2PC",
+          "sku": "HOM-COOK-GRANITE-2PC",
+          "price": 1299,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "SOUTH_INDIAN_FILTER"
+            "color": "Black",
+            "size": "2 Pieces",
+            "material": "Aluminium"
           }
         },
         {
-          "key": "EVERYDAY-GROUND-SET-GR-250",
-          "sku": "EVERYDAY-GROUND-SET-GR-250",
-          "price": 700,
+          "key": "HOM-COOK-GRANITE-5PC",
+          "sku": "HOM-COOK-GRANITE-5PC",
+          "price": 2199,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "GROUND",
-            "packSize": "250G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "SOUTH_INDIAN_FILTER"
+            "color": "Black",
+            "size": "5 Pieces",
+            "material": "Aluminium"
           }
         },
         {
-          "key": "EVERYDAY-GROUND-SET-WB-500",
-          "sku": "EVERYDAY-GROUND-SET-WB-500",
-          "price": 1260,
+          "key": "HOM-COOK-GRANITE-7PC",
+          "sku": "HOM-COOK-GRANITE-7PC",
+          "price": 2999,
           "currency": "INR",
           "status": "ACTIVE",
           "attributes": {
-            "format": "WHOLE_BEAN",
-            "packSize": "500G",
-            "roastLevel": "MEDIUM_DARK",
-            "drinkingPreference": "WITH_OR_WITHOUT_MILK",
-            "flavourProfile": "BALANCED",
-            "equipment": "SOUTH_INDIAN_FILTER"
+            "color": "Black",
+            "size": "7 Pieces",
+            "material": "Aluminium"
           }
         }
       ],
       "images": [
         {
-          "file": "everyday-ground-set-01.png",
+          "file": "granite-non-stick-cookware-set/granite-non-stick-cookware-set-01.png",
           "sourceUrl": null,
-          "sourceImageUrl": null,
-          "alt": "Everyday Ground Set development coffee bag",
+          "alt": "Granite Non-Stick Cookware Set demo image 1",
           "sortOrder": 0,
           "primary": true,
           "mediaType": "image/png",
           "width": 480,
           "height": 600,
-          "provenance": "Generated locally by dev-seed; no third-party image is redistributed."
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
         }
-      ]
+      ],
+      "priceRange": {
+        "min": 1299,
+        "max": 2999,
+        "base": 1299
+      }
+    },
+    {
+      "key": "product-26",
+      "name": "ClearSpace Storage Box Set",
+      "slug": "clearspace-storage-box-set",
+      "categoryKey": "storage",
+      "brand": "Hearth & Hue",
+      "status": "ACTIVE",
+      "description": "A practical clearspace storage box set designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "HOM-BOX-STORAGE-3PC",
+          "sku": "HOM-BOX-STORAGE-3PC",
+          "price": 699,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Clear",
+            "size": "3 Pieces",
+            "material": "Food-safe Plastic"
+          }
+        },
+        {
+          "key": "HOM-BOX-STORAGE-6PC",
+          "sku": "HOM-BOX-STORAGE-6PC",
+          "price": 1199,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Clear",
+            "size": "6 Pieces",
+            "material": "Food-safe Plastic"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "clearspace-storage-box-set/clearspace-storage-box-set-01.png",
+          "sourceUrl": null,
+          "alt": "ClearSpace Storage Box Set demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "clearspace-storage-box-set/clearspace-storage-box-set-02.png",
+          "sourceUrl": null,
+          "alt": "ClearSpace Storage Box Set demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 699,
+        "max": 1199,
+        "base": 699
+      }
+    },
+    {
+      "key": "product-27",
+      "name": "Meadow Dinner Set",
+      "slug": "meadow-dinner-set",
+      "categoryKey": "dining",
+      "brand": "Hearth & Hue",
+      "status": "ACTIVE",
+      "description": "A practical meadow dinner set designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "HOM-DINE-MEADOW-12PC",
+          "sku": "HOM-DINE-MEADOW-12PC",
+          "price": 1599,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Ivory",
+            "size": "12 Pieces",
+            "material": "Stoneware"
+          }
+        },
+        {
+          "key": "HOM-DINE-MEADOW-18PC",
+          "sku": "HOM-DINE-MEADOW-18PC",
+          "price": 2299,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Ivory",
+            "size": "18 Pieces",
+            "material": "Stoneware"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "meadow-dinner-set/meadow-dinner-set-01.png",
+          "sourceUrl": null,
+          "alt": "Meadow Dinner Set demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "meadow-dinner-set/meadow-dinner-set-02.png",
+          "sourceUrl": null,
+          "alt": "Meadow Dinner Set demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "meadow-dinner-set/meadow-dinner-set-03.png",
+          "sourceUrl": null,
+          "alt": "Meadow Dinner Set demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 1599,
+        "max": 2299,
+        "base": 1599
+      }
+    },
+    {
+      "key": "product-28",
+      "name": "FreshStart Cleaning Kit",
+      "slug": "freshstart-cleaning-kit",
+      "categoryKey": "cleaning",
+      "brand": "Hearth & Hue",
+      "status": "ACTIVE",
+      "description": "A practical freshstart cleaning kit designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "HOM-CLEAN-FRESH-BASIC",
+          "sku": "HOM-CLEAN-FRESH-BASIC",
+          "price": 299,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Multi",
+            "size": "Basic Kit",
+            "material": "Microfiber"
+          }
+        },
+        {
+          "key": "HOM-CLEAN-FRESH-PLUS",
+          "sku": "HOM-CLEAN-FRESH-PLUS",
+          "price": 499,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Multi",
+            "size": "Plus Kit",
+            "material": "Microfiber"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "freshstart-cleaning-kit/freshstart-cleaning-kit-01.png",
+          "sourceUrl": null,
+          "alt": "FreshStart Cleaning Kit demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "freshstart-cleaning-kit/freshstart-cleaning-kit-02.png",
+          "sourceUrl": null,
+          "alt": "FreshStart Cleaning Kit demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "freshstart-cleaning-kit/freshstart-cleaning-kit-03.png",
+          "sourceUrl": null,
+          "alt": "FreshStart Cleaning Kit demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "freshstart-cleaning-kit/freshstart-cleaning-kit-04.png",
+          "sourceUrl": null,
+          "alt": "FreshStart Cleaning Kit demo image 4",
+          "sortOrder": 3,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 299,
+        "max": 499,
+        "base": 299
+      }
+    },
+    {
+      "key": "product-29",
+      "name": "Nova Android Smartphone",
+      "slug": "nova-android-smartphone",
+      "categoryKey": "smartphones",
+      "brand": "OrbitLane",
+      "status": "ACTIVE",
+      "description": "A practical nova android smartphone designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "ELE-PHN-NOVA-BLK-128",
+          "sku": "ELE-PHN-NOVA-BLK-128",
+          "price": 14999,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Black",
+            "size": "128GB",
+            "storage": "128GB",
+            "ram": "8GB"
+          }
+        },
+        {
+          "key": "ELE-PHN-NOVA-BLK-256",
+          "sku": "ELE-PHN-NOVA-BLK-256",
+          "price": 16999,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Black",
+            "size": "256GB",
+            "storage": "256GB",
+            "ram": "8GB"
+          }
+        },
+        {
+          "key": "ELE-PHN-NOVA-BLU-128",
+          "sku": "ELE-PHN-NOVA-BLU-128",
+          "price": 14999,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Blue",
+            "size": "128GB",
+            "storage": "128GB",
+            "ram": "8GB"
+          }
+        },
+        {
+          "key": "ELE-PHN-NOVA-BLU-256",
+          "sku": "ELE-PHN-NOVA-BLU-256",
+          "price": 16999,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Blue",
+            "size": "256GB",
+            "storage": "256GB",
+            "ram": "8GB"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "nova-android-smartphone/nova-android-smartphone-01.png",
+          "sourceUrl": null,
+          "alt": "Nova Android Smartphone demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 14999,
+        "max": 16999,
+        "base": 14999
+      }
+    },
+    {
+      "key": "product-30",
+      "name": "AirLoop Wireless Earbuds",
+      "slug": "airloop-wireless-earbuds",
+      "categoryKey": "earphones",
+      "brand": "OrbitLane",
+      "status": "ACTIVE",
+      "description": "A practical airloop wireless earbuds designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "ELE-EAR-AIRLOOP-WHT-STD",
+          "sku": "ELE-EAR-AIRLOOP-WHT-STD",
+          "price": 1999,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "White",
+            "size": "Standard",
+            "material": "ABS Plastic"
+          }
+        },
+        {
+          "key": "ELE-EAR-AIRLOOP-BLK-STD",
+          "sku": "ELE-EAR-AIRLOOP-BLK-STD",
+          "price": 1999,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Black",
+            "size": "Standard",
+            "material": "ABS Plastic"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "airloop-wireless-earbuds/airloop-wireless-earbuds-01.png",
+          "sourceUrl": null,
+          "alt": "AirLoop Wireless Earbuds demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "airloop-wireless-earbuds/airloop-wireless-earbuds-02.png",
+          "sourceUrl": null,
+          "alt": "AirLoop Wireless Earbuds demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 1999,
+        "max": 1999,
+        "base": 1999
+      }
+    },
+    {
+      "key": "product-31",
+      "name": "PulseFit Smartwatch",
+      "slug": "pulsefit-smartwatch",
+      "categoryKey": "smartwatches",
+      "brand": "OrbitLane",
+      "status": "ACTIVE",
+      "description": "A practical pulsefit smartwatch designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "ELE-WAT-PULSE-BLK-STD",
+          "sku": "ELE-WAT-PULSE-BLK-STD",
+          "price": 2499,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Black",
+            "size": "Standard",
+            "material": "Aluminium"
+          }
+        },
+        {
+          "key": "ELE-WAT-PULSE-BLU-STD",
+          "sku": "ELE-WAT-PULSE-BLU-STD",
+          "price": 2499,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Blue",
+            "size": "Standard",
+            "material": "Aluminium"
+          }
+        },
+        {
+          "key": "ELE-WAT-PULSE-ROS-STD",
+          "sku": "ELE-WAT-PULSE-ROS-STD",
+          "price": 2599,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Rose",
+            "size": "Standard",
+            "material": "Aluminium"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "pulsefit-smartwatch/pulsefit-smartwatch-01.png",
+          "sourceUrl": null,
+          "alt": "PulseFit Smartwatch demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "pulsefit-smartwatch/pulsefit-smartwatch-02.png",
+          "sourceUrl": null,
+          "alt": "PulseFit Smartwatch demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "pulsefit-smartwatch/pulsefit-smartwatch-03.png",
+          "sourceUrl": null,
+          "alt": "PulseFit Smartwatch demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 2499,
+        "max": 2599,
+        "base": 2499
+      }
+    },
+    {
+      "key": "product-32",
+      "name": "Halo Table Lamp",
+      "slug": "halo-table-lamp",
+      "categoryKey": "lighting",
+      "brand": "Mysa Living",
+      "status": "ACTIVE",
+      "description": "A practical halo table lamp designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "DEC-LMP-HALO-WHT-STD",
+          "sku": "DEC-LMP-HALO-WHT-STD",
+          "price": 1299,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "White",
+            "size": "Standard",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "key": "DEC-LMP-HALO-AMB-STD",
+          "sku": "DEC-LMP-HALO-AMB-STD",
+          "price": 1399,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Amber",
+            "size": "Standard",
+            "material": "Ceramic"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "halo-table-lamp/halo-table-lamp-01.png",
+          "sourceUrl": null,
+          "alt": "Halo Table Lamp demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "halo-table-lamp/halo-table-lamp-02.png",
+          "sourceUrl": null,
+          "alt": "Halo Table Lamp demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "halo-table-lamp/halo-table-lamp-03.png",
+          "sourceUrl": null,
+          "alt": "Halo Table Lamp demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "halo-table-lamp/halo-table-lamp-04.png",
+          "sourceUrl": null,
+          "alt": "Halo Table Lamp demo image 4",
+          "sortOrder": 3,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 1299,
+        "max": 1399,
+        "base": 1299
+      }
+    },
+    {
+      "key": "product-33",
+      "name": "Gallery Wall Art Set",
+      "slug": "gallery-wall-art-set",
+      "categoryKey": "wall-decor",
+      "brand": "Mysa Living",
+      "status": "ACTIVE",
+      "description": "A practical gallery wall art set designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "DEC-ART-GALLERY-3PC",
+          "sku": "DEC-ART-GALLERY-3PC",
+          "price": 899,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Multi",
+            "size": "3 Pieces",
+            "material": "Canvas"
+          }
+        },
+        {
+          "key": "DEC-ART-GALLERY-5PC",
+          "sku": "DEC-ART-GALLERY-5PC",
+          "price": 1299,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Multi",
+            "size": "5 Pieces",
+            "material": "Canvas"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "gallery-wall-art-set/gallery-wall-art-set-01.png",
+          "sourceUrl": null,
+          "alt": "Gallery Wall Art Set demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 899,
+        "max": 1299,
+        "base": 899
+      }
+    },
+    {
+      "key": "product-34",
+      "name": "Terracotta Accent Vase",
+      "slug": "terracotta-accent-vase",
+      "categoryKey": "decorative-items",
+      "brand": "Mysa Living",
+      "status": "ACTIVE",
+      "description": "A practical terracotta accent vase designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "DEC-VASE-TERRA-SML",
+          "sku": "DEC-VASE-TERRA-SML",
+          "price": 599,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Terracotta",
+            "size": "Small",
+            "material": "Ceramic"
+          }
+        },
+        {
+          "key": "DEC-VASE-TERRA-MED",
+          "sku": "DEC-VASE-TERRA-MED",
+          "price": 799,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Terracotta",
+            "size": "Medium",
+            "material": "Ceramic"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "terracotta-accent-vase/terracotta-accent-vase-01.png",
+          "sourceUrl": null,
+          "alt": "Terracotta Accent Vase demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "terracotta-accent-vase/terracotta-accent-vase-02.png",
+          "sourceUrl": null,
+          "alt": "Terracotta Accent Vase demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 599,
+        "max": 799,
+        "base": 599
+      }
+    },
+    {
+      "key": "product-35",
+      "name": "Forge Multi-purpose Tool Kit",
+      "slug": "forge-multi-purpose-tool-kit",
+      "categoryKey": "hand-tools",
+      "brand": "Everyday Forge",
+      "status": "ACTIVE",
+      "description": "A practical forge multi-purpose tool kit designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "TLS-TOOL-FORGE-12PC",
+          "sku": "TLS-TOOL-FORGE-12PC",
+          "price": 999,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Red",
+            "size": "12 Pieces",
+            "material": "Chrome Vanadium"
+          }
+        },
+        {
+          "key": "TLS-TOOL-FORGE-24PC",
+          "sku": "TLS-TOOL-FORGE-24PC",
+          "price": 1599,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Red",
+            "size": "24 Pieces",
+            "material": "Chrome Vanadium"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "forge-multi-purpose-tool-kit/forge-multi-purpose-tool-kit-01.png",
+          "sourceUrl": null,
+          "alt": "Forge Multi-purpose Tool Kit demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "forge-multi-purpose-tool-kit/forge-multi-purpose-tool-kit-02.png",
+          "sourceUrl": null,
+          "alt": "Forge Multi-purpose Tool Kit demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "forge-multi-purpose-tool-kit/forge-multi-purpose-tool-kit-03.png",
+          "sourceUrl": null,
+          "alt": "Forge Multi-purpose Tool Kit demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 999,
+        "max": 1599,
+        "base": 999
+      }
+    },
+    {
+      "key": "product-36",
+      "name": "Flexi Resistance Band Set",
+      "slug": "flexi-resistance-band-set",
+      "categoryKey": "fitness-accessories",
+      "brand": "Everyday Forge",
+      "status": "ACTIVE",
+      "description": "A practical flexi resistance band set designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "TLS-FIT-BANDS-LIGHT",
+          "sku": "TLS-FIT-BANDS-LIGHT",
+          "price": 399,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Multi",
+            "size": "Light Resistance",
+            "material": "Latex"
+          }
+        },
+        {
+          "key": "TLS-FIT-BANDS-HEAVY",
+          "sku": "TLS-FIT-BANDS-HEAVY",
+          "price": 599,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Multi",
+            "size": "Heavy Resistance",
+            "material": "Latex"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "flexi-resistance-band-set/flexi-resistance-band-set-01.png",
+          "sourceUrl": null,
+          "alt": "Flexi Resistance Band Set demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "flexi-resistance-band-set/flexi-resistance-band-set-02.png",
+          "sourceUrl": null,
+          "alt": "Flexi Resistance Band Set demo image 2",
+          "sortOrder": 1,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "flexi-resistance-band-set/flexi-resistance-band-set-03.png",
+          "sourceUrl": null,
+          "alt": "Flexi Resistance Band Set demo image 3",
+          "sortOrder": 2,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        },
+        {
+          "file": "flexi-resistance-band-set/flexi-resistance-band-set-04.png",
+          "sourceUrl": null,
+          "alt": "Flexi Resistance Band Set demo image 4",
+          "sortOrder": 3,
+          "primary": false,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 399,
+        "max": 599,
+        "base": 399
+      }
+    },
+    {
+      "key": "product-37",
+      "name": "PackRight Travel Organizer",
+      "slug": "packright-travel-organizer",
+      "categoryKey": "travel-utility",
+      "brand": "Everyday Forge",
+      "status": "ACTIVE",
+      "description": "A practical packright travel organizer designed for everyday use, with easy-to-compare options and dependable demo availability.",
+      "source": {
+        "sourceName": "Meesho public marketplace reference",
+        "sourceUrl": "https://www.meesho.com/",
+        "sourceAccessedAt": "2026-09-23T00:00:00Z",
+        "usage": "Category and product variety reference only; identity, copy, prices, and images are original demo data."
+      },
+      "variants": [
+        {
+          "key": "TLS-ORG-PACK-3PC",
+          "sku": "TLS-ORG-PACK-3PC",
+          "price": 699,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Grey",
+            "size": "3 Pieces",
+            "material": "Nylon"
+          }
+        },
+        {
+          "key": "TLS-ORG-PACK-6PC",
+          "sku": "TLS-ORG-PACK-6PC",
+          "price": 999,
+          "currency": "INR",
+          "status": "ACTIVE",
+          "attributes": {
+            "color": "Grey",
+            "size": "6 Pieces",
+            "material": "Nylon"
+          }
+        }
+      ],
+      "images": [
+        {
+          "file": "packright-travel-organizer/packright-travel-organizer-01.png",
+          "sourceUrl": null,
+          "alt": "PackRight Travel Organizer demo image 1",
+          "sortOrder": 0,
+          "primary": true,
+          "mediaType": "image/png",
+          "width": 480,
+          "height": 600,
+          "sourceName": "Generated local demo asset",
+          "sourceAccessedAt": "2026-09-23T00:00:00Z",
+          "provenance": "Original deterministic artwork generated locally; no third-party image hosting."
+        }
+      ],
+      "priceRange": {
+        "min": 699,
+        "max": 999,
+        "base": 699
+      }
     }
   ]
 }

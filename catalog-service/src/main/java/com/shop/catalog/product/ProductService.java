@@ -230,7 +230,9 @@ public class ProductService {
                                                  List<String> brands, List<String> attributes) {
         return (root, query, criteriaBuilder) -> {
             List<jakarta.persistence.criteria.Predicate> predicates = new ArrayList<>();
-            if (categoryId != null) predicates.add(criteriaBuilder.equal(root.get("category").get("id"), categoryId));
+            if (categoryId != null) {
+                predicates.add(root.get("category").get("id").in(categoryAndDescendantIds(categoryId)));
+            }
             if (search != null && !search.isBlank()) {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + search.trim().toLowerCase(Locale.ROOT) + "%"));
             }
@@ -259,6 +261,26 @@ public class ProductService {
             }
             return criteriaBuilder.and(predicates.toArray(jakarta.persistence.criteria.Predicate[]::new));
         };
+    }
+
+    private Set<UUID> categoryAndDescendantIds(UUID categoryId) {
+        Map<UUID, List<UUID>> childrenByParent = new HashMap<>();
+        for (Category category : categories.findAll()) {
+            if (category.getParent() != null) {
+                childrenByParent.computeIfAbsent(category.getParent().getId(), ignored -> new ArrayList<>()).add(category.getId());
+            }
+        }
+
+        Set<UUID> scope = new HashSet<>();
+        List<UUID> pending = new ArrayList<>();
+        scope.add(categoryId);
+        pending.add(categoryId);
+        for (int index = 0; index < pending.size(); index++) {
+            for (UUID childId : childrenByParent.getOrDefault(pending.get(index), List.of())) {
+                if (scope.add(childId)) pending.add(childId);
+            }
+        }
+        return scope;
     }
 
     private String normalizeSku(String sku) {

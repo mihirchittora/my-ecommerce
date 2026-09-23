@@ -303,9 +303,18 @@ developers should invoke the Python entry point directly. Available commands:
 ~~~text
 npm run seed
 npm run seed:validate
+npm run seed:dry-run
 npm run seed:refresh-images
 npm run seed:reset
 ~~~
+
+The dataset is synthetic general e-commerce demo data: 10 top-level
+categories, 37 products, 111 variants/SKUs, local product galleries, three
+inventory locations, 10 fake customers, and API-created cart/order/payment/
+fulfillment/shipment scenarios. It uses Meesho only as a public marketplace
+variety reference and does not copy its branding, UI, identifiers, customer
+data, or hosted images. See [dev-seed/README.md](dev-seed/README.md) for the
+full API-first seed contract, actual counts, safety rules, and limitations.
 
 seed:reset removes only the eight named local Compose volumes and requires
 SEED_ENV=development. It never targets production URLs.
