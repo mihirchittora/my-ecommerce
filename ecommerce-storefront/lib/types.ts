@@ -36,6 +36,35 @@ export interface CategoryImage {
   altText: string;
 }
 
+export interface SiteSettings {
+  id: string;
+  siteTitle: string;
+  logoUrl: string | null;
+  logoOriginalFilename: string | null;
+  logoContentType: string | null;
+  logoSizeBytes: number | null;
+  updatedAt: string;
+  slides: CarouselSlide[];
+}
+
+export interface CarouselSlide {
+  id: string;
+  sortOrder: number;
+  eyebrow: string | null;
+  headline: string;
+  description: string | null;
+  primaryCtaLabel: string | null;
+  primaryCtaUrl: string | null;
+  secondaryCtaLabel: string | null;
+  secondaryCtaUrl: string | null;
+  imageUrl: string | null;
+  active: boolean;
+  originalFilename: string | null;
+  contentType: string | null;
+  sizeBytes: number | null;
+  updatedAt: string;
+}
+
 export interface ProductVariant {
   id: string;
   sku: string;

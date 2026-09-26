@@ -113,14 +113,16 @@ from a super-admin is rejected while `SUPER_ADMIN` remains assigned.
 ## Permission Catalog
 
 The authoritative seed starts at `src/main/resources/db/migration/V2__seed_roles_and_permissions.sql`;
-`V4__add_cart_read_permission.sql` adds the Cart support permission to existing
-Auth databases. The active services use `PRODUCT_*`, `CATEGORY_*`,
-`PRODUCT_IMAGE_*`, `INVENTORY_*`, and `CART_READ` permissions plus the
-security-administration permissions above. The migration also reserves
-`ORDER_READ`, `ORDER_CREATE`, `ORDER_UPDATE`,
-`ORDER_CANCEL`, `CUSTOMER_READ`, and `CUSTOMER_UPDATE` as future-domain metadata;
-they may be unused by a particular downstream service, but they are included in
-the system-managed SUPER_ADMIN permission set.
+later migrations add Cart, Order, Payment, Shipping, Commerce, Customer, and
+Storefront capabilities. The initial seed described the Order and Customer
+entries as a future domain because those APIs were not complete at the time;
+they are still real permission definitions and are returned by `GET /api/v1/permissions`.
+`V14__clarify_permission_descriptions.sql` updates their descriptions so the
+admin UI does not present them as unavailable domains. `ORDER_CREATE` and
+`ORDER_UPDATE` remain available for order workflows that are added later, while
+`ORDER_READ`, `ORDER_CANCEL`, `CUSTOMER_READ`, and `CUSTOMER_UPDATE` are used by
+the current services. All of them are included in the system-managed
+`SUPER_ADMIN` permission set.
 `V5__grant_all_roles_to_super_admin_users.sql` backfills every seeded application
 role onto existing users that already carry `SUPER_ADMIN`; `V6__grant_all_permissions_to_super_admin.sql`
 backfills every seeded permission, including Customer and Order capabilities.

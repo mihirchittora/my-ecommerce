@@ -20,6 +20,7 @@ export function effectivePermissions(roleNames: string[], roles: AccessRole[]): 
 }
 
 function serviceForPermission(code: string) {
+  if (code.startsWith("SITE_SETTINGS_")) return "Storefront";
   if (code.startsWith("CATALOG_") || code.startsWith("PRODUCT_") || code.startsWith("CATEGORY_")) return "Catalog";
   if (code.startsWith("INVENTORY_")) return "Inventory";
   if (code.startsWith("ORDER_")) return "Orders";

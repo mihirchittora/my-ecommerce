@@ -1,5 +1,5 @@
 import { catalogClient } from "@/lib/api/client";
-import type { CatalogFacets, Category, PageResponse, Product } from "@/lib/types";
+import type { CatalogFacets, Category, PageResponse, Product, SiteSettings } from "@/lib/types";
 
 function query(values: Record<string, string | number | string[] | undefined>) {
   const params = new URLSearchParams();
@@ -13,6 +13,7 @@ function query(values: Record<string, string | number | string[] | undefined>) {
 }
 
 export const catalogApi = {
+  getSiteSettings: () => catalogClient.request<SiteSettings>("/v1/site-settings"),
   listCategories: (parentId?: string) => catalogClient.request<Category[]>(`/v1/categories${query({ parentId })}`),
   getCategoryBySlug: (slug: string) => catalogClient.request<Category>(`/v1/categories/slug/${encodeURIComponent(slug)}`),
   listProducts: (params: { page?: number; size?: number; search?: string; categoryId?: string; sort?: string; priceMin?: number; priceMax?: number; brands?: string[]; attributes?: string[] }) => catalogClient.request<PageResponse<Product>>(`/v1/products${query({ page: params.page ?? 0, size: params.size ?? 12, search: params.search, categoryId: params.categoryId, status: "ACTIVE", sort: params.sort ?? "name,asc", priceMin: params.priceMin, priceMax: params.priceMax, brand: params.brands, attribute: params.attributes })}`),

@@ -50,7 +50,11 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/actuator/health", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/products/*/reviews/mine").authenticated()
-                .requestMatchers(HttpMethod.GET, "/api/v1/products/**", "/api/v1/categories/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/products/**", "/api/v1/categories/**", "/api/v1/site-settings", "/api/v1/site-settings/logo/file", "/api/v1/site-settings/slides/*/file").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/site-settings/admin").hasAnyAuthority("SITE_SETTINGS_READ", "ROLE_SUPER_ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/v1/site-settings", "/api/v1/site-settings/slides/*").hasAnyAuthority("SITE_SETTINGS_UPDATE", "ROLE_SUPER_ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/v1/site-settings/logo", "/api/v1/site-settings/slides", "/api/v1/site-settings/slides/*/image").hasAnyAuthority("SITE_SETTINGS_UPDATE", "ROLE_SUPER_ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/site-settings/logo", "/api/v1/site-settings/slides/*", "/api/v1/site-settings/slides/*/image").hasAnyAuthority("SITE_SETTINGS_UPDATE", "ROLE_SUPER_ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/v1/products").hasAuthority("PRODUCT_CREATE")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/products/*").hasAuthority("PRODUCT_UPDATE")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/products/*").hasAuthority("PRODUCT_DELETE")

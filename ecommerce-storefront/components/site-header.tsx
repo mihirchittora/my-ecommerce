@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, ChevronRight, Menu, Search, ShoppingBag, UserRound, X } from "lucide-react";
 import { useQueries, useQuery } from "@tanstack/react-query";
@@ -8,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/components/auth-provider";
 import { cartApi } from "@/lib/api/cart";
 import { catalogApi } from "@/lib/api/catalog";
-import { cn } from "@/lib/utils";
+import { cn, getAssetUrl } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { CategoryImage } from "@/components/category-image";
 import type { Category } from "@/lib/types";
@@ -24,6 +25,7 @@ export function SiteHeader() {
   const [searchFocused, setSearchFocused] = useState(false);
   const cart = useQuery({ queryKey: ["cart"], queryFn: cartApi.get, enabled: status === "authenticated" });
   const categories = useQuery({ queryKey: ["categories", "root"], queryFn: () => catalogApi.listCategories() });
+  const siteSettings = useQuery({ queryKey: ["site-settings"], queryFn: catalogApi.getSiteSettings, staleTime: 60_000 });
   const searchSuggestions = useQuery({
     queryKey: ["header-search-suggestions", debouncedQuery],
     queryFn: () => catalogApi.listProducts({ search: debouncedQuery, page: 0, size: 6, sort: "name,asc" }),
@@ -31,6 +33,8 @@ export function SiteHeader() {
     staleTime: 30_000,
   });
   const itemCount = cart.data?.itemCount ?? 0;
+  const siteTitle = siteSettings.data?.siteTitle ?? "Morrow";
+  const logoUrl = getAssetUrl(siteSettings.data?.logoUrl);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setDebouncedQuery(query.trim()), 220);
@@ -80,7 +84,7 @@ export function SiteHeader() {
     <div className="hidden border-b border-ink/10 bg-sand/80 sm:block"><div className="page-shell flex h-8 items-center justify-end gap-5 text-[11px] font-semibold text-ink/55"><span>Thoughtful goods, clearly priced</span><Link href="/search" className="hover:text-ink">Help & search</Link><Link href={accountHref} className="hover:text-ink">{user ? "My account" : "Sign in"}</Link></div></div>
     <div className="page-shell flex items-center gap-3 py-3 md:gap-5 md:py-4">
       <button aria-label={menuOpen ? "Close menu" : "Open menu"} className="rounded-full p-2 text-ink hover:bg-mist md:hidden" onClick={() => setMenuOpen((open) => !open)}>{menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</button>
-      <Link href="/" className="flex shrink-0 items-center gap-2" onClick={() => setMenuOpen(false)}><span className="grid h-9 w-9 place-items-center rounded-xl bg-ink text-sm font-black text-white">M</span><span className="font-display text-lg font-bold tracking-tight text-ink">Morrow</span></Link>
+      <Link href="/" className="flex shrink-0 items-center gap-2" onClick={() => setMenuOpen(false)}><span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-ink text-sm font-black text-white">{logoUrl ? <Image src={logoUrl} alt="" fill sizes="36px" unoptimized className="object-contain" /> : siteTitle.slice(0, 1).toUpperCase()}</span><span className="font-display text-lg font-bold tracking-tight text-ink">{siteTitle}</span></Link>
       <form onSubmit={submitSearch} className="order-3 w-full md:order-none md:mx-auto md:block md:max-w-2xl md:flex-1"><label className="sr-only" htmlFor="site-search">Search products</label><div ref={searchRef} className="relative"><Search className="pointer-events-none absolute left-4 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-ink/45" /><Input id="site-search" value={query} onChange={(event) => setQuery(event.target.value)} onFocus={() => setSearchFocused(true)} onKeyDown={(event) => { if (event.key === "Escape") setSearchFocused(false); }} aria-expanded={showSuggestions} aria-controls="header-search-suggestions" autoComplete="off" placeholder="Search products, brands, and more" className="h-11 rounded-full bg-sand/70 pl-11" />
         {showSuggestions ? <div id="header-search-suggestions" role="listbox" className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-ink/10 bg-white p-2 shadow-xl">
           {searchSuggestions.isLoading ? <p className="px-3 py-4 text-sm text-ink/55">Finding matches…</p> : null}
