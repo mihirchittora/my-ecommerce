@@ -389,8 +389,20 @@ Windows Docker Desktop, macOS Colima, Linux Docker, and tool-version issues.
 
 ## Production Deployment
 
-The local Compose files and seed data are development tooling. Production must
-provide managed PostgreSQL, cloud service URLs, TLS, managed secrets, persistent
-JWT signing keys, restricted CORS origins, real gateway/carrier credentials, and
-observability. Never deploy the example passwords, sandbox webhook secrets,
-localhost URLs, or development seed data.
+Deployment profiles are documented in
+[deploy/README.md](deploy/README.md). The new
+[single-VM profile](deploy/single-vm/README.md) runs all eight Spring services,
+one PostgreSQL server with eight isolated logical databases, and a Caddy gateway
+on one private Docker network. It is suitable for integration, staging, demos,
+and low-traffic deployments where a single VM is an accepted failure domain.
+
+The local independent Compose files remain the preferred one-service-at-a-time
+development workflow. The single-VM profile changes placement only; it does not
+combine services or their domain ownership.
+
+Before production use, replace every example value and provide persistent JWT
+signing keys, managed or protected PostgreSQL backups, TLS, restricted CORS
+origins, real gateway/carrier credentials, and observability. Never deploy the
+example passwords, sandbox webhook secrets, localhost URLs, or development seed
+data. See [docs/milestone-9-report.md](docs/milestone-9-report.md) for the
+measured verification status and remaining release conditions.

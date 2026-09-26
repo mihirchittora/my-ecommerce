@@ -19,7 +19,7 @@ import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Testcontainers(disabledWithoutDocker = true)
+@Testcontainers
 @DataJpaTest
 class CartPersistenceIntegrationTest {
     static {

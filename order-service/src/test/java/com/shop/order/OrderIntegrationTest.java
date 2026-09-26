@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@Testcontainers(disabledWithoutDocker = true)
+@Testcontainers
 @SpringBootTest
 class OrderIntegrationTest {
     private static final OrderDtos.ShippingAddressRequest SHIPPING_ADDRESS =

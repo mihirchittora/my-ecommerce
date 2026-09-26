@@ -1,0 +1,73 @@
+{$CADDY_SITE_ADDRESS} {
+  encode gzip
+
+  request_body {
+    max_size 8MB
+  }
+
+  header {
+    X-Content-Type-Options nosniff
+    X-Frame-Options DENY
+    Referrer-Policy strict-origin-when-cross-origin
+    -Server
+  }
+
+  @health path /healthz
+  respond @health "ok" 200
+
+  # Management, documentation, and service-to-service routes are intentionally
+  # not proxied through the public entry point.
+  @private path /internal/* /actuator/* /v3/api-docs* /swagger-ui*
+  respond @private 404
+
+  handle /api/v1/auth* {
+    reverse_proxy auth-service:8085
+  }
+  handle /api/v1/users* {
+    reverse_proxy auth-service:8085
+  }
+  handle /api/v1/roles* {
+    reverse_proxy auth-service:8085
+  }
+  handle /api/v1/permissions* {
+    reverse_proxy auth-service:8085
+  }
+  handle /.well-known/jwks.json {
+    reverse_proxy auth-service:8085
+  }
+  handle /api/v1/categories* {
+    reverse_proxy catalog-service:8081
+  }
+  handle /api/v1/products* {
+    reverse_proxy catalog-service:8081
+  }
+  handle /api/v1/inventory* {
+    reverse_proxy inventory-service:8082
+  }
+  handle /api/v1/cart* {
+    reverse_proxy cart-service:8084
+  }
+  handle /api/v1/carts* {
+    reverse_proxy cart-service:8084
+  }
+  handle /api/v1/orders* {
+    reverse_proxy order-service:8083
+  }
+  handle /api/v1/customers* {
+    reverse_proxy customer-service:8086
+  }
+  handle /api/v1/payments* {
+    reverse_proxy payment-service:8087
+  }
+  handle /api/v1/fulfillments* {
+    reverse_proxy shipping-service:8088
+  }
+  handle /api/v1/shipments* {
+    reverse_proxy shipping-service:8088
+  }
+  handle /api/v1/shipping/webhooks* {
+    reverse_proxy shipping-service:8088
+  }
+
+  respond 404
+}

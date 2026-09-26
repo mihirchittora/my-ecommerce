@@ -27,6 +27,8 @@ yarn-error.log*
 .env
 .env.*
 !.env.example
+deploy/single-vm/secrets/jwt/*
+!deploy/single-vm/secrets/jwt/.gitkeep
 
 # Uploaded product images
 **/uploads/

@@ -1,0 +1,82 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: backend / ${{ matrix.service }}
+    runs-on: ubuntu-latest
+    env:
+      TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE: /var/run/docker.sock
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - auth-service
+          - catalog-service
+          - inventory-service
+          - order-service
+          - cart-service
+          - customer-service
+          - payment-service
+          - shipping-service
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Test service
+        run: mvn -B -ntp -f ${{ matrix.service }}/pom.xml clean test
+
+  frontend:
+    name: frontend / ${{ matrix.app }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [ecommerce-admin-ui, ecommerce-storefront]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: ${{ matrix.app }}/package-lock.json
+      - run: npm ci --prefix ${{ matrix.app }}
+      - run: npm --prefix ${{ matrix.app }} run lint
+      - run: npm --prefix ${{ matrix.app }} test
+      - run: npm --prefix ${{ matrix.app }} run build
+
+  seed:
+    name: seed / validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: npm ci
+      - run: npm run seed:validate
+      - run: npm run seed:dry-run
+
+  compose:
+    name: compose / config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate single-VM Compose
+        run: docker compose --env-file deploy/single-vm/.env.example -f deploy/single-vm/compose.yml config --quiet
+      - name: Build backend images
+        run: docker compose --env-file deploy/single-vm/.env.example -f deploy/single-vm/compose.yml build

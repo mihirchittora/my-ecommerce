@@ -47,6 +47,13 @@ host.docker.internal and the files add host-gateway for Linux Docker Engine.
 From the host, use localhost and the published port. localhost inside a
 container is the current container.
 
+The `deploy/single-vm` profile uses a different, portable placement: all ten
+containers share the explicit `ecommerce-private` network, backend calls use
+service DNS names, and only the Caddy proxy publishes host ports. It contains
+no `host.docker.internal` dependency and no host Docker socket mount. Its
+PostgreSQL container creates eight logical databases and service-owned roles;
+Flyway remains responsible for each schema.
+
 No application Compose file requires /var/run/docker.sock, ~/.colima, or
 ~/.docker. Testcontainers fallback detection is isolated to test sources,
 honors explicit DOCKER_HOST first, and only considers optional Unix socket
@@ -61,6 +68,11 @@ target JARs before docker compose up --build.
 Integration tests use Testcontainers PostgreSQL. Testcontainers is not disabled.
 Docker Desktop, Colima, and Linux Docker are supported through the Docker API;
 Windows does not receive a fabricated Unix socket path.
+
+In the current Colima environment, Maven integration tests required
+`TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock` so the Ryuk
+container could address the daemon through the container-visible socket. The
+override is documented for that runner and is not part of application runtime.
 
 ## Node and seed tooling
 
@@ -114,11 +126,20 @@ Verified in the current macOS Apple Silicon execution environment:
   expected no-server skip behavior.
 - Source review of Java path handling, image storage, Testcontainers setup, and
   environment precedence.
+- All eight backend test suites with Testcontainers enabled: 72 tests passed,
+  with no skipped tests.
+- Both frontend lint/test/typecheck/build workflows.
+- Single-VM Compose config, all eight backend image builds, clean database
+  initialization, private DNS health calls, gateway routing, and public port
+  isolation.
+- Seed validation, dry-run behavior, and production-environment refusal.
 
-The Docker client is installed but its daemon was not running during this audit,
-and the docker compose plugin was unavailable; the standalone Compose command
-was used for syntax validation. Persistence tests that require Testcontainers
-therefore could not start PostgreSQL in this environment.
+The Docker daemon was available through Colima on macOS Apple Silicon. The
+standalone `docker-compose` command was used because the `docker compose`
+plugin was unavailable. The host's port 8080 was already occupied, so the
+runtime gateway verification used `PROXY_HTTP_PORT=18080` and
+`PROXY_HTTPS_PORT=18443`; the profile itself remains configurable for 80/443 or
+any free ports.
 
 Static-audit only unless a matching runner is available:
 
@@ -126,6 +147,9 @@ Static-audit only unless a matching runner is available:
 - Linux Docker Engine.
 - macOS Intel hardware.
 - macOS Docker Desktop or Colima when not active in the current environment.
+- TLS certificate issuance and restore-from-backup execution.
+- Full browser E2E against a seeded, running gateway; the Storefront network
+  E2E cases intentionally skip when `STOREFRONT_E2E_BASE_URL` is unset.
 
 Do not interpret a static audit as an OS runtime test. Follow the manual matrix
 below on each target platform.

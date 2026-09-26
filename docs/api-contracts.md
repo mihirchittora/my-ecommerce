@@ -23,6 +23,28 @@ Compose service name and calls another backend through
 use that network's service DNS names instead. `localhost` inside a container
 always means that same container.
 
+### Single-VM gateway routes
+
+The unified deployment publishes only the reverse proxy. Its default public
+HTTP origin is `http://localhost:8080`; set `PROXY_HTTP_PORT` when that host
+port is occupied. The proxy routes the existing API paths without changing
+service contracts:
+
+| Public path prefix | Internal service |
+| --- | --- |
+| `/.well-known/jwks.json`, `/api/v1/users`, `/api/v1/roles`, `/api/v1/permissions` | `auth-service:8085` |
+| `/api/v1/categories`, `/api/v1/products` | `catalog-service:8081` |
+| `/api/v1/inventory` | `inventory-service:8082` |
+| `/api/v1/cart`, `/api/v1/carts` | `cart-service:8084` |
+| `/api/v1/orders` | `order-service:8083` |
+| `/api/v1/customers` | `customer-service:8086` |
+| `/api/v1/payments` | `payment-service:8087` |
+| `/api/v1/fulfillments`, `/api/v1/shipments`, `/api/v1/shipping/webhooks` | `shipping-service:8088` |
+
+Actuator, OpenAPI, Swagger, and `/internal/*` paths return `404` at the public
+gateway. Backend containers use private Docker DNS names; their application and
+database ports are not host-published in this profile.
+
 ## Auth Service — admin contracts
 
 Base URL: `http://localhost:8085`. Auth owns user identity, passwords, roles,

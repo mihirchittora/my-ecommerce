@@ -16,6 +16,9 @@ Start Docker Desktop on macOS or Windows. On macOS with optional Colima, run
 colima start and retry docker info. On Linux, make sure the Docker Engine or
 Docker Desktop daemon is running and that the current user can access it.
 
+If the Compose plugin is unavailable, the standalone `docker-compose` command
+can be used with the same `--env-file` and `-f` arguments.
+
 Do not mount a Docker socket into the application containers. Testcontainers
 uses the Docker API for tests.
 
@@ -54,6 +57,17 @@ Unix socket only when the Java runtime is Unix-like and no explicit Docker
 configuration exists. On Windows it does not construct Unix socket paths;
 Testcontainers uses Docker Desktop's supported API discovery.
 
+With Colima, Testcontainers' Ryuk container may need the container-visible
+socket override even when `docker info` works:
+
+~~~text
+TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock \
+  mvn -f catalog-service/pom.xml clean test
+~~~
+
+This is a test-runner setting only; application containers never mount a Docker
+socket.
+
 Do not disable integration tests or replace PostgreSQL with an in-memory database.
 If a stale DOCKER_HOST is set, clear it using the shell's normal environment
 settings and retry.
@@ -85,6 +99,10 @@ Compose projects are independent. On Linux the Compose files add the
 host-gateway mapping. If a service is run directly on the host, use
 http://localhost:8081 instead.
 
+The single-VM profile is different: all backend calls use private service DNS
+names such as `inventory-service:8082`, and only Caddy publishes host ports. See
+`deploy/single-vm/README.md` for its gateway routes and port overrides.
+
 ## Auth unavailable
 
 Check Auth before using protected APIs:
@@ -107,6 +125,8 @@ reachable from the process making the request:
 - Host-run backend: http://localhost:8085/.well-known/jwks.json
 - Backend container in the current Compose layout:
   http://host.docker.internal:8085/.well-known/jwks.json
+- Backend container in the single-VM profile:
+  http://auth-service:8085/.well-known/jwks.json
 
 A 401 usually means missing, expired, wrongly signed, wrong-issuer, or
 wrong-audience credentials. A 403 usually means a valid token lacks the required
@@ -196,4 +216,3 @@ For a live seed, confirm all required backend health endpoints and the matching
 development-only Auth admin password. The seed client prefers SEED_* URLs from
 the root .env so Compose container URLs and host URLs do not conflict. A failure
 does not print credentials.
-

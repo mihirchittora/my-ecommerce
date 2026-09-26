@@ -1,0 +1,346 @@
+name: my-ecommerce-single-vm
+
+x-backend-defaults: &backend-defaults
+  restart: unless-stopped
+  init: true
+  networks:
+    - ecommerce-private
+  healthcheck:
+    interval: 10s
+    timeout: 5s
+    retries: 30
+    start_period: 25s
+
+services:
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: ${POSTGRES_ADMIN_USER:?POSTGRES_ADMIN_USER must be set}
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?POSTGRES_ADMIN_PASSWORD must be set}
+      CATALOG_DB_PASSWORD: ${CATALOG_DB_PASSWORD:?CATALOG_DB_PASSWORD must be set}
+      INVENTORY_DB_PASSWORD: ${INVENTORY_DB_PASSWORD:?INVENTORY_DB_PASSWORD must be set}
+      ORDER_DB_PASSWORD: ${ORDER_DB_PASSWORD:?ORDER_DB_PASSWORD must be set}
+      CART_DB_PASSWORD: ${CART_DB_PASSWORD:?CART_DB_PASSWORD must be set}
+      AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD:?AUTH_DB_PASSWORD must be set}
+      CUSTOMER_DB_PASSWORD: ${CUSTOMER_DB_PASSWORD:?CUSTOMER_DB_PASSWORD must be set}
+      PAYMENT_DB_PASSWORD: ${PAYMENT_DB_PASSWORD:?PAYMENT_DB_PASSWORD must be set}
+      SHIPPING_DB_PASSWORD: ${SHIPPING_DB_PASSWORD:?SHIPPING_DB_PASSWORD must be set}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres/init/01-init-databases.sh:/docker-entrypoint-initdb.d/01-init-databases.sh:ro
+    expose:
+      - "5432"
+    networks:
+      - ecommerce-private
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  auth-service:
+    <<: *backend-defaults
+    image: ${AUTH_IMAGE:-my-ecommerce/auth-service:local}
+    build:
+      context: ../../auth-service
+    environment:
+      AUTH_DB_URL: jdbc:postgresql://postgres:5432/auth_db
+      AUTH_DB_USERNAME: ${AUTH_DB_USERNAME:-auth_user}
+      AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD:?AUTH_DB_PASSWORD must be set}
+      AUTH_SERVER_PORT: "8085"
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8080}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      JWT_PRIVATE_KEY_PATH: ${JWT_PRIVATE_KEY_PATH:-}
+      JWT_PUBLIC_KEY_PATH: ${JWT_PUBLIC_KEY_PATH:-}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:3001}
+      INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL:-}
+      INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD:-}
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms128m -Xmx384m}"
+    volumes:
+      - ${JWT_KEY_DIRECTORY:-./secrets/jwt}:/run/secrets/jwt:ro
+    expose:
+      - "8085"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:8085/actuator/health | grep -q '\"status\":\"UP\"'"]
+
+  catalog-service:
+    <<: *backend-defaults
+    image: ${CATALOG_IMAGE:-my-ecommerce/catalog-service:local}
+    build:
+      context: ../../catalog-service
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/catalog_db
+      DB_USERNAME: ${CATALOG_DB_USERNAME:-catalog_user}
+      DB_PASSWORD: ${CATALOG_DB_PASSWORD:?CATALOG_DB_PASSWORD must be set}
+      PORT: "8081"
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8080}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://auth-service:8085/.well-known/jwks.json}
+      INVENTORY_SERVICE_TOKEN: ${INVENTORY_TO_CATALOG_TOKEN:?INVENTORY_TO_CATALOG_TOKEN must be set}
+      ORDER_SERVICE_TOKEN: ${ORDER_TO_CATALOG_TOKEN:?ORDER_TO_CATALOG_TOKEN must be set}
+      CART_SERVICE_TOKEN: ${CART_TO_CATALOG_TOKEN:?CART_TO_CATALOG_TOKEN must be set}
+      IMAGE_STORAGE_DIR: /app/uploads
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms128m -Xmx384m}"
+    volumes:
+      - catalog-uploads:/app/uploads
+    expose:
+      - "8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:8081/actuator/health | grep -q '\"status\":\"UP\"'"]
+
+  inventory-service:
+    <<: *backend-defaults
+    image: ${INVENTORY_IMAGE:-my-ecommerce/inventory-service:local}
+    build:
+      context: ../../inventory-service
+    environment:
+      INVENTORY_DB_URL: jdbc:postgresql://postgres:5432/inventory_db
+      INVENTORY_DB_USERNAME: ${INVENTORY_DB_USERNAME:-inventory_user}
+      INVENTORY_DB_PASSWORD: ${INVENTORY_DB_PASSWORD:?INVENTORY_DB_PASSWORD must be set}
+      SERVER_PORT: "8082"
+      CATALOG_SERVICE_URL: http://catalog-service:8081
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8080}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://auth-service:8085/.well-known/jwks.json}
+      CATALOG_SERVICE_TOKEN: ${INVENTORY_TO_CATALOG_TOKEN:?INVENTORY_TO_CATALOG_TOKEN must be set}
+      ORDER_SERVICE_TOKEN: ${ORDER_TO_INVENTORY_TOKEN:?ORDER_TO_INVENTORY_TOKEN must be set}
+      SHIPPING_TO_INVENTORY_SERVICE_TOKEN: ${SHIPPING_TO_INVENTORY_TOKEN:?SHIPPING_TO_INVENTORY_TOKEN must be set}
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms128m -Xmx384m}"
+    expose:
+      - "8082"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      catalog-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:8082/actuator/health | grep -q '\"status\":\"UP\"'"]
+
+  order-service:
+    <<: *backend-defaults
+    image: ${ORDER_IMAGE:-my-ecommerce/order-service:local}
+    build:
+      context: ../../order-service
+    environment:
+      ORDER_DB_URL: jdbc:postgresql://postgres:5432/order_db
+      ORDER_DB_USERNAME: ${ORDER_DB_USERNAME:-order_user}
+      ORDER_DB_PASSWORD: ${ORDER_DB_PASSWORD:?ORDER_DB_PASSWORD must be set}
+      ORDER_SERVER_PORT: "8083"
+      CATALOG_SERVICE_URL: http://catalog-service:8081
+      INVENTORY_SERVICE_URL: http://inventory-service:8082
+      SHIPPING_SERVICE_URL: http://shipping-service:8088
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8080}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://auth-service:8085/.well-known/jwks.json}
+      CATALOG_SERVICE_TOKEN: ${ORDER_TO_CATALOG_TOKEN:?ORDER_TO_CATALOG_TOKEN must be set}
+      INVENTORY_SERVICE_TOKEN: ${ORDER_TO_INVENTORY_TOKEN:?ORDER_TO_INVENTORY_TOKEN must be set}
+      ORDER_TO_SHIPPING_SERVICE_TOKEN: ${ORDER_TO_SHIPPING_TOKEN:?ORDER_TO_SHIPPING_TOKEN must be set}
+      SHIPPING_TO_ORDER_SERVICE_TOKEN: ${SHIPPING_TO_ORDER_TOKEN:?SHIPPING_TO_ORDER_TOKEN must be set}
+      PAYMENT_TO_ORDER_SERVICE_TOKEN: ${PAYMENT_TO_ORDER_TOKEN:?PAYMENT_TO_ORDER_TOKEN must be set}
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms128m -Xmx384m}"
+    expose:
+      - "8083"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      catalog-service:
+        condition: service_healthy
+      inventory-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:8083/actuator/health | grep -q '\"status\":\"UP\"'"]
+
+  cart-service:
+    <<: *backend-defaults
+    image: ${CART_IMAGE:-my-ecommerce/cart-service:local}
+    build:
+      context: ../../cart-service
+    environment:
+      CART_DB_URL: jdbc:postgresql://postgres:5432/cart_db
+      CART_DB_USERNAME: ${CART_DB_USERNAME:-cart_user}
+      CART_DB_PASSWORD: ${CART_DB_PASSWORD:?CART_DB_PASSWORD must be set}
+      CART_SERVER_PORT: "8084"
+      CATALOG_SERVICE_URL: http://catalog-service:8081
+      ORDER_SERVICE_URL: http://order-service:8083
+      INVENTORY_SERVICE_URL: http://inventory-service:8082
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8080}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://auth-service:8085/.well-known/jwks.json}
+      CART_CATALOG_SERVICE_TOKEN: ${CART_TO_CATALOG_TOKEN:?CART_TO_CATALOG_TOKEN must be set}
+      APP_SECURITY_ENABLED: "true"
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms128m -Xmx384m}"
+    expose:
+      - "8084"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      catalog-service:
+        condition: service_healthy
+      order-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:8084/actuator/health | grep -q '\"status\":\"UP\"'"]
+
+  customer-service:
+    <<: *backend-defaults
+    image: ${CUSTOMER_IMAGE:-my-ecommerce/customer-service:local}
+    build:
+      context: ../../customer-service
+    environment:
+      CUSTOMER_DB_URL: jdbc:postgresql://postgres:5432/customer_db
+      CUSTOMER_DB_USERNAME: ${CUSTOMER_DB_USERNAME:-customer_user}
+      CUSTOMER_DB_PASSWORD: ${CUSTOMER_DB_PASSWORD:?CUSTOMER_DB_PASSWORD must be set}
+      CUSTOMER_SERVER_PORT: "8086"
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8080}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://auth-service:8085/.well-known/jwks.json}
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms128m -Xmx384m}"
+    expose:
+      - "8086"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:8086/actuator/health | grep -q '\"status\":\"UP\"'"]
+
+  payment-service:
+    <<: *backend-defaults
+    image: ${PAYMENT_IMAGE:-my-ecommerce/payment-service:local}
+    build:
+      context: ../../payment-service
+    environment:
+      PAYMENT_DB_URL: jdbc:postgresql://postgres:5432/payment_db
+      PAYMENT_DB_USERNAME: ${PAYMENT_DB_USERNAME:-payment_user}
+      PAYMENT_DB_PASSWORD: ${PAYMENT_DB_PASSWORD:?PAYMENT_DB_PASSWORD must be set}
+      PAYMENT_SERVER_PORT: "8087"
+      ORDER_SERVICE_URL: http://order-service:8083
+      ORDER_SERVICE_TOKEN: ${PAYMENT_TO_ORDER_TOKEN:?PAYMENT_TO_ORDER_TOKEN must be set}
+      ORDER_PAYMENT_UPDATE_PATH: /internal/orders/{orderId}/payment-events
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8080}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://auth-service:8085/.well-known/jwks.json}
+      PAYMENT_DEFAULT_PROVIDER: ${PAYMENT_DEFAULT_PROVIDER:-SANDBOX}
+      PAYMENT_SANDBOX_WEBHOOK_SECRET: ${PAYMENT_SANDBOX_WEBHOOK_SECRET:?PAYMENT_SANDBOX_WEBHOOK_SECRET must be set}
+      PAYMENT_SUPPORTED_CURRENCIES: ${PAYMENT_SUPPORTED_CURRENCIES:-INR,USD,EUR}
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms128m -Xmx384m}"
+    expose:
+      - "8087"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      order-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:8087/actuator/health | grep -q '\"status\":\"UP\"'"]
+
+  shipping-service:
+    <<: *backend-defaults
+    image: ${SHIPPING_IMAGE:-my-ecommerce/shipping-service:local}
+    build:
+      context: ../../shipping-service
+    environment:
+      SHIPPING_DB_URL: jdbc:postgresql://postgres:5432/shipping_db
+      SHIPPING_DB_USERNAME: ${SHIPPING_DB_USERNAME:-shipping_user}
+      SHIPPING_DB_PASSWORD: ${SHIPPING_DB_PASSWORD:?SHIPPING_DB_PASSWORD must be set}
+      SHIPPING_SERVER_PORT: "8088"
+      ORDER_SERVICE_URL: http://order-service:8083
+      INVENTORY_SERVICE_URL: http://inventory-service:8082
+      AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8080}
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
+      AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://auth-service:8085/.well-known/jwks.json}
+      ORDER_TO_SHIPPING_SERVICE_TOKEN: ${ORDER_TO_SHIPPING_TOKEN:?ORDER_TO_SHIPPING_TOKEN must be set}
+      SHIPPING_TO_ORDER_SERVICE_TOKEN: ${SHIPPING_TO_ORDER_TOKEN:?SHIPPING_TO_ORDER_TOKEN must be set}
+      SHIPPING_TO_INVENTORY_SERVICE_TOKEN: ${SHIPPING_TO_INVENTORY_TOKEN:?SHIPPING_TO_INVENTORY_TOKEN must be set}
+      SHIPPING_PROVIDER: ${SHIPPING_PROVIDER:-SANDBOX}
+      SHIPPING_WEBHOOK_SECRET: ${SHIPPING_WEBHOOK_SECRET:?SHIPPING_WEBHOOK_SECRET must be set}
+      EASYPOST_API_BASE_URL: ${EASYPOST_API_BASE_URL:-https://api.easypost.com/v2}
+      EASYPOST_API_KEY: ${EASYPOST_API_KEY:-}
+      EASYPOST_WEBHOOK_SECRET: ${EASYPOST_WEBHOOK_SECRET:-}
+      EASYPOST_WEBHOOK_TIMESTAMP_TOLERANCE_MINUTES: ${EASYPOST_WEBHOOK_TIMESTAMP_TOLERANCE_MINUTES:-1}
+      EASYPOST_ORIGIN_NAME: ${EASYPOST_ORIGIN_NAME:-}
+      EASYPOST_ORIGIN_PHONE: ${EASYPOST_ORIGIN_PHONE:-}
+      EASYPOST_ORIGIN_LINE1: ${EASYPOST_ORIGIN_LINE1:-}
+      EASYPOST_ORIGIN_CITY: ${EASYPOST_ORIGIN_CITY:-}
+      EASYPOST_ORIGIN_STATE: ${EASYPOST_ORIGIN_STATE:-}
+      EASYPOST_ORIGIN_POSTAL_CODE: ${EASYPOST_ORIGIN_POSTAL_CODE:-}
+      EASYPOST_ORIGIN_COUNTRY: ${EASYPOST_ORIGIN_COUNTRY:-IN}
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms128m -Xmx384m}"
+    expose:
+      - "8088"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      order-service:
+        condition: service_healthy
+      inventory-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:8088/actuator/health | grep -q '\"status\":\"UP\"'"]
+
+  reverse-proxy:
+    image: caddy:2.9-alpine
+    restart: unless-stopped
+    networks:
+      - ecommerce-private
+    ports:
+      - "${PROXY_HTTP_PORT:-8080}:80"
+      - "${PROXY_HTTPS_PORT:-8443}:443"
+    volumes:
+      - ./reverse-proxy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    environment:
+      CADDY_SITE_ADDRESS: ${CADDY_SITE_ADDRESS:-:80}
+    depends_on:
+      auth-service:
+        condition: service_healthy
+      catalog-service:
+        condition: service_healthy
+      inventory-service:
+        condition: service_healthy
+      order-service:
+        condition: service_healthy
+      cart-service:
+        condition: service_healthy
+      customer-service:
+        condition: service_healthy
+      payment-service:
+        condition: service_healthy
+      shipping-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/healthz | grep -q '^ok$'"]
+
+volumes:
+  postgres-data:
+  catalog-uploads:
+  caddy-data:
+  caddy-config:
+
+networks:
+  ecommerce-private:
+    name: ${ECOMMERCE_NETWORK_NAME:-ecommerce-private}
+    driver: bridge
