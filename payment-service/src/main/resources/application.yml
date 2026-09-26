@@ -32,6 +32,8 @@ app:
     payment-update-path: ${ORDER_PAYMENT_UPDATE_PATH:/internal/orders/{orderId}/payment-events}
     connect-timeout-ms: ${ORDER_CONNECT_TIMEOUT_MS:2000}
     read-timeout-ms: ${ORDER_READ_TIMEOUT_MS:3000}
+  service-auth:
+    order-token: ${ORDER_TO_PAYMENT_SERVICE_TOKEN:}
   gateway:
     default-provider: ${PAYMENT_DEFAULT_PROVIDER:SANDBOX}
     sandbox:

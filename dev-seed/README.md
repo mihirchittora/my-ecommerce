@@ -161,6 +161,10 @@ low-stock, carts, online success/failure/pending/refund, COD, cancellation,
 historical pricing, multiple locations, and the current partial-shipment
 limitation.
 
+The M10 seed also creates the deterministic `DEMO10` coupon through Order
+Service's admin API. Coupon rows are never written directly to the database;
+reruns look up the code first and reuse the existing row.
+
 ## Seed Command
 
 Run from the repository root after all backend services are healthy:

@@ -41,7 +41,7 @@ services:
       CART_CATALOG_SERVICE_TOKEN: ${CART_CATALOG_SERVICE_TOKEN:-dev-cart-to-catalog}
       APP_SECURITY_ENABLED: ${APP_SECURITY_ENABLED:-true}
       # Keep the local JVM below the Docker/Colima memory budget when all services run together.
-      JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:--Xms64m -Xmx256m}
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms32m -Xmx128m}"
     depends_on:
       cart-db:
         condition: service_healthy

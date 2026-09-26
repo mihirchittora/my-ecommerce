@@ -4,6 +4,7 @@ import com.shop.catalog.variant.ProductVariant;
 import com.shop.catalog.variant.VariantStatus;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -32,6 +33,11 @@ public final class ProductDtos {
             @DecimalMin(value = "0.01", inclusive = true)
             @Digits(integer = 17, fraction = 2)
             BigDecimal price,
+
+            @DecimalMin(value = "0", inclusive = true)
+            @DecimalMax(value = "100", inclusive = true)
+            @Digits(integer = 3, fraction = 4)
+            BigDecimal taxRate,
 
             @NotNull
             CurrencyCode currency,
@@ -80,6 +86,9 @@ public final class ProductDtos {
             UUID id,
             String sku,
             BigDecimal price,
+            BigDecimal taxRate,
+            BigDecimal taxAmount,
+            BigDecimal priceIncludingTax,
             String currency,
             Map<String, String> attributes,
             VariantStatus status
@@ -89,10 +98,22 @@ public final class ProductDtos {
                     variant.getId(),
                     variant.getSku(),
                     variant.getPrice(),
+                    variant.getTaxRate(),
+                    taxAmount(variant),
+                    priceIncludingTax(variant),
                     variant.getCurrency(),
                     variant.getAttributes(),
                     variant.getStatus()
             );
+        }
+
+        private static BigDecimal taxAmount(ProductVariant variant) {
+            BigDecimal rate = variant.getTaxRate() == null ? BigDecimal.ZERO : variant.getTaxRate();
+            return variant.getPrice().multiply(rate).divide(BigDecimal.valueOf(100), 2, java.math.RoundingMode.HALF_UP);
+        }
+
+        private static BigDecimal priceIncludingTax(ProductVariant variant) {
+            return variant.getPrice().add(taxAmount(variant)).setScale(2, java.math.RoundingMode.HALF_UP);
         }
     }
 

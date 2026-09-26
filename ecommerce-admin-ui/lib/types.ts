@@ -43,6 +43,9 @@ export interface ProductVariant {
   id: string;
   sku: string;
   price: number;
+  taxRate: number;
+  taxAmount: number;
+  priceIncludingTax: number;
   currency: CurrencyCode;
   attributes: Record<string, string>;
   status: VariantStatus;
@@ -103,6 +106,7 @@ export interface CategoryPayload {
 export interface VariantPayload {
   sku: string;
   price: number;
+  taxRate: number;
   currency: CurrencyCode;
   attributes: Record<string, string>;
   status: VariantStatus;

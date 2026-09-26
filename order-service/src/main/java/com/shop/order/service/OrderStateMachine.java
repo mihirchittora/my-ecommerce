@@ -13,9 +13,9 @@ public final class OrderStateMachine {
             Map.entry(OrderStatus.PENDING_RESERVATION, EnumSet.of(OrderStatus.RESERVED, OrderStatus.FAILED, OrderStatus.CANCELLED)),
             Map.entry(OrderStatus.RESERVED, EnumSet.of(OrderStatus.PENDING_PAYMENT, OrderStatus.CONFIRMED, OrderStatus.CANCELLED)),
             Map.entry(OrderStatus.PENDING_PAYMENT, EnumSet.of(OrderStatus.PAID, OrderStatus.CANCELLED, OrderStatus.FAILED)),
-            Map.entry(OrderStatus.PAID, EnumSet.of(OrderStatus.CONFIRMED)),
-            Map.entry(OrderStatus.CONFIRMED, EnumSet.of(OrderStatus.FULFILLING)),
-            Map.entry(OrderStatus.FULFILLING, EnumSet.of(OrderStatus.SHIPPED)),
+            Map.entry(OrderStatus.PAID, EnumSet.of(OrderStatus.CONFIRMED, OrderStatus.CANCELLED)),
+            Map.entry(OrderStatus.CONFIRMED, EnumSet.of(OrderStatus.FULFILLING, OrderStatus.CANCELLED)),
+            Map.entry(OrderStatus.FULFILLING, EnumSet.of(OrderStatus.SHIPPED, OrderStatus.CANCELLED)),
             Map.entry(OrderStatus.SHIPPED, EnumSet.of(OrderStatus.DELIVERED)),
             Map.entry(OrderStatus.DELIVERED, EnumSet.of(OrderStatus.COMPLETED)),
             Map.entry(OrderStatus.COMPLETED, EnumSet.noneOf(OrderStatus.class)),
@@ -38,5 +38,11 @@ public final class OrderStateMachine {
     public static boolean cancellable(OrderStatus status) {
         return status == OrderStatus.DRAFT || status == OrderStatus.PENDING_RESERVATION
                 || status == OrderStatus.RESERVED || status == OrderStatus.PENDING_PAYMENT;
+    }
+
+    public static boolean itemCancellable(OrderStatus status) {
+        return status == OrderStatus.DRAFT || status == OrderStatus.PENDING_RESERVATION
+                || status == OrderStatus.RESERVED || status == OrderStatus.PENDING_PAYMENT
+                || status == OrderStatus.PAID || status == OrderStatus.CONFIRMED;
     }
 }

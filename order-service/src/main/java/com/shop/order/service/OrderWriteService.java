@@ -6,11 +6,14 @@ import com.shop.order.domain.OrderEventType;
 import com.shop.order.domain.OrderHistory;
 import com.shop.order.domain.OrderItem;
 import com.shop.order.domain.OrderItemInventoryUnit;
+import com.shop.order.domain.OrderItemStatus;
 import com.shop.order.domain.OrderRepository;
 import com.shop.order.domain.OrderStatus;
 import com.shop.order.domain.PaymentMethod;
 import com.shop.order.exception.ConflictException;
 import com.shop.order.exception.NotFoundException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,13 +24,18 @@ import java.util.UUID;
 public class OrderWriteService {
     private final OrderRepository orders;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     public OrderWriteService(OrderRepository orders) {
         this.orders = orders;
     }
 
     @Transactional
     public CustomerOrder createPending(CustomerOrder order) {
-        return orders.saveAndFlush(order);
+        entityManager.persist(order);
+        entityManager.flush();
+        return order;
     }
 
     @Transactional
@@ -95,7 +103,7 @@ public class OrderWriteService {
     public void markReservedAndPendingPayment(UUID orderId, String actorUserId, PaymentMethod paymentMethod) {
         CustomerOrder order = load(orderId);
         if (order.getStatus() != OrderStatus.PENDING_RESERVATION) return;
-        if (order.getItems().stream().anyMatch(item -> item.getReservationId() == null)) {
+        if (order.getItems().stream().anyMatch(item -> item.getStatus() == OrderItemStatus.ACTIVE && item.getReservationId() == null)) {
             throw new ConflictException("Every order item must have an Inventory reservation");
         }
         OrderStatus from = order.getStatus();
@@ -131,8 +139,32 @@ public class OrderWriteService {
         OrderStateMachine.requireTransition(from, OrderStatus.CANCELLED);
         order.setStatus(OrderStatus.CANCELLED);
         order.setCancelledAt(Instant.now());
+        order.getItems().forEach(item -> item.setStatus(OrderItemStatus.CANCELLED));
         addHistory(order, from, OrderStatus.CANCELLED, OrderEventType.ORDER_CANCELLED,
                 order.getOrderNumber(), "Order cancelled", actorUserId);
+        orders.saveAndFlush(order);
+    }
+
+    @Transactional
+    public void cancelItem(UUID orderId, UUID itemId, String actorUserId) {
+        CustomerOrder order = load(orderId);
+        OrderItem item = order.getItems().stream().filter(candidate -> candidate.getId().equals(itemId)).findFirst()
+                .orElseThrow(() -> new NotFoundException("Order item not found: " + itemId));
+        if (item.getStatus() == OrderItemStatus.CANCELLED) return;
+        item.setStatus(OrderItemStatus.CANCELLED);
+        item.setReservationId(null);
+        item.setReservationReference(null);
+        item.getInventoryUnitReferences().clear();
+        addHistory(order, order.getStatus(), order.getStatus(), OrderEventType.ITEM_CANCELLED,
+                item.getSku(), "Item cancelled before shipment", actorUserId);
+        if (order.getItems().stream().allMatch(candidate -> candidate.getStatus() == OrderItemStatus.CANCELLED)) {
+            OrderStatus from = order.getStatus();
+            OrderStateMachine.requireTransition(from, OrderStatus.CANCELLED);
+            order.setStatus(OrderStatus.CANCELLED);
+            order.setCancelledAt(Instant.now());
+            addHistory(order, from, OrderStatus.CANCELLED, OrderEventType.ORDER_CANCELLED,
+                    order.getOrderNumber(), "All order items cancelled", actorUserId);
+        }
         orders.saveAndFlush(order);
     }
 

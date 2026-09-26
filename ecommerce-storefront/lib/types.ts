@@ -40,6 +40,9 @@ export interface ProductVariant {
   id: string;
   sku: string;
   price: number;
+  taxRate: number;
+  taxAmount: number;
+  priceIncludingTax: number;
   currency: string;
   attributes: Record<string, string>;
   status: VariantStatus;
@@ -67,6 +70,8 @@ export interface Product {
   variants: ProductVariant[];
   images: ProductImage[];
 }
+
+export interface WishlistItem { id: string; productId: string; sku: string | null; createdAt: string; }
 
 export interface CatalogFacets {
   price: { min: number | null; max: number | null };
@@ -98,6 +103,11 @@ export interface CartPricing {
   unitPrice: number;
   currency: string;
   subtotalEstimate: number;
+  taxRate: number;
+  taxAmount: number;
+  unitPriceIncludingTax: number;
+  taxAmountEstimate: number;
+  subtotalIncludingTax: number;
 }
 
 export interface CartAvailability {
@@ -205,7 +215,11 @@ export interface OrderItem {
   unitPrice: number;
   currency: string;
   quantity: number;
+  status: "ACTIVE" | "CANCELLED";
   subtotal: number;
+  discountAmount: number;
+  taxableAmount: number;
+  taxAmount: number;
   createdAt: string;
   reservationId: string | null;
   reservationReference: string | null;
@@ -242,11 +256,29 @@ export interface OrderDetail extends OrderSummary {
   discountAmount: number;
   shippingAmount: number;
   taxAmount: number;
+  taxableAmount: number;
+  taxRate: number;
+  couponCode: string | null;
   cancelledAt: string | null;
   completedAt: string | null;
   shippingAddress: OrderAddress | null;
   items: OrderItem[];
   history: OrderHistoryEntry[];
+}
+
+export interface CouponPreviewResponse {
+  code: string;
+  discount: number;
+  type: string;
+  value: number;
+  maximumDiscount: number | null;
+}
+
+export interface ShippingPreviewResponse {
+  subtotal: number;
+  discount: number;
+  merchandiseAmount: number;
+  options: Array<{ serviceLevel: "STANDARD" | "EXPRESS"; amount: number }>;
 }
 
 export type PaymentStatus = "CREATED" | "PENDING" | "AUTHORIZED" | "CAPTURED" | "PENDING_COLLECTION" | "FAILED" | "CANCELLED" | "REFUND_PENDING" | "PARTIALLY_REFUNDED" | "REFUNDED";

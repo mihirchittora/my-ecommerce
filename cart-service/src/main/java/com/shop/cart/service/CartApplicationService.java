@@ -107,7 +107,8 @@ public class CartApplicationService {
                                     request.shippingAddress().line2(), request.shippingAddress().city(),
                                     request.shippingAddress().state(), request.shippingAddress().postalCode(),
                                     request.shippingAddress().country(), request.shippingAddress().landmark()),
-                            request.paymentMethod()),
+                            request.paymentMethod(),
+                            request.couponCode(), request.serviceLevel()),
                     idempotencyKey, bearerToken(authentication));
             Cart converted = writes.markConverted(start.cartId(), customerId, idempotencyKey, created);
             log.info("Cart checkout converted cartId={} customerId={} orderId={} orderNumber={}",

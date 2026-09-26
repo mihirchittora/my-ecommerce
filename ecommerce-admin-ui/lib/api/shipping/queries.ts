@@ -62,3 +62,16 @@ export function useCancelShipment() {
     },
   });
 }
+
+export function useDeliverShipment() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ shipmentId }: { shipmentId: string }) => shipmentApi.deliver(shipmentId),
+    onSuccess: (shipment) => {
+      queryClient.setQueryData(shippingQueryKeys.shipment(shipment.id), shipment);
+      void queryClient.invalidateQueries({ queryKey: ["shipments"] });
+      void queryClient.invalidateQueries({ queryKey: ["fulfillments"] });
+      void queryClient.invalidateQueries({ queryKey: shippingQueryKeys.fulfillment(shipment.fulfillmentId) });
+    },
+  });
+}

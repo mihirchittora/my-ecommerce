@@ -87,8 +87,7 @@ export const inventoryApi = {
   updateLocation: (id: string, payload: { code: string; name: string; status?: LocationStatus }) => inventoryClient.json<InventoryLocation>(`/v1/inventory/locations/${id}`, payload, { method: "PUT" }),
   deleteLocation: (id: string) => inventoryClient.request<void>(`/v1/inventory/locations/${id}`, { method: "DELETE" }),
   units: async (params: { page: number; size: number; sort: string; sku?: string; locationId?: string; status?: InventoryUnitStatus; serialNumber?: string; imei?: string; barcode?: string }): Promise<PageResponse<InventoryUnit>> => {
-    if (!params.sku) return unsupported("The Inventory API lists physical units by SKU. Select a SKU first.");
-    const response = await inventoryClient.request<PageResponse<ActualUnit>>(`/v1/inventory/${encodeURIComponent(params.sku)}/units${query({ page: params.page, size: params.size, sort: params.sort, locationId: params.locationId, status: params.status, serialNumber: params.serialNumber, imei: params.imei, barcode: params.barcode })}`);
+    const response = await inventoryClient.request<PageResponse<ActualUnit>>(`/v1/inventory/units${query({ page: params.page, size: params.size, sort: params.sort, sku: params.sku, locationId: params.locationId, status: params.status, serialNumber: params.serialNumber, imei: params.imei, barcode: params.barcode })}`);
     return { ...response, content: response.content.map(unit) };
   },
   unit: async (id: string) => ({ ...unit(await inventoryClient.request<ActualUnit>(`/v1/inventory/units/${id}`)), movements: [] as InventoryMovement[] }),

@@ -25,6 +25,7 @@ services:
       - "${PAYMENT_HOST_PORT:-8087}:8087"
     environment:
       PAYMENT_SERVER_PORT: 8087
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms32m -Xmx128m}"
       PAYMENT_DB_URL: jdbc:postgresql://payment-db:5432/payment_db
       PAYMENT_DB_USERNAME: payment
       PAYMENT_DB_PASSWORD: payment

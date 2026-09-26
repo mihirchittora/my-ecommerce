@@ -38,16 +38,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http, OrderServiceAuthenticationFilter orderServiceAuthenticationFilter) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         if (!enabled) {
             http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
             return http.build();
         }
+        http.addFilterBefore(orderServiceAuthenticationFilter, org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter.class);
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/actuator/health", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/payments/webhooks/**").permitAll()
+                .requestMatchers("/internal/payments/**").hasAuthority("SERVICE_ORDER")
                 .requestMatchers("/api/v1/payments/**").authenticated()
                 .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(new JwtAuthorityConverter()))

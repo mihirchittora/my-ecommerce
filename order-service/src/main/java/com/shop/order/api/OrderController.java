@@ -60,6 +60,22 @@ public class OrderController {
         return service.create(request, idempotencyKey, authentication);
     }
 
+    @Operation(summary = "Preview a coupon for the current checkout subtotal")
+    @PostMapping("/coupon-preview")
+    public OrderDtos.CouponPreviewResponse previewCoupon(
+            @Valid @RequestBody OrderDtos.CouponPreviewRequest request,
+            Authentication authentication) {
+        return service.previewCoupon(request, authentication);
+    }
+
+    @Operation(summary = "Preview authoritative Standard and Express shipping prices")
+    @PostMapping("/shipping-preview")
+    public OrderDtos.ShippingPreviewResponse shippingPreview(
+            @Valid @RequestBody OrderDtos.ShippingPreviewRequest request,
+            Authentication authentication) {
+        return service.shippingPreview(request, authentication);
+    }
+
     @Operation(summary = "List payment methods eligible for the current checkout estimate")
     @GetMapping("/payment-methods")
     public OrderDtos.PaymentMethodOptionsResponse paymentMethods(
@@ -136,5 +152,12 @@ public class OrderController {
     @PostMapping("/{orderId}/cancel")
     public OrderDtos.OrderResponse cancel(@PathVariable UUID orderId, Authentication authentication) {
         return service.cancel(orderId, authentication);
+    }
+
+    @Operation(summary = "Cancel one order item before it is shipped")
+    @PostMapping("/{orderId}/items/{itemId}/cancel")
+    public OrderDtos.OrderResponse cancelItem(@PathVariable UUID orderId, @PathVariable UUID itemId,
+                                              Authentication authentication) {
+        return service.cancelItem(orderId, itemId, authentication);
     }
 }

@@ -132,7 +132,7 @@ export function useInventoryLocations() {
 }
 
 export function useInventoryUnits(params: Parameters<typeof inventoryApi.units>[0]) {
-  return useQuery<PageResponse<InventoryUnit>>({ queryKey: queryKeys.inventoryUnits(params), queryFn: () => inventoryApi.units(params), enabled: Boolean(params.sku), placeholderData: (previous: PageResponse<InventoryUnit> | undefined) => previous });
+  return useQuery<PageResponse<InventoryUnit>>({ queryKey: queryKeys.inventoryUnits(params), queryFn: () => inventoryApi.units(params), enabled: true, placeholderData: (previous: PageResponse<InventoryUnit> | undefined) => previous });
 }
 
 export function useInventoryUnit(id: string) {

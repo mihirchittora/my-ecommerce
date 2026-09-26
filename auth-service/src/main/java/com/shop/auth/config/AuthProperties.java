@@ -18,6 +18,7 @@ public class AuthProperties {
     private List<String> allowedOrigins = new ArrayList<>();
     private Login login = new Login();
     private Bootstrap bootstrap = new Bootstrap();
+    private PasswordReset passwordReset = new PasswordReset();
 
     public String getIssuer() { return issuer; }
     public void setIssuer(String issuer) { this.issuer = issuer; }
@@ -39,6 +40,17 @@ public class AuthProperties {
     public void setLogin(Login login) { this.login = login; }
     public Bootstrap getBootstrap() { return bootstrap; }
     public void setBootstrap(Bootstrap bootstrap) { this.bootstrap = bootstrap; }
+    public PasswordReset getPasswordReset() { return passwordReset; }
+    public void setPasswordReset(PasswordReset passwordReset) { this.passwordReset = passwordReset; }
+
+    public static class PasswordReset {
+        private Duration tokenTtl = Duration.ofMinutes(30);
+        private String baseUrl = "http://localhost:3001/reset-password";
+        public Duration getTokenTtl() { return tokenTtl; }
+        public void setTokenTtl(Duration tokenTtl) { this.tokenTtl = tokenTtl; }
+        public String getBaseUrl() { return baseUrl; }
+        public void setBaseUrl(String baseUrl) { this.baseUrl = baseUrl; }
+    }
 
     public static class Login {
         private int maxFailedAttempts = 5;

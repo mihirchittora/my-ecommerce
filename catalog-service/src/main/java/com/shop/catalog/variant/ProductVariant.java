@@ -47,6 +47,9 @@ public class ProductVariant {
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal price;
 
+    @Column(name = "tax_rate", nullable = false, precision = 7, scale = 4)
+    private BigDecimal taxRate = BigDecimal.valueOf(18);
+
     @Column(nullable = false, length = 3)
     private String currency;
 
@@ -75,6 +78,9 @@ public class ProductVariant {
         if (currency == null || currency.isBlank()) {
             currency = "INR";
         }
+        if (taxRate == null) {
+            taxRate = BigDecimal.valueOf(18);
+        }
         normalizeSku();
         if (attributes == null) {
             attributes = new HashMap<>();
@@ -84,6 +90,9 @@ public class ProductVariant {
     @PreUpdate
     void preUpdate() {
         updatedAt = Instant.now();
+        if (taxRate == null) {
+            taxRate = BigDecimal.valueOf(18);
+        }
         normalizeSku();
     }
 

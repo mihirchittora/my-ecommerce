@@ -9,6 +9,7 @@ import com.shop.order.domain.CustomerOrder;
 import com.shop.order.domain.OrderEventType;
 import com.shop.order.domain.OrderHistory;
 import com.shop.order.domain.OrderIdempotency;
+import com.shop.order.domain.OrderItemStatus;
 import com.shop.order.domain.OrderRepository;
 import com.shop.order.domain.OrderShippingAddress;
 import com.shop.order.domain.OrderStatus;
@@ -30,6 +31,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -50,6 +52,9 @@ public class OrderApplicationService {
     private final OrderReadService reads;
     private final PaymentMethodEligibilityService paymentMethods;
     private final FulfillmentOrchestrator fulfillmentOrchestrator;
+    private final ShippingChargeCalculator shippingCharges;
+    private final TaxCalculator taxCalculator;
+    private final CouponService coupons;
     private final long reservationExpiryMinutes;
 
     public OrderApplicationService(CatalogClient catalog,
@@ -61,6 +66,9 @@ public class OrderApplicationService {
                                    OrderReadService reads,
                                    PaymentMethodEligibilityService paymentMethods,
                                    FulfillmentOrchestrator fulfillmentOrchestrator,
+                                   ShippingChargeCalculator shippingCharges,
+                                   TaxCalculator taxCalculator,
+                                   CouponService coupons,
                                    @Value("${app.reservation.expiry-minutes:15}") long reservationExpiryMinutes) {
         this.catalog = catalog;
         this.inventory = inventory;
@@ -71,6 +79,9 @@ public class OrderApplicationService {
         this.reads = reads;
         this.paymentMethods = paymentMethods;
         this.fulfillmentOrchestrator = fulfillmentOrchestrator;
+        this.shippingCharges = shippingCharges;
+        this.taxCalculator = taxCalculator;
+        this.coupons = coupons;
         this.reservationExpiryMinutes = reservationExpiryMinutes;
     }
 
@@ -113,13 +124,15 @@ public class OrderApplicationService {
             throw ex;
         }
 
-        CustomerOrder order = buildPendingOrder(customerId, key, requestHash, normalized, snapshots);
+        CustomerOrder order = null;
         try {
+            order = buildPendingOrder(customerId, key, requestHash, normalized, snapshots);
             paymentMethods.requireEligible(order.getPaymentMethod(), order.getCurrency(), order.getTotalAmount(),
                     order.getShippingAddress().getCountry());
             writes.createPending(order);
             idempotency.linkToOrder(claim, order.getId());
         } catch (RuntimeException ex) {
+            if (order != null && order.getId() != null) coupons.releaseForOrder(order.getId());
             idempotency.delete(claim);
             throw ex;
         }
@@ -138,6 +151,28 @@ public class OrderApplicationService {
                                                                  Authentication authentication) {
         subject(authentication);
         return paymentMethods.options(currency, amount, country);
+    }
+
+    public OrderDtos.CouponPreviewResponse previewCoupon(OrderDtos.CouponPreviewRequest request,
+                                                         Authentication authentication) {
+        String customerId = subject(authentication);
+        CouponService.CouponResult result = coupons.preview(request.couponCode(), customerId, request.subtotal());
+        return new OrderDtos.CouponPreviewResponse(result.code(), result.discount(), result.type(),
+                result.value(), result.maximumDiscount());
+    }
+
+    public OrderDtos.ShippingPreviewResponse shippingPreview(OrderDtos.ShippingPreviewRequest request,
+                                                              Authentication authentication) {
+        String customerId = subject(authentication);
+        BigDecimal subtotal = request.subtotal().setScale(2, RoundingMode.HALF_UP);
+        CouponService.CouponResult coupon = request.couponCode() == null || request.couponCode().isBlank()
+                ? CouponService.CouponResult.none()
+                : coupons.preview(request.couponCode(), customerId, subtotal);
+        BigDecimal merchandiseAmount = subtotal.subtract(coupon.discount()).max(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP);
+        List<OrderDtos.ShippingOption> options = List.of(
+                new OrderDtos.ShippingOption("STANDARD", shippingCharges.calculate(merchandiseAmount, request.country(), "STANDARD")),
+                new OrderDtos.ShippingOption("EXPRESS", shippingCharges.calculate(merchandiseAmount, request.country(), "EXPRESS")));
+        return new OrderDtos.ShippingPreviewResponse(subtotal, coupon.discount(), merchandiseAmount, options);
     }
 
     public Page<OrderDtos.OrderSummaryResponse> list(OrderStatus status, String orderNumber, String customerId,
@@ -177,8 +212,31 @@ public class OrderApplicationService {
             if (item.getReservationId() != null) inventory.release(item.getReservationId());
         }
         writes.cancel(orderId, actor);
+        coupons.releaseForOrder(orderId);
         log.info("Order cancelled orderId={} orderNumber={} customerId={}", orderId, order.getOrderNumber(), actor);
         return reads.response(orderId, hasPermission(authentication, "ORDER_READ"));
+    }
+
+    public OrderDtos.OrderResponse cancelItem(UUID orderId, UUID itemId, Authentication authentication) {
+        String actor = subject(authentication);
+        CustomerOrder order = reads.detailed(orderId);
+        boolean owner = order.getCustomerId().equals(actor);
+        if (!owner && !hasPermission(authentication, "ORDER_CANCEL")) {
+            throw new NotFoundException("Order not found: " + orderId);
+        }
+        var item = order.getItems().stream().filter(candidate -> candidate.getId().equals(itemId)).findFirst()
+                .orElseThrow(() -> new NotFoundException("Order item not found: " + itemId));
+        if (item.getStatus() == OrderItemStatus.CANCELLED) {
+            return OrderDtos.response(order, hasPermission(authentication, "ORDER_READ"));
+        }
+        if (!OrderStateMachine.itemCancellable(order.getStatus())) {
+            throw new ConflictException("This item cannot be cancelled after the order is shipped");
+        }
+        if (item.getReservationId() != null) inventory.release(item.getReservationId());
+        writes.cancelItem(orderId, itemId, actor);
+        CustomerOrder updated = reads.detailed(orderId);
+        if (updated.getStatus() == OrderStatus.CANCELLED) coupons.releaseForOrder(orderId);
+        return OrderDtos.response(updated, hasPermission(authentication, "ORDER_READ"));
     }
 
     private void continueCheckout(UUID orderId, UUID preferredLocationId, String actorUserId) {
@@ -187,6 +245,7 @@ public class OrderApplicationService {
         List<ItemReservation> successful = new ArrayList<>();
         try {
             for (var item : order.getItems()) {
+                if (item.getStatus() == OrderItemStatus.CANCELLED) continue;
                 if (item.getReservationId() != null) continue;
                 String reference = item.getReservationReference();
                 Instant expiresAt = Instant.now().plusSeconds(reservationExpiryMinutes * 60);
@@ -206,7 +265,10 @@ public class OrderApplicationService {
             }
         } catch (InsufficientInventoryException ex) {
             boolean compensated = compensate(orderId, successful);
-            if (compensated) writes.markFailed(orderId, ex.getMessage(), actorUserId);
+            if (compensated) {
+                coupons.releaseForOrder(orderId);
+                writes.markFailed(orderId, ex.getMessage(), actorUserId);
+            }
             else writes.recordReservationFailure(orderId, "Inventory was insufficient and compensation requires recovery", actorUserId);
             log.warn("Inventory reservation failed orderId={} orderNumber={}", orderId, order.getOrderNumber());
             throw compensated ? ex : new RemoteDependencyException("Inventory", "could not safely compensate a partial reservation", ex);
@@ -245,7 +307,11 @@ public class OrderApplicationService {
         Map<String, CatalogSku> bySku = new LinkedHashMap<>();
         snapshots.forEach(snapshot -> bySku.put(snapshot.sku().trim().toUpperCase(Locale.ROOT), snapshot));
         List<BigDecimal> subtotals = new ArrayList<>();
+        List<TaxCalculator.TaxLine> taxLines = new ArrayList<>();
         CustomerOrder order = new CustomerOrder();
+        // Coupon redemptions reference the order before it is persisted. Keep the
+        // version nullable so Spring Data still treats this generated-id entity as new.
+        order.setId(UUID.randomUUID());
         order.setOrderNumber(orderNumbers.next());
         order.setCustomerId(customerId);
         order.setIdempotencyKey(idempotencyKey);
@@ -259,6 +325,7 @@ public class OrderApplicationService {
             CatalogSku snapshot = bySku.get(line.sku());
             BigDecimal subtotal = OrderPricing.lineSubtotal(snapshot.price(), line.quantity());
             subtotals.add(subtotal);
+            taxLines.add(new TaxCalculator.TaxLine(subtotal, snapshot.taxRate()));
             var item = new com.shop.order.domain.OrderItem();
             item.setSku(line.sku());
             item.setProductNameSnapshot(snapshot.productName());
@@ -266,7 +333,13 @@ public class OrderApplicationService {
             if (snapshot.variantName() != null && !snapshot.variantName().isBlank()) {
                 variantSnapshot.put("name", snapshot.variantName());
             }
+            if (snapshot.productId() != null) variantSnapshot.put("productId", snapshot.productId().toString());
+            if (snapshot.variantId() != null) variantSnapshot.put("variantId", snapshot.variantId().toString());
             variantSnapshot.put("attributes", snapshot.attributes());
+            variantSnapshot.put("taxRate", snapshot.taxRate());
+            variantSnapshot.put("priceIncludingTax", snapshot.price().add(snapshot.price()
+                    .multiply(snapshot.taxRate() == null ? BigDecimal.ZERO : snapshot.taxRate())
+                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)).setScale(2, RoundingMode.HALF_UP));
             item.setVariantSnapshot(variantSnapshot);
             item.setUnitPrice(snapshot.price().setScale(2));
             item.setCurrency(snapshot.currency().trim().toUpperCase(Locale.ROOT));
@@ -276,17 +349,44 @@ public class OrderApplicationService {
             order.addItem(item);
         }
 
-        OrderPricing.Totals totals = OrderPricing.calculate(subtotals);
+        BigDecimal subtotal = subtotals.stream().reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, java.math.RoundingMode.HALF_UP);
+        CouponService.CouponResult coupon = coupons.reserve(request.couponCode(), customerId, order.getId(), subtotal);
+        BigDecimal merchandiseAfterDiscount = subtotal.subtract(coupon.discount()).max(BigDecimal.ZERO);
+        BigDecimal shipping = shippingCharges.calculate(merchandiseAfterDiscount, request.shippingAddress().country(), request.serviceLevel());
+        TaxCalculator.TaxBreakdown tax = taxCalculator.calculate(taxLines, coupon.discount(), shipping,
+                request.currency(), request.shippingAddress().country());
+        OrderPricing.Totals totals = OrderPricing.calculate(subtotal, coupon.discount(), shipping, tax.taxAmount());
         order.setSubtotal(totals.subtotal());
         order.setDiscountAmount(totals.discountAmount());
         order.setShippingAmount(totals.shippingAmount());
         order.setTaxAmount(totals.taxAmount());
+        order.setTaxableAmount(tax.taxableAmount());
+        order.setTaxRate(tax.taxRate());
+        order.setCouponCode(coupon.code());
         order.setTotalAmount(totals.totalAmount());
+        allocateFinancialSnapshots(order, coupon.discount(), tax);
         addHistory(order, null, OrderStatus.PENDING_RESERVATION, OrderEventType.ORDER_CREATED,
                 order.getOrderNumber(), "Order created from a catalog price snapshot", customerId);
         addHistory(order, OrderStatus.PENDING_RESERVATION, OrderStatus.PENDING_RESERVATION,
                 OrderEventType.RESERVATION_REQUESTED, order.getOrderNumber(), "Inventory reservation requested", customerId);
         return order;
+    }
+
+    private void allocateFinancialSnapshots(CustomerOrder order, BigDecimal discount, TaxCalculator.TaxBreakdown tax) {
+        BigDecimal subtotal = order.getSubtotal();
+        for (int index = 0; index < order.getItems().size(); index++) {
+            var item = order.getItems().get(index);
+            BigDecimal share = subtotal.signum() == 0 ? BigDecimal.ZERO : item.getSubtotal().divide(subtotal, 8, java.math.RoundingMode.HALF_UP);
+            BigDecimal itemDiscount = discount.multiply(share).setScale(2, java.math.RoundingMode.HALF_UP);
+            BigDecimal itemTaxable = item.getSubtotal().subtract(itemDiscount).max(BigDecimal.ZERO);
+            BigDecimal merchandiseTax = tax.lineTaxAmounts().size() > index
+                    ? tax.lineTaxAmounts().get(index) : BigDecimal.ZERO;
+            BigDecimal itemTax = merchandiseTax.add(tax.shippingTaxAmount().multiply(share))
+                    .setScale(2, java.math.RoundingMode.HALF_UP);
+            item.setDiscountAmount(itemDiscount);
+            item.setTaxableAmount(itemTaxable);
+            item.setTaxAmount(itemTax);
+        }
     }
 
     private String reservationReference(String orderNumber, String sku, int itemCount) {

@@ -13,5 +13,11 @@ public record CatalogSku(
         Map<String, String> attributes,
         BigDecimal price,
         String currency,
-        boolean active) {
+        boolean active,
+        BigDecimal taxRate) {
+    public CatalogSku(String sku, UUID productId, UUID variantId, String productName, String variantName,
+                      Map<String, String> attributes, BigDecimal price, String currency, boolean active) {
+        this(sku, productId, variantId, productName, variantName, attributes, price, currency, active,
+                BigDecimal.valueOf(18));
+    }
 }

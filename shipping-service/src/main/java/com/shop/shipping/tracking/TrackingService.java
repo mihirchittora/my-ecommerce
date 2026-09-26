@@ -8,19 +8,23 @@ import com.shop.shipping.fulfillment.FulfillmentEntity;
 import com.shop.shipping.fulfillment.FulfillmentService;
 import com.shop.shipping.fulfillment.FulfillmentStatus;
 import com.shop.shipping.order.OrderClient;
+import com.shop.shipping.security.SecurityAccess;
 import com.shop.shipping.shipment.ShipmentEntity;
 import com.shop.shipping.shipment.ShipmentPersistenceService;
 import com.shop.shipping.shipment.ShipmentRepository;
 import com.shop.shipping.shipment.ShipmentStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.Authentication;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.time.Instant;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -95,6 +99,29 @@ public class TrackingService {
 
         if (eventType == TrackingEventType.DELIVERED) processDelivery(shipment);
         return new WebhookResult(false, true, null);
+    }
+
+    public ShipmentEntity manuallyDeliver(UUID shipmentId, Authentication authentication) {
+        SecurityAccess.require(authentication, "SHIPPING_MANAGE");
+        ShipmentEntity shipment = persistence.load(shipmentId);
+        if (shipment.getStatus() == ShipmentStatus.DELIVERED) return shipment;
+
+        String notes = "Marked delivered by an operator";
+        persistence.applyTracking(shipment, ShipmentStatus.DELIVERED, "MANUAL_DELIVERY", "MANUAL_ADMIN", notes);
+
+        TrackingEventEntity tracking = new TrackingEventEntity();
+        tracking.setShipment(shipment);
+        tracking.setTrackingNumber(shipment.getTrackingNumber());
+        tracking.setCarrier(shipment.getCarrier());
+        tracking.setEventType(TrackingEventType.DELIVERED);
+        tracking.setEventStatus(TrackingEventType.DELIVERED.name());
+        tracking.setEventLocation("Manual operator action");
+        tracking.setDescription(notes);
+        tracking.setOccurredAt(Instant.now());
+        trackingEvents.saveAndFlush(tracking);
+
+        processDelivery(shipment);
+        return shipment;
     }
 
     private WebhookResult duplicateResult(CarrierGateway.CarrierWebhookEvent event,

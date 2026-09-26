@@ -59,6 +59,9 @@ export interface OrderItem {
   currency: string;
   quantity: number;
   subtotal: number;
+  discountAmount: number;
+  taxableAmount: number;
+  taxAmount: number;
   createdAt: string;
   reservationId: string | null;
   reservationReference: string | null;

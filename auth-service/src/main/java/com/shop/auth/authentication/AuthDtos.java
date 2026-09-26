@@ -27,6 +27,9 @@ public final class AuthDtos {
             @NotBlank String currentPassword,
             @NotBlank @Size(min = 12, max = 128) String newPassword) { }
 
+    public record ForgotPasswordRequest(@NotBlank @Email @Size(max = 320) String email) { }
+    public record ResetPasswordRequest(@NotBlank String token, @NotBlank @Size(min = 12, max = 128) String newPassword) { }
+
     public record TokenResponse(String accessToken, String refreshToken, String tokenType, long expiresIn) { }
 
     public record MeResponse(UUID id, String email, String firstName, String lastName,

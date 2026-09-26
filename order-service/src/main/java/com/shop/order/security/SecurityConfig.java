@@ -61,6 +61,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/orders/*").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/v1/orders/*/cancel").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/v1/orders").authenticated()
+                .requestMatchers("/api/v1/admin/coupons/**").hasAnyAuthority("COUPON_READ", "COUPON_MANAGE")
+                .requestMatchers("/api/v1/admin/returns/**").hasAnyAuthority("RETURN_READ", "RETURN_MANAGE")
                 .requestMatchers(HttpMethod.GET, "/api/v1/orders").hasAuthority("ORDER_READ")
                 .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(new JwtAuthorityConverter()))

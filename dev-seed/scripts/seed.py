@@ -30,6 +30,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = ROOT.parent
 DATA = ROOT / "data"
 IMAGES = ROOT / "images"
 MANIFEST = ROOT / "manifests" / "seed-manifest.json"
@@ -163,6 +164,7 @@ class SeedRunner:
         self.customers = read_json("customers.json")["customers"]
         self.inventory_plan = read_json("inventory.json")
         self.scenarios = read_json("scenarios.json")["scenarios"]
+        self.coupons = read_json("coupons.json")["coupons"]
         self.previous = self._read_manifest()
         self.state: dict[str, Any] = {
             "seedVersion": self.products_doc["seedVersion"],
@@ -174,7 +176,7 @@ class SeedRunner:
             "environment": os.environ.get("SEED_ENV"),
             "catalog": {"categories": {}, "categoryImages": {}, "products": {}, "variants": {}, "images": {}},
             "inventory": {"locations": {}, "units": {}, "reservations": {}, "adjustments": {}},
-            "customers": {}, "carts": {}, "orders": {}, "payments": {},
+            "customers": {}, "carts": {}, "orders": {}, "payments": {}, "coupons": {},
             "shipping": {"fulfillments": {}, "shipments": {}, "trackingEvents": {}},
             "counts": {},
         }
@@ -229,6 +231,7 @@ class SeedRunner:
             "carts": len(self.state["carts"]),
             "orders": len(self.state["orders"]),
             "payments": len(self.state["payments"]),
+            "coupons": len(self.state["coupons"]),
             "fulfillments": len(self.state["shipping"]["fulfillments"]),
             "shipments": len(self.state["shipping"]["shipments"]),
             "trackingEvents": len(self.state["shipping"]["trackingEvents"]),
@@ -367,6 +370,21 @@ class SeedRunner:
             "images": [],
         }
 
+    def seed_coupons(self) -> None:
+        print("[4/11] Commerce configuration")
+        for coupon in self.coupons:
+            existing_page = self.api["order"].request(
+                "GET", f"/api/v1/admin/coupons?search={urllib.parse.quote(coupon['code'])}&page=0&size=20",
+                headers=bearer(self.admin_token), expected=(200,)
+            )
+            existing = next((item for item in existing_page.get("content", []) if item.get("code") == coupon["code"]), None)
+            if existing is None:
+                existing = self.api["order"].request(
+                    "POST", "/api/v1/admin/coupons", coupon,
+                    headers=bearer(self.admin_token), expected=(200, 201)
+                )
+            self.state["coupons"][coupon["code"]] = existing["id"]
+
     def _set_variant_price(self, sku: str, price: int) -> None:
         fixture = next((product for product in self.products
                         if any(variant["sku"] == sku for variant in product["variants"])), None)
@@ -397,7 +415,7 @@ class SeedRunner:
         }, headers=bearer(self.admin_token), expected=(200,))
 
     def seed_locations(self) -> dict[str, str]:
-        print("[4/10] Inventory locations")
+        print("[5/11] Inventory locations")
         locations = self.api["inventory"].request("GET", "/api/v1/inventory/locations", headers=bearer(self.admin_token), expected=(200,))
         by_code = {location["code"]: location for location in locations}
         ids = {}
@@ -412,7 +430,7 @@ class SeedRunner:
         return ids
 
     def seed_inventory(self, location_ids: dict[str, str]) -> None:
-        print("[5/10] Itemized Inventory")
+        print("[6/11] Itemized Inventory")
         per_location = self.inventory_plan["unitsPerSkuByLocation"]
         extras = {(entry["sku"], entry["locationCode"]): int(entry["quantity"])
                   for entry in self.inventory_plan.get("extraUnits", [])}
@@ -484,7 +502,7 @@ class SeedRunner:
             ]
 
     def seed_carts(self) -> None:
-        print("[6/10] Carts")
+        print("[7/11] Carts")
         for scenario in self.scenarios:
             customer_key = scenario.get("customerKey")
             if not customer_key or not scenario.get("items") or not scenario.get("key", "").startswith("cart-"):
@@ -508,7 +526,7 @@ class SeedRunner:
         return scenario.get("items") or [{"sku": scenario["sku"], "quantity": scenario["quantity"]}]
 
     def seed_orders(self) -> None:
-        print("[7/10] Orders")
+        print("[8/11] Orders")
         price_scenario = next((scenario for scenario in self.scenarios if scenario.get("key") == "historical-price-change"), None)
         staged_price = False
         try:
@@ -563,7 +581,7 @@ class SeedRunner:
         }
 
     def seed_payments(self) -> None:
-        print("[8/10] Sandbox Payments")
+        print("[9/11] Sandbox Payments")
         secret = os.environ.get("PAYMENT_SANDBOX_WEBHOOK_SECRET", "dev-sandbox-webhook-secret").encode("utf-8")
         payment_to_order_token = os.environ.get("PAYMENT_TO_ORDER_SERVICE_TOKEN", "dev-payment-to-order")
         for scenario in self.scenarios:
@@ -632,7 +650,7 @@ class SeedRunner:
         }, headers={"X-Payment-Service-Token": token}, expected=(200, 204))
 
     def seed_shipping(self) -> None:
-        print("[9/10] Fulfillment, Shipments and Tracking")
+        print("[10/11] Fulfillment, Shipments and Tracking")
         order_to_shipping = os.environ.get("ORDER_TO_SHIPPING_SERVICE_TOKEN", "dev-order-to-shipping")
         shipping_secret = os.environ.get("SHIPPING_WEBHOOK_SECRET", "dev-shipping-webhook-secret").encode("utf-8")
         for scenario in self.scenarios:
@@ -694,7 +712,7 @@ class SeedRunner:
                         self.state["payments"][reference]["status"] = collected.get("status", "CAPTURED")
 
     def validate_live(self) -> None:
-        print("[10/10] Validation")
+        print("[11/11] Validation")
         catalog_page = self.api["catalog"].request("GET", "/api/v1/products?page=0&size=100&sort=name,asc", expected=(200,))
         if catalog_page.get("totalElements", 0) < len(self.products):
             raise SeedError(f"catalog product count is below the seeded dataset: expected at least {len(self.products)}, got {catalog_page.get('totalElements')}")
@@ -740,10 +758,11 @@ class SeedRunner:
 
     def run(self) -> None:
         self.health()
-        print("[1/10] Auth")
+        print("[1/11] Auth")
         self.authenticate_admin()
         self.seed_customers()
         self.seed_catalog()
+        self.seed_coupons()
         location_ids = self.seed_locations()
         self.seed_inventory(location_ids)
         self.seed_carts()
@@ -772,7 +791,7 @@ def reset_development() -> None:
     docker = compose_command()
     print("Resetting only the eight named local development Compose projects; production URLs are never contacted.")
     for compose_file in compose:
-        subprocess.run([*docker, "-f", str(ROOT / compose_file), "down", "-v"], cwd=ROOT, check=True)
+        subprocess.run([*docker, "-f", str(REPO_ROOT / compose_file), "down", "-v"], cwd=REPO_ROOT, check=True)
     if MANIFEST.exists():
         MANIFEST.unlink()
 
@@ -787,7 +806,7 @@ def dry_run() -> None:
         "environment": os.environ.get("SEED_ENV") or "not set (dry-run only)",
         "sourceReference": SOURCE_URL,
         "dependencyOrder": ["Auth", "Customers", "Categories", "Products", "Variants/SKUs", "Images",
-                             "Inventory locations", "Inventory units", "Carts", "Orders", "Payments",
+                             "Coupons", "Inventory locations", "Inventory units", "Carts", "Orders", "Payments",
                              "Fulfillments", "Shipments", "Tracking", "Validation"],
         "dataset": summary,
     }, indent=2))

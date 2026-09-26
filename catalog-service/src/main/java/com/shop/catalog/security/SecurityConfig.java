@@ -49,6 +49,7 @@ public class SecurityConfig {
         http.addFilterBefore(inventoryServiceAuthenticationFilter, BearerTokenAuthenticationFilter.class);
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/actuator/health", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/products/*/reviews/mine").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/v1/products/**", "/api/v1/categories/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/products").hasAuthority("PRODUCT_CREATE")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/products/*").hasAuthority("PRODUCT_UPDATE")

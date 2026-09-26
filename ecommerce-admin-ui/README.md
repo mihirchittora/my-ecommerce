@@ -63,7 +63,7 @@ Access and refresh tokens are kept for the current browser tab using `sessionSto
 
 ## Authorization
 
-Route access and navigation are filtered from the permission codes returned by `/api/v1/auth/me`, while each backend remains the authoritative authorization boundary. A `403` stays an authorization error and is rendered as a permission message; it does not redirect to login. Orders require `ORDER_READ`, payments require `PAYMENT_READ`, refunds require `PAYMENT_REFUND`, retries require `PAYMENT_RETRY`, Cart inspection requires `CART_READ`, Shipping and Fulfillment require `SHIPPING_READ`, shipment creation requires `SHIPPING_CREATE`, cancellation requires `SHIPPING_CANCEL`, tracking requires `SHIPPING_TRACK`, Customers require `CUSTOMER_READ`, and Users/Roles/Permissions use `USER_*`, `ROLE_*`, and `PERMISSION_*` permissions.
+Route access and navigation are filtered from the permission codes returned by `/api/v1/auth/me`, while each backend remains the authoritative authorization boundary. A `403` stays an authorization error and is rendered as a permission message; it does not redirect to login. Orders require `ORDER_READ`, payments require `PAYMENT_READ`, refunds require `PAYMENT_REFUND`, retries require `PAYMENT_RETRY`, Cart inspection requires `CART_READ`, Shipping and Fulfillment require `SHIPPING_READ`, shipping settings edits require `SHIPPING_MANAGE`, shipment creation requires `SHIPPING_CREATE`, cancellation requires `SHIPPING_CANCEL`, tracking requires `SHIPPING_TRACK`, Customers require `CUSTOMER_READ`, and Users/Roles/Permissions use `USER_*`, `ROLE_*`, and `PERMISSION_*` permissions.
 
 ## Application routes
 
@@ -221,7 +221,7 @@ The product list sends Spring pagination as `page`, `size` and a string sort suc
 The frontend adapter now targets the Inventory service's actual REST surface:
 
 - `GET /api/v1/inventory/{sku}` and `POST /api/v1/inventory/{sku}/receive`
-- `GET /api/v1/inventory/{sku}/units` and `GET /api/v1/inventory/units/{unitId}`
+- `GET /api/v1/inventory/units?sku=&serialNumber=&imei=&barcode=` and `GET /api/v1/inventory/units/{unitId}`
 - `POST /api/v1/inventory/{sku}/adjustments`
 - `GET /api/v1/inventory/adjustments?page=0&size=20&sku=&reason=`
 - `POST /api/v1/inventory/{sku}/reservations`
@@ -428,6 +428,14 @@ eligible fulfillment states with `SHIPPING_CREATE`; physical unit checkboxes
 preserve exact itemized references for split shipments. There is no arbitrary
 status editor, label download action, package editor, or fulfillment status
 editor because those APIs are not present.
+
+### Shipping Settings
+
+`/shipping-settings` reads the authoritative Order Service configuration for the
+free-shipping threshold, Standard and Express charges, and eligible countries.
+The page is visible with `SHIPPING_READ`; saving changes requires
+`SHIPPING_MANAGE`. Order Service persists the values and uses the `ORDER_*`
+environment variables only as defaults before the first save.
 
 ### Shipping Permissions, Roles, and Super User Access
 

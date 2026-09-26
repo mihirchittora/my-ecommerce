@@ -41,8 +41,23 @@ app:
     service-token: ${ORDER_TO_SHIPPING_SERVICE_TOKEN:}
     connect-timeout-ms: ${SHIPPING_CONNECT_TIMEOUT_MS:2000}
     read-timeout-ms: ${SHIPPING_READ_TIMEOUT_MS:3000}
+    free-threshold: ${ORDER_FREE_SHIPPING_THRESHOLD:500}
+    standard-charge: ${ORDER_STANDARD_SHIPPING_CHARGE:79}
+    express-charge: ${ORDER_EXPRESS_SHIPPING_CHARGE:149}
+    free-shipping-countries: ${ORDER_FREE_SHIPPING_COUNTRIES:IN}
   reservation:
     expiry-minutes: ${ORDER_RESERVATION_EXPIRY_MINUTES:15}
+  tax:
+    default-rate: ${ORDER_TAX_DEFAULT_RATE:18}
+    countries: ${ORDER_TAX_COUNTRIES:IN}
+  invoice:
+    seller-name: ${INVOICE_SELLER_NAME:Morrow Commerce}
+    seller-address: ${INVOICE_SELLER_ADDRESS:India}
+  returns:
+    window-days: ${ORDER_RETURN_WINDOW_DAYS:30}
+  payment:
+    base-url: ${PAYMENT_SERVICE_URL:http://localhost:8087}
+    service-token: ${ORDER_TO_PAYMENT_SERVICE_TOKEN:}
   cod:
     enabled: ${ORDER_COD_ENABLED:true}
     max-order-amount: ${ORDER_COD_MAX_ORDER_AMOUNT:50000}

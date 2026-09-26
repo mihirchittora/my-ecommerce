@@ -31,7 +31,7 @@ services:
       AUTH_ISSUER: ${AUTH_ISSUER:-http://localhost:8085}
       AUTH_AUDIENCE: ${AUTH_AUDIENCE:-ecommerce-api}
       AUTH_JWK_SET_URI: ${AUTH_JWK_SET_URI:-http://host.docker.internal:8085/.well-known/jwks.json}
-      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms64m -Xmx192m}"
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms32m -Xmx128m}"
     depends_on:
       customer-db:
         condition: service_healthy

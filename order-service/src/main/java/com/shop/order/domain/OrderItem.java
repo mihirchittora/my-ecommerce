@@ -3,6 +3,8 @@ package com.shop.order.domain;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -60,8 +62,21 @@ public class OrderItem {
     @Column(nullable = false)
     private long quantity;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private OrderItemStatus status = OrderItemStatus.ACTIVE;
+
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal subtotal;
+
+    @Column(name = "discount_amount", nullable = false, precision = 19, scale = 2)
+    private BigDecimal discountAmount = BigDecimal.ZERO;
+
+    @Column(name = "taxable_amount", nullable = false, precision = 19, scale = 2)
+    private BigDecimal taxableAmount = BigDecimal.ZERO;
+
+    @Column(name = "tax_amount", nullable = false, precision = 19, scale = 2)
+    private BigDecimal taxAmount = BigDecimal.ZERO;
 
     @Column(name = "reservation_id")
     private UUID reservationId;

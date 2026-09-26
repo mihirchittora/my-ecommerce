@@ -29,6 +29,7 @@ services:
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:3001}
       INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL:-}
       INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD:-}
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms32m -Xmx128m}"
     ports:
       - "${AUTH_HOST_PORT:-8085}:8085"
     depends_on:

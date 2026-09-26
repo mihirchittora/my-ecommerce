@@ -746,3 +746,77 @@ category image. No other service persists category image state.
 Deleting a category through `DELETE /api/v1/categories/{id}` also deletes its
 Catalog image metadata and stored file after the existing child/product safety
 checks pass.
+
+## Commerce MVP completion contracts
+
+### Order checkout pricing
+
+`POST /api/v1/cart/checkout` and `POST /api/v1/orders` accept optional
+`couponCode` and `serviceLevel` (`STANDARD` or `EXPRESS`). Order Service owns
+the resulting `discountAmount`, `shippingAmount`, `taxableAmount`, `taxRate`,
+`taxAmount`, `couponCode`, and `totalAmount`; Cart estimates are not authoritative.
+
+The current configured model is free standard shipping for INR/IN orders above
+INR 500, otherwise INR 79 standard or INR 149 express. Express remains paid
+even when standard shipping is free. `POST /api/v1/orders/shipping-preview`
+returns the authoritative Standard and Express amounts before order creation.
+Admins can read the active values with `GET /api/v1/admin/shipping/settings`
+(`SHIPPING_READ`) and update them with `PUT /api/v1/admin/shipping/settings`
+(`SHIPPING_MANAGE`). The editable fields are `freeShippingThreshold`,
+`standardShippingCharge`, `expressShippingCharge`, and the comma-separated
+`freeShippingCountries`. The `ORDER_*` environment variables remain the
+fallback defaults until an admin saves a persisted settings record.
+INR/IN tax is 18% of net merchandise plus shipping. This is an MVP model, not
+GST compliance.
+
+### Coupons
+
+- `POST /api/v1/orders/coupon-preview` — authenticated customer coupon validation and discount preview; it does not consume coupon usage.
+- `POST /api/v1/orders/{orderId}/items/{itemId}/cancel` — authenticated order owner can cancel an active item while its order has not reached `SHIPPED`; releasing the inventory reservation is coordinated by Order Service.
+- `GET /api/v1/admin/coupons` — `COUPON_READ`.
+- `POST /api/v1/admin/coupons` and `PUT /api/v1/admin/coupons/{id}` —
+  `COUPON_MANAGE`.
+- `POST /api/v1/admin/coupons/{id}/active?active=true|false` —
+  `COUPON_MANAGE`.
+
+Coupon usage limits are checked under a row lock. Invalid, expired, minimum
+order, total usage, and per-customer usage failures return a controlled API
+error.
+
+### Invoices
+
+- `GET /api/v1/orders/{orderId}/invoice` — authenticated customer owner.
+- `GET /api/v1/admin/orders/{orderId}/invoice` — `ORDER_READ`.
+
+The response is an `application/pdf` attachment generated from the historical
+order, item, shipping-address, payment, and total snapshots. The default
+storage adapter keeps the bytes in Order Service's database and can be
+replaced through `InvoiceStorage`.
+
+### Returns and refunds
+
+- `POST /api/v1/returns`, `GET /api/v1/returns/my`, and
+  `GET /api/v1/returns/{id}` are customer-owned endpoints.
+- `GET /api/v1/admin/returns` and `GET /api/v1/admin/returns/{id}` require
+  `RETURN_READ`.
+- `POST /api/v1/admin/returns/{id}/{action}` requires `RETURN_MANAGE`; actions
+  use persisted return states such as `APPROVED`, `RECEIVED`, `COMPLETED`, and
+  `REJECTED`.
+
+Completion computes a server-side item refund and calls Payment Service's
+protected internal refund endpoint with a stable return-number idempotency key.
+Shipping is excluded from the current refundable amount.
+
+### Password recovery, wishlist, and reviews
+
+- `POST /api/v1/auth/forgot-password` always returns a generic success message.
+- `POST /api/v1/auth/reset-password` accepts the raw one-time token; only its
+  SHA-256 hash is persisted and tokens expire after the configured TTL.
+- `GET|POST /api/v1/customers/me/wishlist` and
+  `DELETE /api/v1/customers/me/wishlist/{id}` are customer-owned.
+- `GET /api/v1/products/{productId}/reviews` and `/reviews/summary` are public;
+  both accept an optional `sku` query parameter to scope ratings and review
+  lists to a product SKU. `POST /api/v1/products/{productId}/reviews` accepts
+  the SKU and requires a delivered/completed order containing that exact SKU.
+  Admin review list/moderation endpoints live under `/api/v1/admin/reviews` and
+  require `REVIEW_READ` or `REVIEW_MODERATE`.

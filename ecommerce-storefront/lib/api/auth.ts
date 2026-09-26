@@ -7,4 +7,6 @@ export const authApi = {
   refresh: (refreshToken: string) => authClient.json<AuthTokenResponse, { refreshToken: string }>("/v1/auth/refresh", { refreshToken }),
   me: () => authClient.request<AuthUser>("/v1/auth/me"),
   logout: (refreshToken: string) => authClient.json<void, { refreshToken: string }>("/v1/auth/logout", { refreshToken }),
+  forgotPassword: (email: string) => authClient.json<{ message: string }, { email: string }>("/v1/auth/forgot-password", { email }),
+  resetPassword: (token: string, newPassword: string) => authClient.json<void, { token: string; newPassword: string }>("/v1/auth/reset-password", { token, newPassword }),
 };

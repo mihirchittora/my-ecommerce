@@ -52,3 +52,7 @@ app:
     inventory-token: ${INVENTORY_SERVICE_TOKEN:}
     order-token: ${ORDER_SERVICE_TOKEN:}
     cart-token: ${CART_SERVICE_TOKEN:}
+  order:
+    base-url: ${ORDER_SERVICE_URL:http://localhost:8083}
+    connect-timeout-ms: ${ORDER_CONNECT_TIMEOUT_MS:2000}
+    read-timeout-ms: ${ORDER_READ_TIMEOUT_MS:3000}

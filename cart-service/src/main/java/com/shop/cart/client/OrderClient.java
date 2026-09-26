@@ -82,14 +82,15 @@ public class OrderClient {
     }
 
     public record CreateOrderRequest(String currency, List<CreateOrderItem> items, UUID preferredLocationId,
-                                     ShippingAddressRequest shippingAddress, com.shop.cart.api.PaymentMethod paymentMethod) {
+                                     ShippingAddressRequest shippingAddress, com.shop.cart.api.PaymentMethod paymentMethod,
+                                     String couponCode, String serviceLevel) {
         public CreateOrderRequest(String currency, List<CreateOrderItem> items, UUID preferredLocationId) {
-            this(currency, items, preferredLocationId, null, com.shop.cart.api.PaymentMethod.ONLINE);
+            this(currency, items, preferredLocationId, null, com.shop.cart.api.PaymentMethod.ONLINE, null, "STANDARD");
         }
 
         public CreateOrderRequest(String currency, List<CreateOrderItem> items, UUID preferredLocationId,
                                   ShippingAddressRequest shippingAddress) {
-            this(currency, items, preferredLocationId, shippingAddress, com.shop.cart.api.PaymentMethod.ONLINE);
+            this(currency, items, preferredLocationId, shippingAddress, com.shop.cart.api.PaymentMethod.ONLINE, null, "STANDARD");
         }
     }
 

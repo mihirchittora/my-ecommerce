@@ -12,6 +12,7 @@ public record CatalogSkuResponse(
         String variantName,
         Map<String, String> attributes,
         BigDecimal price,
+        BigDecimal taxRate,
         String currency,
         boolean active
 ) {

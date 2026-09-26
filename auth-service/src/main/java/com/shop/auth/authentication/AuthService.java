@@ -152,6 +152,9 @@ public class AuthService {
         audit.record(AuditEventType.PASSWORD_CHANGED, user.getId(), null);
     }
 
+    @Transactional
+    public void revokeAllSessions(UUID userId) { refreshTokens.revokeAllForUser(userId, Instant.now()); }
+
     public AppUser authenticatedUser(Authentication authentication) {
         if (authentication == null || authentication.getName() == null) throw new UnauthorizedException("Authentication is required");
         try {

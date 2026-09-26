@@ -9,6 +9,7 @@ import com.shop.order.domain.OrderStatus;
 import com.shop.order.domain.PaymentMethod;
 import com.shop.order.exception.ConflictException;
 import com.shop.order.exception.NotFoundException;
+import com.shop.order.invoice.InvoiceService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +21,15 @@ import java.util.UUID;
 public class OrderPaymentService {
     private final OrderRepository orders;
     private final FulfillmentOrchestrator fulfillmentOrchestrator;
+    private final InvoiceService invoices;
+    private final CouponService coupons;
 
-    public OrderPaymentService(OrderRepository orders, FulfillmentOrchestrator fulfillmentOrchestrator) {
+    public OrderPaymentService(OrderRepository orders, FulfillmentOrchestrator fulfillmentOrchestrator, InvoiceService invoices,
+                               CouponService coupons) {
         this.orders = orders;
         this.fulfillmentOrchestrator = fulfillmentOrchestrator;
+        this.invoices = invoices;
+        this.coupons = coupons;
     }
 
     @Transactional
@@ -46,6 +52,8 @@ public class OrderPaymentService {
                 transition(order, OrderStatus.FAILED, OrderEventType.ORDER_STATE_CHANGED, request.paymentId(),
                         "Payment did not complete");
                 orders.saveAndFlush(order);
+                generateInvoice(order.getId());
+                releaseCoupon(order.getId());
             }
             return;
         }
@@ -61,6 +69,7 @@ public class OrderPaymentService {
                         "Cash on delivery collected after delivery");
                 order.setCompletedAt(java.time.Instant.now());
                 orders.saveAndFlush(order);
+                generateInvoice(order.getId());
             }
             return;
         }
@@ -76,6 +85,7 @@ public class OrderPaymentService {
                 || order.getStatus() == OrderStatus.SHIPPED || order.getStatus() == OrderStatus.DELIVERED
                 || order.getStatus() == OrderStatus.COMPLETED) {
             orders.saveAndFlush(order);
+            generateInvoice(order.getId());
             fulfillmentOrchestrator.enqueue(order.getId());
         }
     }
@@ -94,5 +104,15 @@ public class OrderPaymentService {
         event.setNotes(notes);
         event.setActorUserId("payment-service");
         order.addHistory(event);
+    }
+
+    private void generateInvoice(UUID orderId) {
+        // Kept nullable for lightweight unit tests that construct this service
+        // with Mockito's field injection; the application always supplies it.
+        if (invoices != null) invoices.generateIfAbsent(orderId);
+    }
+
+    private void releaseCoupon(UUID orderId) {
+        if (coupons != null) coupons.releaseForOrder(orderId);
     }
 }

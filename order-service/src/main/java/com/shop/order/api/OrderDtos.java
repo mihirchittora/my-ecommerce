@@ -4,10 +4,13 @@ import com.shop.order.domain.CustomerOrder;
 import com.shop.order.domain.OrderHistory;
 import com.shop.order.domain.OrderItem;
 import com.shop.order.domain.OrderItemInventoryUnit;
+import com.shop.order.domain.OrderItemStatus;
 import com.shop.order.domain.OrderStatus;
 import com.shop.order.domain.PaymentMethod;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -33,15 +36,44 @@ public final class OrderDtos {
             UUID preferredLocationId,
             @NotNull @Valid ShippingAddressRequest shippingAddress,
             @Schema(description = "The customer's selected payment method")
-            PaymentMethod paymentMethod) {
+            PaymentMethod paymentMethod,
+            @Size(max = 40) String couponCode,
+            @Size(max = 20) String serviceLevel) {
         public CreateOrderRequest(String currency, List<CreateOrderItemRequest> items, UUID preferredLocationId) {
-            this(currency, items, preferredLocationId, null, PaymentMethod.ONLINE);
+            this(currency, items, preferredLocationId, null, PaymentMethod.ONLINE, null, "STANDARD");
         }
 
         public CreateOrderRequest(String currency, List<CreateOrderItemRequest> items, UUID preferredLocationId,
                                   ShippingAddressRequest shippingAddress) {
-            this(currency, items, preferredLocationId, shippingAddress, PaymentMethod.ONLINE);
+            this(currency, items, preferredLocationId, shippingAddress, PaymentMethod.ONLINE, null, "STANDARD");
         }
+
+        public CreateOrderRequest(String currency, List<CreateOrderItemRequest> items, UUID preferredLocationId,
+                                  ShippingAddressRequest shippingAddress, PaymentMethod paymentMethod) {
+            this(currency, items, preferredLocationId, shippingAddress, paymentMethod, null, "STANDARD");
+        }
+    }
+
+    public record CouponPreviewRequest(
+            @NotBlank @Size(max = 40) String couponCode,
+            @NotNull @DecimalMin("0") @Digits(integer = 17, fraction = 2) BigDecimal subtotal) {
+    }
+
+    public record CouponPreviewResponse(String code, BigDecimal discount, String type, BigDecimal value,
+                                        BigDecimal maximumDiscount) {
+    }
+
+    public record ShippingPreviewRequest(
+            @NotNull @DecimalMin("0") @Digits(integer = 17, fraction = 2) BigDecimal subtotal,
+            @Size(max = 40) String couponCode,
+            @NotBlank @Size(min = 2, max = 2) @Pattern(regexp = "^[A-Za-z]{2}$") String country) {
+    }
+
+    public record ShippingPreviewResponse(BigDecimal subtotal, BigDecimal discount, BigDecimal merchandiseAmount,
+                                          List<ShippingOption> options) {
+    }
+
+    public record ShippingOption(String serviceLevel, BigDecimal amount) {
     }
 
     public record ShippingAddressRequest(
@@ -111,6 +143,9 @@ public final class OrderDtos {
             BigDecimal discountAmount,
             BigDecimal shippingAmount,
             BigDecimal taxAmount,
+            BigDecimal taxableAmount,
+            BigDecimal taxRate,
+            String couponCode,
             BigDecimal totalAmount,
             Instant createdAt,
             Instant updatedAt,
@@ -131,7 +166,11 @@ public final class OrderDtos {
             String currency,
             long quantity,
             BigDecimal subtotal,
+            BigDecimal discountAmount,
+            BigDecimal taxableAmount,
+            BigDecimal taxAmount,
             Instant createdAt,
+            OrderItemStatus status,
             UUID reservationId,
             String reservationReference,
             List<UUID> inventoryUnitIds,
@@ -161,7 +200,7 @@ public final class OrderDtos {
                 .map(event -> historyResponse(event, operationalReferences)).toList();
         return new OrderResponse(order.getId(), order.getOrderNumber(), order.getCustomerId(), order.getStatus(),
                 order.getPaymentMethod(), order.getCurrency(), order.getSubtotal(), order.getDiscountAmount(), order.getShippingAmount(),
-                order.getTaxAmount(), order.getTotalAmount(), order.getCreatedAt(), order.getUpdatedAt(),
+                order.getTaxAmount(), order.getTaxableAmount(), order.getTaxRate(), order.getCouponCode(), order.getTotalAmount(), order.getCreatedAt(), order.getUpdatedAt(),
                 order.getCancelledAt(), order.getCompletedAt(), ShippingAddressResponse.from(order.getShippingAddress()),
                 items, history);
     }
@@ -181,7 +220,8 @@ public final class OrderDtos {
                 : List.of();
         return new OrderItemResponse(item.getId(), order.getId(), item.getSku(), item.getProductNameSnapshot(),
                 item.getVariantSnapshot(), item.getUnitPrice(), item.getCurrency(), item.getQuantity(),
-                item.getSubtotal(), item.getCreatedAt(), operationalReferences ? item.getReservationId() : null,
+                item.getSubtotal(), item.getDiscountAmount(), item.getTaxableAmount(), item.getTaxAmount(),
+                item.getCreatedAt(), item.getStatus(), operationalReferences ? item.getReservationId() : null,
                 operationalReferences ? item.getReservationReference() : null, unitIds, units);
     }
 

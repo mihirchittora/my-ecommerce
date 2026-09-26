@@ -57,12 +57,16 @@ public final class OrderRequestNormalizer {
                 blankToNull(address.line2()), address.city().trim(), address.state().trim(), address.postalCode().trim(),
                 address.country().trim().toUpperCase(Locale.ROOT), blankToNull(address.landmark()));
         PaymentMethod paymentMethod = request.paymentMethod() == null ? PaymentMethod.ONLINE : request.paymentMethod();
-        return new NormalizedRequest(currency, request.preferredLocationId(), normalizedAddress, lines, paymentMethod);
+        String couponCode = request.couponCode() == null || request.couponCode().isBlank() ? null : request.couponCode().trim().toUpperCase(Locale.ROOT);
+        String serviceLevel = request.serviceLevel() == null || request.serviceLevel().isBlank() ? "STANDARD" : request.serviceLevel().trim().toUpperCase(Locale.ROOT);
+        if (!List.of("STANDARD", "EXPRESS").contains(serviceLevel)) throw new BadRequestException("Unsupported shipping service level");
+        return new NormalizedRequest(currency, request.preferredLocationId(), normalizedAddress, lines, paymentMethod, couponCode, serviceLevel);
     }
 
     public record NormalizedRequest(String currency, java.util.UUID preferredLocationId,
                                     OrderDtos.ShippingAddressRequest shippingAddress,
-                                    List<NormalizedLine> lines, PaymentMethod paymentMethod) {
+                                    List<NormalizedLine> lines, PaymentMethod paymentMethod, String couponCode,
+                                    String serviceLevel) {
     }
 
     public record NormalizedLine(String sku, long quantity) {

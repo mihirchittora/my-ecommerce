@@ -92,6 +92,23 @@ public class InventoryController {
         return inventory.listUnits(sku, locationId, status, serialNumber, imei, barcode, page, size, sort);
     }
 
+    @Operation(summary = "Search physical inventory units")
+    @GetMapping("/units")
+    public Page<InventoryDtos.UnitResponse> searchUnits(
+            @RequestParam(required = false) String sku,
+            @RequestParam(required = false) UUID locationId,
+            @RequestParam(required = false) UnitStatus status,
+            @RequestParam(required = false) String serialNumber,
+            @RequestParam(required = false) String imei,
+            @RequestParam(required = false) String barcode,
+            @Parameter(description = "Zero-based page number", example = "0")
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "20") @Min(1) @Max(100) int size,
+            @Parameter(description = "Sort field and direction, for example createdAt,desc", example = "createdAt,desc")
+            @RequestParam(defaultValue = "createdAt,desc") String sort) {
+        return inventory.listUnits(sku, locationId, status, serialNumber, imei, barcode, page, size, sort);
+    }
+
     @Operation(summary = "Get one physical inventory unit")
     @GetMapping("/units/{unitId}")
     public InventoryDtos.UnitResponse getUnit(@PathVariable UUID unitId) {

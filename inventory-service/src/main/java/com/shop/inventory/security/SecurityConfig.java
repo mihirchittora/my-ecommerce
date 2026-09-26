@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/inventory/availability/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/inventory/transfers").hasAuthority("INVENTORY_TRANSFER")
                 .requestMatchers(HttpMethod.GET, "/api/v1/inventory", "/api/v1/inventory/*").hasAuthority("INVENTORY_READ")
-                .requestMatchers(HttpMethod.GET, "/api/v1/inventory/*/units", "/api/v1/inventory/units/*").hasAuthority("INVENTORY_UNIT_READ")
+                .requestMatchers(HttpMethod.GET, "/api/v1/inventory/units", "/api/v1/inventory/*/units", "/api/v1/inventory/units/*").hasAuthority("INVENTORY_UNIT_READ")
                 .requestMatchers(HttpMethod.POST, "/api/v1/inventory/*/receive").hasAuthority("INVENTORY_RECEIVE")
                 .requestMatchers(HttpMethod.POST, "/api/v1/inventory/*/adjustments").hasAuthority("INVENTORY_ADJUST")
                 .requestMatchers(HttpMethod.GET, "/api/v1/inventory/adjustments").hasAuthority("INVENTORY_READ")

@@ -26,6 +26,7 @@ services:
         condition: service_healthy
     environment:
       SHIPPING_SERVER_PORT: 8088
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Xms32m -Xmx128m}"
       SHIPPING_DB_URL: jdbc:postgresql://shipping-db:5432/${SHIPPING_DB_NAME:-shipping_db}
       SHIPPING_DB_USERNAME: ${SHIPPING_DB_USERNAME:-shipping}
       SHIPPING_DB_PASSWORD: ${SHIPPING_DB_PASSWORD:-shipping}

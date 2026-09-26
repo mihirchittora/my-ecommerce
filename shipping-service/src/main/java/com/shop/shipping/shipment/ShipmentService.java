@@ -18,6 +18,7 @@ import com.shop.shipping.tracking.TrackingEventRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -150,9 +151,32 @@ public class ShipmentService {
         return shipment;
     }
 
-    public Page<ShippingDtos.ShipmentSummaryResponse> list(int page, int size, String sort, Authentication authentication) {
+    public Page<ShippingDtos.ShipmentSummaryResponse> list(String search, ShipmentStatus status, String carrierName,
+                                                           Instant createdFrom, Instant createdTo,
+                                                           int page, int size, String sort, Authentication authentication) {
         SecurityAccess.require(authentication, "SHIPPING_READ");
-        return shipments.findAll(pageable(page, size, sort)).map(ShippingDtos.ShipmentSummaryResponse::from);
+        Specification<ShipmentEntity> specification = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+        if (search != null && !search.isBlank()) {
+            String pattern = "%" + search.trim().toLowerCase(Locale.ROOT) + "%";
+            specification = specification.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("shipmentNumber")), pattern),
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("orderNumber")), pattern),
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("trackingNumber")), pattern)));
+        }
+        if (status != null) {
+            specification = specification.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("status"), status));
+        }
+        if (carrierName != null && !carrierName.isBlank()) {
+            String normalizedCarrier = carrierName.trim().toUpperCase(Locale.ROOT);
+            specification = specification.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("carrier"), normalizedCarrier));
+        }
+        if (createdFrom != null) {
+            specification = specification.and((root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), createdFrom));
+        }
+        if (createdTo != null) {
+            specification = specification.and((root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), createdTo));
+        }
+        return shipments.findAll(specification, pageable(page, size, sort)).map(ShippingDtos.ShipmentSummaryResponse::from);
     }
 
     public Page<ShippingDtos.ShipmentSummaryResponse> my(int page, int size, String sort, Authentication authentication) {

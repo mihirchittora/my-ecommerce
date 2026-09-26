@@ -41,13 +41,15 @@ public final class CartDtos {
             @Schema(description = "Optional preferred inventory location. Inventory allocation remains an Order concern.")
             UUID preferredLocationId,
             @NotNull @Valid ShippingAddressRequest shippingAddress,
-            PaymentMethod paymentMethod) {
+            PaymentMethod paymentMethod,
+            @Size(max = 40) String couponCode,
+            @Size(max = 20) String serviceLevel) {
         public CheckoutRequest(String currency, UUID preferredLocationId) {
-            this(currency, preferredLocationId, null, PaymentMethod.ONLINE);
+            this(currency, preferredLocationId, null, PaymentMethod.ONLINE, null, "STANDARD");
         }
 
         public CheckoutRequest(String currency, UUID preferredLocationId, ShippingAddressRequest shippingAddress) {
-            this(currency, preferredLocationId, shippingAddress, PaymentMethod.ONLINE);
+            this(currency, preferredLocationId, shippingAddress, PaymentMethod.ONLINE, null, "STANDARD");
         }
     }
 
@@ -102,7 +104,7 @@ public final class CartDtos {
             return new CartItemResponse(item.getId(), item.getSku(), item.getQuantity(),
                     item.getCreatedAt(), item.getUpdatedAt(),
                     new ProductResponse(sku.productId(), sku.variantId(), sku.productName(), sku.variantName(), sku.attributes()),
-                    new PricingResponse(sku.price(), sku.currency(), sku.price().multiply(BigDecimal.valueOf(item.getQuantity()))),
+                    CartDtos.pricing(sku, item),
                     new AvailabilityResponse(false, null, "Availability is checked authoritatively by Order Service at checkout"),
                     false);
         }
@@ -118,7 +120,20 @@ public final class CartDtos {
                                   Map<String, String> attributes) {
     }
 
-    public record PricingResponse(BigDecimal unitPrice, String currency, BigDecimal subtotalEstimate) {
+    public record PricingResponse(BigDecimal unitPrice, String currency, BigDecimal subtotalEstimate,
+                                  BigDecimal taxRate, BigDecimal taxAmount, BigDecimal unitPriceIncludingTax,
+                                  BigDecimal taxAmountEstimate, BigDecimal subtotalIncludingTax) {
+    }
+
+    private static PricingResponse pricing(CatalogSku sku, CartItem item) {
+        BigDecimal taxRate = sku.taxRate() == null ? BigDecimal.ZERO : sku.taxRate();
+        BigDecimal unitTax = sku.price().multiply(taxRate).divide(BigDecimal.valueOf(100), 2, java.math.RoundingMode.HALF_UP);
+        BigDecimal quantity = BigDecimal.valueOf(item.getQuantity());
+        BigDecimal subtotal = sku.price().multiply(quantity).setScale(2, java.math.RoundingMode.HALF_UP);
+        BigDecimal taxEstimate = unitTax.multiply(quantity).setScale(2, java.math.RoundingMode.HALF_UP);
+        return new PricingResponse(sku.price(), sku.currency(), subtotal, taxRate, unitTax,
+                sku.price().add(unitTax).setScale(2, java.math.RoundingMode.HALF_UP), taxEstimate,
+                subtotal.add(taxEstimate).setScale(2, java.math.RoundingMode.HALF_UP));
     }
 
     public record AvailabilityResponse(boolean known, Long availableQuantity, String message) {

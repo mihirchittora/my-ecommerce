@@ -38,7 +38,7 @@ public interface InventoryUnitRepository extends JpaRepository<InventoryUnit, UU
     @Query(value = """
             select unit.* from inventory_units unit
             join inventory_items item on item.id = unit.inventory_item_id
-            where unit.sku = :sku
+            where (cast(:sku as varchar) is null or unit.sku = cast(:sku as varchar))
               and (cast(:locationId as uuid) is null or item.location_id = cast(:locationId as uuid))
               and (cast(:status as varchar) is null or unit.status = cast(:status as varchar))
               and (cast(:serialNumber as varchar) is null or lower(unit.serial_number) like lower(concat('%', cast(:serialNumber as varchar), '%')))
@@ -48,7 +48,7 @@ public interface InventoryUnitRepository extends JpaRepository<InventoryUnit, UU
             countQuery = """
             select count(*) from inventory_units unit
             join inventory_items item on item.id = unit.inventory_item_id
-            where unit.sku = :sku
+            where (cast(:sku as varchar) is null or unit.sku = cast(:sku as varchar))
               and (cast(:locationId as uuid) is null or item.location_id = cast(:locationId as uuid))
               and (cast(:status as varchar) is null or unit.status = cast(:status as varchar))
               and (cast(:serialNumber as varchar) is null or lower(unit.serial_number) like lower(concat('%', cast(:serialNumber as varchar), '%')))

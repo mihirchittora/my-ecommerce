@@ -12,14 +12,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import com.shop.auth.recovery.PasswordRecoveryService;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @Tag(name = "Authentication", description = "Registration, login, JWT refresh, logout, and password changes")
 public class AuthController {
     private final AuthService auth;
+    private final PasswordRecoveryService recovery;
 
-    public AuthController(AuthService auth) { this.auth = auth; }
+    public AuthController(AuthService auth, PasswordRecoveryService recovery) { this.auth = auth; this.recovery = recovery; }
+
+    @PostMapping("/forgot-password")
+    @Operation(summary = "Request a password reset")
+    public java.util.Map<String, String> forgotPassword(@Valid @RequestBody AuthDtos.ForgotPasswordRequest request) {
+        recovery.request(request);
+        return java.util.Map.of("message", "If an account exists, reset instructions have been sent.");
+    }
+
+    @PostMapping("/reset-password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Reset a password with a single-use token")
+    public void resetPassword(@Valid @RequestBody AuthDtos.ResetPasswordRequest request) { recovery.reset(request); }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)

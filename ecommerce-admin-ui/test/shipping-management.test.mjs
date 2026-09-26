@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { canCancelShipment, canCreateShipment } from "../lib/api/shipping/action-rules.ts";
+import { canCancelShipment, canCreateShipment, canDeliverShipment } from "../lib/api/shipping/action-rules.ts";
 import { routeAccess } from "../lib/permissions.ts";
 import { serviceAccessSummary } from "../lib/access-model.ts";
 
@@ -15,6 +15,9 @@ test("shipping actions require both state and permission", () => {
   assert.equal(canCancelShipment("READY", ["SHIPPING_CANCEL"]), true);
   assert.equal(canCancelShipment("DELIVERED", ["SHIPPING_CANCEL"]), false);
   assert.equal(canCancelShipment("READY", ["SHIPPING_READ"]), false);
+  assert.equal(canDeliverShipment("SHIPPED", ["SHIPPING_MANAGE"]), true);
+  assert.equal(canDeliverShipment("DELIVERED", ["SHIPPING_MANAGE"]), false);
+  assert.equal(canDeliverShipment("SHIPPED", ["SHIPPING_READ"]), false);
   assert.equal(canCreateShipment("READY", ["SHIPPING_CREATE"]), true);
   assert.equal(canCreateShipment("COMPLETED", ["SHIPPING_CREATE"]), false);
 });

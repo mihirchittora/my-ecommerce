@@ -15,6 +15,7 @@ public record CatalogSku(
         String variantName,
         Map<String, String> attributes,
         BigDecimal price,
+        BigDecimal taxRate,
         String currency,
         boolean active) {
 }

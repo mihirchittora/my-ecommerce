@@ -1,0 +1,13 @@
+{
+  "seedVersion": "1.0.0",
+  "coupons": [
+    {
+      "code": "DEMO10",
+      "type": "PERCENTAGE",
+      "value": 10,
+      "minimumOrderAmount": 500,
+      "maximumDiscount": 250,
+      "active": true
+    }
+  ]
+}

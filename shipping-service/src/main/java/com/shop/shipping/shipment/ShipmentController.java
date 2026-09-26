@@ -1,6 +1,7 @@
 package com.shop.shipping.shipment;
 
 import com.shop.shipping.api.ShippingDtos;
+import com.shop.shipping.tracking.TrackingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
+import java.time.Instant;
 
 @RestController
 @Validated
@@ -31,9 +33,11 @@ import java.util.UUID;
 @RequestMapping("/api/v1/shipments")
 public class ShipmentController {
     private final ShipmentService service;
+    private final TrackingService tracking;
 
-    public ShipmentController(ShipmentService service) {
+    public ShipmentController(ShipmentService service, TrackingService tracking) {
         this.service = service;
+        this.tracking = tracking;
     }
 
     @Operation(summary = "List shipments for shipping operations")
@@ -43,8 +47,13 @@ public class ShipmentController {
             @RequestParam(defaultValue = "20") @Min(1) @Max(100) int size,
             @Parameter(description = "Spring sort expression", example = "createdAt,desc")
             @RequestParam(defaultValue = "createdAt,desc") String sort,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) ShipmentStatus status,
+            @RequestParam(required = false) String carrier,
+            @RequestParam(required = false) Instant createdFrom,
+            @RequestParam(required = false) Instant createdTo,
             Authentication authentication) {
-        return service.list(page, size, sort, authentication);
+        return service.list(search, status, carrier, createdFrom, createdTo, page, size, sort, authentication);
     }
 
     @Operation(summary = "List only the authenticated customer's shipments")
@@ -83,6 +92,13 @@ public class ShipmentController {
     @PostMapping("/{id}/cancel")
     public ShippingDtos.ShipmentResponse cancel(@PathVariable UUID id, Authentication authentication) {
         ShipmentEntity shipment = service.cancel(id, authentication);
+        return service.get(shipment.getId(), authentication);
+    }
+
+    @Operation(summary = "Mark a shipment delivered", description = "Records an operator delivery event and notifies Order and Fulfillment services.")
+    @PostMapping("/{id}/deliver")
+    public ShippingDtos.ShipmentResponse deliver(@PathVariable UUID id, Authentication authentication) {
+        ShipmentEntity shipment = tracking.manuallyDeliver(id, authentication);
         return service.get(shipment.getId(), authentication);
     }
 

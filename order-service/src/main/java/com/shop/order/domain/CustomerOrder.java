@@ -5,8 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -32,12 +30,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CustomerOrder {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Version
     @Column(nullable = false)
-    private long version;
+    private Long version;
 
     @Column(name = "order_number", nullable = false, unique = true, length = 40)
     private String orderNumber;
@@ -73,6 +70,15 @@ public class CustomerOrder {
 
     @Column(name = "tax_amount", nullable = false, precision = 19, scale = 2)
     private BigDecimal taxAmount;
+
+    @Column(name = "taxable_amount", nullable = false, precision = 19, scale = 2)
+    private BigDecimal taxableAmount;
+
+    @Column(name = "tax_rate", nullable = false, precision = 7, scale = 4)
+    private BigDecimal taxRate;
+
+    @Column(name = "coupon_code", length = 40)
+    private String couponCode;
 
     @Column(name = "total_amount", nullable = false, precision = 19, scale = 2)
     private BigDecimal totalAmount;
@@ -146,5 +152,7 @@ public class CustomerOrder {
         if (discountAmount == null) discountAmount = BigDecimal.ZERO;
         if (shippingAmount == null) shippingAmount = BigDecimal.ZERO;
         if (taxAmount == null) taxAmount = BigDecimal.ZERO;
+        if (taxableAmount == null) taxableAmount = BigDecimal.ZERO;
+        if (taxRate == null) taxRate = BigDecimal.ZERO;
     }
 }

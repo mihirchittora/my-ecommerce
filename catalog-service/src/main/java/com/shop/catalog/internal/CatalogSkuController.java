@@ -45,6 +45,7 @@ public class CatalogSkuController {
                 variantName,
                 attributes,
                 variant.getPrice(),
+                variant.getTaxRate(),
                 variant.getCurrency(),
                 active
         );

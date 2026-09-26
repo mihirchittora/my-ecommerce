@@ -278,7 +278,7 @@ curl -sS 'http://localhost:8082/api/v1/inventory/summary' \
 List physical units with filters and pagination:
 
 ```bash
-curl -sS 'http://localhost:8082/api/v1/inventory/<SKU>/units?page=0&size=20&status=AVAILABLE&sort=createdAt,asc'
+curl -sS 'http://localhost:8082/api/v1/inventory/units?page=0&size=20&sku=<SKU>&serialNumber=&imei=&barcode=&status=AVAILABLE&sort=createdAt,asc'
 ```
 
 Reserve, then confirm or release:

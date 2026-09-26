@@ -129,6 +129,19 @@ class InventoryIntegrationTest {
                 .andExpect(jsonPath("$.content", hasSize(2)))
                 .andExpect(jsonPath("$.content[0].productName").value("Test Product"));
 
+        mvc.perform(get("/api/v1/inventory/units")
+                        .param("serialNumber", "SER-%s-1".formatted(sku)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content[0].serialNumber").value("SER-%s-1".formatted(sku)));
+
+        mvc.perform(get("/api/v1/inventory/units")
+                        .param("sku", sku)
+                        .param("barcode", "BAR-%s-2".formatted(sku)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content[0].barcode").value("BAR-%s-2".formatted(sku)));
+
                 mvc.perform(get("/api/v1/inventory")
                         .param("page", "0")
                         .param("size", "10")

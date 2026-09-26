@@ -157,12 +157,12 @@ public class InventoryOperationsService {
     public Page<InventoryDtos.UnitResponse> listUnits(String rawSku, UUID locationId, UnitStatus status,
                                                        String serialNumber, String imei, String barcode,
                                                        int page, int size, String sort) {
-        String sku = normalizeSku(rawSku);
-        CatalogSkuResponse catalogSku = catalog.requireActive(sku);
+        String sku = normalizeNullableSku(rawSku);
+        CatalogSkuResponse catalogSku = sku == null ? null : catalog.requireActive(sku);
         PageRequest pageable = PageRequest.of(page, size, Sort.by(parseSort(sort)));
         return units.search(sku, locationId, status == null ? null : status.name(),
                         blankToNull(serialNumber), blankToNull(imei), blankToNull(barcode), pageable)
-                .map(unit -> InventoryDtos.UnitResponse.from(unit, catalogSku.productName()));
+                .map(unit -> InventoryDtos.UnitResponse.from(unit, catalogSku == null ? null : catalogSku.productName()));
     }
 
     @Transactional(readOnly = true)
@@ -472,6 +472,10 @@ public class InventoryOperationsService {
         String normalized = sku == null ? "" : sku.trim().toUpperCase(Locale.ROOT);
         if (normalized.isBlank()) throw new BadRequestException("SKU must not be blank");
         return normalized;
+    }
+
+    private String normalizeNullableSku(String sku) {
+        return sku == null || sku.isBlank() ? null : normalizeSku(sku);
     }
 
     private String normalizeReference(String reference) {

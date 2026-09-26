@@ -181,6 +181,7 @@ public class ProductService {
                 variant.setProduct(product);
                 variant.setSku(sku);
                 variant.setPrice(request.price());
+                variant.setTaxRate(request.taxRate() == null ? BigDecimal.valueOf(18) : request.taxRate());
                 if (request.currency() == null) {
                     throw new com.shop.catalog.common.BadRequestException("Currency is required");
                 }

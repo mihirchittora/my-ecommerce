@@ -9,7 +9,16 @@ export type FulfillmentStatus = (typeof FULFILLMENT_STATUSES)[number];
 export type ShipmentSort = "createdAt,desc" | "createdAt,asc" | "updatedAt,desc" | "updatedAt,asc" | "status,asc" | "status,desc" | "shipmentNumber,asc" | "shipmentNumber,desc" | "orderNumber,asc" | "orderNumber,desc";
 export type FulfillmentSort = "createdAt,desc" | "createdAt,asc" | "updatedAt,desc" | "updatedAt,asc" | "status,asc" | "status,desc" | "orderNumber,asc" | "orderNumber,desc";
 
-export interface ShipmentListParams { page: number; size: number; sort: ShipmentSort; }
+export interface ShipmentListParams {
+  page: number;
+  size: number;
+  sort: ShipmentSort;
+  search?: string;
+  status?: ShipmentStatus;
+  carrier?: string;
+  createdFrom?: string;
+  createdTo?: string;
+}
 export interface FulfillmentListParams { page: number; size: number; sort: FulfillmentSort; }
 
 export interface ShipmentSummary {

@@ -11,10 +11,20 @@ function query(values: Record<string, string | number | undefined>) {
 }
 
 export const shipmentApi = {
-  list: (params: ShipmentListParams) => shippingClient.request<ShipmentPage>(`/v1/shipments${query({ page: params.page, size: params.size, sort: params.sort })}`),
+  list: (params: ShipmentListParams) => shippingClient.request<ShipmentPage>(`/v1/shipments${query({
+    page: params.page,
+    size: params.size,
+    sort: params.sort,
+    search: params.search,
+    status: params.status,
+    carrier: params.carrier,
+    createdFrom: params.createdFrom ? `${params.createdFrom}T00:00:00.000Z` : undefined,
+    createdTo: params.createdTo ? `${params.createdTo}T23:59:59.999Z` : undefined,
+  })}`),
   get: (id: string) => shippingClient.request<ShipmentDetail>(`/v1/shipments/${encodeURIComponent(id)}`),
   create: (payload: CreateShipmentPayload, idempotencyKey: string) => shippingClient.json<ShipmentDetail, CreateShipmentPayload>("/v1/shipments", payload, { headers: { "Idempotency-Key": idempotencyKey } }),
   cancel: (id: string) => shippingClient.request<ShipmentDetail>(`/v1/shipments/${encodeURIComponent(id)}/cancel`, { method: "POST" }),
+  deliver: (id: string) => shippingClient.request<ShipmentDetail>(`/v1/shipments/${encodeURIComponent(id)}/deliver`, { method: "POST" }),
 };
 
 export function newShipmentIdempotencyKey() {

@@ -3,6 +3,7 @@ package com.shop.order.api;
 import com.shop.order.domain.CustomerOrder;
 import com.shop.order.domain.OrderItem;
 import com.shop.order.domain.OrderItemInventoryUnit;
+import com.shop.order.domain.OrderItemStatus;
 import com.shop.order.domain.PaymentMethod;
 
 import java.util.List;
@@ -18,7 +19,9 @@ public final class OrderInternalDtos {
                                 PaymentMethod paymentMethod, List<ItemResponse> items, ShippingAddressResponse shippingAddress) {
         public static OrderResponse from(CustomerOrder order) {
             return new OrderResponse(order.getId(), order.getOrderNumber(), order.getCustomerId(), order.getStatus().name(),
-                    order.getCurrency(), order.getPaymentMethod(), order.getItems().stream().map(ItemResponse::from).toList(),
+                    order.getCurrency(), order.getPaymentMethod(), order.getItems().stream()
+                            .filter(item -> item.getStatus() == OrderItemStatus.ACTIVE)
+                            .map(ItemResponse::from).toList(),
                     ShippingAddressResponse.from(order.getShippingAddress()));
         }
     }

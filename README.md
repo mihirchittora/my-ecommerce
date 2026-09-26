@@ -374,6 +374,14 @@ same-origin; the backend origins are configured in
 ecommerce-storefront/.env.local. Open http://localhost:3001 after the backend
 services are healthy.
 
+## Commerce MVP completion
+
+Milestone 10 adds server-authoritative checkout pricing, coupons, database-backed
+invoice PDFs, cancellation/returns/refund orchestration, password recovery,
+wishlists, verified-purchase reviews, and corresponding storefront/admin
+surfaces. The configured tax and shipping model plus deferred production work
+are documented in [docs/milestone-10-report.md](docs/milestone-10-report.md).
+
 ## API Documentation
 
 Current service names, ports, authentication requirements, and endpoint contracts
