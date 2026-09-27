@@ -18,8 +18,12 @@ boundaries intact:
   state machine, server-calculated refundable item totals, and an idempotent
   handoff to Payment Service for refunds.
 - Auth exposes generic forgot-password and single-use, expiring reset-token
-  flows. The current notification adapter is a safe console adapter; it never
-  logs raw tokens.
+  flows. A configurable SMTP adapter sends welcome and password-reset emails
+  without logging raw tokens.
+- Auth and Order provide configurable SMTP notifications for registration,
+  password reset, order creation/cancellation, payment success/failure/refund,
+  and fulfilling/shipped/delivered shipment milestones. Delivery is disabled
+  by default and failures do not fail the commerce operation.
 - Customer wishlist items are customer-owned and catalog reviews require the
   authenticated customer to own a delivered or completed order containing the
   reviewed product.
@@ -42,11 +46,11 @@ HSN/SAC, exemptions, or rounding rules required for statutory invoices.
 ## Known limitations and deferred work
 
 - Invoice PDF generation is intentionally minimal and does not yet include a
-  production tax registration, GST component breakdown, email delivery, or
-  object-storage adapter.
-- Order/payment/shipping notification delivery is not a complete event-driven
-  subsystem; only the password-reset notification port and console adapter are
-  present.
+  production tax registration, GST component breakdown, or object-storage
+  adapter.
+- Email delivery is synchronous SMTP notification, not yet a durable outbox or
+  event-driven messaging subsystem. Configure SMTP and enable it explicitly for
+  production use.
 - Returns do not yet call an Inventory return-transition endpoint because the
   existing Inventory contract has no customer-return operation. Refunds are
   item-level and exclude shipping.

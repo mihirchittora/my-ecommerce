@@ -21,6 +21,7 @@ import com.shop.order.exception.MalformedDependencyResponseException;
 import com.shop.order.exception.NotFoundException;
 import com.shop.order.exception.OrderApiException;
 import com.shop.order.exception.RemoteDependencyException;
+import com.shop.order.notification.EmailDeliveryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -55,6 +57,7 @@ public class OrderApplicationService {
     private final ShippingChargeCalculator shippingCharges;
     private final TaxCalculator taxCalculator;
     private final CouponService coupons;
+    private final EmailDeliveryService emailDelivery;
     private final long reservationExpiryMinutes;
 
     public OrderApplicationService(CatalogClient catalog,
@@ -69,6 +72,7 @@ public class OrderApplicationService {
                                    ShippingChargeCalculator shippingCharges,
                                    TaxCalculator taxCalculator,
                                    CouponService coupons,
+                                   EmailDeliveryService emailDelivery,
                                    @Value("${app.reservation.expiry-minutes:15}") long reservationExpiryMinutes) {
         this.catalog = catalog;
         this.inventory = inventory;
@@ -82,12 +86,14 @@ public class OrderApplicationService {
         this.shippingCharges = shippingCharges;
         this.taxCalculator = taxCalculator;
         this.coupons = coupons;
+        this.emailDelivery = emailDelivery;
         this.reservationExpiryMinutes = reservationExpiryMinutes;
     }
 
     public OrderDtos.OrderResponse create(OrderDtos.CreateOrderRequest request, String idempotencyKey,
                                           Authentication authentication) {
         String customerId = subject(authentication);
+        String customerEmail = email(authentication);
         String key = normalizeIdempotencyKey(idempotencyKey);
         OrderRequestNormalizer.NormalizedRequest normalized = OrderRequestNormalizer.normalize(request);
         validateCurrency(normalized.currency());
@@ -126,7 +132,7 @@ public class OrderApplicationService {
 
         CustomerOrder order = null;
         try {
-            order = buildPendingOrder(customerId, key, requestHash, normalized, snapshots);
+            order = buildPendingOrder(customerId, customerEmail, key, requestHash, normalized, snapshots);
             paymentMethods.requireEligible(order.getPaymentMethod(), order.getCurrency(), order.getTotalAmount(),
                     order.getShippingAddress().getCountry());
             writes.createPending(order);
@@ -140,6 +146,8 @@ public class OrderApplicationService {
         log.info("Order created orderId={} orderNumber={} customerId={} status={}",
                 order.getId(), order.getOrderNumber(), customerId, order.getStatus());
         continueCheckout(order.getId(), normalized.preferredLocationId(), customerId);
+        CustomerOrder created = reads.detailed(order.getId());
+        emailDelivery.sendOrderCreated(created.getCustomerEmail(), created.getOrderNumber(), created.getTotalAmount(), created.getCurrency());
         return reads.response(order.getId(), hasPermission(authentication, "ORDER_READ"));
     }
 
@@ -213,6 +221,8 @@ public class OrderApplicationService {
         }
         writes.cancel(orderId, actor);
         coupons.releaseForOrder(orderId);
+        CustomerOrder cancelled = reads.detailed(orderId);
+        emailDelivery.sendOrderCancelled(cancelled.getCustomerEmail(), cancelled.getOrderNumber());
         log.info("Order cancelled orderId={} orderNumber={} customerId={}", orderId, order.getOrderNumber(), actor);
         return reads.response(orderId, hasPermission(authentication, "ORDER_READ"));
     }
@@ -235,7 +245,12 @@ public class OrderApplicationService {
         if (item.getReservationId() != null) inventory.release(item.getReservationId());
         writes.cancelItem(orderId, itemId, actor);
         CustomerOrder updated = reads.detailed(orderId);
-        if (updated.getStatus() == OrderStatus.CANCELLED) coupons.releaseForOrder(orderId);
+        if (updated.getStatus() == OrderStatus.CANCELLED) {
+            coupons.releaseForOrder(orderId);
+            emailDelivery.sendOrderCancelled(updated.getCustomerEmail(), updated.getOrderNumber());
+            log.info("Order cancelled after final item cancellation orderId={} orderNumber={} customerId={}",
+                    orderId, updated.getOrderNumber(), actor);
+        }
         return OrderDtos.response(updated, hasPermission(authentication, "ORDER_READ"));
     }
 
@@ -301,7 +316,7 @@ public class OrderApplicationService {
         return allReleased;
     }
 
-    private CustomerOrder buildPendingOrder(String customerId, String idempotencyKey, String requestHash,
+    private CustomerOrder buildPendingOrder(String customerId, String customerEmail, String idempotencyKey, String requestHash,
                                             OrderRequestNormalizer.NormalizedRequest request,
                                             List<CatalogSku> snapshots) {
         Map<String, CatalogSku> bySku = new LinkedHashMap<>();
@@ -314,6 +329,7 @@ public class OrderApplicationService {
         order.setId(UUID.randomUUID());
         order.setOrderNumber(orderNumbers.next());
         order.setCustomerId(customerId);
+        order.setCustomerEmail(customerEmail);
         order.setIdempotencyKey(idempotencyKey);
         order.setIdempotencyPayloadHash(requestHash);
         order.setStatus(OrderStatus.PENDING_RESERVATION);
@@ -431,6 +447,14 @@ public class OrderApplicationService {
                     "UNAUTHORIZED", "Authentication is required");
         }
         return authentication.getName();
+    }
+
+    private String email(Authentication authentication) {
+        if (authentication instanceof JwtAuthenticationToken jwt) {
+            Object claim = jwt.getToken().getClaims().get("email");
+            if (claim instanceof String value && !value.isBlank()) return value.trim().toLowerCase(Locale.ROOT);
+        }
+        return null;
     }
 
     private void requirePermission(Authentication authentication, String permission) {

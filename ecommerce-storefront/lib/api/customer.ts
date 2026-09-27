@@ -9,7 +9,11 @@ export const customerApi = {
   updateAddress: (id: string, payload: AddressPayload) => customerClient.json<Address, AddressPayload>(`/v1/customers/me/addresses/${encodeURIComponent(id)}`, payload, { method: "PUT" }),
   deleteAddress: (id: string) => customerClient.request<void>(`/v1/customers/me/addresses/${encodeURIComponent(id)}`, { method: "DELETE" }),
   setDefaultAddress: (id: string) => customerClient.request<Address>(`/v1/customers/me/addresses/${encodeURIComponent(id)}/default`, { method: "POST" }),
-  wishlist: () => customerClient.request<WishlistItem[]>("/v1/customers/me/wishlist"),
+  wishlist: async () => {
+    const response = await customerClient.request<unknown>("/v1/customers/me/wishlist");
+    if (!Array.isArray(response)) throw new Error("Wishlist response was not a list");
+    return response as WishlistItem[];
+  },
   addWishlist: (productId: string, sku?: string) => customerClient.json<WishlistItem, { productId: string; sku?: string }>("/v1/customers/me/wishlist", { productId, sku }),
   removeWishlist: (id: string) => customerClient.request<void>(`/v1/customers/me/wishlist/${encodeURIComponent(id)}`, { method: "DELETE" }),
 };

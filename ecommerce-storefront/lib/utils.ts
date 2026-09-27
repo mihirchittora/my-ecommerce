@@ -3,6 +3,8 @@ import { twMerge } from "tailwind-merge";
 
 export type ServiceName = "auth" | "catalog" | "inventory" | "order" | "cart" | "customer" | "payment" | "shipping";
 
+export const DEFAULT_SITE_TITLE = "Storefront";
+
 const apiOrigins: Record<ServiceName, string> = {
   auth: process.env.NEXT_PUBLIC_AUTH_API_URL ?? "http://localhost:8085",
   catalog: process.env.NEXT_PUBLIC_CATALOG_API_URL ?? "http://localhost:8081",
@@ -16,6 +18,10 @@ const apiOrigins: Record<ServiceName, string> = {
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function siteTitleOrDefault(value: string | null | undefined) {
+  return value?.trim() || DEFAULT_SITE_TITLE;
 }
 
 export function getApiBaseUrl(service: ServiceName) {

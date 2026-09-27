@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.criteria.Expression;
 
 import java.text.Normalizer;
 import java.math.BigDecimal;
@@ -108,7 +109,7 @@ public class ProductService {
                 .flatMap(product -> product.getVariants().stream())
                 .filter(variant -> variant.getStatus() == com.shop.catalog.variant.VariantStatus.ACTIVE)
                 .forEach(variant -> {
-                    if (variant.getPrice() != null) prices.add(variant.getPrice());
+                    if (variant.getPrice() != null) prices.add(ProductDtos.VariantResponse.priceIncludingTax(variant));
                     if (variant.getAttributes() != null) {
                         variant.getAttributes().forEach((key, value) -> attributes
                                 .computeIfAbsent(key, ignored -> new java.util.TreeSet<>()).add(value));
@@ -247,8 +248,14 @@ public class ProductService {
                 var variant = root.join("variants");
                 query.distinct(true);
                 predicates.add(criteriaBuilder.equal(variant.get("status"), VariantStatus.ACTIVE));
-                if (priceMin != null && priceMin.signum() >= 0) predicates.add(criteriaBuilder.greaterThanOrEqualTo(variant.get("price"), priceMin));
-                if (priceMax != null && priceMax.signum() >= 0) predicates.add(criteriaBuilder.lessThanOrEqualTo(variant.get("price"), priceMax));
+                Expression<BigDecimal> price = variant.get("price");
+                Expression<BigDecimal> taxRate = variant.get("taxRate");
+                Expression<BigDecimal> taxAmount = criteriaBuilder.function("round", BigDecimal.class,
+                        criteriaBuilder.prod(price, criteriaBuilder.quot(taxRate, criteriaBuilder.literal(BigDecimal.valueOf(100)))),
+                        criteriaBuilder.literal(2));
+                Expression<BigDecimal> priceIncludingTax = criteriaBuilder.sum(price, taxAmount);
+                if (priceMin != null && priceMin.signum() >= 0) predicates.add(criteriaBuilder.greaterThanOrEqualTo(priceIncludingTax, priceMin));
+                if (priceMax != null && priceMax.signum() >= 0) predicates.add(criteriaBuilder.lessThanOrEqualTo(priceIncludingTax, priceMax));
                 for (String attribute : attributes == null ? List.<String>of() : attributes) {
                     int separator = attribute == null ? -1 : attribute.indexOf(':');
                     if (separator <= 0 || separator == attribute.length() - 1) continue;

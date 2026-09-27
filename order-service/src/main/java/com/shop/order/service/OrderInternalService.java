@@ -8,6 +8,7 @@ import com.shop.order.domain.OrderRepository;
 import com.shop.order.domain.OrderStatus;
 import com.shop.order.exception.ConflictException;
 import com.shop.order.exception.NotFoundException;
+import com.shop.order.notification.EmailDeliveryService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +20,12 @@ import java.util.UUID;
 public class OrderInternalService {
     private final OrderRepository orders;
     private final OrderPaymentService payments;
+    private final EmailDeliveryService emailDelivery;
 
-    public OrderInternalService(OrderRepository orders, OrderPaymentService payments) {
+    public OrderInternalService(OrderRepository orders, OrderPaymentService payments, EmailDeliveryService emailDelivery) {
         this.orders = orders;
         this.payments = payments;
+        this.emailDelivery = emailDelivery;
     }
 
     @Transactional(readOnly = true)
@@ -63,6 +66,7 @@ public class OrderInternalService {
         event.setActorUserId("shipping-service");
         order.addHistory(event);
         orders.saveAndFlush(order);
+        emailDelivery.sendShipmentStatus(order.getCustomerEmail(), order.getOrderNumber(), request.shipmentNumber(), target.name());
     }
 
     public void paymentEvent(UUID orderId, OrderInternalDtos.PaymentEventRequest request) {

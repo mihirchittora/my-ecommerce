@@ -117,6 +117,32 @@ The root file contains local-only database defaults, Auth bootstrap values, and
 host-published URLs for the seed tool. The frontend files contain browser URLs.
 Do not put production credentials in any example file.
 
+### Email notifications
+
+Customer email delivery is disabled by default. To enable it for local or
+single-VM deployments, set these values in the environment file consumed by
+the Auth and Order services:
+
+~~~text
+EMAIL_ENABLED=true
+EMAIL_FROM=no-reply@example.com
+EMAIL_FROM_NAME=Morrow Commerce
+FRONTEND_BASE_URL=https://store.example.com
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USERNAME=...
+SMTP_PASSWORD=...
+SMTP_AUTH=true
+SMTP_STARTTLS=true
+~~~
+
+The system sends welcome emails after registration, password-reset links,
+order-created and cancellation updates, payment success/failure updates, and
+refund updates, and fulfillment updates for fulfilling, shipped, and delivered
+orders. Delivery errors are logged without failing the registration, checkout,
+payment, or shipping operation. Keep `EMAIL_ENABLED=false` until valid SMTP
+credentials and a verified sender address are configured.
+
 ### 2. Start the backend services
 
 Run from the repository root:

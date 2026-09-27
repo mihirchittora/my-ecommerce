@@ -17,7 +17,9 @@ public class WishlistService {
     private final CustomerService customers;
     public WishlistService(WishlistItemRepository items, CustomerService customers) { this.items = items; this.customers = customers; }
 
-    @Transactional(readOnly = true)
+    // getOrCreateActive may create/synchronize the customer and uses a
+    // pessimistic write lock, so this transaction cannot be read-only.
+    @Transactional
     public List<WishlistDtos.ItemResponse> list(Authentication authentication) { return items.findByCustomer_IdOrderByCreatedAtDesc(customer(authentication).getId()).stream().map(WishlistDtos.ItemResponse::from).toList(); }
 
     @Transactional

@@ -213,12 +213,20 @@ class CatalogIntegrationTest {
                 .andExpect(jsonPath("$.totalElements").value(1))
                 .andExpect(jsonPath("$.content[0].name").value("Dark Roast"));
 
+        mvc.perform(get("/api/v1/products")
+                        .param("categoryId", category.toString())
+                        .param("status", "ACTIVE")
+                        .param("priceMax", "800"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.content[0].name").value("Light Roast"));
+
         mvc.perform(get("/api/v1/products/facets")
                         .param("categoryId", category.toString())
                         .param("status", "ACTIVE"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.price.min").value(499.0))
-                .andExpect(jsonPath("$.price.max").value(799.0))
+                .andExpect(jsonPath("$.price.min").value(588.82))
+                .andExpect(jsonPath("$.price.max").value(942.82))
                 .andExpect(jsonPath("$.brands").isArray())
                 .andExpect(jsonPath("$.attributes.roastLevel").isArray())
                 .andExpect(jsonPath("$.attributes.roastLevel").value(org.hamcrest.Matchers.hasItems("LIGHT", "DARK")));

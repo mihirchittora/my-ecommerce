@@ -42,6 +42,9 @@ public class CustomerOrder {
     @Column(name = "customer_id", nullable = false, length = 200)
     private String customerId;
 
+    @Column(name = "customer_email", length = 320)
+    private String customerEmail;
+
     @Column(name = "idempotency_key", length = 200)
     private String idempotencyKey;
 

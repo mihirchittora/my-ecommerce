@@ -6,6 +6,7 @@ import com.shop.auth.common.ConflictException;
 import com.shop.auth.common.NotFoundException;
 import com.shop.auth.common.UnauthorizedException;
 import com.shop.auth.config.AuthProperties;
+import com.shop.auth.notification.EmailDeliveryService;
 import com.shop.auth.role.Role;
 import com.shop.auth.role.RoleRepository;
 import com.shop.auth.token.JwtTokenService;
@@ -39,11 +40,12 @@ public class AuthService {
     private final JwtTokenService jwtTokens;
     private final AuthProperties properties;
     private final AuditService audit;
+    private final EmailDeliveryService emailDelivery;
     private final SecureRandom random = new SecureRandom();
 
     public AuthService(UserRepository users, RoleRepository roles, RefreshTokenRepository refreshTokens,
                        PasswordEncoder passwordEncoder, JwtTokenService jwtTokens,
-                       AuthProperties properties, AuditService audit) {
+                       AuthProperties properties, AuditService audit, EmailDeliveryService emailDelivery) {
         this.users = users;
         this.roles = roles;
         this.refreshTokens = refreshTokens;
@@ -51,6 +53,7 @@ public class AuthService {
         this.jwtTokens = jwtTokens;
         this.properties = properties;
         this.audit = audit;
+        this.emailDelivery = emailDelivery;
     }
 
     @Transactional
@@ -69,6 +72,7 @@ public class AuthService {
         user.prepareForPersist();
         AppUser saved = users.save(user);
         audit.record(AuditEventType.USER_REGISTERED, saved.getId(), null);
+        emailDelivery.sendWelcome(saved.getEmail(), saved.getFirstName());
         return me(saved);
     }
 

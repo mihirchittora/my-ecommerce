@@ -16,7 +16,8 @@ import { Card } from "@/components/ui/card";
 import { ErrorState, LoadingBlock } from "@/components/feedback";
 import { CatalogImage } from "@/components/catalog-image";
 import { ReviewRating } from "@/components/review-rating";
-import { formatCurrency, formatDate, getAssetUrl, humanizeCatalogValue } from "@/lib/utils";
+import { formatCurrency, formatDate, getAssetUrl, humanizeCatalogValue, siteTitleOrDefault } from "@/lib/utils";
+import type { WishlistItem } from "@/lib/types";
 import { track } from "@/lib/analytics";
 import { attributeValueHasVariant, availabilityLabel, productIsOutOfStock, variantForAttributeSelection, variantIsUnavailable, variantAttributeGroups, wrapGalleryIndex } from "@/lib/storefront-logic";
 
@@ -26,6 +27,8 @@ export function ProductDetail({ slug }: { slug: string }) {
   const queryClient = useQueryClient();
   const [selectedSku, setSelectedSku] = useState("");
   const product = useQuery({ queryKey: ["product", slug], queryFn: () => catalogApi.getProductBySlug(slug) });
+  const siteSettings = useQuery({ queryKey: ["site-settings"], queryFn: catalogApi.getSiteSettings, staleTime: 60_000 });
+  const wishlist = useQuery({ queryKey: ["customer", "wishlist"], queryFn: customerApi.wishlist, enabled: status === "authenticated" });
   const reviewSummary = useQuery({ queryKey: ["reviews", slug, "summary", selectedSku], queryFn: () => catalogApi.reviewSummary(product.data?.id ?? "", selectedSku), enabled: Boolean(product.data?.id && selectedSku) });
   const reviews = useQuery({ queryKey: ["reviews", slug, selectedSku], queryFn: () => catalogApi.reviews(product.data?.id ?? "", selectedSku), enabled: Boolean(product.data?.id && selectedSku) });
   const [quantity, setQuantity] = useState(1);
@@ -35,6 +38,7 @@ export function ProductDetail({ slug }: { slug: string }) {
   const [wishlistMessage, setWishlistMessage] = useState("");
   const [showReviews, setShowReviews] = useState(true);
   const variants = product.data?.variants ?? [];
+  const siteTitle = siteTitleOrDefault(siteSettings.data?.siteTitle);
   const activeVariants = variants.filter((variant) => variant.status === "ACTIVE");
   const attributeGroups = variantAttributeGroups(variants);
   const availabilityQueries = useQueries({ queries: activeVariants.map((item) => ({ queryKey: ["availability", item.sku], queryFn: () => inventoryApi.getAvailability(item.sku), staleTime: 30_000 })) });
@@ -45,7 +49,23 @@ export function ProductDetail({ slug }: { slug: string }) {
   const availabilityKnown = Boolean(variant && availabilityQueries.find((query, index) => activeVariants[index]?.sku === variant.sku)?.isFetched);
   const liveAvailability = selectedAvailability;
   const addToCart = useMutation({ mutationFn: () => cartApi.addItem(selectedSku, quantity), onSuccess: () => { setAdded(true); void queryClient.invalidateQueries({ queryKey: ["cart"] }); track("add_to_cart", { sku: selectedSku, quantity }); } });
-  const addWishlist = useMutation({ mutationFn: () => customerApi.addWishlist(product.data?.id ?? "", selectedSku), onSuccess: () => setWishlistMessage("Saved to your wishlist."), onError: () => setWishlistMessage("Sign in to save this item.") });
+  const wishlistItem = wishlist.data?.find((item) => item.productId === product.data?.id && (!item.sku || item.sku === selectedSku));
+  const toggleWishlist = useMutation({
+    mutationFn: async () => {
+      if (wishlistItem) {
+        await customerApi.removeWishlist(wishlistItem.id);
+        return { action: "removed" as const, id: wishlistItem.id };
+      }
+      const item = await customerApi.addWishlist(product.data?.id ?? "", selectedSku);
+      return { action: "added" as const, item };
+    },
+    onSuccess: (result) => {
+      queryClient.setQueryData<WishlistItem[]>(["customer", "wishlist"], (current = []) => result.action === "added" ? [...current, result.item] : current.filter((item) => item.id !== result.id));
+      void queryClient.invalidateQueries({ queryKey: ["customer", "wishlist"] });
+      setWishlistMessage(result.action === "added" ? "Saved to your wishlist." : "Removed from your wishlist.");
+    },
+    onError: () => setWishlistMessage("Sign in to save this item."),
+  });
 
   useEffect(() => { if (product.data) track("product_view", { product: product.data.slug }); }, [product.data]);
   useEffect(() => {
@@ -101,7 +121,7 @@ export function ProductDetail({ slug }: { slug: string }) {
 
           <div className="lg:pt-4">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge>{product.data.brand ?? "Morrow collection"}</Badge>
+              <Badge>{product.data.brand ?? `${siteTitle} collection`}</Badge>
               {productOutOfStock ? <Badge tone="danger">Out of stock</Badge> : product.data.status === "ACTIVE" ? <Badge tone="success">Available to order</Badge> : <Badge tone="danger">Unavailable</Badge>}
             </div>
             <h1 className="mt-5 font-display text-4xl font-bold tracking-tight md:text-6xl">{product.data.name}</h1>
@@ -144,7 +164,7 @@ export function ProductDetail({ slug }: { slug: string }) {
                 {addToCart.isPending ? "Adding…" : added ? "Added to cart" : product.data.status !== "ACTIVE" ? "Unavailable" : variantUnavailable ? "Out of stock" : availabilityKnown ? "Add to cart" : "Checking availability"}
                 <ShoppingBag className="ml-2 h-4 w-4" />
               </Button>
-              <Button variant="secondary" aria-label="Save to wishlist" disabled={addWishlist.isPending || !variant} onClick={() => { if (status !== "authenticated") { router.push(`/login?next=${encodeURIComponent(`/products/${slug}`)}`); return; } addWishlist.mutate(); }}><Heart className="h-4 w-4" /></Button>
+              <Button variant="secondary" aria-label={wishlistItem ? "Remove from wishlist" : "Save to wishlist"} aria-pressed={Boolean(wishlistItem)} disabled={toggleWishlist.isPending || !variant} onClick={() => { if (status !== "authenticated") { router.push(`/login?next=${encodeURIComponent(`/products/${slug}`)}`); return; } toggleWishlist.mutate(); }}><Heart className={wishlistItem ? "h-4 w-4 fill-coral text-coral" : "h-4 w-4"} /></Button>
             </div>
             {addToCart.isError ? <p role="alert" className="mt-3 text-sm text-red-700">Could not add this item. Please try again.</p> : null}
             {added ? <p className="mt-3 text-sm font-semibold text-moss">Added to your cart. <Link href="/cart" className="underline">View cart</Link></p> : null}

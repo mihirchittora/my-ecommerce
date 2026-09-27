@@ -7,7 +7,7 @@ test("public storefront shell responds", { skip: !baseUrl }, async () => {
   const response = await fetch(baseUrl);
   assert.equal(response.ok, true);
   const html = await response.text();
-  assert.match(html, /Morrow|Good things for the way you live/);
+  assert.match(html, /thoughtful everyday goods|Good things for the way you live|Storefront/);
 });
 
 test("catalog route is reachable", { skip: !baseUrl }, async () => {

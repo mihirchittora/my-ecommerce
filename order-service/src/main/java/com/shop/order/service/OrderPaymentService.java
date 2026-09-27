@@ -10,6 +10,7 @@ import com.shop.order.domain.PaymentMethod;
 import com.shop.order.exception.ConflictException;
 import com.shop.order.exception.NotFoundException;
 import com.shop.order.invoice.InvoiceService;
+import com.shop.order.notification.EmailDeliveryService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,13 +24,15 @@ public class OrderPaymentService {
     private final FulfillmentOrchestrator fulfillmentOrchestrator;
     private final InvoiceService invoices;
     private final CouponService coupons;
+    private final EmailDeliveryService emailDelivery;
 
     public OrderPaymentService(OrderRepository orders, FulfillmentOrchestrator fulfillmentOrchestrator, InvoiceService invoices,
-                               CouponService coupons) {
+                               CouponService coupons, EmailDeliveryService emailDelivery) {
         this.orders = orders;
         this.fulfillmentOrchestrator = fulfillmentOrchestrator;
         this.invoices = invoices;
         this.coupons = coupons;
+        this.emailDelivery = emailDelivery;
     }
 
     @Transactional
@@ -48,17 +51,31 @@ public class OrderPaymentService {
 
         String status = request.paymentStatus().trim().toUpperCase(Locale.ROOT);
         if ("FAILED".equals(status) || "CANCELLED".equals(status)) {
+            boolean changed = false;
             if (order.getStatus() == OrderStatus.PENDING_PAYMENT) {
                 transition(order, OrderStatus.FAILED, OrderEventType.ORDER_STATE_CHANGED, request.paymentId(),
                         "Payment did not complete");
                 orders.saveAndFlush(order);
                 generateInvoice(order.getId());
                 releaseCoupon(order.getId());
+                changed = true;
+            }
+            if (changed && emailDelivery != null) {
+                emailDelivery.sendPaymentStatus(order.getCustomerEmail(), order.getOrderNumber(), request.paymentId(),
+                        status, request.amount(), request.currency());
+            }
+            return;
+        }
+        if ("REFUND_PENDING".equals(status) || "PARTIALLY_REFUNDED".equals(status) || "REFUNDED".equals(status)) {
+            if (emailDelivery != null) {
+                emailDelivery.sendPaymentStatus(order.getCustomerEmail(), order.getOrderNumber(), request.paymentId(),
+                        status, request.amount(), request.currency());
             }
             return;
         }
         if (!"CAPTURED".equals(status)) return;
 
+        boolean changed = false;
         if (request.paymentMethod() == PaymentMethod.CASH_ON_DELIVERY
                 || order.getPaymentMethod() == PaymentMethod.CASH_ON_DELIVERY) {
             if (order.getPaymentMethod() != PaymentMethod.CASH_ON_DELIVERY) {
@@ -70,16 +87,23 @@ public class OrderPaymentService {
                 order.setCompletedAt(java.time.Instant.now());
                 orders.saveAndFlush(order);
                 generateInvoice(order.getId());
+                changed = true;
+            }
+            if (changed && emailDelivery != null) {
+                emailDelivery.sendPaymentStatus(order.getCustomerEmail(), order.getOrderNumber(), request.paymentId(),
+                        status, request.amount(), request.currency());
             }
             return;
         }
 
         if (order.getStatus() == OrderStatus.PENDING_PAYMENT) {
             transition(order, OrderStatus.PAID, OrderEventType.ORDER_PAID, request.paymentId(), "Payment captured");
+            changed = true;
         }
         if (order.getStatus() == OrderStatus.PAID) {
             transition(order, OrderStatus.CONFIRMED, OrderEventType.ORDER_CONFIRMED, request.paymentId(),
                     "Order confirmed after payment capture");
+            changed = true;
         }
         if (order.getStatus() == OrderStatus.CONFIRMED || order.getStatus() == OrderStatus.FULFILLING
                 || order.getStatus() == OrderStatus.SHIPPED || order.getStatus() == OrderStatus.DELIVERED
@@ -87,6 +111,10 @@ public class OrderPaymentService {
             orders.saveAndFlush(order);
             generateInvoice(order.getId());
             fulfillmentOrchestrator.enqueue(order.getId());
+        }
+        if (changed && emailDelivery != null) {
+            emailDelivery.sendPaymentStatus(order.getCustomerEmail(), order.getOrderNumber(), request.paymentId(),
+                    status, request.amount(), request.currency());
         }
     }
 

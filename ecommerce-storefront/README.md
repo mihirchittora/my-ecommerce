@@ -32,13 +32,13 @@ The UI does not persist catalog, inventory, cart, customer, order, payment, or s
 Category images are read directly from Catalog's typed category response. The
 storefront does not persist or duplicate categories. Root-category navigation,
 the mobile menu, homepage `Shop by category` cards, category heroes, and child
-cards all use the Catalog `image.url` and `image.altText` fields. A branded Morrow
+cards all use the Catalog `image.url` and `image.altText` fields. A branded site-title
 fallback keeps navigation usable when an image is absent or unavailable.
 
 Category images are read directly from Catalog's typed category response. The
 storefront does not persist or duplicate categories. Root-category navigation,
 the mobile menu, homepage `Shop by category` cards, category heroes, and child
-cards all use the Catalog `image.url` and `image.altText` fields. A branded Morrow
+cards all use the Catalog `image.url` and `image.altText` fields. A branded site-title
 fallback keeps navigation usable when an image is absent or unavailable.
 
 ## Tests

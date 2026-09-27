@@ -72,9 +72,9 @@ public class ProductController {
             @RequestParam(required = false) String search,
             @Parameter(description = "Filter by product lifecycle status", example = "ACTIVE")
             @RequestParam(required = false) ProductStatus status,
-            @Parameter(description = "Minimum active variant price")
+            @Parameter(description = "Minimum active variant price including tax")
             @RequestParam(required = false) BigDecimal priceMin,
-            @Parameter(description = "Maximum active variant price")
+            @Parameter(description = "Maximum active variant price including tax")
             @RequestParam(required = false) BigDecimal priceMax,
             @Parameter(description = "Filter by one or more exact brand names")
             @RequestParam(required = false) List<String> brand,

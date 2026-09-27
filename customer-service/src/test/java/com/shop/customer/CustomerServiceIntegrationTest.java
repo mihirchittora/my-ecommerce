@@ -14,6 +14,8 @@ import com.shop.customer.customer.CustomerRepository;
 import com.shop.customer.customer.CustomerService;
 import com.shop.customer.customer.CustomerAdminService;
 import com.shop.customer.customer.CustomerStatus;
+import com.shop.customer.wishlist.WishlistDtos;
+import com.shop.customer.wishlist.WishlistService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +75,7 @@ class CustomerServiceIntegrationTest {
     @Autowired AddressService addresses;
     @Autowired CustomerRepository customerRepository;
     @Autowired CustomerAddressRepository addressRepository;
+    @Autowired WishlistService wishlists;
     @Autowired MockMvc mvc;
 
     @Test
@@ -192,6 +195,17 @@ class CustomerServiceIntegrationTest {
 
         assertThatThrownBy(() -> customers.getOrCreateActive(auth(authUserId)))
                 .isInstanceOf(ForbiddenException.class);
+    }
+
+    @Test
+    void wishlistCanBeListedWhenCustomerProfileIsResolved() {
+        UUID authUserId = UUID.randomUUID();
+        UUID productId = UUID.randomUUID();
+
+        assertThat(wishlists.list(auth(authUserId))).isEmpty();
+        WishlistDtos.ItemResponse added = wishlists.add(auth(authUserId), new WishlistDtos.AddRequest(productId, " sku-1 "));
+
+        assertThat(wishlists.list(auth(authUserId))).containsExactly(added);
     }
 
     @Test

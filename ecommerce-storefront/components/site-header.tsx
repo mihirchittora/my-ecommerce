@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/components/auth-provider";
 import { cartApi } from "@/lib/api/cart";
 import { catalogApi } from "@/lib/api/catalog";
-import { cn, getAssetUrl } from "@/lib/utils";
+import { cn, getAssetUrl, siteTitleOrDefault } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { CategoryImage } from "@/components/category-image";
 import type { Category } from "@/lib/types";
@@ -33,7 +33,7 @@ export function SiteHeader() {
     staleTime: 30_000,
   });
   const itemCount = cart.data?.itemCount ?? 0;
-  const siteTitle = siteSettings.data?.siteTitle ?? "Morrow";
+  const siteTitle = siteTitleOrDefault(siteSettings.data?.siteTitle);
   const logoUrl = getAssetUrl(siteSettings.data?.logoUrl);
 
   useEffect(() => {

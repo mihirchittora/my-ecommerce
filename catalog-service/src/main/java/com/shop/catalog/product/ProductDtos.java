@@ -107,12 +107,12 @@ public final class ProductDtos {
             );
         }
 
-        private static BigDecimal taxAmount(ProductVariant variant) {
+        static BigDecimal taxAmount(ProductVariant variant) {
             BigDecimal rate = variant.getTaxRate() == null ? BigDecimal.ZERO : variant.getTaxRate();
             return variant.getPrice().multiply(rate).divide(BigDecimal.valueOf(100), 2, java.math.RoundingMode.HALF_UP);
         }
 
-        private static BigDecimal priceIncludingTax(ProductVariant variant) {
+        static BigDecimal priceIncludingTax(ProductVariant variant) {
             return variant.getPrice().add(taxAmount(variant)).setScale(2, java.math.RoundingMode.HALF_UP);
         }
     }
