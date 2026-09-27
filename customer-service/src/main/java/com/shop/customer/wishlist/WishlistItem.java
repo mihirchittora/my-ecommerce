@@ -4,6 +4,7 @@ import com.shop.customer.customer.Customer;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Entity
@@ -20,7 +21,12 @@ public class WishlistItem {
     private String sku;
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
-    @PrePersist void prePersist() { if (createdAt == null) createdAt = Instant.now(); }
+    @PrePersist
+    void prePersist() {
+        // PostgreSQL timestamptz stores microseconds; keep API responses stable
+        // when an item is returned before and after it is reloaded from the DB.
+        if (createdAt == null) createdAt = Instant.now().truncatedTo(ChronoUnit.MICROS);
+    }
     public WishlistItem() { }
     public UUID getId() { return id; }
     public Customer getCustomer() { return customer; }
