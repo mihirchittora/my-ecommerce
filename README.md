@@ -42,7 +42,7 @@ All platforms need:
 
 - Java 21
 - Maven 3.9+
-- Node.js 20+ and npm
+- Node.js 22+ and npm
 - Python 3.11+ for the development seed tool
 - Docker with Compose v2
 

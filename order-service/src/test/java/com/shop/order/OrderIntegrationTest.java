@@ -98,7 +98,9 @@ class OrderIntegrationTest {
         assertEquals("1 Main Street", response.shippingAddress().line1());
         assertEquals("IN", response.shippingAddress().country());
         assertEquals(new BigDecimal("129900.00"), response.items().getFirst().unitPrice());
-        assertEquals(new BigDecimal("259800.00"), response.totalAmount());
+        assertEquals(new BigDecimal("259800.00"), response.subtotal());
+        assertEquals(new BigDecimal("46764.00"), response.taxAmount());
+        assertEquals(new BigDecimal("306564.00"), response.totalAmount());
         var staffAuthentication = new TestingAuthenticationToken("staff-1", null, "ORDER_READ");
         var staffResponse = orders.get(response.id(), staffAuthentication);
         assertEquals("U001", staffResponse.items().getFirst().inventoryUnits().getFirst().unitCode());
